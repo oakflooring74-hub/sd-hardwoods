@@ -1,0 +1,8 @@
+# Development artifacts
+*.txt
+extract_images.js
+image_urls.txt
+
+# OS files
+Thumbs.db
+.DS_Store
