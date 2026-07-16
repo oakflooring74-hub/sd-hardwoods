@@ -1,0 +1,24 @@
+<script id="sdh-darkmode-boot">
+(function(){
+  try {
+    var pref = localStorage.getItem('sdh-theme') || 'dark';
+    if (pref === 'dark') {
+      document.addEventListener('DOMContentLoaded', function(){ document.body.classList.add('darkmode'); });
+    }
+  } catch(e){}
+})();
+</script>
+<script id="sdh-darkmode-logic">
+(function() {
+  document.addEventListener('DOMContentLoaded', function() {
+    var toggleBtn = document.getElementById('sdh-toggle');
+    if (!toggleBtn) return;
+
+    toggleBtn.addEventListener('click', function() {
+      document.body.classList.toggle('darkmode');
+      var isDark = document.body.classList.contains('darkmode');
+      localStorage.setItem('sdh-theme', isDark ? 'dark' : 'light');
+    });
+  });
+})();
+</script>

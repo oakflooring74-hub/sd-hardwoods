@@ -1,0 +1,94 @@
+total <img> in doc: 45
+modules found: 20
+images inside modules: 42
+standalone images: 3
+sum (modules+standalone): 45
+match: True
+
+--- module 0: 2 imgs ---
+title: #1 Del Mar hardwood floor refinishing &mdash; solid maple floors professionally sanded and dust-free refinished with a custom off-white stain, giving this coastal home a brighter, modern look and long-lasting protection from everyday wear
+  src='/WHITE MAPLE1.jpg' href='/WHITE MAPLE1.jpg' class='modfield beforeimage                 editable imgedr_b yssImg_allowZoomIn yssImg_single'
+  src='/WHITE MAPLE27.jpg' href='/WHITE MAPLE27.jpg' class='modfield afterimage                 editable imgedr_b yssImg_allowZoomIn yssImg_single'
+--- module 1: 2 imgs ---
+title: #2 Encinitas Brazilian cherry hardwood restoration &mdash; floors repaired after water damage, then dust-free sanded and fully refinished to restore the rich color, durability, and lasting beauty of this home&rsquo;s wood floor
+  src='/ENCINITAS CHERRY1.jpg' href='/ENCINITAS CHERRY1.jpg' class='modfield beforeimage                 editable imgedr_b yssImg_allowZoomIn yssImg_single'
+  src='/ENCINITAS CHERRY18.jpg' href='/ENCINITAS CHERRY18.jpg' class='modfield afterimage                 editable imgedr_b yssImg_allowZoomIn yssImg_single'
+--- module 2: 2 imgs ---
+title: #3 Solana Beach Brazilian cherry floor transformation &mdash; engineered cherry planks with worn, sun-faded red tones were dust-free sanded to remove the aluminum oxide finish, bleached multiple times, sample-stained for precision color matching, and then finished in a beach-style off-white stain with a low-sheen commercial water-based coating for a bright modern look built to last
+  src='/BLEACHED CHERRY3.jpg' href='/BLEACHED CHERRY3.jpg' class='modfield beforeimage                 editable imgedr_b yssImg_allowZoomIn yssImg_single'
+  src='/BLEACHED CHERRY16.jpg' href='/BLEACHED CHERRY16.jpg' class='modfield afterimage                 editable imgedr_b yssImg_allowZoomIn yssImg_single'
+--- module 3: 2 imgs ---
+title: #4 Del Mar ash hardwood floor refinishing &mdash; rare solid &frac34;-inch select ash flooring in this ocean-view home overlooking Torrey Pines Beach was dust-free sanded, sealed clear, and finished with a satin-sheen Bona Traffic commercial coating to highlight the natural grain and restore decades-old beauty, leaving the homeowners thrilled with the timeless result
+  src='/BLEACHED CHERRY11.jpg' href='/BLEACHED CHERRY11.jpg' class='modfield beforeimage                 editable imgedr_b yssImg_allowZoomIn yssImg_single'
+  src='/BLEACHED CHERRY38.jpg' href='/BLEACHED CHERRY38.jpg' class='modfield afterimage                 editable imgedr_b yssImg_allowZoomIn yssImg_single'
+--- module 4: 2 imgs ---
+title: None
+  src='assets/images/20200706_092421.230215254_sq_thumb_m.jpg' href=None class='modfield beforeimage                 editable imgedr_b yssImg_allowZoomIn yssImg_single'
+  src='assets/images/20200718_121045.230215611_sq_thumb_m.jpg' href=None class='modfield afterimage                 editable imgedr_b yssImg_allowZoomIn yssImg_single'
+--- module 5: 2 imgs ---
+title: #6 Coastal maple hardwood floor refinishing in San Diego &mdash; four-inch solid maple that had been originally oiled but failed against ocean air, sun, salt, and daily wear was fully restored by San Diego Hardwoods with dust-contained sanding, upgraded to a low-sheen polyurethane system, and finished in a white stain with Bona Traffic HD Raw for a bright, durable, ocean-view floor that shows true sanding perfection
+  src='/WHITE MAPLE3.jpg' href='/WHITE MAPLE3.jpg' class='modfield beforeimage                 editable imgedr_b yssImg_allowZoomIn yssImg_single'
+  src='/WHITE MAPLE33.jpg' href='/WHITE MAPLE33.jpg' class='modfield afterimage                 editable imgedr_b yssImg_allowZoomIn yssImg_single'
+--- module 6: 2 imgs ---
+title: #7 Carmel Valley engineered maple floor refinishing &mdash; this top-quality Lauzon square-edge maple had faded to an undesirable amber-orange and showed extreme sun wear; San Diego Hardwoods dust-contained sanded off the aluminum oxide finish, then sealed the planks with Bona Amberseal wat-based&nbsp;sealer to complement the patinaed cabinetry, leaving this home with a flawless, modern floor restoration
+  src='/LAUZON MAPLE1.jpg' href='/LAUZON MAPLE1.jpg' class='modfield beforeimage                 editable imgedr_b yssImg_allowZoomIn yssImg_single'
+  src='/LAUZON MAPLE45.jpg' href='/LAUZON MAPLE45.jpg' class='modfield afterimage                 editable imgedr_b yssImg_allowZoomIn yssImg_single'
+--- module 7: 2 imgs ---
+title: #8 Golden Hill vintage Douglas Fir floor restoration &mdash; this late 1800s historic home near downtown San Diego revealed its original Doug Fir after decades under carpet; San Diego Hardwoods dust-contained sanded away old paint and surface damage, then applied a deep Jacobian stain and ultra-durable finish to transform the softwood into a striking, long-lasting centerpiece of the home, showcasing vintage floor refinishing at its finest
+  src='/DOUGLAS FIR REFINISH6.jpg' href='/DOUGLAS FIR REFINISH6.jpg' class='modfield beforeimage                 editable imgedr_b yssImg_allowZoomIn yssImg_single'
+  src='/DOUGLAS FIR REFINISH14.jpg' href='/DOUGLAS FIR REFINISH14.jpg' class='modfield afterimage                 editable imgedr_b yssImg_allowZoomIn yssImg_single'
+--- module 8: 2 imgs ---
+title: #9 Hillcrest wide-plank French oak installation &mdash; this restaurant near Bankers Hill, South Park, and Mission Valley received a premium seven-inch wide, random-length, square-edge engineered French oak floor; San Diego Hardwoods installed the light rustic grade planks on site, then finished them flat with a durable commercial coating to handle heavy foot traffic, creating a modern wide-plank look that&rsquo;s highly sought after in today&rsquo;s homes and businesses
+  src='/FRENCH OAK INSTALL15.jpg' href='/FRENCH OAK INSTALL15.jpg' class='modfield beforeimage                 editable imgedr_b yssImg_allowZoomIn yssImg_single'
+  src='/FRENCH OAK INSTALL42.jpg' href='/FRENCH OAK INSTALL42.jpg' class='modfield afterimage                 editable imgedr_b yssImg_allowZoomIn yssImg_single'
+--- module 9: 2 imgs ---
+title: #10 Golden Hill Douglas Fir floor refinishing with dust containment &mdash; in another late 1800s historic apartment near downtown San Diego, San Diego Hardwoods used an industrial belt sander connected to a Bona portable dust containment system to strip away paint and years of wear from vintage Douglas Fir planks; the floors were then stained in a rich Jacobian color and sealed with a satin commercial-grade finish, leaving a spotless, durable restoration that proves the effectiveness of true dust-free sanding
+  src='/DOUGLAS FIR REFINISHING1.jpg' href='/DOUGLAS FIR REFINISHING1.jpg' class='modfield beforeimage                 editable imgedr_b yssImg_allowZoomIn yssImg_single'
+  src='/DOUGLAS FIR REFINISHING16.jpg' href='/DOUGLAS FIR REFINISHING16.jpg' class='modfield afterimage                 editable imgedr_b yssImg_allowZoomIn yssImg_single'
+--- module 10: 2 imgs ---
+title: #11 4S Ranch Brazilian cherry floor refinishing &mdash; this engineered cherry floor in North County San Diego, near Rancho Santa Fe and Carmel Mountain Ranch, was dust-contained sanded to remove its aluminum oxide coating, then sealed with a traditional oil-based sealer to deepen the rich cherry color and finished with a matte-sheen residential water-based coat; the result highlights the floor&rsquo;s gorgeous detail, including custom cherry corner round, and restores decades of worn wood to like-new perfection
+  src='/BENG CHERRY.jpg' href='/BENG CHERRY.jpg' class='modfield beforeimage                 editable imgedr_b yssImg_allowZoomIn yssImg_single'
+  src='/BENG CHERRY 2.jpg' href='/BENG CHERRY 2.jpg' class='modfield afterimage                 editable imgedr_b yssImg_allowZoomIn yssImg_single'
+--- module 11: 2 imgs ---
+title: #12 Hillcrest restaurant French oak installation and finishing &mdash; wide-plank, seven-inch random-length engineered French oak was installed and sanded flat on site in this Baker&rsquo;s Hill commercial space near South Park and Mission Valley; San Diego Hardwoods applied the same durable commercial finish and natural tone as in the first phase, creating a smooth, modern wide-plank floor built to withstand heavy use and showcase today&rsquo;s most desirable style
+  src='/FRENCH OAK INSTALL21.jpg' href='/FRENCH OAK INSTALL21.jpg' class='modfield beforeimage                 editable imgedr_b yssImg_allowZoomIn yssImg_single'
+  src='/FRENCH OAK INSTALL60.jpg' href='/FRENCH OAK INSTALL60.jpg' class='modfield afterimage                 editable imgedr_b yssImg_allowZoomIn yssImg_single'
+--- module 12: 2 imgs ---
+title: #13 Rancho Santa Fe hickory floor refinishing &mdash; this engineered hickory floor, originally distressed and badly sun-faded, was dust-contained sanded flat to remove wear and texture; San Diego Hardwoods then custom-mixed a stain color to achieve the perfect tone and sealed it with Bona Traffic HD for a satin, durable finish, restoring the floor&rsquo;s elegance and durability in this North County estate
+  src='assets/images/hickory.356121752_sq_thumb_m.jpg' href='assets/images/hickory.356121752_large.jpg' class='modfield beforeimage                 editable imgedr_b yssImg_allowZoomIn yssImg_single'
+  src='assets/images/hickory_1.356121807_sq_thumb_m.jpg' href='assets/images/hickory_1.356121807_large.jpg' class='modfield afterimage                 editable imgedr_b yssImg_allowZoomIn yssImg_single'
+--- module 13: 2 imgs ---
+title: #14 Carmel Valley wide-plank hickory floor restoration &mdash; in this gorgeous San Diego home near Del Mar, solid hickory planks had suffered extreme sun fading and wear; San Diego Hardwoods dust-contained sanded the surface to raw wood and applied a natural color sealer to highlight the rich grain and beauty of the wide-plank hickory, bringing the floor back to life with a timeless, durable finish
+  src='/HICKORY SANDING17.jpg' href='assets/images/20201112_120317.356112219_large.jpg' class='modfield beforeimage                 editable imgedr_b yssImg_allowZoomIn yssImg_single'
+  src='/HICKORY SANDING78.jpg' href='/HICKORY SANDING78.jpg' class='modfield afterimage                 editable imgedr_b yssImg_allowZoomIn yssImg_single'
+--- module 14: 2 imgs ---
+title: #15 Rancho Santa Fe hardwood floor deep cleaning and recoating &mdash; just outside Solana Beach, this North County home had wood floors coated in layers of old wax that left the surface dull and uneven; San Diego Hardwoods performed a full professional cleaning and wax removal, then applied a fresh commercial-grade finish to restore the natural beauty and durability of the floors, giving the home a clean, refreshed look without a full sanding
+  src='assets/images/rsf_1.356121907_sq_thumb_m.jpg' href='assets/images/rsf_1.356121907_large.jpg' class='modfield beforeimage                 editable imgedr_b yssImg_allowZoomIn yssImg_single'
+  src='assets/images/rsf_5.356121924_sq_thumb_m.jpg' href='assets/images/rsf_5.356121924_large.jpg' class='modfield afterimage                 editable imgedr_b yssImg_allowZoomIn yssImg_single'
+--- module 15: 2 imgs ---
+title: #16 Downtown San Diego pine floor refinishing at Hooters &mdash; this solid pine floor in the Gaslamp District had taken years of heavy restaurant traffic and needed full restoration; San Diego Hardwoods dust-contained sanded the planks clean, then applied Bona Traffic HD, a two-part commercial polyurethane system in satin sheen, to deliver maximum durability and bring back the warm natural character of the pine, ensuring the floor can stand up to the demands of a busy downtown space
+  src='assets/images/01-12-10_0210.313133752_sq_thumb_m.jpg' href='assets/images/01-12-10_0210.313133752_sq_thumb_m.jpg' class='modfield beforeimage                 editable imgedr_b yssImg_allowZoomIn yssImg_single'
+  src='assets/images/hooters-after.39225501_sq_thumb_m.jpg' href='assets/images/hooters-after.39225501_sq_thumb_m.jpg' class='modfield afterimage                 editable imgedr_b yssImg_allowZoomIn yssImg_single'
+--- module 16: 2 imgs ---
+title: #17 Point Loma Brazilian cherry floor refinishing &mdash; this solid plank cherry floor in coastal San Diego was restored with dust-free sanding to remove years of wear; San Diego Hardwoods applied a clear sealer to highlight the deep, rich red tones, then finished with Bona Traffic HD, a two-part commercial polyurethane system, to deliver lasting protection and beauty; this project shows how Brazilian cherry can be refinished to perfection instead of replaced
+  src='assets/images/20200525_135341.15483527_sq_thumb_m.jpg' href='assets/images/20200525_135341.15483527_large.jpg' class='modfield beforeimage                 editable imgedr_b yssImg_allowZoomIn yssImg_single'
+  src='assets/images/20200531_104412.15483832_sq_thumb_m.jpg' href='assets/images/20200531_104412.15483832_large.jpg' class='modfield afterimage                 editable imgedr_b yssImg_allowZoomIn yssImg_single'
+--- module 17: 2 imgs ---
+title: #18 Scripps Ranch engineered white oak floor repair and recoating &mdash; in this San Diego home, San Diego Hardwoods carefully prepared the worn oak surface for proper adhesion, repairing problem areas before applying Bona Traffic HD in an extra-matte sheen; the commercial-grade polyurethane finish refreshed the natural beauty of the engineered white oak while delivering durable protection designed to last, proving that recoating is a smart solution to extend the life of quality hardwood floors without a full sanding
+  src='/RECOAT OAK6.jpg' href='/RECOAT OAK6.jpg' class='modfield beforeimage                 editable imgedr_b yssImg_allowZoomIn yssImg_single'
+  src='/RECOAT OAK8.jpg' href='/RECOAT OAK8.jpg' class='modfield afterimage                 editable imgedr_b yssImg_allowZoomIn yssImg_single'
+--- module 18: 2 imgs ---
+title: #19 Carmel Valley solid walnut floor recoating &mdash; this San Diego home&rsquo;s walnut planks had suffered sun fading and surface wear; San Diego Hardwoods refreshed the floor by applying a custom color to even out tone, then sealed it with Bona Traffic HD, a commercial-grade polyurethane finish, restoring the deep natural walnut look with durable protection designed to handle years of use
+  src='/RECOAT OAK10.jpg' href='/RECOAT OAK10.jpg' class='modfield beforeimage                 editable imgedr_b yssImg_allowZoomIn yssImg_single'
+  src='/RECOAT OAK19.jpg' href='/RECOAT OAK19.jpg' class='modfield afterimage                 editable imgedr_b yssImg_allowZoomIn yssImg_single'
+--- module 19: 4 imgs ---
+title: #20 Gaslamp San Diego walnut floor refinishing &mdash; in this Omni Hotel condo overlooking the Coronado Bay Bridge, San Diego Hardwoods dust-contained sanded engineered walnut flooring back to raw wood, then applied Bona Traffic HD for a durable, modern finish; the result is a flawless walnut floor restoration in a high-rise setting, combining dust-free sanding with a commercial-grade polyurethane system designed for long-lasting beauty and protection
+  src='assets/images/walnutafter.356114726_sq_thumb_m.jpg' href='assets/images/walnutafter.356114726_large.jpg' class='modfield beforeimage                 editable imgedr_b yssImg_allowZoomIn yssImg_single'
+  src='assets/images/walnutafter2.356114805_sq_thumb_m.jpg' href='assets/images/walnutafter2.356114805_large.jpg' class='modfield afterimage                 editable imgedr_b yssImg_allowZoomIn yssImg_single'
+  src='/NEXT PAGE BUTTON 2025.png' href='https://www.sdhardwoods.com/recent_project_photo_gallery_2.html' class=''
+  src='/CALL OR TEXT NOW BUTTON 2025.png' href='tel:858-699-0072' class=''
+
+--- standalone images ---
+  src='ultra clean button.png' href='https://www.sdhardwoods.com/deep-cleaning-hardwood-floors-san-diego.html' alt='hardwood floor deep cleaning in San Diego with professional '
+  src='ultra clean button 2.png' href='https://www.sdhardwoods.com/deep-cleaning-hardwood-floors-san-diego.html' alt='San Diego hardwood floor deep cleaning and polishing service'
+  src='ultra clean button.png' href='https://www.sdhardwoods.com/deep-cleaning-hardwood-floors-san-diego.html' alt='hardwood floor deep cleaning in San Diego with professional '

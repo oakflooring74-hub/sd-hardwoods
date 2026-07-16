@@ -1,0 +1,9 @@
+module blocks found: 20
+module images captured: 42
+standalone images captured: 3
+raw <img> count in region (hd..ft): 45
+raw <img> count in FULL file: 45
+total extracted (module+standalone): 45
+MATCH: True
+<figure> count in generated gallery html (module part): 42
+MATCH module figs vs module_img_count: True

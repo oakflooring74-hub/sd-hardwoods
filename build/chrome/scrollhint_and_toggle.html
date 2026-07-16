@@ -1,0 +1,54 @@
+<style>
+#sdhScrollHint{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);width:min(680px,92vw);display:flex;align-items:center;justify-content:center;gap:14px;padding:14px 46px;border-radius:40px;background:var(--walnut);color:#f8f4ec;font-family:var(--font-sans);font-size:16px;font-weight:600;z-index:999999;cursor:move;box-shadow:0 10px 30px rgba(0,0,0,.25);transition:transform .5s,opacity .5s,bottom .5s;}
+body.darkmode #sdhScrollHint{background:var(--brass);color:#1b1712;}
+#sdhScrollHint.hidden{opacity:0;bottom:-140px;pointer-events:none;}
+#sdhArrow{font-size:20px;animation:sdhBounce 1.8s infinite;}
+#sdhClose{position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:18px;cursor:pointer;opacity:.7;}
+#sdhClose:hover{opacity:1;}
+@keyframes sdhBounce{0%,100%{transform:translateY(0);}50%{transform:translateY(6px);}}
+@media(max-width:640px){#sdhScrollHint{font-size:14px;padding:12px 30px;}}
+</style>
+<div id="sdhScrollHint">
+  <div id="sdhScrollText">&darr; Scroll to Explore __SCROLL_TOPIC__ &darr;</div>
+  <div id="sdhArrow">&darr;</div>
+  <div id="sdhClose">&#10005;</div>
+</div>
+<script>
+if(!sessionStorage.getItem("sdhScrollClosed")){
+  const messages=[
+    "&darr; Scroll to Explore __SCROLL_TOPIC__ &darr;",
+    "&darr; See Before &amp; After Transformations &darr;",
+    "&darr; Watch Real Refinishing Videos &darr;",
+    "&darr; Browse Local San Diego Projects &darr;",
+    "&darr; Hundreds of Real Floors Below &darr;"
+  ];
+  let i=0;
+  const txt=document.getElementById("sdhScrollText");
+  setInterval(()=>{
+    i=(i+1)%messages.length;
+    txt.style.opacity=0;
+    setTimeout(()=>{ txt.innerHTML=messages[i]; txt.style.opacity=1; },220);
+  },5000);
+
+  const hint=document.getElementById("sdhScrollHint");
+  window.addEventListener("scroll",()=>{
+    if(window.scrollY>250){ hint.classList.add("hidden"); } else { hint.classList.remove("hidden"); }
+  });
+
+  document.getElementById("sdhClose").onclick=function(){
+    hint.style.display="none";
+    sessionStorage.setItem("sdhScrollClosed","1");
+  };
+
+  let active=false, dx=0, dy=0;
+  hint.addEventListener("mousedown",e=>{
+    active=true; dx=e.clientX-hint.offsetLeft; dy=e.clientY-hint.offsetTop;
+    hint.style.left=hint.offsetLeft+"px"; hint.style.top=hint.offsetTop+"px";
+    hint.style.bottom="auto"; hint.style.transform="none";
+  });
+  document.addEventListener("mousemove",e=>{ if(!active)return; hint.style.left=(e.clientX-dx)+"px"; hint.style.top=(e.clientY-dy)+"px"; });
+  document.addEventListener("mouseup",()=>{ active=false; });
+}
+</script>
+
+<button aria-label="Toggle legacy light mode" id="sdh-toggle" title="Toggle legacy light mode">Toggle Light Mode</button>

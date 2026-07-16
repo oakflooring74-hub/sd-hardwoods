@@ -1,0 +1,11 @@
+module blocks found: 20
+module images captured: 40
+stray images directly in outer <ul> (not in any module li): 1
+standalone images captured: 3
+raw <img> count in region (hd..ft): 43
+raw <img> count in FULL file: 44
+total extracted (module+stray+standalone): 44
+MATCH: True
+application/ld+json script tags in raw source: 4
+<figure> count in generated gallery html (module+stray part): 41
+MATCH module+stray figs: True

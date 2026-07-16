@@ -1,0 +1,10 @@
+title: 'Hardwood Floor Deep Cleaning & Maintenance Recoating | San Diego'
+meta_desc: 'Clean dull or sticky floors fast across San Diego County—La Jolla, Del Mar, Encinitas & more. Dust-free deep cleaning restores wood, vinyl & bamboo floors. Call 858-699-0072.'
+canonical: 'https://www.sdhardwoods.com/deep-cleaning-hardwood-floors-san-diego.html'
+jsonld_block length: 3655
+gaq present: True
+vcard_desc: 'SAN DIEGO HARDWOODS FLOOR REFINISHING EXPERTS SAN DIEGO. LICENSED CONTRACTOR WITH OVER 30 YEARS EXPERIENCE WITH ALL TYPES OF SOLID AND ENGINEERED WOOD AND BAMBOO FLOORS. ALL WORK IS GUARANTEED AND PERFORMED BY A SMALL CREW OF SKILLED AND COURTEOUS CRAFTSMEN. TEXT PHOTOS OF YOUR WOOD OR BAMBOO FLOORING FOR A PROFESSIONAL ASSESSMENT OF YOUR PROJECT. LICENSED FLOORING CONTRACTOR IN SAN DIEGO. HEPA DUST CONTAINMENT SANDING EQUIPMENT USED FOR ALL PHASES OF EACH PROJECT. CALL TO SCHEDULE A CONSULTATION IN SAN DIEGO AND ORANGE COUNTY CALIFORNIA.'
+top-level li (module) blocks found: 20
+records built: 20
+total <img> extracted via module parsing: 42
+raw <img> count found by direct regex over zA: 42

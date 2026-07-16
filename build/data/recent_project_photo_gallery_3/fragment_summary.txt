@@ -1,0 +1,5 @@
+real_modules: 10
+ultra_clean_imgs: 2
+nav_button_imgs: 2
+total images rendered (should equal doc total): 24
+doc total from extraction: 24

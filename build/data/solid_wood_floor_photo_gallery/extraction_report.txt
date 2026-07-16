@@ -1,0 +1,4 @@
+Extracted images (bd..ft region): 32
+raw <img> count in bd..ft region: 32
+raw <img> count in ENTIRE page05.html (incl old nav/footer): 32
+by zone: {'zA': 32}

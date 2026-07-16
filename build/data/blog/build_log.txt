@@ -1,0 +1,17 @@
+top-level li blocks in module_bd_container: 12
+records parsed: 12
+total images across all records: 43
+  [0] id='module_itemRecordGuid.585978cb5937e8.8932268' title='# 1 Coronado Hardwood Floor Restoration / Refinishing' n_images=4 n_prose=1 n_captions=0
+  [1] id='module_itemRecordGuid.5819319b00fff8.71569712' title='# 2 Rancho Santa Fe San Diego Hickory Hardwood Floor Refinishing, Installation, and Butcher Block Restoration' n_images=4 n_prose=1 n_captions=0
+  [2] id=None title=None n_images=4 n_prose=0 n_captions=0
+  [3] id='module_itemRecordGuid.581e2af0bbcda0.16264908' title='# 4 San Diego Hardwood Floor Repair and Refinishing After Termite Damage' n_images=1 n_prose=1 n_captions=0
+  [4] id='module_itemRecordGuid.589e1db8c0e7d7.50887915' title='Expert Hardwood Floor Refinishing, Restoration, Repairs & Installation for Solid, Engineered & Bamboo Flooring' n_images=6 n_prose=2 n_captions=0
+  [5] id='module_itemRecordGuid.58a0dffb111e62.14469866' title='#6 Seasonal Shrinkage of Hardwood Floors in Coastal and Inland San Diego' n_images=4 n_prose=3 n_captions=0
+  [6] id='module_itemRecordGuid.5a71f0b6b35ce9.76559940' title='#7 Restoring Factory Distressed and Hand Scraped Hardwood Floors in San Diego' n_images=3 n_prose=2 n_captions=0
+  [7] id='module_itemRecordGuid.5abbd78dcb7240.97114377' title='# 8 Solid Oak Flooring Refinishing in San Diego' n_images=2 n_prose=1 n_captions=2
+  [8] id='module_itemRecordGuid.5af2080b71c433.42349075' title='# 9 HARDWOOD FLOOR REFINISHING IN RANCHO SANTA FE SAN DIEGO\ufeff' n_images=4 n_prose=1 n_captions=4
+  [9] id='module_itemRecordGuid.5b43ba09249c63.64674579' title='# 10 Restoration of engineered red oak flooring in San Diego' n_images=2 n_prose=1 n_captions=2
+  [10] id='module_itemRecordGuid.5c32cd6d724599.58610630' title='# 11 Installing Unfinished Solid White Oak Flooring' n_images=3 n_prose=1 n_captions=0
+  [11] id='module_itemRecordGuid.5c75ac752e6b11.72136398' title='# 12 Solid unfinished white oak being installed in a historical building in San Diego.' n_images=6 n_prose=2 n_captions=1
+standalone h3.module.caseStudy found: True
+standalone raw (first 300 chars): '# 3\xa0<a class="internallink" data-mce-href="/recent_project_photo_gallery_4" href="/recent_project_photo_gallery_4" type="2">Solid Ash Hardwood Floor Refinishing in Del Mar\xa0</a>\xa0 \xa0 \xa0 \xa0 \xa0 \xa0 \xa0 \xa0 \xa0 \xa0 \xa0 \xa0 \xa0 \xa0 \xa0 \xa0 \xa0 \xa0 \xa0 \xa0 \xa0 \xa0 \xa0 \xa0 \xa0 \xa0 \xa0 \xa0 \xa0 \xa0 \xa0 \xa0 \xa0 \xa0 \xa0 \xa0 \xa0 \xa0 \xa0 \xa0 \xa0 \xa0 \xa0 \xa0 \xa0 \xa0 \xa0 \xa0 \xa0 \xa0 \xa0 \xa0 \xa0 \xa0 \xa0 \xa0 \xa0 \xa0 \xa0 \xa0 \xa0 \xa0 '

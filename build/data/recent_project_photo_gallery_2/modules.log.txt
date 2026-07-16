@@ -1,0 +1,103 @@
+total <img> in doc: 44
+modules found: 24
+images inside modules: 42
+standalone images: 4
+sum (modules+standalone): 46
+match: False
+
+--- module 0: 2 imgs ---
+title: #21 Solid white oak hardwood floor installation and refinishing in Mission Hills San Diego. Rift and quartered select grade planks nailed down over tar paper, site finished with natural sealer and Bona satin polyurethane for a 100-year floor.
+  src='/COTTAGE OAK INSTALL5.jpg' href='/COTTAGE OAK INSTALL5.jpg' class='modfield beforeimage                 editable imgedr_b yssImg_allowZoomIn yssImg_single'
+  src='/COTTAGE OAK INSTALL64.jpg' href='/COTTAGE OAK INSTALL64.jpg' class='modfield afterimage                 editable imgedr_b yssImg_allowZoomIn yssImg_single'
+--- module 1: 2 imgs ---
+title: #22 Mid-century solid oak strip floor refinishing and repair in Mission Hills San Diego near Kensington, North Park, South Park, Serra Mesa, Mission Valley, and Point Loma. A floor heater cutout was repaired with laced-in oak strips and the entire floor was refinished with a rich dark stain and traditional oil-based polyurethane for a seamless vintage restoration.﻿
+  src='/108.jpg' href='/108.jpg' class='modfield beforeimage                 editable imgedr_b yssImg_allowZoomIn yssImg_single'
+  src='/125.jpg' href='/125.jpg' class='modfield afterimage                 editable imgedr_b yssImg_allowZoomIn yssImg_single'
+--- module 2: 2 imgs ---
+title: #23 Solid Richard Marshall walnut floor refinishing in a Bing Crosby Ranch estate near Rancho Santa Fe, 4S Ranch, and Carmel Valley San Diego. Originally prefinished with tung oil, the glued-down walnut was sanded flat to perfection, parquet entry and living room strips restored, and finished with a custom walnut stain and satin water-based polyurethane for flawless results.
+  src='/TRICIA WALNUT46.jpg' href='/TRICIA WALNUT46.jpg' class='modfield beforeimage                 editable imgedr_b yssImg_allowZoomIn yssImg_single'
+  src='/TRICIA WALNUT105.jpg' href='/TRICIA WALNUT105.jpg' class='modfield afterimage                 editable imgedr_b yssImg_allowZoomIn yssImg_single'
+--- module 3: 2 imgs ---
+title: #24 Red oak hardwood floor refinishing in Carlsbad North County San Diego. Old orange 1980s oak with deep v-grooves and yellowed polyurethane was sanded clean with dust containment equipment, transformed with an off-white creamy stain and matte commercial-grade finish for a modern coastal look.
+  src='/GERARD SANDING 2.jpg' href='/GERARD SANDING 2.jpg' class='modfield beforeimage                 editable imgedr_b yssImg_allowZoomIn yssImg_single'
+  src='/GERARD SANDING 3.jpg' href='/GERARD SANDING 3.jpg' class='modfield afterimage                 editable imgedr_b yssImg_allowZoomIn yssImg_single'
+--- module 4: 2 imgs ---
+title: #25 Solid white oak hardwood floor refinishing in Mission Hills San Diego. Three-quarter by two-and-a-quarter old growth planks and stairs were blackened and sun-faded from skylights, then restored with professional dustless sanding and sealed using modern non-yellowing water-based finishes for a bright, natural look built to last for decades.
+  src='/MARY DIRTY.jpg' href='/MARY DIRTY.jpg' class='modfield beforeimage                 editable imgedr_b yssImg_allowZoomIn yssImg_single'
+  src='/MARY DIRTY AFTER.jpg' href='/MARY DIRTY AFTER.jpg' class='modfield afterimage                 editable imgedr_b yssImg_allowZoomIn yssImg_single'
+--- module 5: 2 imgs ---
+title: #26 Solid white oak hardwood floor refinishing in Mission Hills San Diego. Additional views of the restored old growth planks and stairs, sanded smooth and finished with modern non-yellowing water-based polyurethane for a clean natural look throughout the home.
+  src='/MARY LIVING ROOM.jpg' href='/MARY LIVING ROOM.jpg' class='modfield beforeimage                 editable imgedr_b yssImg_allowZoomIn yssImg_single'
+  src='/MARY OAK DOORWAY AFTER.jpg' href='/MARY OAK DOORWAY AFTER.jpg' class='modfield afterimage                 editable imgedr_b yssImg_allowZoomIn yssImg_single'
+--- module 6: 2 imgs ---
+title: #27 Hardwood floor refinishing in Rancho Santa Fe and Bird Rock San Diego. The left photo shows a vintage rift and quartered solid red oak floor in a Fairbanks Ranch estate, restored with a custom beige stain that softened reds and yellows for a creamy modern look. The right photo shows a coastal Bird Rock rift and quartered white oak floor refinished with a clear sealer during a remodel overlooking the ocean, highlighting clean boards and natural grain.&nbsp;&nbsp;&nbsp;
+  src='/STEVEN TAYLOR 6.jpg' href='/STEVEN TAYLOR 6.jpg' class=''
+  src='/210.jpg' href='/210.jpg' class=''
+--- module 7: 0 imgs ---
+title: #27 Hardwood floor refinishing in Rancho Santa Fe and Bird Rock San Diego. The left photo shows a vintage rift and quartered solid red oak floor in a Fairbanks Ranch estate, restored with a custom beige stain that softened reds and yellows for a creamy modern look. The right photo shows a coastal Bird Rock rift and quartered white oak floor refinished with a clear sealer during a remodel overlooking the ocean, highlighting clean boards and natural grain.&nbsp;&nbsp;&nbsp;
+--- module 8: 2 imgs ---
+title: &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;
+  src='/STEVEN TAYLOR 6.jpg' href='/STEVEN TAYLOR 6.jpg' class=''
+  src='/210.jpg' href='/210.jpg' class=''
+--- module 9: 0 imgs ---
+title: None
+--- module 10: 0 imgs ---
+title: None
+--- module 11: 2 imgs ---
+title: #28 Yellow birch hardwood floor installation in Del Mar San Diego. Custom-ordered planks were glued down over slab sealed with epoxy, then sanded and finished in place for an ocean view home on Coast Highway near the Del Mar racetrack.
+  src='/BIRCH 2.jpg' href='/BIRCH 2.jpg' class='modfield beforeimage                 editable imgedr_b yssImg_allowZoomIn yssImg_single'
+  src='/BIRCH 1.jpg' href='/BIRCH 1.jpg' class='modfield afterimage                 editable imgedr_b yssImg_allowZoomIn yssImg_single'
+--- module 12: 2 imgs ---
+title: #29 Vintage white oak hardwood floor restoration in Kensington San Diego. This 100-year-old inch-and-a-half select grade strip floor was repaired with era-matched boards, cracks filled, and fully restored with modern finishes while preserving historic patina.&nbsp;
+  src='/KENSINGTON DRIVE11.jpg' href='/KENSINGTON DRIVE11.jpg' class='modfield beforeimage                 editable imgedr_b yssImg_allowZoomIn yssImg_single'
+  src='/KENSINGTON DRIVE44.jpg' href='/KENSINGTON DRIVE44.jpg' class='modfield afterimage                 editable imgedr_b yssImg_allowZoomIn yssImg_single'
+--- module 13: 2 imgs ---
+title: #30 Solid Brazilian cherry hardwood floor refinishing in La Jolla Mount Soledad. Two-and-a-quarter by three-quarter planks from the 1970s were sun damaged and worn, then fully restored with dustless sanding and sealed with Bona Mega One water-based finish to bring out the rich color of this exotic hardwood.
+  src='/BC LA JOLLA3.jpg' href='/BC LA JOLLA3.jpg' class='modfield beforeimage                 editable imgedr_b yssImg_allowZoomIn yssImg_single'
+  src='/BC LA JOLLA55.jpg' href='/BC LA JOLLA55.jpg' class='modfield afterimage                 editable imgedr_b yssImg_allowZoomIn yssImg_single'
+--- module 14: 2 imgs ---
+title: #31 Solid prefinished oak hardwood floor installation in Point Loma Ocean Beach San Diego. Bruce brand random length planks were nailed down over tar paper, providing a durable aluminum oxide finish and a 100-year real wood floor.
+  src='assets/images/2012-07-24_142518.356214219_sq_thumb_m.jpg' href='assets/images/2012-07-24_142518.356214219_large.jpg' class='modfield beforeimage                 editable imgedr_b yssImg_allowZoomIn yssImg_single'
+  src='assets/images/2012-07-25_193705.356214229_sq_thumb_m.jpg' href='assets/images/2012-07-25_193705.356214229_large.jpg' class='modfield afterimage                 editable imgedr_b yssImg_allowZoomIn yssImg_single'
+--- module 15: 2 imgs ---
+title: #32 Solid red oak hardwood floor refinishing in University City La Jolla San Diego. Large commercial space restored dust free with Bona AmberSeal and commercial grade water-based finish for a durable light amber tone.
+  src='assets/images/20140318_033618.356214409_sq_thumb_m.jpg' href='assets/images/20140318_033618.356214409_large.jpg' class='modfield beforeimage                 editable imgedr_b yssImg_allowZoomIn yssImg_single'
+  src='assets/images/20140318_185214.356214431_sq_thumb_m.jpg' href='assets/images/20140318_185214.356214431_large.jpg' class='modfield afterimage                 editable imgedr_b yssImg_allowZoomIn yssImg_single'
+--- module 16: 2 imgs ---
+title: #33 Solid maple stair tread installation in San Diego. One-inch select grade maple treads and three-inch maple landings installed after carpet removal, sanded and finished on site with clear sealer and protective finish.
+  src='assets/images/maplestairs.356214612_sq_thumb_m.jpg' href='assets/images/maplestairs.356214612_large.jpg' class='modfield beforeimage                 editable imgedr_b yssImg_allowZoomIn yssImg_single'
+  src='assets/images/mapelstairs2.356214641_sq_thumb_m.jpg' href='assets/images/mapelstairs2.356214641_large.jpg' class='modfield afterimage                 editable imgedr_b yssImg_allowZoomIn yssImg_single'
+--- module 17: 2 imgs ---
+title: #33 Large elaborate parquet&nbsp;walnut hardwood floor recoating in Rancho Santa Fe San Diego. Expansive estate floors and stair treads were deep cleaned, polish and wax removed, abraded with dust containment system, and recoated with durable polyurethane finish.
+  src='/WALNUT PARQUET 1.jpg' href='/WALNUT PARQUET 1.jpg' class='modfield beforeimage                 editable imgedr_b yssImg_allowZoomIn yssImg_single'
+  src='/WALNUT PARQUET16.jpg' href='/WALNUT PARQUET16.jpg' class='modfield afterimage                 editable imgedr_b yssImg_allowZoomIn yssImg_single'
+--- module 18: 2 imgs ---
+title: #35 Solid hickory hardwood floor refinishing in Rancho Santa Fe near Solana Beach. Random-width hickory planks were sanded to perfection, custom stained, and finished with a durable commercial-grade satin sheen. The butcher block countertop was also restored with the same professional sanding and finishing system for a complete transformation.
+  src='assets/images/20160224_085640.356215336_sq_thumb_m.jpg' href='assets/images/20160224_085640.356215336_large.jpg' class='modfield beforeimage                 editable imgedr_b yssImg_allowZoomIn yssImg_single'
+  src='assets/images/20160224_085352.356215400_sq_thumb_m.jpg' href='assets/images/20160224_085352.356215400_large.jpg' class='modfield afterimage                 editable imgedr_b yssImg_allowZoomIn yssImg_single'
+--- module 19: 2 imgs ---
+title: #36 Commercial hardwood floor refinishing in downtown San Diego restaurant loft at 6th and J. Original 100-year-old 2&times;4 loft floorboards were sanded with dust containment, stained dark to blend wear and scars, and finished with durable coatings for heavy commercial use.
+  src='assets/images/2012-12-11_065236.356215745_sq_thumb_m.jpg' href='assets/images/2012-12-11_065236.356215745_large.jpg' class='modfield beforeimage                 editable imgedr_b yssImg_allowZoomIn yssImg_single'
+  src='assets/images/2012-12-17_072138.356215806_sq_thumb_m.jpg' href='assets/images/2012-12-17_072138.356215806_large.jpg' class='modfield afterimage                 editable imgedr_b yssImg_allowZoomIn yssImg_single'
+--- module 20: 2 imgs ---
+title: #37 Commercial bar and restaurant surface refinishing at Nobu inside the Hard Rock Hotel in downtown San Diego&rsquo;s Gaslamp District. Sushi bar counters, tables, and bar tops were sanded, torched, and re-sanded to highlight burned grain, then sealed with floor-grade finish for unmatched durability in a high-traffic restaurant setting.
+  src='assets/images/2011-02-11_032650.45155957_sq_thumb_m.jpg' href='assets/images/2011-02-11_032650.45155957_large.jpg' class='modfield beforeimage                 editable imgedr_b yssImg_allowZoomIn yssImg_single'
+  src='assets/images/2011-02-10_003116.45160158_sq_thumb_m.jpg' href='assets/images/2011-02-10_003116.45160158_large.jpg' class='modfield afterimage                 editable imgedr_b yssImg_allowZoomIn yssImg_single'
+--- module 21: 2 imgs ---
+title: #38 Rancho Santa Fe hardwood floor refinishing at Fairbanks North estate. Solid 2&frac14;&Prime; &times; &frac34;&Prime; rift and quartered select grade red oak floors sanded to perfection and finished with a custom beige stain and premium Bona finishing products for a timeless, elegant look.
+  src='/STEVEN TAYLOR 2.jpg' href='/STEVEN TAYLOR 2.jpg' class='modfield beforeimage                 editable imgedr_b yssImg_allowZoomIn yssImg_single'
+  src='/STEVEN TAYLOR 6.jpg' href='/STEVEN TAYLOR 6.jpg' class='modfield afterimage                 editable imgedr_b yssImg_allowZoomIn yssImg_single'
+--- module 22: 2 imgs ---
+title: #39 Encinitas coastal hardwood floor refinishing in ocean view home. Exotic merbau floors with extreme sun fading and cupping were sanded flat with dust containment, sealed with oil to highlight the natural color, and finished with a durable commercial-grade coating.
+  src='/REBECCA5.jpg' href='/REBECCA5.jpg' class='modfield beforeimage                 editable imgedr_b yssImg_allowZoomIn yssImg_single'
+  src='/REBECCA16.jpg' href='/REBECCA16.jpg' class='modfield afterimage                 editable imgedr_b yssImg_allowZoomIn yssImg_single'
+--- module 23: 2 imgs ---
+title: #40 Del Mar hardwood floor refinishing in Derby Downs coastal estate. Engineered red oak flooring worn out by the front entry was fully restored with professional sanding, a custom stain, and a satin sheen finish for a modern coastal look.﻿
+  src='assets/images/20170723_083832.356221804_sq_thumb_m.jpg' href='assets/images/20170723_083832.356221804_large.jpg' class='modfield beforeimage                 editable imgedr_b yssImg_allowZoomIn yssImg_single'
+  src='assets/images/20170730_113957.356221834_sq_thumb_m.jpg' href='assets/images/20170730_113957.356221834_large.jpg' class='modfield afterimage                 editable imgedr_b yssImg_allowZoomIn yssImg_single'
+
+--- standalone images ---
+  src='ultra clean button.png' href='/deep-cleaning-hardwood-floors-san-diego.html' alt='San Diego Floor Deep Cleaning wood floor cleaning service sa'
+  src='/CALL OR TEXT NOW BUTTON 2025.png' href='tel:858-699-0072' alt='Call or text San Diego Hardwoods today at 858-699-0072 — loc'
+  src='/NEXT PAGE BUTTON 2025.png' href='https://www.sdhardwoods.com/recent_project_photo_gallery_3.html' alt='SEE BEFORE AND AFTER PHOTOS OF SAN DIEGO HARDWOOD FLOOR REFI'
+  src='/ultra clean button.png' href='/deep-cleaning-hardwood-floors-san-diego.html' alt='Call for a Spotless Shine'

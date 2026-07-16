@@ -1,0 +1,10 @@
+NEW <img> count: 42
+RAW <img> count: 42
+gallery img count tracked: 42
+ld+json occurrences in NEW: 1
+triple-backtick occurrences in NEW: 0
+<footer count: 1
+sdhMegaNav count: 1
+sdh-toggle count: 1
+title extracted: 'Hardwood Floor Deep Cleaning & Maintenance Recoating | San Diego'
+_gaq present in NEW: True

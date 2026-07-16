@@ -1,0 +1,60 @@
+<div id="sdhUtilityBar">
+  San Diego, CA 92130 &nbsp;|&nbsp; <a href="tel:8586990072">858-699-0072</a> &nbsp;|&nbsp; <a href="mailto:SANDIEGOHARDWOODS@GMAIL.COM">sandiegohardwoods@gmail.com</a>
+  <span class="biz-desc"><span class="vcard"><span class="fn org"><span class="organization-name">__VCARD_DESC__</span></span> <span class="adr"><span class="locality">San Diego</span><span class="separator">, </span><span class="region">CA</span> <span class="postal-code">92130</span></span> <span class="phoneNumbers"><span class="tel"><span class="type">ph: </span>858-699-0072</span></span> <span class="mailtoWrapper"><a class="email" href="mailto:SANDIEGOHARDWOODS@GMAIL.COM">SANDIEGOHARDWOODS@GMAIL.COM</a></span></span></span>
+</div>
+
+<div id="sdhBrandBar">
+  <a href="https://www.sdhardwoods.com/">
+    <span class="brand-name">SAN DIEGO HARDWOODS</span>
+    <span class="brand-tag">Est. 1990 &bull; Bona Certified Craftsman</span>
+  </a>
+</div>
+
+<!-- SDH Premium Flyout Navigation -->
+<style>
+#sdhMegaNav{position:fixed;top:14px;right:14px;z-index:99998;font-family:var(--font-sans);}
+#sdhNavButton{background:var(--walnut);color:#fff;padding:12px 18px;border-radius:10px;cursor:pointer;font-weight:700;font-size:14px;box-shadow:0 4px 14px rgba(0,0,0,.18);}
+body.darkmode #sdhNavButton{background:var(--brass);color:#1b1712;}
+#sdhFlyout{position:absolute;top:calc(100% + 8px);right:0;min-width:280px;background:var(--card-bg);border:1px solid var(--line);border-radius:12px;padding:14px 0;box-shadow:0 14px 40px rgba(0,0,0,.22);opacity:0;visibility:hidden;transform:translateY(-10px);transition:.25s;}
+#sdhFlyout .section{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--brass-soft);font-weight:700;padding:10px 20px 4px;}
+#sdhFlyout a{display:block;padding:9px 20px;color:var(--ink);text-decoration:none;font-size:15px;}
+#sdhFlyout a:hover{background:var(--canvas-alt);}
+</style>
+<div id="sdhMegaNav">
+    <div id="sdhNavButton"><span>&#9776;</span> Explore Our Services</div>
+    <div id="sdhFlyout">
+        <div class="section">Professional Flooring Services</div>
+        <a href="https://www.sdhardwoods.com/">Home</a>
+        <a href="https://www.sdhardwoods.com/about_us">About San Diego Hardwoods</a>
+        <a href="https://www.sdhardwoods.com/contact_us">Contact / Free Estimate</a>
+
+        <div class="section">Restoration &amp; Installation</div>
+        <a href="https://www.sdhardwoods.com/recent_project_photo_gallery_1">100% Dust-Free Restoration</a>
+        <a href="https://www.sdhardwoods.com/solid_wood_floor_photo_gallery">Custom Nail-Down Installation</a>
+        <a href="https://www.sdhardwoods.com/deep-cleaning-hardwood-floors-san-diego.html">Deep Cleaning &amp; Finish Upgrades</a>
+
+        <div class="section">Galleries &amp; Insights</div>
+        <a href="https://www.youtube.com/@SANDIEGOHARDWOODS" target="_blank">Official YouTube Channel</a>
+        <a href="https://www.sdhardwoods.com/blog">Hardwood Flooring Blog</a>
+        <a href="https://www.sdhardwoods.com/videos_of_refinishing_process">Refinishing Process Videos</a>
+        <a href="https://www.sdhardwoods.com/solid_wood_floor_photo_gallery">Solid Wood Floor Gallery</a>
+        <a href="https://www.sdhardwoods.com/recent_project_photo_gallery_1">Project Gallery 1</a>
+        <a href="https://www.sdhardwoods.com/recent_project_photo_gallery_2">Project Gallery 2</a>
+        <a href="https://www.sdhardwoods.com/recent_project_photo_gallery_3">Project Gallery 3</a>
+        <a href="https://www.sdhardwoods.com/recent_project_photo_gallery_4">Project Gallery 4</a>
+        <a href="https://www.sdhardwoods.com/recent_project_gallery_5">Project Gallery 5</a>
+    </div>
+</div>
+<script>
+(function(){
+    const nav=document.getElementById("sdhMegaNav");
+    const fly=document.getElementById("sdhFlyout");
+    let timer;
+    function openMenu(){ clearTimeout(timer); fly.style.opacity="1"; fly.style.visibility="visible"; fly.style.transform="translateY(0)"; }
+    function closeMenu(){ timer=setTimeout(function(){ fly.style.opacity="0"; fly.style.visibility="hidden"; fly.style.transform="translateY(-10px)"; }, 700); }
+    nav.addEventListener("mouseenter",openMenu);
+    nav.addEventListener("mouseleave",closeMenu);
+    nav.addEventListener("touchstart",function(e){ e.stopPropagation(); fly.style.visibility==="visible" ? (fly.style.opacity="0", fly.style.visibility="hidden", fly.style.transform="translateY(-10px)") : openMenu(); });
+    document.addEventListener("touchstart",function(e){ if(!nav.contains(e.target)){ fly.style.opacity="0"; fly.style.visibility="hidden"; fly.style.transform="translateY(-10px)"; } });
+})();
+</script>

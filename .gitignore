@@ -1,5 +1,6 @@
 # Development artifacts
 *.txt
+!build/**/*.txt
 extract_images.js
 image_urls.txt
 
