@@ -7,3 +7,6 @@ image_urls.txt
 # OS files
 Thumbs.db
 .DS_Store
+# Python bytecode cache
+__pycache__/
+*.pyc
