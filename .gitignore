@@ -10,3 +10,7 @@ Thumbs.db
 # Python bytecode cache
 __pycache__/
 *.pyc
+
+# Local Wrangler cache/metadata (from manual `wrangler pages deploy` runs) --
+# not build output, not part of the deployed site, safe to ignore.
+.wrangler/

@@ -10,7 +10,7 @@ See also `docs/VISION.md` for the longer-term mission/goals this project is work
 
 ## Milestone 1 — COMPLETE (2026-07-16): first interactive site-improvement batch
 
-All 8 items approved in the prior session's QA pass, plus the blog/deep-cleaning mobile overflow bug, are implemented, built, and locally tested. Committed on `redesign` as **"Complete first interactive site-improvement milestone"**. Not yet pushed to origin — push requires explicit owner instruction.
+All 8 items approved in the prior session's QA pass, plus the blog/deep-cleaning mobile overflow bug, are implemented, built, and locally tested. Committed on `redesign` as **"Complete first interactive site-improvement milestone"** (`5d911a6`), pushed to `origin/redesign`, and manually deployed to the Cloudflare preview via `wrangler pages deploy` — verified live at `redesign.sd-hardwoods.pages.dev`. Production (`master`) was not touched.
 
 **What shipped:**
 - ✅ Sticky header foundation — replaced the two independently `position:fixed` elements (brand chip + nav button) with a single in-flow, sticky `<header id="sdhHeader">`. This **fixes the overlap bug** (nav/toggle no longer float on top of arbitrary scrolled content), but **the header itself is only a functional foundation, not a finished redesign** — see Milestone 2 below.
@@ -29,6 +29,27 @@ All 8 items approved in the prior session's QA pass, plus the blog/deep-cleaning
 - **Playwright + Chromium were installed and used *outside* the repository** (in a scratch temp directory, not committed) to drive the pages in a real browser for testing — served locally via `python -m http.server`. Nothing was added to the project for this; if a future session wants repeatable browser testing, it would need its own `package.json`/`node_modules` decision.
 
 **Preserved, verified via diff:** URLs, headings, SEO utility-bar paragraph, meta descriptions, image `src`/`alt` (byte-identical), watermarks (no changes to `raw-source/` or `data/`), and the 2-column before/after grid on galleries 1–4.
+
+## Deployment Automation Milestone — COMPLETE (2026-07-16): GitHub Actions → Cloudflare Pages
+
+A separate milestone, done between Milestone 1 and Milestone 2: manual `wrangler pages deploy` is no longer required for normal work. A GitHub Actions workflow now deploys automatically on every push.
+
+**What shipped:**
+- ✅ `.github/workflows/deploy-cloudflare-pages.yml` — two jobs, `build` (checkout exact pushed commit → install Python 3.12 → `python build/scripts/build_all.py` → **fail if regeneration produces any uncommitted diff**, so generated HTML can never silently drift from `build/` source templates) and `deploy` (needs `build`; deploys the **committed** repo root via `cloudflare/wrangler-action`, using the pushed branch name as `--branch`).
+- ✅ Push to `redesign` → automatic **Preview** deploy. Push to `master` → automatic **Production** deploy. This is enforced by Cloudflare's own project config (production branch = `master`, already set before this milestone — confirmed via `wrangler pages deployment list`), not by anything this workflow does — the workflow just passes the pushed branch name through.
+- ✅ Pull requests targeting `redesign` or `master` run the `build` job only (`if: github.event_name != 'pull_request'` gates the `deploy` job) — validation never deploys, to either environment.
+- ✅ `workflow_dispatch` supported for a controlled manual rerun.
+- ✅ Concurrency group per branch (`${{ github.workflow }}-${{ github.ref }}`, `cancel-in-progress: false`) so overlapping pushes to the same branch queue instead of racing or being interrupted mid-deploy.
+- ✅ Least-privilege: top-level `permissions: contents: read`; commit message is passed to Wrangler via an `env:` var (not interpolated directly into the shell command) to avoid injection from special characters in commit messages; secrets are never echoed anywhere in the workflow.
+- ✅ All third-party actions (`actions/checkout`, `actions/setup-python`, `cloudflare/wrangler-action`) pinned to exact commit SHA, with the version tag as a comment.
+- ✅ `.wrangler/` (local Wrangler cache/metadata, not build output) added to `.gitignore`.
+- ✅ `build/README.md` has a new "Deployment" section: normal workflow, required secrets, manual emergency-deploy command, production safety rule, how to find Actions logs, how to verify a deployment URL.
+
+**Credential setup:**
+- A dedicated Cloudflare API token was created — **not** the local Wrangler OAuth login credential — scoped to the minimum permission needed (Cloudflare Pages: Edit, this account only). Programmatic token creation was not possible from the existing authenticated session (Cloudflare's `wrangler login` OAuth grant deliberately excludes token-management permissions — creating a new token requires the dashboard), so this one step was done by the owner in the browser per the assistant's precise instructions, then entered directly via `gh secret set` — the token value itself was never written to disk, committed, or echoed anywhere.
+- Repo secrets `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` are set on `oakflooring74-hub/sd-hardwoods` (Settings → Secrets and variables → Actions). Only names are ever referenced in docs/workflow — never values.
+
+**Test results:** see the "Deployment Automation" entry logged at the bottom of `docs/2026-07-qa-report.md` (or the commit that follows this one) for the actual first-run verification (Actions run URL, deployment ID, confirmation that the same commit SHA appears in both GitHub Actions and the Cloudflare deployment record, confirmation production was untouched).
 
 ## Milestone 2 — NEXT: site-wide header & navigation redesign
 
@@ -88,4 +109,6 @@ Adding meta descriptions to the 6 pages that currently have **none at all** (abo
 - `gh` CLI has two logged-in accounts on this machine; make sure `oakflooring74-hub` is the active one before pushing (`gh auth switch --hostname github.com --user oakflooring74-hub`).
 - The redesigned pages still depend on Turbify hosting for images/video/theme CSS via a `<base href="https://www.sdhardwoods.com/">` tag — this is a deliberate bridge, not an oversight, but it's the reason image optimization is currently hard and worth remembering when it comes up again.
 - Python 3.12 is now installed on this laptop (see Milestone 1 above) — the build pipeline can be run directly; no need to re-solve the missing-Python problem.
-- Milestone 1 is **committed but not pushed** to origin as of 2026-07-16 — check `git log` / `git status` before assuming the remote reflects this work.
+- Milestone 1 (`5d911a6`) and the deployment-automation milestone are both **committed and pushed** to `origin/redesign` as of 2026-07-16.
+- **Deployments are now automated** — see the "Deployment Automation Milestone" section above and the "Deployment" section in `build/README.md`. Don't reach for manual `wrangler pages deploy` for normal work; just push to `redesign` (preview) or `master` (production, owner-approved only) and let GitHub Actions handle it. Manual deploy is documented as the emergency-only fallback.
+- Cloudflare Pages project `sd-hardwoods` has **no native Git integration** (`wrangler pages project list` shows "Git Provider: No") — the GitHub Actions workflow is a from-scratch deploy pipeline built specifically because that native integration isn't (and per this milestone's scope, still isn't) connected. Don't assume pushing alone triggers anything without checking the Actions tab if this workflow is ever removed/disabled.

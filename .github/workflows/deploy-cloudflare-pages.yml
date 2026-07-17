@@ -1,0 +1,103 @@
+name: Deploy Cloudflare Pages
+
+# redesign / master pushes deploy automatically; pull requests only build+verify
+# (never deploy); workflow_dispatch allows a controlled manual rerun against
+# whatever branch/ref is selected in the Actions UI.
+on:
+  push:
+    branches:
+      - redesign
+      - master
+  pull_request:
+    branches:
+      - redesign
+      - master
+  workflow_dispatch: {}
+
+# One in-flight deployment per branch at a time. Queue (don't cancel) so an
+# in-progress Cloudflare Pages deploy is never interrupted mid-upload.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build and verify generated output
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
+        with:
+          python-version: "3.12"
+
+      - name: Run build pipeline
+        run: python build/scripts/build_all.py
+
+      # The repo-root .html files are committed, generated output -- build/ is the
+      # generator. If regenerating produces a diff, the committed pages are stale
+      # relative to build/chrome + build/scripts + build/data, and must not be
+      # deployed as-is. Fail loudly instead of deploying a mismatched site.
+      - name: Fail if build changed committed output
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "::error::Regenerating the site (python build/scripts/build_all.py) produced uncommitted differences. Generated HTML is out of sync with build/ source templates -- run the build locally, review the diff, and commit the regenerated pages before this will pass."
+            git status --porcelain
+            git diff --stat
+            exit 1
+          fi
+          echo "Generated output matches committed output -- safe to deploy."
+
+  deploy:
+    name: Deploy to Cloudflare Pages
+    needs: build
+    # Pull requests only ever run the build/verify job above -- never deploy.
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+
+      - name: Get commit SHA and message
+        id: meta
+        run: |
+          echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+          echo "message=$(git log -1 --format=%s)" >> "$GITHUB_OUTPUT"
+
+      # Deploys the committed repo root as-is (same source the manual
+      # `wrangler pages deploy .` command has always used) to the existing
+      # sd-hardwoods Pages project. --branch is the pushed branch name;
+      # Cloudflare classifies it Preview or Production based on the project's
+      # already-configured production branch (master) -- no separate flag needed.
+      - name: Deploy to Cloudflare Pages
+        id: deploy
+        uses: cloudflare/wrangler-action@ebbaa1584979971c8614a24965b4405ff95890e0 # v4.0.0
+        env:
+          DEPLOY_COMMIT_MESSAGE: ${{ steps.meta.outputs.message }}
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: >-
+            pages deploy . --project-name=sd-hardwoods
+            --branch=${{ github.ref_name }}
+            --commit-hash=${{ steps.meta.outputs.sha }}
+            --commit-message="$DEPLOY_COMMIT_MESSAGE"
+
+      - name: Summarize deployment
+        run: |
+          {
+            echo "### Cloudflare Pages deployment"
+            echo "- Branch: \`${{ github.ref_name }}\`"
+            echo "- Environment: ${{ steps.deploy.outputs.pages-environment }}"
+            echo "- Commit: \`${{ steps.meta.outputs.sha }}\`"
+            echo "- Deployment URL: ${{ steps.deploy.outputs.deployment-url }}"
+            echo "- Alias URL: ${{ steps.deploy.outputs.pages-deployment-alias-url }}"
+            echo "- Deployment ID: ${{ steps.deploy.outputs.pages-deployment-id }}"
+          } >> "$GITHUB_STEP_SUMMARY"

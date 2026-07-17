@@ -206,3 +206,52 @@ reproduce.)
 7. **`data/*/*.json` files may contain a `"source"` field with an old absolute path** from
    the machine/session where the extraction was originally run. That's inert historical
    metadata, not something the build scripts read back — safe to ignore.
+
+## Deployment (Cloudflare Pages via GitHub Actions)
+
+Deploys are automated by `.github/workflows/deploy-cloudflare-pages.yml`. Manual `wrangler`
+deploys are no longer required for normal work — pushing is enough.
+
+- **Push to `redesign`** → automatically deploys to the **Preview** environment of the
+  existing `sd-hardwoods` Cloudflare Pages project, served at
+  `https://redesign.sd-hardwoods.pages.dev`.
+- **Push to `master`** → automatically deploys to **Production**
+  (`https://sd-hardwoods.pages.dev`). Treat pushes to `master` as a real production release.
+- **Pull requests** targeting `redesign` or `master` run the build-and-verify job only
+  (regenerates all 12 pages and fails if that produces any diff against the committed output)
+  — they never deploy, to either environment.
+- The workflow deploys the **committed** repo root exactly as `python
+  build/scripts/build_all.py` produced it — it does not deploy freshly-regenerated-but-uncommitted
+  output. If regenerating locally would change any committed page, the workflow fails loudly
+  instead of deploying a stale site; commit the regenerated pages first.
+
+**Required GitHub Actions secrets** (repo → Settings → Secrets and variables → Actions):
+- `CLOUDFLARE_API_TOKEN` — a dedicated, least-privilege token (Cloudflare Pages: Edit,
+  scoped to this one account) created specifically for this workflow — not the local
+  Wrangler OAuth login.
+- `CLOUDFLARE_ACCOUNT_ID` — the Cloudflare account ID (`wrangler whoami` shows this).
+
+**Normal workflow:** commit your change (including regenerated pages if `build/` changed),
+push to `redesign`, and Actions handles the rest. No local Wrangler invocation needed.
+
+**Manual emergency deployment** (if Actions is down or you need to deploy without waiting on
+CI), from the repo root with Wrangler installed and authenticated:
+```
+npx wrangler pages deploy . --project-name=sd-hardwoods --branch=redesign
+```
+Replace `--branch=redesign` with `--branch=master` only if you specifically intend a
+production deploy — **never do this without the owner's explicit go-ahead.**
+
+**Production safety rule:** nothing should ever reach `https://sd-hardwoods.pages.dev`
+except a deliberate, approved push (or manual deploy) to `master`. `redesign` pushes only
+ever reach the preview URL.
+
+**Finding deployment logs:** GitHub repo → **Actions** tab → **Deploy Cloudflare Pages**
+workflow → select the run. The `deploy` job's "Summarize deployment" step and the run's
+Job Summary show the branch, environment (Preview/Production), commit SHA, and the exact
+Cloudflare deployment URL/ID for that run — no secrets are ever printed in the logs.
+
+**Verifying a deployment URL:** the Job Summary's "Deployment URL" / "Alias URL" links are
+authoritative for that specific run. You can also cross-check with
+`npx wrangler pages deployment list --project-name=sd-hardwoods`, which lists recent
+deployments with their branch, environment, and source commit SHA.
