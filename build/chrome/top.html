@@ -1,80 +1,393 @@
-<!-- SDH Sticky Header: utility bar + brand/masthead + flyout nav, all in-flow (not floating) so nothing overlaps page content while scrolling -->
+<!-- SDH masthead + primary navigation.
+     Layout: slim utility bar > brand masthead (real medallion logo + tagline + phone/email + CTA)
+     > full-width nav band (desktop dropdowns / mobile drawer) > de-emphasized crawlable SEO strip.
+     The masthead is in-flow and scrolls away; a compact fixed mini-header (#sdhMiniHeader) slides
+     in only after the masthead has scrolled out (IntersectionObserver, reduced-motion aware).
+     Brand images are committed static files (assets/branding/web/) referenced via
+     data-brand-src and resolved against the page's own origin at runtime -- see the
+     resolveBrandImages() note below for why they can't be literal root-relative URLs. -->
 <style>
-header#sdhHeader{position:sticky;top:0;z-index:9999;background:var(--canvas);}
-#sdhHeaderMain{max-width:1180px;margin:0 auto;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;border-bottom:1px solid var(--line);}
+header#sdhHeader{background:var(--canvas);}
 
-#sdhBrandBar{display:flex;align-items:center;gap:12px;text-decoration:none;padding:4px 0;}
-#sdhBrandBar .brand-mark{display:flex;align-items:center;justify-content:center;width:44px;height:44px;min-width:44px;border-radius:10px;background:var(--walnut);color:#f3ead9;font-family:var(--font-serif);font-weight:700;font-size:16px;letter-spacing:.5px;}
-body.darkmode #sdhBrandBar .brand-mark{background:var(--brass);color:#1b1712;}
-#sdhBrandBar .brand-text{display:flex;flex-direction:column;}
-#sdhBrandBar .brand-name{font-family:var(--font-serif);font-weight:700;font-size:18px;color:var(--ink);letter-spacing:.5px;line-height:1.2;}
-#sdhBrandBar .brand-tag{font-family:var(--font-serif);font-style:italic;font-size:11px;color:var(--brass-soft);}
+/* --- utility bar --- */
+#sdhUtilityBar{background:var(--util-bg);color:var(--util-ink);font-size:13px;letter-spacing:.4px;padding:7px 16px;text-align:center;font-family:var(--font-sans);}
+#sdhUtilityBar a{color:var(--util-ink);text-decoration:none;font-weight:600;}
+#sdhUtilityBar a:hover{text-decoration:underline;}
+#sdhUtilityBar .util-sep{opacity:.45;margin:0 10px;}
+@media(max-width:560px){#sdhUtilityBar .util-loc{display:none;}#sdhUtilityBar .util-sep.loc-sep{display:none;}}
 
-#sdhMegaNav{position:relative;font-family:var(--font-sans);}
-#sdhNavButton{background:var(--walnut);color:#fff;padding:14px 20px;min-height:44px;border-radius:10px;cursor:pointer;font-weight:700;font-size:14px;display:flex;align-items:center;gap:8px;box-shadow:0 4px 14px rgba(0,0,0,.18);}
-body.darkmode #sdhNavButton{background:var(--brass);color:#1b1712;}
-#sdhFlyout{position:absolute;top:calc(100% + 8px);right:0;min-width:280px;background:var(--card-bg);border:1px solid var(--line);border-radius:12px;padding:14px 0;box-shadow:0 14px 40px rgba(0,0,0,.22);opacity:0;visibility:hidden;transform:translateY(-10px);transition:.25s;z-index:1;}
-#sdhFlyout .section{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--brass-soft);font-weight:700;padding:10px 20px 4px;}
-#sdhFlyout a{display:flex;align-items:center;min-height:44px;padding:9px 20px;color:var(--ink);text-decoration:none;font-size:15px;}
-#sdhFlyout a:hover{background:var(--canvas-alt);}
+/* --- brand masthead --- */
+#sdhMasthead{max-width:1180px;margin:0 auto;padding:18px 24px 16px;display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;}
+#sdhBrand{display:flex;align-items:center;gap:18px;text-decoration:none;min-width:0;}
+#sdhBrand .brand-logo{width:84px;height:84px;flex:0 0 84px;display:block;filter:drop-shadow(0 2px 6px rgba(43,26,5,.28));}
+#sdhBrand .brand-text{display:flex;flex-direction:column;min-width:0;}
+#sdhBrand .brand-name{font-family:var(--font-serif);font-weight:700;font-size:31px;line-height:1.08;color:var(--ink);letter-spacing:.4px;}
+#sdhBrand .brand-tag{font-family:var(--font-serif);font-style:italic;font-size:14.5px;color:var(--brass-deep);margin-top:5px;letter-spacing:.2px;}
+.mast-actions{display:flex;align-items:center;gap:22px;flex-wrap:wrap;}
+.mast-contact{display:flex;flex-direction:column;align-items:flex-end;gap:2px;}
+.mast-phone{display:block;text-decoration:none;font-family:var(--font-sans);text-align:right;}
+.mast-phone .mast-phone-label{display:block;font-size:12px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:var(--brass-deep);}
+.mast-phone .mast-phone-num{display:block;font-size:27px;font-weight:800;color:var(--ink);letter-spacing:.5px;line-height:1.15;}
+.mast-phone:hover .mast-phone-num{color:var(--cta-red);}
+.mast-email{font-size:13px;color:var(--ink-soft);text-decoration:none;}
+.mast-email:hover{text-decoration:underline;color:var(--ink);}
+.mast-cta{white-space:nowrap;}
+@media(max-width:1020px){
+  #sdhMasthead{padding:14px 16px 12px;justify-content:center;text-align:left;}
+  #sdhBrand .brand-logo{width:64px;height:64px;flex-basis:64px;}
+  #sdhBrand .brand-name{font-size:22px;}
+  #sdhBrand .brand-tag{font-size:12px;}
+  .mast-actions{display:none;}
+}
 
-@media(max-width:760px){
-  #sdhHeaderMain{padding:10px 16px;}
-  #sdhBrandBar .brand-name{font-size:16px;}
+/* --- primary nav band --- */
+#sdhNav{background:var(--nav-bg);border-top:1px solid var(--nav-line);border-bottom:1px solid var(--nav-line);font-family:var(--font-sans);}
+#sdhNav .nav-inner{max-width:1180px;margin:0 auto;padding:0 16px;display:flex;align-items:center;justify-content:center;gap:6px;}
+#sdhNav ul.nav-list{list-style:none;margin:0;padding:0;display:flex;align-items:stretch;gap:2px;flex-wrap:wrap;justify-content:center;}
+#sdhNav ul.nav-list>li{position:relative;}
+#sdhNav ul.nav-list>li>a,#sdhNav .nav-drop-btn{display:flex;align-items:center;gap:7px;min-height:50px;padding:4px 15px;background:none;border:none;cursor:pointer;font-family:var(--font-sans);font-size:15px;font-weight:600;letter-spacing:.3px;color:var(--nav-ink);text-decoration:none;border-bottom:3px solid transparent;border-top:3px solid transparent;}
+#sdhNav ul.nav-list>li>a:hover,#sdhNav .nav-drop-btn:hover{color:var(--nav-ink-strong);background:var(--nav-hover);}
+#sdhNav ul.nav-list>li>a[aria-current="page"],#sdhNav .nav-drop-btn.has-active{color:var(--nav-ink-strong);border-bottom-color:var(--brass);}
+#sdhNav .nav-drop-btn .chev{font-size:10px;opacity:.65;transition:transform .18s ease;}
+#sdhNav li.open>.nav-drop-btn .chev{transform:rotate(180deg);}
+#sdhNav .nav-drop{position:absolute;top:100%;left:0;min-width:280px;margin:0;padding:8px 0;list-style:none;background:var(--card-bg);border:1px solid var(--line);border-radius:0 0 12px 12px;box-shadow:0 18px 42px rgba(20,12,3,.25);opacity:0;visibility:hidden;transform:translateY(-6px);transition:opacity .18s ease,transform .18s ease,visibility .18s;z-index:10000;}
+#sdhNav li.open>.nav-drop{opacity:1;visibility:visible;transform:none;}
+#sdhNav .nav-drop li{list-style:none;}
+#sdhNav .nav-drop a{display:flex;align-items:center;min-height:44px;padding:8px 20px;font-size:15px;color:var(--ink);text-decoration:none;}
+#sdhNav .nav-drop a:hover{background:var(--canvas-alt);}
+#sdhNav .nav-drop a[aria-current="page"]{color:var(--brass-deep);font-weight:700;}
+#sdhNav .nav-drop .drop-note{padding:4px 20px 8px;font-size:12px;color:var(--ink-soft);font-style:italic;}
+.nav-youtube{display:flex;align-items:center;gap:8px;margin-left:14px;padding:7px 14px;min-height:44px;border:1px solid var(--nav-line);border-radius:24px;font-size:13.5px;font-weight:700;color:var(--nav-ink);text-decoration:none;white-space:nowrap;}
+.nav-youtube:hover{background:var(--nav-hover);color:var(--nav-ink-strong);}
+.yt-ico{display:inline-flex;align-items:center;}
+#sdhMenuBtn{display:none;}
+@media(max-width:1020px){
+  #sdhNav .nav-inner{justify-content:stretch;padding:8px 12px;gap:10px;}
+  #sdhNav ul.nav-list,#sdhNav .nav-youtube{display:none;}
+  #sdhMenuBtn{display:flex;align-items:center;justify-content:center;gap:9px;flex:1 1 50%;min-height:48px;background:none;border:1px solid var(--nav-line);border-radius:10px;color:var(--nav-ink);font-family:var(--font-sans);font-size:15.5px;font-weight:700;letter-spacing:.4px;cursor:pointer;}
+  #sdhNavCall{display:flex;align-items:center;justify-content:center;gap:8px;flex:1 1 50%;min-height:48px;border-radius:10px;background:var(--cta-red);color:#fff;font-size:15.5px;font-weight:700;text-decoration:none;box-shadow:0 4px 14px rgba(179,38,30,.3);}
+}
+@media(min-width:1021px){#sdhNavCall{display:none;}}
+
+/* --- de-emphasized crawlable SEO strip (wording preserved) --- */
+#sdhSeoStrip{background:var(--canvas-alt);border-bottom:1px solid var(--line);padding:8px 20px;}
+#sdhSeoStrip .biz-desc{display:block;max-width:1060px;margin:0 auto;font-size:10.5px;line-height:1.55;color:var(--ink-soft);opacity:.62;text-align:center;letter-spacing:.2px;}
+#sdhSeoStrip a{color:inherit;text-decoration:none;}
+
+/* --- compact sticky mini-header (appears only after masthead scrolls away) --- */
+#sdhMiniHeader{position:fixed;top:0;left:0;right:0;z-index:999900;display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:56px;padding:6px 14px;background:var(--canvas);border-bottom:1px solid var(--line);box-shadow:0 6px 22px rgba(20,12,3,.16);transform:translateY(-104%);visibility:hidden;transition:transform .26s ease,visibility .26s;}
+#sdhMiniHeader.show{transform:none;visibility:visible;}
+.mini-brand{display:flex;align-items:center;gap:10px;text-decoration:none;min-width:0;}
+.mini-brand img{width:38px;height:38px;display:block;}
+.mini-brand .mini-name{font-family:var(--font-serif);font-weight:700;font-size:17px;color:var(--ink);letter-spacing:.3px;white-space:nowrap;}
+.mini-actions{display:flex;align-items:center;gap:9px;}
+.mini-menu{display:flex;align-items:center;gap:7px;min-height:44px;padding:6px 14px;background:none;border:1px solid var(--line);border-radius:9px;color:var(--ink);font-family:var(--font-sans);font-size:14px;font-weight:700;cursor:pointer;}
+.mini-menu:hover{background:var(--canvas-alt);}
+.mini-phone{display:flex;align-items:center;gap:6px;min-height:44px;padding:6px 10px;color:var(--ink);text-decoration:none;font-weight:800;font-size:15.5px;letter-spacing:.4px;white-space:nowrap;}
+.mini-phone:hover{color:var(--cta-red);}
+.mini-cta{display:flex;align-items:center;min-height:44px;padding:6px 16px;border-radius:9px;background:var(--cta-red);color:#fff !important;font-weight:700;font-size:14px;text-decoration:none;white-space:nowrap;box-shadow:0 4px 14px rgba(179,38,30,.3);}
+.mini-sms{display:flex;align-items:center;min-height:44px;padding:6px 14px;border-radius:9px;border:1.5px solid var(--walnut);color:var(--walnut);font-weight:700;font-size:14px;text-decoration:none;white-space:nowrap;}
+body.darkmode .mini-sms{border-color:var(--brass);color:var(--brass);}
+@media(max-width:900px){.mini-sms{display:none;}}
+@media(max-width:700px){.mini-phone .mini-phone-num{display:none;}.mini-phone{font-size:19px;}}
+@media(max-width:480px){.mini-brand .mini-name{display:none;}.mini-cta{font-size:13px;padding:6px 12px;}}
+
+/* --- mobile / all-pages menu drawer --- */
+#sdhDrawerScrim{position:fixed;inset:0;z-index:1000004;background:rgba(15,10,4,.55);opacity:0;transition:opacity .22s ease;}
+#sdhDrawerScrim.show{opacity:1;}
+#sdhDrawer{position:fixed;top:0;right:0;bottom:0;z-index:1000005;width:min(400px,94vw);background:var(--canvas);border-left:1px solid var(--line);box-shadow:-18px 0 48px rgba(15,10,4,.35);display:flex;flex-direction:column;transform:translateX(103%);transition:transform .26s ease;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;}
+#sdhDrawer.open{transform:none;}
+.drawer-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 16px;border-bottom:1px solid var(--line);}
+.drawer-brand{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.drawer-brand img{width:40px;height:40px;display:block;}
+.drawer-brand span{font-family:var(--font-serif);font-weight:700;font-size:17px;color:var(--ink);}
+.drawer-close{display:flex;align-items:center;justify-content:center;width:44px;height:44px;border:1px solid var(--line);border-radius:10px;background:none;color:var(--ink);font-size:17px;cursor:pointer;}
+.drawer-close:hover{background:var(--canvas-alt);}
+.drawer-ctas{display:flex;gap:10px;padding:14px 16px;border-bottom:1px solid var(--line);}
+.drawer-ctas a{flex:1;display:flex;align-items:center;justify-content:center;min-height:48px;border-radius:10px;font-family:var(--font-sans);font-size:14.5px;font-weight:700;text-decoration:none;text-align:center;padding:6px 10px;}
+.drawer-ctas .d-call{background:var(--cta-red);color:#fff;box-shadow:0 4px 14px rgba(179,38,30,.3);}
+.drawer-ctas .d-sms{border:1.5px solid var(--walnut);color:var(--walnut);}
+body.darkmode .drawer-ctas .d-sms{border-color:var(--brass);color:var(--brass);}
+.drawer-note{padding:10px 18px 2px;font-size:12.5px;line-height:1.5;color:var(--ink-soft);}
+#sdhDrawer nav{padding:8px 8px 20px;}
+#sdhDrawer nav>a,#sdhDrawer summary{display:flex;align-items:center;min-height:48px;padding:8px 14px;border-radius:9px;font-family:var(--font-sans);font-size:16px;font-weight:600;color:var(--ink);text-decoration:none;cursor:pointer;}
+#sdhDrawer nav>a:hover,#sdhDrawer summary:hover{background:var(--canvas-alt);}
+#sdhDrawer nav>a[aria-current="page"]{color:var(--brass-deep);}
+#sdhDrawer details{border-bottom:1px solid var(--line);margin:0 4px;}
+#sdhDrawer details:first-of-type{border-top:1px solid var(--line);margin-top:6px;}
+#sdhDrawer summary{list-style:none;justify-content:space-between;}
+#sdhDrawer summary::-webkit-details-marker{display:none;}
+#sdhDrawer summary::after{content:"\2304";font-size:15px;color:var(--brass-deep);line-height:0;margin-top:-6px;transition:transform .18s ease;}
+#sdhDrawer details[open]>summary::after{transform:rotate(180deg);margin-top:6px;}
+#sdhDrawer details a{display:flex;align-items:center;min-height:46px;padding:6px 14px 6px 26px;border-radius:9px;font-size:15px;color:var(--ink-soft);text-decoration:none;}
+#sdhDrawer details a:hover{background:var(--canvas-alt);color:var(--ink);}
+#sdhDrawer details a[aria-current="page"]{color:var(--brass-deep);font-weight:700;}
+.drawer-foot{margin-top:auto;padding:14px 18px 22px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:12px;}
+.drawer-foot .d-youtube{display:flex;align-items:center;gap:9px;font-size:15px;font-weight:700;color:var(--ink);text-decoration:none;min-height:44px;}
+.drawer-foot .d-email{font-size:14px;color:var(--ink-soft);text-decoration:none;word-break:break-all;min-height:44px;display:flex;align-items:center;}
+.drawer-foot a:hover{color:var(--brass-deep);}
+html.sdh-lock,html.sdh-lock body{overflow:hidden;}
+
+@media (prefers-reduced-motion: reduce){
+  #sdhMiniHeader,#sdhDrawer,#sdhDrawerScrim,#sdhNav .nav-drop,#sdhNav .nav-drop-btn .chev,#sdhDrawer summary::after{transition:none;}
 }
 </style>
 <header id="sdhHeader">
 <div id="sdhUtilityBar">
-  San Diego, CA 92130 &nbsp;|&nbsp; <a href="tel:8586990072">858-699-0072</a> &nbsp;|&nbsp; <a href="mailto:SANDIEGOHARDWOODS@GMAIL.COM">sandiegohardwoods@gmail.com</a>
-  <span class="biz-desc"><span class="vcard"><span class="fn org"><span class="organization-name">__VCARD_DESC__</span></span> <span class="adr"><span class="locality">San Diego</span><span class="separator">, </span><span class="region">CA</span> <span class="postal-code">92130</span></span> <span class="phoneNumbers"><span class="tel"><span class="type">ph: </span>858-699-0072</span></span> <span class="mailtoWrapper"><a class="email" href="mailto:SANDIEGOHARDWOODS@GMAIL.COM">SANDIEGOHARDWOODS@GMAIL.COM</a></span></span></span>
+  <span class="util-loc">San Diego, CA 92130</span><span class="util-sep loc-sep" aria-hidden="true">|</span><a href="tel:8586990072">858-699-0072</a><span class="util-sep" aria-hidden="true">|</span><a href="mailto:SANDIEGOHARDWOODS@GMAIL.COM">sandiegohardwoods@gmail.com</a>
 </div>
 
-<div id="sdhHeaderMain">
-  <a id="sdhBrandBar" href="https://www.sdhardwoods.com/">
-    <span class="brand-mark" aria-hidden="true">SDH</span>
+<div id="sdhMasthead">
+  <a id="sdhBrand" href="https://www.sdhardwoods.com/">
+    <img class="brand-logo" data-brand-src="assets/branding/web/sdh-logo-256.webp" alt="" width="84" height="84">
     <span class="brand-text">
-      <span class="brand-name">SAN DIEGO HARDWOODS</span>
-      <span class="brand-tag">Est. 1990 &bull; Bona Certified Craftsman</span>
+      <span class="brand-name">San Diego Hardwoods</span>
+      <span class="brand-tag">San Diego&rsquo;s Finest Hardwood Floor Specialist Since 1990</span>
     </span>
   </a>
-
-  <div id="sdhMegaNav">
-    <div id="sdhNavButton" role="button" tabindex="0" aria-haspopup="true" aria-expanded="false"><span aria-hidden="true">&#9776;</span> Explore Our Services</div>
-    <div id="sdhFlyout">
-        <div class="section">Professional Flooring Services</div>
-        <a href="https://www.sdhardwoods.com/">Home</a>
-        <a href="https://www.sdhardwoods.com/about_us">About San Diego Hardwoods</a>
-        <a href="https://www.sdhardwoods.com/contact_us">Contact / Free Estimate</a>
-
-        <div class="section">Restoration &amp; Installation</div>
-        <a href="https://www.sdhardwoods.com/recent_project_photo_gallery_1">100% Dust-Free Restoration</a>
-        <a href="https://www.sdhardwoods.com/solid_wood_floor_photo_gallery">Custom Nail-Down Installation</a>
-        <a href="https://www.sdhardwoods.com/deep-cleaning-hardwood-floors-san-diego.html">Deep Cleaning &amp; Finish Upgrades</a>
-
-        <div class="section">Galleries &amp; Insights</div>
-        <a href="https://www.youtube.com/@SANDIEGOHARDWOODS" target="_blank">Official YouTube Channel</a>
-        <a href="https://www.sdhardwoods.com/blog">Hardwood Flooring Blog</a>
-        <a href="https://www.sdhardwoods.com/videos_of_refinishing_process">Refinishing Process Videos</a>
-        <a href="https://www.sdhardwoods.com/solid_wood_floor_photo_gallery">Solid Wood Floor Gallery</a>
-        <a href="https://www.sdhardwoods.com/recent_project_photo_gallery_1">Project Gallery 1</a>
-        <a href="https://www.sdhardwoods.com/recent_project_photo_gallery_2">Project Gallery 2</a>
-        <a href="https://www.sdhardwoods.com/recent_project_photo_gallery_3">Project Gallery 3</a>
-        <a href="https://www.sdhardwoods.com/recent_project_photo_gallery_4">Project Gallery 4</a>
-        <a href="https://www.sdhardwoods.com/recent_project_gallery_5">Project Gallery 5</a>
+  <div class="mast-actions">
+    <div class="mast-contact">
+      <a class="mast-phone" href="tel:8586990072">
+        <span class="mast-phone-label">Call or Text</span>
+        <span class="mast-phone-num">858-699-0072</span>
+      </a>
+      <a class="mast-email" href="mailto:sandiegohardwoods@gmail.com">sandiegohardwoods@gmail.com</a>
     </div>
+    <a class="btn btn-call mast-cta" href="tel:8586990072">Free Phone Assessment</a>
   </div>
 </div>
+
+<nav id="sdhNav" aria-label="Primary">
+  <div class="nav-inner">
+    <ul class="nav-list">
+      <li><a data-nav="index" href="https://www.sdhardwoods.com/">Home</a></li>
+      <li class="has-menu">
+        <button type="button" class="nav-drop-btn" aria-expanded="false" aria-controls="sdhMenuServices">Services <span class="chev" aria-hidden="true">&#9662;</span></button>
+        <ul class="nav-drop" id="sdhMenuServices">
+          <li><a data-nav="index" href="https://www.sdhardwoods.com/">Hardwood Floor Refinishing</a></li>
+          <li><a data-nav="deep-cleaning-hardwood-floors-san-diego" href="https://www.sdhardwoods.com/deep-cleaning-hardwood-floors-san-diego.html">Deep Cleaning Hardwood Floors</a></li>
+          <li><a data-nav="contact_us" href="https://www.sdhardwoods.com/contact_us#consultation-services">Consultation &amp; Assessment Services</a></li>
+        </ul>
+      </li>
+      <li class="has-menu">
+        <button type="button" class="nav-drop-btn" aria-expanded="false" aria-controls="sdhMenuGalleries">Project Galleries <span class="chev" aria-hidden="true">&#9662;</span></button>
+        <ul class="nav-drop" id="sdhMenuGalleries">
+          <li class="drop-note">Real before &amp; after projects across San Diego County</li>
+          <li><a data-nav="recent_project_photo_gallery_1" href="https://www.sdhardwoods.com/recent_project_photo_gallery_1">Recent Project Gallery 1</a></li>
+          <li><a data-nav="recent_project_photo_gallery_2" href="https://www.sdhardwoods.com/recent_project_photo_gallery_2">Recent Project Gallery 2</a></li>
+          <li><a data-nav="recent_project_photo_gallery_3" href="https://www.sdhardwoods.com/recent_project_photo_gallery_3">Recent Project Gallery 3</a></li>
+          <li><a data-nav="recent_project_photo_gallery_4" href="https://www.sdhardwoods.com/recent_project_photo_gallery_4">Recent Project Gallery 4</a></li>
+          <li><a data-nav="recent_project_gallery_5" href="https://www.sdhardwoods.com/recent_project_gallery_5">Recent Project Gallery 5</a></li>
+          <li><a data-nav="solid_wood_floor_photo_gallery" href="https://www.sdhardwoods.com/solid_wood_floor_photo_gallery">Solid Wood Floor Gallery</a></li>
+        </ul>
+      </li>
+      <li class="has-menu">
+        <button type="button" class="nav-drop-btn" aria-expanded="false" aria-controls="sdhMenuVideos">Videos <span class="chev" aria-hidden="true">&#9662;</span></button>
+        <ul class="nav-drop" id="sdhMenuVideos">
+          <li><a data-nav="videos_of_refinishing_process" href="https://www.sdhardwoods.com/videos_of_refinishing_process">Refinishing Process Videos</a></li>
+          <li><a href="https://www.youtube.com/@SANDIEGOHARDWOODS" target="_blank" rel="noopener">Watch Our Work on YouTube &#8599;</a></li>
+        </ul>
+      </li>
+      <li><a data-nav="about_us" href="https://www.sdhardwoods.com/about_us">About</a></li>
+      <li><a data-nav="blog" href="https://www.sdhardwoods.com/blog">Blog</a></li>
+      <li><a data-nav="contact_us" href="https://www.sdhardwoods.com/contact_us">Contact</a></li>
+    </ul>
+    <a class="nav-youtube" href="https://www.youtube.com/@SANDIEGOHARDWOODS" target="_blank" rel="noopener" title="San Diego Hardwoods on YouTube (opens in a new tab)"><span class="yt-ico" aria-hidden="true"><svg viewBox="0 0 28 20" width="21" height="15" focusable="false"><path fill="#FF0000" d="M27.4 3.1A3.5 3.5 0 0 0 25 .6C22.9 0 14 0 14 0S5.1 0 3 .6A3.5 3.5 0 0 0 .6 3.1 36.6 36.6 0 0 0 0 10a36.6 36.6 0 0 0 .6 6.9A3.5 3.5 0 0 0 3 19.4c2.1.6 11 .6 11 .6s8.9 0 11-.6a3.5 3.5 0 0 0 2.4-2.5A36.6 36.6 0 0 0 28 10a36.6 36.6 0 0 0-.6-6.9z"/><path fill="#fff" d="M11.2 14.3 18.5 10l-7.3-4.3z"/></svg></span>Watch on YouTube</a>
+    <button id="sdhMenuBtn" type="button" aria-expanded="false" aria-controls="sdhDrawer"><span aria-hidden="true">&#9776;</span> Menu</button>
+    <a id="sdhNavCall" href="tel:8586990072"><span aria-hidden="true">&#9742;</span> Call or Text</a>
+  </div>
+</nav>
+
+<div id="sdhSeoStrip">
+  <span class="biz-desc"><span class="vcard"><span class="fn org"><span class="organization-name">__VCARD_DESC__</span></span> <span class="adr"><span class="locality">San Diego</span><span class="separator">, </span><span class="region">CA</span> <span class="postal-code">92130</span></span> <span class="phoneNumbers"><span class="tel"><span class="type">ph: </span>858-699-0072</span></span> <span class="mailtoWrapper"><a class="email" href="mailto:SANDIEGOHARDWOODS@GMAIL.COM">SANDIEGOHARDWOODS@GMAIL.COM</a></span></span></span>
+</div>
 </header>
+
+<div id="sdhMiniHeader" aria-hidden="true">
+  <a class="mini-brand" href="https://www.sdhardwoods.com/">
+    <img data-brand-src="assets/branding/web/sdh-logo-256.webp" alt="" width="38" height="38">
+    <span class="mini-name">San Diego Hardwoods</span>
+  </a>
+  <div class="mini-actions">
+    <button type="button" class="mini-menu" aria-expanded="false" aria-controls="sdhDrawer"><span aria-hidden="true">&#9776;</span> Menu</button>
+    <a class="mini-phone" href="tel:8586990072"><span aria-hidden="true">&#9742;</span><span class="mini-phone-num">858-699-0072</span></a>
+    <a class="mini-sms" href="sms:+18586990072?&amp;body=Hi%20San%20Diego%20Hardwoods%2C%20I%20have%20photos%20of%20my%20floors%20to%20send%20for%20a%20free%20phone%20assessment.">Text Floor Photos</a>
+    <a class="mini-cta" href="tel:8586990072">Call or Text &mdash; Free Assessment</a>
+  </div>
+</div>
+
+<div id="sdhDrawerScrim" hidden></div>
+<aside id="sdhDrawer" role="dialog" aria-modal="true" aria-label="San Diego Hardwoods menu" hidden>
+  <div class="drawer-head">
+    <a class="drawer-brand" href="https://www.sdhardwoods.com/"><img data-brand-src="assets/branding/web/sdh-logo-256.webp" alt="" width="40" height="40"><span>San Diego Hardwoods</span></a>
+    <button type="button" class="drawer-close" aria-label="Close menu">&#10005;</button>
+  </div>
+  <div class="drawer-ctas">
+    <a class="d-call" href="tel:8586990072">&#9742;&nbsp;Call or Text<br>858-699-0072</a>
+    <a class="d-sms" href="sms:+18586990072?&amp;body=Hi%20San%20Diego%20Hardwoods%2C%20I%20have%20photos%20of%20my%20floors%20to%20send%20for%20a%20free%20phone%20assessment.">Text Floor Photos</a>
+  </div>
+  <p class="drawer-note">Text clear photos of your floors for a <strong>free phone assessment</strong> &mdash; most questions can be answered the same day.</p>
+  <nav aria-label="All pages">
+    <a data-nav="index" href="https://www.sdhardwoods.com/">Home</a>
+    <details open>
+      <summary>Services</summary>
+      <a data-nav="index" href="https://www.sdhardwoods.com/">Hardwood Floor Refinishing</a>
+      <a data-nav="deep-cleaning-hardwood-floors-san-diego" href="https://www.sdhardwoods.com/deep-cleaning-hardwood-floors-san-diego.html">Deep Cleaning Hardwood Floors</a>
+      <a data-nav="contact_us" href="https://www.sdhardwoods.com/contact_us#consultation-services">Consultation &amp; Assessment Services</a>
+    </details>
+    <details open>
+      <summary>Project Galleries</summary>
+      <a data-nav="recent_project_photo_gallery_1" href="https://www.sdhardwoods.com/recent_project_photo_gallery_1">Recent Project Gallery 1</a>
+      <a data-nav="recent_project_photo_gallery_2" href="https://www.sdhardwoods.com/recent_project_photo_gallery_2">Recent Project Gallery 2</a>
+      <a data-nav="recent_project_photo_gallery_3" href="https://www.sdhardwoods.com/recent_project_photo_gallery_3">Recent Project Gallery 3</a>
+      <a data-nav="recent_project_photo_gallery_4" href="https://www.sdhardwoods.com/recent_project_photo_gallery_4">Recent Project Gallery 4</a>
+      <a data-nav="recent_project_gallery_5" href="https://www.sdhardwoods.com/recent_project_gallery_5">Recent Project Gallery 5</a>
+      <a data-nav="solid_wood_floor_photo_gallery" href="https://www.sdhardwoods.com/solid_wood_floor_photo_gallery">Solid Wood Floor Gallery</a>
+    </details>
+    <details open>
+      <summary>Videos</summary>
+      <a data-nav="videos_of_refinishing_process" href="https://www.sdhardwoods.com/videos_of_refinishing_process">Refinishing Process Videos</a>
+      <a href="https://www.youtube.com/@SANDIEGOHARDWOODS" target="_blank" rel="noopener">Watch Our Work on YouTube &#8599;</a>
+    </details>
+    <a data-nav="about_us" href="https://www.sdhardwoods.com/about_us">About</a>
+    <a data-nav="blog" href="https://www.sdhardwoods.com/blog">Blog</a>
+    <a data-nav="contact_us" href="https://www.sdhardwoods.com/contact_us">Contact</a>
+  </nav>
+  <div class="drawer-foot">
+    <a class="d-youtube" href="https://www.youtube.com/@SANDIEGOHARDWOODS" target="_blank" rel="noopener"><span class="yt-ico" aria-hidden="true"><svg viewBox="0 0 28 20" width="22" height="16" focusable="false"><path fill="#FF0000" d="M27.4 3.1A3.5 3.5 0 0 0 25 .6C22.9 0 14 0 14 0S5.1 0 3 .6A3.5 3.5 0 0 0 .6 3.1 36.6 36.6 0 0 0 0 10a36.6 36.6 0 0 0 .6 6.9A3.5 3.5 0 0 0 3 19.4c2.1.6 11 .6 11 .6s8.9 0 11-.6a3.5 3.5 0 0 0 2.4-2.5A36.6 36.6 0 0 0 28 10a36.6 36.6 0 0 0-.6-6.9z"/><path fill="#fff" d="M11.2 14.3 18.5 10l-7.3-4.3z"/></svg></span>Watch Our Work on YouTube</a>
+    <a class="d-email" href="mailto:sandiegohardwoods@gmail.com">sandiegohardwoods@gmail.com</a>
+  </div>
+</aside>
+<noscript>
+<style>
+/* No-JS fallback: expose grouped links inline so every page stays reachable */
+#sdhNav .nav-drop{position:static;opacity:1;visibility:visible;transform:none;box-shadow:none;border:none;background:transparent;}
+@media(max-width:1020px){#sdhNav ul.nav-list{display:flex !important;flex-direction:column;width:100%;}#sdhMenuBtn{display:none !important;}}
+#sdhMiniHeader{display:none;}
+</style>
+</noscript>
 <script>
 (function(){
-    const nav=document.getElementById("sdhMegaNav");
-    const fly=document.getElementById("sdhFlyout");
-    let timer;
-    function openMenu(){ clearTimeout(timer); fly.style.opacity="1"; fly.style.visibility="visible"; fly.style.transform="translateY(0)"; }
-    function closeMenu(){ timer=setTimeout(function(){ fly.style.opacity="0"; fly.style.visibility="hidden"; fly.style.transform="translateY(-10px)"; }, 700); }
-    nav.addEventListener("mouseenter",openMenu);
-    nav.addEventListener("mouseleave",closeMenu);
-    nav.addEventListener("touchstart",function(e){ e.stopPropagation(); fly.style.visibility==="visible" ? (fly.style.opacity="0", fly.style.visibility="hidden", fly.style.transform="translateY(-10px)") : openMenu(); });
-    document.addEventListener("touchstart",function(e){ if(!nav.contains(e.target)){ fly.style.opacity="0"; fly.style.visibility="hidden"; fly.style.transform="translateY(-10px)"; } });
+  "use strict";
+  var d = document;
+  var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* --- brand images: committed static files under assets/branding/web/, resolved against
+     the page's own origin at runtime. A literal root-relative src would be rebased onto
+     sdhardwoods.com by the <base href> Turbify bridge and 404 on the Cloudflare preview;
+     building the URL from location.origin loads the repo-deployed copy on whichever host
+     serves the page, and the browser caches the file normally. --- */
+  function resolveBrandImages(){
+    if (!location.origin || location.origin.indexOf("http") !== 0) return;
+    d.querySelectorAll("img[data-brand-src]").forEach(function(img){
+      if (!img.getAttribute("src")) img.src = location.origin + "/" + img.getAttribute("data-brand-src");
+    });
+  }
+  resolveBrandImages();
+  d.addEventListener("DOMContentLoaded", resolveBrandImages); /* catches body-content brand images (homepage Bona seal) */
+
+  /* --- active-page marking (derived from location, works locally and deployed) --- */
+  var slug = (location.pathname || "/").split("/").pop().replace(/\.html?$/i, "");
+  if (!slug) slug = "index";
+  d.querySelectorAll('a[data-nav="' + slug + '"]').forEach(function(a){
+    if (a.getAttribute("href").indexOf("#") === -1) a.setAttribute("aria-current", "page");
+  });
+  d.querySelectorAll("#sdhNav .has-menu").forEach(function(li){
+    /* "Hardwood Floor Refinishing" points at the homepage; don't light up the whole
+       Services group there -- the top-level Home link already shows the active state. */
+    if (li.querySelector('a[aria-current="page"]:not([data-nav="index"])')) {
+      var btn = li.querySelector(".nav-drop-btn");
+      if (btn) btn.classList.add("has-active");
+    }
+  });
+
+  /* --- desktop dropdowns: hover with close delay + click toggle + Escape, aria synced --- */
+  var menus = Array.prototype.slice.call(d.querySelectorAll("#sdhNav .has-menu"));
+  function closeMenu(li){ li.classList.remove("open"); var b = li.querySelector(".nav-drop-btn"); if (b) b.setAttribute("aria-expanded", "false"); }
+  function openMenu(li){
+    menus.forEach(function(other){ if (other !== li) closeMenu(other); });
+    li.classList.add("open");
+    var b = li.querySelector(".nav-drop-btn"); if (b) b.setAttribute("aria-expanded", "true");
+  }
+  menus.forEach(function(li){
+    var btn = li.querySelector(".nav-drop-btn");
+    var timer, hoverOpened = false;
+    li.addEventListener("mouseenter", function(){ clearTimeout(timer); if (!li.classList.contains("open")) hoverOpened = true; openMenu(li); });
+    li.addEventListener("mouseleave", function(){ clearTimeout(timer); timer = setTimeout(function(){ hoverOpened = false; closeMenu(li); }, 350); });
+    btn.addEventListener("click", function(){
+      if (!li.classList.contains("open")) { openMenu(li); }
+      else if (hoverOpened) { hoverOpened = false; } /* first click after hover-open pins it instead of closing */
+      else { closeMenu(li); }
+    });
+    li.addEventListener("keydown", function(e){
+      if (e.key === "Escape") { closeMenu(li); btn.focus(); }
+    });
+    li.addEventListener("focusout", function(){
+      setTimeout(function(){ if (!li.contains(d.activeElement)) closeMenu(li); }, 0);
+    });
+  });
+  d.addEventListener("click", function(e){
+    menus.forEach(function(li){ if (!li.contains(e.target)) closeMenu(li); });
+  });
+
+  /* --- menu drawer --- */
+  var drawer = d.getElementById("sdhDrawer");
+  var scrim = d.getElementById("sdhDrawerScrim");
+  var openerBtns = Array.prototype.slice.call(d.querySelectorAll('[aria-controls="sdhDrawer"]'));
+  var closeBtn = drawer.querySelector(".drawer-close");
+  var lastOpener = null;
+  var hideTimer = null;
+
+  function drawerFocusables(){
+    return Array.prototype.slice.call(
+      drawer.querySelectorAll('a[href], button, summary')
+    ).filter(function(el){ return el.offsetParent !== null; });
+  }
+  function openDrawer(opener){
+    lastOpener = opener || null;
+    clearTimeout(hideTimer);
+    drawer.hidden = false; scrim.hidden = false;
+    void drawer.offsetWidth; /* commit layout so the slide-in transition runs */
+    drawer.classList.add("open"); scrim.classList.add("show");
+    d.documentElement.classList.add("sdh-lock");
+    openerBtns.forEach(function(b){ b.setAttribute("aria-expanded", "true"); });
+    closeBtn.focus();
+  }
+  function closeDrawer(){
+    drawer.classList.remove("open"); scrim.classList.remove("show");
+    d.documentElement.classList.remove("sdh-lock");
+    openerBtns.forEach(function(b){ b.setAttribute("aria-expanded", "false"); });
+    clearTimeout(hideTimer);
+    hideTimer = setTimeout(function(){ drawer.hidden = true; scrim.hidden = true; }, reduceMotion ? 0 : 240);
+    if (lastOpener && lastOpener.focus) lastOpener.focus();
+  }
+  openerBtns.forEach(function(b){ b.addEventListener("click", function(){ openDrawer(b); }); });
+  closeBtn.addEventListener("click", closeDrawer);
+  scrim.addEventListener("click", closeDrawer);
+  drawer.addEventListener("keydown", function(e){
+    if (e.key === "Escape") { closeDrawer(); return; }
+    if (e.key !== "Tab") return;
+    var f = drawerFocusables();
+    if (!f.length) return;
+    var first = f[0], last = f[f.length - 1];
+    if (e.shiftKey && d.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && d.activeElement === last) { e.preventDefault(); first.focus(); }
+  });
+
+  /* --- mini-header: slide in only after the full masthead has scrolled out --- */
+  var header = d.getElementById("sdhHeader");
+  var mini = d.getElementById("sdhMiniHeader");
+  function setMini(show){
+    mini.classList.toggle("show", show);
+    mini.setAttribute("aria-hidden", show ? "false" : "true");
+  }
+  if ("IntersectionObserver" in window) {
+    new IntersectionObserver(function(entries){
+      setMini(!entries[0].isIntersecting);
+    }, { rootMargin: "0px" }).observe(header);
+  } else {
+    var headerBottom = header.offsetTop + header.offsetHeight;
+    window.addEventListener("scroll", function(){ setMini(window.scrollY > headerBottom); }, { passive: true });
+  }
 })();
 </script>

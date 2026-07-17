@@ -1,54 +1,88 @@
+<!-- SDH explore bar: rotating, *linked* invitations to the site's real destinations
+     (galleries / videos / solid-wood work), replacing the old decorative scroll pill.
+     First message is page-specific (__SCROLL_TOPIC__) and scrolls the page; the rest
+     navigate. Pauses on hover/focus, hides after scrolling, session-dismissable,
+     static under prefers-reduced-motion. -->
 <style>
-#sdhScrollHint{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);width:min(680px,92vw);display:flex;align-items:center;justify-content:center;gap:14px;padding:14px 46px;border-radius:40px;background:var(--walnut);color:#f8f4ec;font-family:var(--font-sans);font-size:16px;font-weight:600;z-index:999999;cursor:move;box-shadow:0 10px 30px rgba(0,0,0,.25);transition:transform .5s,opacity .5s,bottom .5s;}
-body.darkmode #sdhScrollHint{background:var(--brass);color:#1b1712;}
-#sdhScrollHint.hidden{opacity:0;bottom:-140px;pointer-events:none;}
-#sdhArrow{font-size:20px;animation:sdhBounce 1.8s infinite;}
-#sdhClose{position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:18px;cursor:pointer;opacity:.7;}
-#sdhClose:hover{opacity:1;}
-@keyframes sdhBounce{0%,100%{transform:translateY(0);}50%{transform:translateY(6px);}}
-@media(max-width:640px){#sdhScrollHint{font-size:14px;padding:12px 30px;}}
+#sdhExplore{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);z-index:999899;display:flex;align-items:center;gap:4px;width:min(700px,94vw);padding:6px 8px 6px 20px;border-radius:16px;background:var(--card-bg);border:1px solid var(--line);border-top:2px solid var(--brass);box-shadow:0 12px 34px rgba(20,12,3,.22);transition:opacity .4s ease,transform .4s ease;}
+#sdhExplore .xp-label{font:700 11px/1 var(--font-sans);letter-spacing:2.2px;text-transform:uppercase;color:var(--brass-deep);flex:0 0 auto;padding-right:14px;border-right:1px solid var(--line);}
+#sdhExplore .xp-link{flex:1 1 auto;display:flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:4px 8px;font-family:var(--font-serif);font-style:italic;font-size:15.5px;line-height:1.35;color:var(--ink);text-decoration:none;text-align:center;transition:opacity .22s ease;}
+#sdhExplore .xp-link:hover{color:var(--brass-deep);}
+#sdhExplore .xp-link .xp-arrow{font-style:normal;font-size:13px;color:var(--brass-deep);flex:0 0 auto;}
+#sdhExplore .xp-close{flex:0 0 auto;display:flex;align-items:center;justify-content:center;width:44px;height:44px;border:none;background:none;color:var(--ink-soft);font-size:15px;cursor:pointer;opacity:.65;border-radius:12px;}
+#sdhExplore .xp-close:hover{opacity:1;background:var(--canvas-alt);}
+#sdhExplore.hidden{opacity:0;transform:translate(-50%,120px);pointer-events:none;}
+@media(max-width:1000px){#sdhExplore{bottom:76px;}}
+@media(max-width:560px){#sdhExplore .xp-label{display:none;}#sdhExplore{padding-left:10px;}#sdhExplore .xp-link{font-size:13.5px;}}
+@media (prefers-reduced-motion: reduce){#sdhExplore,#sdhExplore .xp-link{transition:none;}}
 </style>
-<div id="sdhScrollHint">
-  <div id="sdhScrollText">&darr; Scroll to Explore __SCROLL_TOPIC__ &darr;</div>
-  <div id="sdhArrow">&darr;</div>
-  <div id="sdhClose">&#10005;</div>
+<div id="sdhExplore" role="complementary" aria-label="Explore San Diego Hardwoods">
+  <span class="xp-label" aria-hidden="true">Explore</span>
+  <a class="xp-link" id="sdhExploreLink" href="#sdh-explore-down"><span class="xp-arrow" aria-hidden="true">&darr;</span><span id="sdhExploreText">Scroll to Explore __SCROLL_TOPIC__</span></a>
+  <button type="button" class="xp-close" aria-label="Dismiss explore bar">&#10005;</button>
 </div>
 <script>
-if(!sessionStorage.getItem("sdhScrollClosed")){
-  const messages=[
-    "&darr; Scroll to Explore __SCROLL_TOPIC__ &darr;",
-    "&darr; See Before &amp; After Transformations &darr;",
-    "&darr; Watch Real Refinishing Videos &darr;",
-    "&darr; Browse Local San Diego Projects &darr;",
-    "&darr; Hundreds of Real Floors Below &darr;"
+(function(){
+  var bar = document.getElementById("sdhExplore");
+  if (!bar) return;
+  if (sessionStorage.getItem("sdhScrollClosed")) { bar.style.display = "none"; return; }
+
+  var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var link = document.getElementById("sdhExploreLink");
+  var txt = document.getElementById("sdhExploreText");
+
+  /* First entry scrolls this page; the rest are real destinations. */
+  var messages = [
+    { text: "Scroll to Explore __SCROLL_TOPIC__", href: null },
+    { text: "Explore Real San Diego Hardwood Floor Refinishing Projects", href: "https://www.sdhardwoods.com/recent_project_photo_gallery_1" },
+    { text: "Compare Before-and-After Hardwood Floor Restorations", href: "https://www.sdhardwoods.com/recent_project_photo_gallery_2" },
+    { text: "Watch Real San Diego Hardwood Floor Refinishing Videos", href: "https://www.sdhardwoods.com/videos_of_refinishing_process" },
+    { text: "View Dust-Contained Sanding and Refinishing in Progress", href: "https://www.sdhardwoods.com/videos_of_refinishing_process" },
+    { text: "Browse Five Detailed Recent-Project Galleries", href: "https://www.sdhardwoods.com/recent_project_photo_gallery_1" },
+    { text: "See Solid Wood, Engineered Wood, Bamboo, Repair, and Restoration Work", href: "https://www.sdhardwoods.com/solid_wood_floor_photo_gallery" }
   ];
-  let i=0;
-  const txt=document.getElementById("sdhScrollText");
-  setInterval(()=>{
-    i=(i+1)%messages.length;
-    txt.style.opacity=0;
-    setTimeout(()=>{ txt.innerHTML=messages[i]; txt.style.opacity=1; },220);
-  },5000);
+  var i = 0, paused = false, timer = null;
 
-  const hint=document.getElementById("sdhScrollHint");
-  window.addEventListener("scroll",()=>{
-    if(window.scrollY>250){ hint.classList.add("hidden"); } else { hint.classList.remove("hidden"); }
+  function apply(idx){
+    var m = messages[idx];
+    txt.textContent = m.text;
+    if (m.href) { link.setAttribute("href", m.href); link.removeAttribute("data-scroll"); }
+    else { link.setAttribute("href", "#sdh-explore-down"); link.setAttribute("data-scroll", "1"); }
+  }
+  apply(0);
+
+  link.addEventListener("click", function(e){
+    if (link.getAttribute("data-scroll")) {
+      e.preventDefault();
+      window.scrollBy({ top: Math.round(window.innerHeight * .85), behavior: reduceMotion ? "auto" : "smooth" });
+    }
   });
 
-  document.getElementById("sdhClose").onclick=function(){
-    hint.style.display="none";
-    sessionStorage.setItem("sdhScrollClosed","1");
-  };
+  function rotate(){
+    if (paused || document.hidden) return;
+    i = (i + 1) % messages.length;
+    txt.style.opacity = 0;
+    setTimeout(function(){ apply(i); txt.style.opacity = 1; }, 200);
+  }
+  if (!reduceMotion) {
+    txt.style.transition = "opacity .2s ease";
+    timer = setInterval(rotate, 5500);
+    bar.addEventListener("mouseenter", function(){ paused = true; });
+    bar.addEventListener("mouseleave", function(){ paused = false; });
+    bar.addEventListener("focusin", function(){ paused = true; });
+    bar.addEventListener("focusout", function(){ paused = false; });
+  }
 
-  let active=false, dx=0, dy=0;
-  hint.addEventListener("mousedown",e=>{
-    active=true; dx=e.clientX-hint.offsetLeft; dy=e.clientY-hint.offsetTop;
-    hint.style.left=hint.offsetLeft+"px"; hint.style.top=hint.offsetTop+"px";
-    hint.style.bottom="auto"; hint.style.transform="none";
+  window.addEventListener("scroll", function(){
+    bar.classList.toggle("hidden", window.scrollY > 320);
+  }, { passive: true });
+
+  bar.querySelector(".xp-close").addEventListener("click", function(){
+    bar.style.display = "none";
+    if (timer) clearInterval(timer);
+    sessionStorage.setItem("sdhScrollClosed", "1");
   });
-  document.addEventListener("mousemove",e=>{ if(!active)return; hint.style.left=(e.clientX-dx)+"px"; hint.style.top=(e.clientY-dy)+"px"; });
-  document.addEventListener("mouseup",()=>{ active=false; });
-}
+})();
 </script>
 
 <button aria-label="Toggle legacy light mode" id="sdh-toggle" title="Toggle legacy light mode">Toggle Light Mode</button>

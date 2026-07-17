@@ -35,6 +35,20 @@ GA = ""
 with open(DATA / "gallery.json", encoding="utf-8") as f:
     imgs = json.load(f)
 
+# Obsolete navigation-button graphics from the pre-rebuild site (former homepage images
+# #91-#96). Excluded here at the generator level -- not hidden with CSS -- so the numbered
+# badges stay sequential (#1-#90). The image *files* stay hosted (other pages still use
+# them); a dedicated gallery-navigation section in main_content.html replaces their job.
+LEGACY_NAV_BUTTONS = {
+    "/NEXT PAGE BUTTON 2025.png",
+    "FLOOR DEEP CLEAN.png",
+    "/PHOTO GALLERY 2025.png",
+    "VIDEOS BUTTON 2025.png",
+    "/CONTACT US BETTER BUTTON 2025.png",
+    "/ABOUT US 2025 BUTTON.png",
+}
+imgs = [im for im in imgs if im["src"] not in LEGACY_NAV_BUTTONS]
+
 def esc(s):
     return (s or "").replace('"', "&quot;")
 

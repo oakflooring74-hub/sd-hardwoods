@@ -107,7 +107,7 @@ def video_block(v):
   <div class="video-frame" style="margin:18px 0;"><iframe src="{src}" title="{v["title"]}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="aspect-ratio:16/9;"></iframe></div>
   <div class="cta-row">
     <a class="btn btn-call" href="tel:8586990072" style="padding:8px 18px;font-size:15px;">Call 858-699-0072</a>
-    <a class="btn btn-outline" href="sms:18586990072" style="padding:8px 18px;font-size:15px;">Text Photos for Fast Quote</a>
+    <a class="btn btn-outline" href="sms:18586990072" style="padding:8px 18px;font-size:15px;">Text Photos for a Free Assessment</a>
   </div>
   {gallery_html}
 </div>"""
@@ -123,7 +123,7 @@ MAIN = f"""
   </div>
   <p><strong>Watch real hardwood floor refinishing projects</strong> completed throughout <strong>San Diego</strong>. These videos demonstrate our <strong>100% dustless sanding process</strong>, hardwood floor repairs, engineered hardwood refinishing, restoration techniques, and <strong>Bona finishing systems</strong> on actual customer homes. See the craftsmanship, attention to detail, and professional methods that have earned the trust of San Diego homeowners for over 35 years.</p>
   <div class="cta-row">
-    <a class="btn btn-call" href="tel:8586990072">&#9742; Call or Text 858-699-0072 for a Free Estimate</a>
+    <a class="btn btn-call" href="tel:8586990072">&#9742; Call or Text 858-699-0072 for a Free Phone Assessment</a>
   </div>
 </section>
 
@@ -141,7 +141,7 @@ MAIN = f"""
 
   <h2>Why Homeowners Throughout San Diego Watch Our Videos Before Hiring a Hardwood Floor Contractor</h2>
   <p class="lede">For more than <strong>35 years</strong>, San Diego Hardwoods has helped homeowners restore <strong>hardwood, engineered hardwood, bamboo, cork, and historic wood floors</strong> throughout San Diego County. These videos feature actual customer projects&mdash;not stock footage or demonstrations&mdash;so you can see our <strong>100% dustless sanding equipment</strong>, hardwood floor repair techniques, professional restoration process, and premium Bona finishing systems being used in real homes.</p>
-  <p class="lede">Whether your floors need <strong>hardwood floor refinishing</strong>, repairs, deep cleaning, recoating, color changes, engineered hardwood restoration, or complete hardwood floor installation, we provide free in-home estimates throughout <strong>La Jolla, Del Mar, Rancho Santa Fe, Encinitas, Carmel Valley, Solana Beach, Point Loma, Mission Hills, Coronado, Poway, Escondido</strong>, and communities across San Diego County.</p>
+  <p class="lede">Whether your floors need <strong>hardwood floor refinishing</strong>, repairs, deep cleaning, recoating, color changes, engineered hardwood restoration, or complete hardwood floor installation, we provide free phone assessments throughout <strong>La Jolla, Del Mar, Rancho Santa Fe, Encinitas, Carmel Valley, Solana Beach, Point Loma, Mission Hills, Coronado, Poway, Escondido</strong>, and communities across San Diego County.</p>
 
   <div class="cta-row" style="justify-content:center;">
     <a class="btn btn-call" href="tel:8586990072">Call or Text 858-699-0072</a>

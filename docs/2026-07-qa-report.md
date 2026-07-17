@@ -12,6 +12,26 @@ This is a point-in-time report. If the site changes before the fixes below are i
 
 Findings #2, #9, #10, #12 remain exactly as documented below — no action taken, per owner decision (unchanged).
 
+## MILESTONE 2 IMPLEMENTATION + QA (2026-07-16, evening — uncommitted, awaiting owner review)
+
+The full header/brand/navigation redesign scoped below in "Remaining issues after Milestone 1" **is now implemented and locally QA'd**, along with the rest of the owner's Milestone 2 spec (consultation-services pricing, hero rebalance, homepage images #91–#96 removed at the generator level, gallery-navigation replacement, explore-bar redesign, CTA language shift to "free phone assessment"). All work is on `redesign`, **uncommitted**, pending the owner's visual review. Full change list in `docs/NEXT_SESSION.md`.
+
+**QA method:** all 12 regenerated pages served over local HTTP (`python -m http.server`), driven with real headless Chromium (Playwright) at 1440×900 desktop and 390×844 mobile, plus a `prefers-reduced-motion: reduce` context. ~100 scripted checks, all passing:
+
+- **Masthead/brand:** real medallion logo renders from `assets/branding/web/` (committed static files, browser-cacheable); brand name + "Since 1990" tagline; phone `tel:` + email `mailto:` links; "Free Phone Assessment" CTA. SEO paragraph preserved verbatim (still fed from each page's vcard text) but visually subordinate (10.5px, reduced opacity) and no longer sticky.
+- **Mini-header:** hidden at top, slides in only after the full masthead scrolls out (IntersectionObserver), ~56px vs ~250px masthead, `position:fixed` so it never displaces content; disappears again at top. Works on mobile (≤76px) and under reduced motion.
+- **Navigation:** 7 top-level items (Home / Services / Project Galleries / Videos / About / Blog / Contact); dropdowns open on hover *and* click, close on Escape and focus-out, `aria-expanded` synced; keyboard Enter opens; active page marked (`aria-current` + group highlight verified on gallery 3); YouTube pill with brand icon, `target="_blank" rel="noopener"`. `<noscript>` fallback exposes all grouped links inline.
+- **Mobile drawer:** opens from both the nav-band Menu button and the mini-header Menu button; 3 grouped `<details>` sections + all 12 pages + YouTube + email; call/text CTAs; scroll lock (`html.sdh-lock`); Escape closes; focus returns to the opener; focus trapped while open.
+- **Homepage gallery:** exactly 90 figures, badges sequential #1–#90, zero legacy button graphics in the grid; replacement gallery-navigation tiles (galleries 1–5 + solid wood) with correct hrefs.
+- **Consultation section (`contact_us#consultation-services`):** 6 tiers priced Free/$75/$150/$350/$750/$1,500, exact required credit wording present, scope-confirmed-at-scheduling wording present, anchor lands below the header (`scroll-margin-top`), cards stack cleanly on mobile.
+- **Milestone 1 regressions checked:** lightbox opens/closes on homepage and gallery 1; gallery progress control present on gallery 1; two-column before/after grid still exactly 2 columns on gallery 1 desktop; dark/light toggle works; light mode visually verified.
+- **Overflow:** zero horizontal overflow on any of the 12 pages, desktop and mobile.
+- **Reduced motion:** mini-header still appears; explore bar stops rotating (static single message).
+
+**Screenshots for owner review:** `qa-screenshots/m2-*.png` (5 shots: desktop top, desktop scrolled mini-header, mobile menu open, consultation section, bottom gallery navigation). The `qa-screenshots/` folder is gitignored — local only, never deployed.
+
+**QA caveat discovered while testing:** Turbify (which still hosts all project images + legacy theme CSS via the `<base href>` bridge) began hanging/throttling requests mid-run, which blocks `DOMContentLoaded` in automated tests. Later test passes aborted non-localhost requests (all design CSS is inline in each page, so layout is unaffected). Worth remembering for future QA sweeps — and it's one more data point for the deferred "move images off Turbify" item.
+
 ## Status of each finding — owner's decisions (2026-07-16)
 
 | # | Finding | Decision | Status |
@@ -20,7 +40,7 @@ Findings #2, #9, #10, #12 remain exactly as documented below — no action taken
 | 2 | SEO keyword paragraph dominates mobile above-the-fold | **Keep as-is, do not touch** | Untouched (content/presence protected). Visual de-emphasis is now the Milestone 2 goal — see `docs/NEXT_SESSION.md` |
 | 3 | No real logo/masthead, just a text chip | **Approved — needs a real header/masthead treatment** | ⚠️ **Partially fixed** — overlap bug gone, monogram+wordmark added, but a screenshot review after shipping found the brand still reads too small; full masthead redesign is Milestone 2 |
 | 4 | Gallery photos cropped 60–85% by fixed-height `object-fit:cover` | **Approved — fix globally via `chrome/site_css.html`** | ✅ **Fixed** — `object-fit:contain`, height 320→420px, no cropping |
-| 5 | No numbering on homepage gallery images | **Approved — homepage ONLY.** Other gallery pages already have text-numbered captions (e.g. "#41 Solid red oak…") and don't need this treatment. | ✅ **Fixed** — badges #1–#96 on homepage gallery |
+| 5 | No numbering on homepage gallery images | **Approved — homepage ONLY.** Other gallery pages already have text-numbered captions (e.g. "#41 Solid red oak…") and don't need this treatment. | ✅ **Fixed** — badges #1–#96 on homepage gallery. *(Milestone 2 note: now #1–#90 — the six obsolete legacy nav-button graphics that occupied #91–#96 were removed at the generator level, replaced by a real gallery-navigation section.)* |
 | 6 | Footer email text overflows horizontally on mobile, site-wide | **Approved — fix** | ✅ **Fixed** — `.f-call` now flex-wraps, no overflow |
 | 7 | Before/after galleries stay 2-column and don't collapse on mobile (gallery_1–5); blog/deep-cleaning have worse overflow from a hardcoded `minmax(480px,…)` | **Two-column stays as-is, including on mobile — intentional "billboard CTA" feel.** The blog/deep-cleaning *overflow* (content literally wider than the viewport, not just cramped) still needs fixing — clarify with owner whether that specific overflow is in scope or also considered acceptable before touching it. | ✅ **Both resolved** — 2-col layout on galleries 1–5 preserved untouched; blog/deep-cleaning overflow fixed (`minmax(min(Npx,100%),1fr)`), confirmed as a real, separate bug and fixed independently of the 2-col decision |
 | 8 | Clicking any gallery photo navigates away to a bare image file on a different domain, no lightbox | **Approved — add an in-page lightbox, on the condition that it introduces no new URLs/pages** (a JS overlay intercepting the click, not a route change) | ✅ **Fixed** — `build/chrome/lightbox.html`, JS overlay only, no new URLs |
@@ -39,7 +59,7 @@ A post-implementation screenshot review of the shipped header found three things
 - **The SEO utility-bar strip visually dominates** the top of the page, more prominent than brand+nav combined. Its *content* is still protected (finding #2, unchanged) — this is specifically about visual weight/hierarchy, not the text itself.
 - **Navigation is inadequate.** A single "☰ Explore Our Services" button hiding all 12 pages in one flat, undifferentiated flyout list doesn't scale as real information architecture. Milestone 2 needs to group the 12 pages into clear categories, and give the YouTube channel link a prominent, recognizable YouTube-style treatment instead of burying it as plain text in the flyout.
 
-None of Milestone 2 has been implemented yet — this section documents the review findings that motivate it, not completed work.
+**Update (2026-07-16, evening):** all three findings in this section are now addressed by the Milestone 2 implementation — see "MILESTONE 2 IMPLEMENTATION + QA" above. Kept here for the historical record of what motivated the milestone.
 
 ## Full finding detail (for implementation reference)
 

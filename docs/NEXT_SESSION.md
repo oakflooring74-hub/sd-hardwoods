@@ -59,25 +59,37 @@ A separate milestone, done between Milestone 1 and Milestone 2: manual `wrangler
 - **Live verification:** `https://redesign.sd-hardwoods.pages.dev` returns HTTP 200 and serves the new markup (`sdhLightbox`, `gallery-progress`, etc.) — confirmed pointing at this deployment. `https://sd-hardwoods.pages.dev` (production) returns HTTP 200 with none of that markup — confirmed untouched; `wrangler pages deployment list` shows Production deployments still pinned to `master` at `c3e8e0c`/`b6ac6a1`, unchanged throughout this entire milestone.
 - **Conclusion:** the automation works end-to-end. Future pushes to `redesign` deploy automatically with no manual `wrangler` invocation needed.
 
-## Milestone 2 — NEXT: site-wide header & navigation redesign
+## Milestone 2 — IMPLEMENTED (2026-07-16), UNCOMMITTED — awaiting owner visual review
 
-**Nothing from this milestone has been implemented yet.** Milestone 1's sticky header is a functional fix (no more overlap), not the redesign itself.
+The full site-wide header/brand/navigation redesign plus the owner's expanded Milestone 2 spec (consultation services, hero rebalance, homepage cleanup, CTA repositioning) is **implemented, built, and locally QA'd, but deliberately NOT committed or pushed** — the owner wants to visually review before anything lands on `origin/redesign`. The owner supplied the exact navigation grouping in the Milestone 2 brief, which resolved the "confirm grouping first" blocker from the previous session.
 
-**Why this is next:** a screenshot review of the current live-preview look (post Milestone 1) found:
-- The brand/wordmark is too small and doesn't read as a real masthead relative to the rest of the header.
-- The SEO utility-bar strip visually dominates the top of the page — it's more prominent than the brand and nav combined.
-- Navigation is inadequate as a single "☰ Explore Our Services" button hiding all 12 pages in one undifferentiated flyout list.
+**What was built (all via shared `build/` sources, regenerated with `build_all.py`):**
 
-**What the owner wants for this milestone:**
-- Organize all 12 pages into clear groups in the navigation, rather than one flat "Explore Our Services" flyout. (Exact grouping/labels not yet decided — this is a design decision for next session, not implemented.)
-- A prominent link to the YouTube channel (`https://www.youtube.com/@SANDIEGOHARDWOODS`) with a recognizable YouTube visual treatment (not just a plain text link buried in the flyout, as it is today).
-- A real visual hierarchy fix: brand should read as the dominant visual element it should be; the SEO utility-bar strip should be de-emphasized relative to brand + nav, without removing or rewriting its text.
+1. **Brand identity & masthead** — the real San Diego Hardwoods medallion logo (from `assets/branding/LOGO 2025.png`, original preserved untouched) now anchors a proper masthead: logo + serif "San Diego Hardwoods" + tagline *"San Diego's Finest Hardwood Floor Specialist Since 1990"* + large clickable phone + email + "Free Phone Assessment" CTA. Optimized web derivatives live in `assets/branding/web/` (WebP + PNG, 12–15KB) — committed static files referenced via `data-brand-src` and resolved against `location.origin` at runtime (a literal root-relative URL would be rebased onto sdhardwoods.com by the `<base href>` bridge and 404 on the preview). The old generic square "SDH" chip is gone from primary use.
+2. **Sticky mini-header** — the full masthead is in-flow and scrolls away; a compact (~56px) fixed mini-header slides in only after the masthead scrolls out (IntersectionObserver, reduced-motion aware, `aria-hidden` synced): compact brand, Menu, phone, "Text Floor Photos", "Call or Text — Free Assessment".
+3. **Real navigation, centralized in `build/chrome/top.html`** — desktop band with 7 top-level items (Home, Services ▾, Project Galleries ▾, Videos ▾, About, Blog, Contact), accessible dropdowns (hover + click + keyboard + Escape + focus-out, `aria-expanded`), active-page marking derived from `location.pathname`, YouTube pill with the recognizable red play icon; mobile gets a right-side drawer (grouped `<details>` sections, all 12 pages, call/text CTAs, YouTube, email, scroll lock, Escape, focus restoration, focus trap). `<noscript>` fallback keeps every page reachable. Existing URLs only — same absolute-URL convention as before.
+4. **SEO paragraph** — wording preserved byte-for-byte (still injected per-page via `__VCARD_DESC__`), now a visually subordinate strip below the nav; scrolls away with the masthead.
+5. **Typography system** (`build/chrome/site_css.html`) — serif (Palatino-stack) headings/brand moments, Segoe UI-stack sans body/UI, `--brass-deep` accent for light-mode contrast, dark-mode nav/utility palettes, global reduced-motion kill switch.
+6. **Hero rebalance (homepage)** — two-column hero: brand-led copy + CTAs left, video in a controlled ~45%-width frame right (stacks on mobile); caption + "Watch Our Work on YouTube" button under the video. Video no longer swallows the viewport.
+7. **Bona Certified Craftsman band** (`#bona-certified`, homepage, near the existing Bona wording) — real Bona seal from `assets/branding` (original preserved; screenshot-sourced), accurate alt text, verify link to the canonical bona.com contractor page (`storeid=83667`, taken from the site's own raw source — not invented).
+8. **Professional Consultation Services** — on the existing Contact page (`contact_us#consultation-services`, no new URL): 6 restrained premium cards — Free phone assessment (full-width, emphasized) / $75 / $150 / $350 / $750 / $1,500 — with the exact required credit wording, scope-confirmed-when-scheduling line, and all the required legal/insurance disclaimers phrased as positive scope statements. Homepage links to it from the "Start With a Free Phone Assessment" 3-step section and the evaluations card.
+9. **CTA language** — outdated "free estimate / in-home estimate" CTAs refined to "free phone assessment" across build scripts and homepage/about/videos content. Protected SEO surfaces (meta titles/descriptions, image alt text, vcard paragraphs, JSON-LD) deliberately untouched.
+10. **Homepage images #91–#96 removed at the generator level** (`build_homepage.py` excludes the six legacy nav-button records from `gallery.json`; the JSON and the hosted image files are untouched since other pages still use them). Badges stay sequential #1–#90. Replaced by a "Browse Our Detailed Project Galleries" tile section (galleries 1–5 + Solid Wood + text links to videos/deep-cleaning/about/contact).
+11. **Explore bar** (`build/chrome/scrollhint_and_toggle.html`) — the old draggable scroll pill is now a refined bottom bar rotating through six *linked* destinations (galleries/videos/solid-wood, natural SEO language), pause on hover/focus, session-dismissable, hides on scroll, static under reduced motion.
 
-**Hard constraints for this milestone (same as always):**
-- Preserve all URLs, headings, SEO copy, metadata, image sources, and watermarks.
-- Preserve the two-column before/after gallery layout on galleries 1–5 (still an intentional "billboard CTA" choice — see below).
-- **The long SEO paragraph (the keyword-heavy utility-bar text) is still protected — do not move, shrink, hide, or rewrite it without explicit owner approval.** De-emphasizing its visual *dominance* is in scope; touching its *content or presence* is not.
-- Don't start this milestone speculatively — confirm the navigation grouping/labels with the owner before building, since "organize into clear groups" is a direction, not a spec.
+**QA:** ~100 Playwright checks across all 12 pages at desktop/mobile + reduced-motion, all passing — details in `docs/2026-07-qa-report.md` ("MILESTONE 2 IMPLEMENTATION + QA"). Screenshots for review: `qa-screenshots/m2-*.png` (gitignored, local only). Regenerating via `build_all.py` reproduces the working tree exactly (deterministic).
+
+**Judgment calls a reviewer may want to revisit:**
+- At some desktop viewport heights the floating explore bar overlaps the hero's primary CTA button until the user scrolls or dismisses it (it hides past 320px scroll). Cosmetic; flagged, not fixed.
+- Brand images load via a tiny JS resolver (`data-brand-src`) because of the `<base href>` Turbify bridge — with JS off, logos don't render (nav/noscript still works). Acceptable trade-off until images migrate off Turbify.
+- The Bona seal derivative was made from the screenshot in `assets/branding` (`Screenshot 2026-07-16 193517.png`) — if the owner has an official higher-quality Bona asset, swap it into `assets/branding/web/` later.
+
+**Next step: owner reviews (locally or via screenshots) → if approved, commit everything on `redesign` and push (auto-deploys to the Cloudflare preview). Nothing touches `master`.**
+
+**Hard constraints honored (unchanged for future sessions):**
+- URLs, canonical URLs, meta titles/descriptions, primary headings, image `src`/alt, watermarks, structured data, and the long SEO paragraph's wording/crawlable presence — all preserved.
+- Two-column before/after layout on galleries 1–5 preserved (verified in QA).
+- Milestone 1 features (lightbox, badges, gallery progress, footer/overflow fixes, dark/light modes) preserved (verified in QA).
 
 ## Decisions still standing from prior sessions
 
@@ -99,7 +111,7 @@ A separate milestone, done between Milestone 1 and Milestone 2: manual `wrangler
 
 - **Google Search Console export** (Query, Page, Clicks, Impressions, CTR, Position — full history, ideally per-page) — needed before any heading-level changes or meta-description rewrites on pages that already have one. See `docs/2026-07-seo-heading-audit.md` for exactly what this unlocks and why pulling it *before* the redesign goes live matters (it's the only way to get a clean pre-launch ranking baseline).
 - **Image optimization** — deferred, but not dismissed. See the "Image optimization feasibility" section of `docs/2026-07-qa-report.md`: it's genuinely harder right now because images are still served live from Turbify hosting via a `<base href>` shim, not because image compression itself is hard. Worth revisiting if/when images move to being repo-hosted.
-- **Milestone 2 navigation grouping/labels** — direction is set (see above), specifics are not. Confirm with the owner before building.
+- **Milestone 2 owner review** — the implementation is complete and sitting uncommitted on `redesign` (see the Milestone 2 section above). Nothing further should be built on top of it until the owner approves and it gets committed; if the owner requests changes, adjust the `build/` sources and re-run `build_all.py`.
 
 ## Safe to do without waiting on GSC data
 
