@@ -26,8 +26,20 @@ permissions:
 jobs:
   build:
     name: Build and verify generated output
-    runs-on: ubuntu-latest
+    # The build/ scripts join paths with hardcoded backslashes (Windows-only), so
+    # this job runs on windows-latest rather than rewriting the existing, already
+    # reviewed generator scripts just to satisfy CI.
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: bash
     steps:
+      # Windows runners default to core.autocrlf=true, which would rewrite LF to
+      # CRLF on checkout and make every text file look "modified" to git status
+      # even with no real content change. Disable that before checking out.
+      - name: Disable Windows line-ending rewriting
+        run: git config --global core.autocrlf false
+
       - name: Checkout
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
