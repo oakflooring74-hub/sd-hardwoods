@@ -39,13 +39,13 @@ def esc(s):
     return (s or "").replace('"', "&quot;")
 
 figs = []
-for im in imgs:
+for idx, im in enumerate(imgs, start=1):
     src = im["src"]
     alt = esc(im["alt"])
     cls = im["class"]
     href = im["href"] or src
     cls_attr = f' class="{esc(cls)}"' if cls else ""
-    figs.append(f'<figure><a href="{href}"><img src="{src}" alt="{alt}"{cls_attr} loading="lazy"></a></figure>')
+    figs.append(f'<figure><span class="gallery-badge">#{idx}</span><a href="{href}"><img src="{src}" alt="{alt}"{cls_attr} loading="lazy"></a></figure>')
 gallery_html = "\n".join(figs)
 
 with open(DATA / "main_content.html", encoding="utf-8") as f:

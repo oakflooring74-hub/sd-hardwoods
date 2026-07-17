@@ -1,4 +1,4 @@
-NEW <img> count: 49
+NEW <img> count: 50
 RAW <img> count: 49
 img_total tracked in script: 49
 ld+json occurrences in NEW: 0

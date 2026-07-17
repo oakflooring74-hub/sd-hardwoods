@@ -1,0 +1,97 @@
+<!-- SDH in-page photo lightbox. Intercepts clicks on gallery photos (any <a> inside .gallery
+     whose href points to an image file) and shows them in a full-screen JS overlay with
+     next/prev, instead of navigating to a bare image file on a different domain. Introduces
+     no new URL or page -- pure client-side overlay. Links that don't point to an image file
+     (e.g. the "Home"/"Contact"/"Next Page" nav-button widgets that also use the .gallery
+     class on the blog and deep-cleaning pages) are left alone and navigate normally. -->
+<style>
+#sdhLightbox{position:fixed;inset:0;z-index:1000000;background:rgba(10,8,5,.92);display:none;align-items:center;justify-content:center;padding:24px;}
+#sdhLightbox.open{display:flex;}
+#sdhLightbox .sdh-lb-frame{position:relative;max-width:min(1200px,94vw);max-height:90vh;display:flex;flex-direction:column;align-items:center;}
+#sdhLightbox img{max-width:100%;max-height:78vh;object-fit:contain;border-radius:8px;box-shadow:0 20px 60px rgba(0,0,0,.5);background:#111;}
+#sdhLightbox .sdh-lb-caption{color:#f3ead9;font-family:var(--font-sans);font-size:14px;margin-top:14px;text-align:center;max-width:80vw;}
+#sdhLightbox .sdh-lb-counter{color:#cbb98d;font-size:12px;margin-top:6px;}
+#sdhLightbox button{position:fixed;background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.35);border-radius:50%;width:48px;height:48px;min-height:44px;font-size:22px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+#sdhLightbox button:hover{background:rgba(255,255,255,.24);}
+#sdhLightbox .sdh-lb-close{top:20px;right:20px;}
+#sdhLightbox .sdh-lb-prev{left:12px;top:50%;transform:translateY(-50%);}
+#sdhLightbox .sdh-lb-next{right:12px;top:50%;transform:translateY(-50%);}
+@media(max-width:640px){
+  #sdhLightbox button{width:40px;height:40px;font-size:18px;}
+  #sdhLightbox .sdh-lb-close{top:10px;right:10px;}
+}
+</style>
+<div id="sdhLightbox" role="dialog" aria-modal="true" aria-label="Photo viewer">
+  <button type="button" class="sdh-lb-close" aria-label="Close photo viewer">&#10005;</button>
+  <button type="button" class="sdh-lb-prev" aria-label="Previous photo">&#8249;</button>
+  <button type="button" class="sdh-lb-next" aria-label="Next photo">&#8250;</button>
+  <div class="sdh-lb-frame">
+    <img id="sdhLightboxImg" src="" alt="">
+    <div class="sdh-lb-caption" id="sdhLightboxCaption"></div>
+    <div class="sdh-lb-counter" id="sdhLightboxCounter"></div>
+  </div>
+</div>
+<script>
+(function(){
+  var IMG_RE = /\.(jpe?g|png|gif|webp)(\?.*)?$/i;
+  var items = [];
+  var links = document.querySelectorAll(".gallery a[href]");
+  links.forEach(function(a){
+    var href = a.getAttribute("href") || "";
+    if(!IMG_RE.test(href)) return;
+    var img = a.querySelector("img");
+    items.push({ href: href, alt: img ? (img.getAttribute("alt") || "") : "", link: a });
+  });
+  if(!items.length) return;
+
+  var lb = document.getElementById("sdhLightbox");
+  var lbImg = document.getElementById("sdhLightboxImg");
+  var lbCaption = document.getElementById("sdhLightboxCaption");
+  var lbCounter = document.getElementById("sdhLightboxCounter");
+  var closeBtn = lb.querySelector(".sdh-lb-close");
+  var prevBtn = lb.querySelector(".sdh-lb-prev");
+  var nextBtn = lb.querySelector(".sdh-lb-next");
+  var current = 0;
+  var lastFocused = null;
+
+  function show(i){
+    current = (i + items.length) % items.length;
+    var item = items[current];
+    lbImg.src = item.href;
+    lbImg.alt = item.alt;
+    lbCaption.textContent = item.alt;
+    lbCounter.textContent = (current + 1) + " / " + items.length;
+  }
+  function open(i){
+    lastFocused = document.activeElement;
+    show(i);
+    lb.classList.add("open");
+    document.body.style.overflow = "hidden";
+    closeBtn.focus();
+  }
+  function close(){
+    lb.classList.remove("open");
+    document.body.style.overflow = "";
+    lbImg.src = "";
+    if(lastFocused && lastFocused.focus) lastFocused.focus();
+  }
+
+  items.forEach(function(item, i){
+    item.link.addEventListener("click", function(e){
+      e.preventDefault();
+      open(i);
+    });
+  });
+
+  closeBtn.addEventListener("click", close);
+  prevBtn.addEventListener("click", function(){ show(current - 1); });
+  nextBtn.addEventListener("click", function(){ show(current + 1); });
+  lb.addEventListener("click", function(e){ if(e.target === lb) close(); });
+  document.addEventListener("keydown", function(e){
+    if(!lb.classList.contains("open")) return;
+    if(e.key === "Escape") close();
+    else if(e.key === "ArrowLeft") show(current - 1);
+    else if(e.key === "ArrowRight") show(current + 1);
+  });
+})();
+</script>

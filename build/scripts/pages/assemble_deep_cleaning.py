@@ -20,6 +20,7 @@ darkmode_boot = read(CHROME + r"\darkmode_boot_scripts.html")
 top_html = read(CHROME + r"\top.html")
 footer_html = read(CHROME + r"\footer.html")
 scrollhint_html = read(CHROME + r"\scrollhint_and_toggle.html")
+lightbox_html = read(CHROME + r"\lightbox.html")
 
 script_strip_re = re.compile(r"<script\b.*?</script>", re.DOTALL)
 tag_strip_re = re.compile(r"<[^>]+>")
@@ -186,7 +187,7 @@ main_html = f'''<main>
     <h2>{h3_gallery_intro}</h2>
     <p class="lede">Twenty real San Diego deep-cleaning and recoating projects, each shown before and after &mdash; from wire-brushed oak to commercial restaurant floors.</p>
   </div>
-  <div class="info-grid" style="grid-template-columns:repeat(auto-fit,minmax(520px,1fr));">
+  <div class="info-grid" style="grid-template-columns:repeat(auto-fit,minmax(min(520px,100%),1fr));">
 {gallery_html}
   </div>
 {cta_buttons_html}
@@ -221,6 +222,7 @@ full_html = f'''<!DOCTYPE html><html lang="en">
 {main_html}
 {footer_html}
 {scrollhint}
+{lightbox_html}
 </body>
 </html>
 '''

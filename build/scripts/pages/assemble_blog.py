@@ -20,6 +20,7 @@ darkmode_boot = read(CHROME + r"\darkmode_boot_scripts.html")
 top_html = read(CHROME + r"\top.html")
 footer_html = read(CHROME + r"\footer.html")
 scrollhint_html = read(CHROME + r"\scrollhint_and_toggle.html")
+lightbox_html = read(CHROME + r"\lightbox.html")
 
 script_strip_re = re.compile(r"<script\b.*?</script>", re.DOTALL)
 tag_strip_re = re.compile(r"<[^>]+>")
@@ -221,7 +222,7 @@ main_html = f'''<main>
     <h2>Hardwood Flooring Case Studies &amp; Project Stories</h2>
     <p class="lede">Twelve real San Diego hardwood flooring projects &mdash; refinishing, restoration, repairs, and installation &mdash; told in the words of the crew who did the work.</p>
   </div>
-  <div class="info-grid" style="grid-template-columns:repeat(auto-fit,minmax(480px,1fr));">
+  <div class="info-grid" style="grid-template-columns:repeat(auto-fit,minmax(min(480px,100%),1fr));">
 {case_studies_html}
   </div>
   {nav_buttons_html}
@@ -259,6 +260,7 @@ full_html = f'''<!DOCTYPE html><html lang="en">
 {main_html}
 {footer_html}
 {scrollhint}
+{lightbox_html}
 </body>
 </html>
 '''

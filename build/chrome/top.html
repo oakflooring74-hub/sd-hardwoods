@@ -1,27 +1,45 @@
+<!-- SDH Sticky Header: utility bar + brand/masthead + flyout nav, all in-flow (not floating) so nothing overlaps page content while scrolling -->
+<style>
+header#sdhHeader{position:sticky;top:0;z-index:9999;background:var(--canvas);}
+#sdhHeaderMain{max-width:1180px;margin:0 auto;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;border-bottom:1px solid var(--line);}
+
+#sdhBrandBar{display:flex;align-items:center;gap:12px;text-decoration:none;padding:4px 0;}
+#sdhBrandBar .brand-mark{display:flex;align-items:center;justify-content:center;width:44px;height:44px;min-width:44px;border-radius:10px;background:var(--walnut);color:#f3ead9;font-family:var(--font-serif);font-weight:700;font-size:16px;letter-spacing:.5px;}
+body.darkmode #sdhBrandBar .brand-mark{background:var(--brass);color:#1b1712;}
+#sdhBrandBar .brand-text{display:flex;flex-direction:column;}
+#sdhBrandBar .brand-name{font-family:var(--font-serif);font-weight:700;font-size:18px;color:var(--ink);letter-spacing:.5px;line-height:1.2;}
+#sdhBrandBar .brand-tag{font-family:var(--font-serif);font-style:italic;font-size:11px;color:var(--brass-soft);}
+
+#sdhMegaNav{position:relative;font-family:var(--font-sans);}
+#sdhNavButton{background:var(--walnut);color:#fff;padding:14px 20px;min-height:44px;border-radius:10px;cursor:pointer;font-weight:700;font-size:14px;display:flex;align-items:center;gap:8px;box-shadow:0 4px 14px rgba(0,0,0,.18);}
+body.darkmode #sdhNavButton{background:var(--brass);color:#1b1712;}
+#sdhFlyout{position:absolute;top:calc(100% + 8px);right:0;min-width:280px;background:var(--card-bg);border:1px solid var(--line);border-radius:12px;padding:14px 0;box-shadow:0 14px 40px rgba(0,0,0,.22);opacity:0;visibility:hidden;transform:translateY(-10px);transition:.25s;z-index:1;}
+#sdhFlyout .section{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--brass-soft);font-weight:700;padding:10px 20px 4px;}
+#sdhFlyout a{display:flex;align-items:center;min-height:44px;padding:9px 20px;color:var(--ink);text-decoration:none;font-size:15px;}
+#sdhFlyout a:hover{background:var(--canvas-alt);}
+
+@media(max-width:760px){
+  #sdhHeaderMain{padding:10px 16px;}
+  #sdhBrandBar .brand-name{font-size:16px;}
+}
+</style>
+<header id="sdhHeader">
 <div id="sdhUtilityBar">
   San Diego, CA 92130 &nbsp;|&nbsp; <a href="tel:8586990072">858-699-0072</a> &nbsp;|&nbsp; <a href="mailto:SANDIEGOHARDWOODS@GMAIL.COM">sandiegohardwoods@gmail.com</a>
   <span class="biz-desc"><span class="vcard"><span class="fn org"><span class="organization-name">__VCARD_DESC__</span></span> <span class="adr"><span class="locality">San Diego</span><span class="separator">, </span><span class="region">CA</span> <span class="postal-code">92130</span></span> <span class="phoneNumbers"><span class="tel"><span class="type">ph: </span>858-699-0072</span></span> <span class="mailtoWrapper"><a class="email" href="mailto:SANDIEGOHARDWOODS@GMAIL.COM">SANDIEGOHARDWOODS@GMAIL.COM</a></span></span></span>
 </div>
 
-<div id="sdhBrandBar">
-  <a href="https://www.sdhardwoods.com/">
-    <span class="brand-name">SAN DIEGO HARDWOODS</span>
-    <span class="brand-tag">Est. 1990 &bull; Bona Certified Craftsman</span>
+<div id="sdhHeaderMain">
+  <a id="sdhBrandBar" href="https://www.sdhardwoods.com/">
+    <span class="brand-mark" aria-hidden="true">SDH</span>
+    <span class="brand-text">
+      <span class="brand-name">SAN DIEGO HARDWOODS</span>
+      <span class="brand-tag">Est. 1990 &bull; Bona Certified Craftsman</span>
+    </span>
   </a>
-</div>
 
-<!-- SDH Premium Flyout Navigation -->
-<style>
-#sdhMegaNav{position:fixed;top:14px;right:14px;z-index:99998;font-family:var(--font-sans);}
-#sdhNavButton{background:var(--walnut);color:#fff;padding:12px 18px;border-radius:10px;cursor:pointer;font-weight:700;font-size:14px;box-shadow:0 4px 14px rgba(0,0,0,.18);}
-body.darkmode #sdhNavButton{background:var(--brass);color:#1b1712;}
-#sdhFlyout{position:absolute;top:calc(100% + 8px);right:0;min-width:280px;background:var(--card-bg);border:1px solid var(--line);border-radius:12px;padding:14px 0;box-shadow:0 14px 40px rgba(0,0,0,.22);opacity:0;visibility:hidden;transform:translateY(-10px);transition:.25s;}
-#sdhFlyout .section{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--brass-soft);font-weight:700;padding:10px 20px 4px;}
-#sdhFlyout a{display:block;padding:9px 20px;color:var(--ink);text-decoration:none;font-size:15px;}
-#sdhFlyout a:hover{background:var(--canvas-alt);}
-</style>
-<div id="sdhMegaNav">
-    <div id="sdhNavButton"><span>&#9776;</span> Explore Our Services</div>
+  <div id="sdhMegaNav">
+    <div id="sdhNavButton" role="button" tabindex="0" aria-haspopup="true" aria-expanded="false"><span aria-hidden="true">&#9776;</span> Explore Our Services</div>
     <div id="sdhFlyout">
         <div class="section">Professional Flooring Services</div>
         <a href="https://www.sdhardwoods.com/">Home</a>
@@ -44,7 +62,9 @@ body.darkmode #sdhNavButton{background:var(--brass);color:#1b1712;}
         <a href="https://www.sdhardwoods.com/recent_project_photo_gallery_4">Project Gallery 4</a>
         <a href="https://www.sdhardwoods.com/recent_project_gallery_5">Project Gallery 5</a>
     </div>
+  </div>
 </div>
+</header>
 <script>
 (function(){
     const nav=document.getElementById("sdhMegaNav");

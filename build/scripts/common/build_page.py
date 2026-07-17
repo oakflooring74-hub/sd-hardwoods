@@ -9,6 +9,9 @@ CHROME = str(BUILD / "chrome")
 RAW = BUILD / "raw-source"
 DATA = BUILD / "data"
 
+sys.path.insert(0, str(BUILD / "scripts" / "common"))
+from assemble_page import gallery_progress_html
+
 def rd(path):
     with open(path, encoding="utf-8") as f:
         return f.read()
@@ -60,7 +63,7 @@ def extract_all(pattern, doc, flags=re.IGNORECASE | re.DOTALL):
     return [m.group(0) for m in re.finditer(pattern, doc, flags)]
 
 def build_gallery_section(gallery_json_path, intro_html, top_cta_heading, top_cta_body,
-                           bottom_cta_heading, bottom_cta_body):
+                           bottom_cta_heading, bottom_cta_body, gallery_index=None):
     with open(gallery_json_path, encoding="utf-8") as f:
         data = json.load(f)
     modules = data["modules"]
@@ -88,6 +91,9 @@ def build_gallery_section(gallery_json_path, intro_html, top_cta_heading, top_ct
     parts.append('  <div class="gallery-intro">')
     parts.append(intro_html)
     parts.append('  </div>')
+
+    if gallery_index is not None:
+        parts.append(gallery_progress_html(gallery_index))
 
     if ultra_clean_imgs:
         parts.append(deepclean_cta(ultra_clean_imgs[0], top_cta_heading, top_cta_body))
@@ -161,6 +167,7 @@ def build_page(cfg):
     top_html = rd(CHROME + r"\top.html")
     footer_html = rd(CHROME + r"\footer.html")
     scrollhint_html = rd(CHROME + r"\scrollhint_and_toggle.html")
+    lightbox_html = rd(CHROME + r"\lightbox.html")
 
     top_html = top_html.replace("__VCARD_DESC__", head["vcard_desc"])
     scrollhint_html = scrollhint_html.replace("__SCROLL_TOPIC__", cfg["scroll_topic"])
@@ -171,6 +178,7 @@ def build_page(cfg):
         cfg["gallery_json"], cfg["intro_html"],
         cfg["top_cta_heading"], cfg["top_cta_body"],
         cfg["bottom_cta_heading"], cfg["bottom_cta_body"],
+        gallery_index=cfg.get("gallery_index"),
     )
 
     video_script = f'''<script type="text/javascript">
@@ -250,6 +258,7 @@ def build_page(cfg):
 </main>
 {footer_html}
 {scrollhint_html}
+{lightbox_html}
 </body>
 </html>
 '''
@@ -263,6 +272,7 @@ def build_page(cfg):
 CONFIGS = [
     {
         "name": "gallery3",
+        "gallery_index": 2,
         "raw_path": str(RAW / "recent_project_photo_gallery_3.html"),
         "gallery_json": str(DATA / "recent_project_photo_gallery_3" / "modules.json"),
         "out_path": str(REPO_ROOT / "recent_project_photo_gallery_3.html"),
@@ -286,6 +296,7 @@ CONFIGS = [
     },
     {
         "name": "gallery4",
+        "gallery_index": 3,
         "raw_path": str(RAW / "recent_project_photo_gallery_4.html"),
         "gallery_json": str(DATA / "recent_project_photo_gallery_4" / "modules.json"),
         "out_path": str(REPO_ROOT / "recent_project_photo_gallery_4.html"),

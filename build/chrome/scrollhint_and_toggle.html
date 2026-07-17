@@ -52,3 +52,17 @@ if(!sessionStorage.getItem("sdhScrollClosed")){
 </script>
 
 <button aria-label="Toggle legacy light mode" id="sdh-toggle" title="Toggle legacy light mode">Toggle Light Mode</button>
+<script>
+(function(){
+  var toggleBtn = document.getElementById("sdh-toggle");
+  var footer = document.querySelector("footer.sdh-footer");
+  if(!toggleBtn || !footer || !("IntersectionObserver" in window)) return;
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      toggleBtn.style.opacity = entry.isIntersecting ? "0" : "1";
+      toggleBtn.style.pointerEvents = entry.isIntersecting ? "none" : "auto";
+    });
+  }, {threshold:0});
+  io.observe(footer);
+})();
+</script>

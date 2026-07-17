@@ -6,24 +6,40 @@
 
 This is a point-in-time report. If the site changes before the fixes below are implemented, re-run the QA sweep rather than trusting these numbers blindly — see `build/README.md` for how the site is regenerated, and re-run the Playwright checks the same way (script pattern preserved in conversation history / can be rebuilt from this doc's methodology description).
 
+## IMPLEMENTATION STATUS UPDATE (2026-07-16, later same day)
+
+**Findings #1, #3 (partial), #4, #5, #6, #7 (blog/deep-cleaning overflow), #8, #11, and the progress-indicator idea are now implemented, built, and locally tested** (real Chromium via Playwright, mobile/tablet/desktop, all 12 pages — zero horizontal overflow found anywhere). Committed on `redesign` as "Complete first interactive site-improvement milestone." Not yet pushed. See `docs/NEXT_SESSION.md` for the full Milestone 1 summary and the Milestone 2 (header/nav redesign) scope that comes next — **finding #3 (logo/masthead) is only partially resolved: the overlap bug is fixed and a basic monogram+wordmark treatment was added, but a follow-up screenshot review found the brand still reads as too small and the header still needs a dedicated redesign (Milestone 2).**
+
+Findings #2, #9, #10, #12 remain exactly as documented below — no action taken, per owner decision (unchanged).
+
 ## Status of each finding — owner's decisions (2026-07-16)
 
-| # | Finding | Decision |
-|---|---|---|
-| 1 | Fixed nav button + toggle overlap content while scrolling | **Approved — fix** |
-| 2 | SEO keyword paragraph dominates mobile above-the-fold | **Keep as-is, do not touch** |
-| 3 | No real logo/masthead, just a text chip | **Approved — needs a real header/masthead treatment** |
-| 4 | Gallery photos cropped 60–85% by fixed-height `object-fit:cover` | **Approved — fix globally via `chrome/site_css.html`** |
-| 5 | No numbering on homepage gallery images | **Approved — homepage ONLY.** Other gallery pages already have text-numbered captions (e.g. "#41 Solid red oak…") and don't need this treatment. |
-| 6 | Footer email text overflows horizontally on mobile, site-wide | **Approved — fix** |
-| 7 | Before/after galleries stay 2-column and don't collapse on mobile (gallery_1–5); blog/deep-cleaning have worse overflow from a hardcoded `minmax(480px,…)` | **Two-column stays as-is, including on mobile — intentional "billboard CTA" feel.** The blog/deep-cleaning *overflow* (content literally wider than the viewport, not just cramped) still needs fixing — clarify with owner whether that specific overflow is in scope or also considered acceptable before touching it. |
-| 8 | Clicking any gallery photo navigates away to a bare image file on a different domain, no lightbox | **Approved — add an in-page lightbox, on the condition that it introduces no new URLs/pages** (a JS overlay intercepting the click, not a route change) |
-| 9 | Unoptimized images: avg ~354KB, one at 2.83MB, no responsive sizing | **Deferred.** Owner flagged legacy Turbify hosting as a likely blocker — see "Image optimization feasibility" below, this needs a feasibility answer before it's scheduled, not before it's dismissed. |
-| 10 | One CTA graphic ("ultra clean button") is 941KB | Same as #9 — bundled with image optimization decision. |
-| 11 | Nav button touch target is 43px tall (1px under the 44px guideline) | **Approved — fix, optimize touch targets generally while in that code** |
-| 12 | Photo watermarks look slightly dated for a "premium" site | **No action — intentional, owner adds these in Photoshop, keep as-is** |
+| # | Finding | Decision | Status |
+|---|---|---|---|
+| 1 | Fixed nav button + toggle overlap content while scrolling | **Approved — fix** | ✅ **Fixed** — sticky in-flow header; toggle fades near footer |
+| 2 | SEO keyword paragraph dominates mobile above-the-fold | **Keep as-is, do not touch** | Untouched (content/presence protected). Visual de-emphasis is now the Milestone 2 goal — see `docs/NEXT_SESSION.md` |
+| 3 | No real logo/masthead, just a text chip | **Approved — needs a real header/masthead treatment** | ⚠️ **Partially fixed** — overlap bug gone, monogram+wordmark added, but a screenshot review after shipping found the brand still reads too small; full masthead redesign is Milestone 2 |
+| 4 | Gallery photos cropped 60–85% by fixed-height `object-fit:cover` | **Approved — fix globally via `chrome/site_css.html`** | ✅ **Fixed** — `object-fit:contain`, height 320→420px, no cropping |
+| 5 | No numbering on homepage gallery images | **Approved — homepage ONLY.** Other gallery pages already have text-numbered captions (e.g. "#41 Solid red oak…") and don't need this treatment. | ✅ **Fixed** — badges #1–#96 on homepage gallery |
+| 6 | Footer email text overflows horizontally on mobile, site-wide | **Approved — fix** | ✅ **Fixed** — `.f-call` now flex-wraps, no overflow |
+| 7 | Before/after galleries stay 2-column and don't collapse on mobile (gallery_1–5); blog/deep-cleaning have worse overflow from a hardcoded `minmax(480px,…)` | **Two-column stays as-is, including on mobile — intentional "billboard CTA" feel.** The blog/deep-cleaning *overflow* (content literally wider than the viewport, not just cramped) still needs fixing — clarify with owner whether that specific overflow is in scope or also considered acceptable before touching it. | ✅ **Both resolved** — 2-col layout on galleries 1–5 preserved untouched; blog/deep-cleaning overflow fixed (`minmax(min(Npx,100%),1fr)`), confirmed as a real, separate bug and fixed independently of the 2-col decision |
+| 8 | Clicking any gallery photo navigates away to a bare image file on a different domain, no lightbox | **Approved — add an in-page lightbox, on the condition that it introduces no new URLs/pages** (a JS overlay intercepting the click, not a route change) | ✅ **Fixed** — `build/chrome/lightbox.html`, JS overlay only, no new URLs |
+| 9 | Unoptimized images: avg ~354KB, one at 2.83MB, no responsive sizing | **Deferred.** Owner flagged legacy Turbify hosting as a likely blocker — see "Image optimization feasibility" below, this needs a feasibility answer before it's scheduled, not before it's dismissed. | Still deferred, untouched |
+| 10 | One CTA graphic ("ultra clean button") is 941KB | Same as #9 — bundled with image optimization decision. | Still deferred, untouched |
+| 11 | Nav button touch target is 43px tall (1px under the 44px guideline) | **Approved — fix, optimize touch targets generally while in that code** | ✅ **Fixed** — nav button, flyout links, dark-mode toggle all ≥44px |
+| 12 | Photo watermarks look slightly dated for a "premium" site | **No action — intentional, owner adds these in Photoshop, keep as-is** | Untouched, as decided |
 
-**New feature approved, not from the original QA list:** a persistent "jump to gallery / progress" indicator across the 5 before/after gallery pages, to keep visitors browsing instead of dropping off after one page.
+**New feature approved, not from the original QA list:** a persistent "jump to gallery / progress" indicator across the 5 before/after gallery pages, to keep visitors browsing instead of dropping off after one page. **✅ Fixed** — "Gallery N of 5" + numbered jump links + prev/next on all 5 gallery pages.
+
+## Remaining issues after Milestone 1 (screenshot review, 2026-07-16)
+
+A post-implementation screenshot review of the shipped header found three things that Milestone 1 did not (and wasn't scoped to) fix — these define Milestone 2, detailed in `docs/NEXT_SESSION.md`:
+
+- **Brand is too small.** The monogram+wordmark lockup added in Milestone 1 fixed the "disconnected floating chip" problem but didn't fix the underlying visual-hierarchy problem: the brand still doesn't read as the dominant element of the header.
+- **The SEO utility-bar strip visually dominates** the top of the page, more prominent than brand+nav combined. Its *content* is still protected (finding #2, unchanged) — this is specifically about visual weight/hierarchy, not the text itself.
+- **Navigation is inadequate.** A single "☰ Explore Our Services" button hiding all 12 pages in one flat, undifferentiated flyout list doesn't scale as real information architecture. Milestone 2 needs to group the 12 pages into clear categories, and give the YouTube channel link a prominent, recognizable YouTube-style treatment instead of burying it as plain text in the flyout.
+
+None of Milestone 2 has been implemented yet — this section documents the review findings that motivate it, not completed work.
 
 ## Full finding detail (for implementation reference)
 
@@ -42,9 +58,9 @@ No way currently to say "look at photo #14." Badge would come from each image's 
 ### 6. Footer overflow
 31px of horizontal scroll present on **all 12 pages** — confirmed both numerically and visually (`sandiegohardwoods@gmail.co…` cut off at the right edge on mobile). Root cause: the footer's contact line doesn't wrap. Global, `chrome/footer.html` — needs `flex-wrap` or responsive font-size on that line.
 
-### 7. Before/after gallery columns
-- Galleries 1–5: hardcode `grid-template-columns:repeat(2,1fr)` — shrinks instead of overflowing, but squeezes each photo to ~155px at 390px viewport width. **Owner: keep as-is, this is intentional.**
-- Blog & deep-cleaning: hardcode `minmax(480px,1fr)` / `minmax(490px,1fr)` respectively — these **do** overflow (up to 520px of content on a 390px screen), the worst overflow found on the site. This is a different, more severe problem than the gallery pages' intentional 2-col squeeze — **needs explicit confirmation from owner whether this specific overflow is also "keep as-is" or should be fixed**, since it wasn't clearly distinguished from #7 in the approval. Page-specific: each page's own build script (`build_gallery1.py` etc., `assemble_blog.py`, `assemble_deep_cleaning.py`) sets these inline; no shared component yet for "before/after pair."
+### 7. Before/after gallery columns — RESOLVED 2026-07-16
+- Galleries 1–5: hardcode `grid-template-columns:repeat(2,1fr)` — shrinks instead of overflowing, but squeezes each photo to ~155px at 390px viewport width. **Owner: keep as-is, this is intentional.** Left untouched, confirmed via diff (image src/alt and the inline `1fr 1fr` / `repeat(2,1fr)` rules are unchanged).
+- Blog & deep-cleaning: hardcoded `minmax(480px,1fr)` / `minmax(520px,1fr)` respectively — these **did** overflow (up to 520px of content on a 390px screen), the worst overflow found on the site. **Resolved as its own bug, independent of the galleries' 2-col decision**: changed to `minmax(min(Npx,100%),1fr)` in `assemble_blog.py` / `assemble_deep_cleaning.py`. Verified zero horizontal overflow on both pages at all 3 tested viewports post-fix.
 
 ### 8. Lightbox / dead-end photo clicks
 Tested directly: clicking a gallery photo navigates to `sdhardwoods.com/[filename].jpg` — a different domain, unstyled, no way back except browser back, no next/prev. Confirmed no lightbox JS is loaded at all (`document.querySelectorAll("script[src]")` returned empty on page load) — the legacy Turbify zoom classes on these images (`yssImg_allowZoomIn` etc.) reference a script that was never carried over, only its CSS. Global once built — every gallery image already shares the same `<a href="photo.jpg"><img></a>` wrapper structure, so one shared component in `chrome/` covers all 12 pages. **Constraint confirmed compatible with owner's requirement:** a JS overlay that intercepts the click and shows the image in an in-page modal (with next/prev through the current gallery) introduces no new URL or page — this is the standard lightbox pattern, not a routing change.

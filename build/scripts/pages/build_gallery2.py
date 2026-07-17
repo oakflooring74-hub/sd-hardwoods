@@ -4,7 +4,7 @@ from pathlib import Path
 
 BUILD = Path(__file__).resolve().parent.parent.parent  # -> build/
 sys.path.insert(0, str(BUILD / "scripts" / "common"))
-from assemble_page import assemble
+from assemble_page import assemble, gallery_progress_html
 
 DATA = BUILD / "data" / "recent_project_photo_gallery_2"
 
@@ -131,6 +131,7 @@ MAIN = f"""
   <div class="gallery-intro">
     <h2>Recent Before &amp; After Hardwood Floor Projects</h2>
   </div>
+  {gallery_progress_html(1)}
   {modules_html}
 
   <div class="cta-row" style="justify-content:center;flex-wrap:wrap;gap:16px;margin-top:20px;">

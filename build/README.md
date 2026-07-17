@@ -18,6 +18,17 @@ the way it is, and where the rough edges are.
 - On Windows, if you only have Git Bash / WSL available, note that `python3` may not be on
   its `PATH` even when a Windows Python install exists. Run scripts via a native PowerShell
   or `cmd` session (`python script.py`) if Bash gives you `command not found`.
+- **2026-07-16 note:** on this laptop, `python`/`python3` previously resolved only to the
+  Windows Store's stub alias (which errors instead of running anything) — there was no real
+  Python interpreter installed at all, not just a `PATH` issue. Real Python 3.12 was installed
+  via `winget install Python.Python.3.12` to unblock the build; this is now resolved and the
+  pipeline runs normally. If `python --version` ever reports the Store-redirect error again on
+  a fresh machine, that's this same issue, not a `PATH` misconfiguration.
+- Browser-based QA/testing (Playwright + Chromium) is **not** part of this build pipeline and
+  is not installed in this repo — a prior session installed both in a scratch temp directory
+  outside the project to drive the regenerated pages in a real browser for cross-viewport
+  testing, then discarded them. Reach for the same approach (or a project-local install, if a
+  future session wants repeatable browser testing) rather than assuming either is available.
 
 ## Directory map
 

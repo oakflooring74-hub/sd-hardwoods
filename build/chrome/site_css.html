@@ -13,9 +13,11 @@ body.darkmode{
 }
 #sdh-toggle{
   position:fixed; right:16px; bottom:16px; z-index:99999;
-  font:600 13px/1.2 var(--font-sans); padding:10px 14px; border-radius:10px;
+  font:600 13px/1.2 var(--font-sans); padding:12px 16px; min-height:44px; border-radius:10px;
   border:1px solid var(--line); background:var(--card-bg); color:var(--ink);
   cursor:pointer; box-shadow:0 4px 14px rgba(0,0,0,.18);
+  display:flex; align-items:center; justify-content:center;
+  transition:opacity .25s ease;
 }
 </style>
 <style id="sdh-site-css" type="text/css">
@@ -28,18 +30,12 @@ body.darkmode #sdhUtilityBar{background:#100d09;color:#cbb98d;}
 #sdhUtilityBar a{color:#f3ead9;text-decoration:none;font-weight:600;}
 #sdhUtilityBar .biz-desc{display:block;max-width:1180px;margin:4px auto 0;font-size:11px;opacity:.6;line-height:1.4;}
 
-#sdhBrandBar{position:fixed;top:14px;left:14px;z-index:99998;}
-#sdhBrandBar a{display:flex;flex-direction:column;text-decoration:none;background:var(--card-bg);padding:8px 16px;border-radius:10px;border:1px solid var(--line);box-shadow:0 4px 14px rgba(0,0,0,.12);}
-#sdhBrandBar .brand-name{font-family:var(--font-serif);font-weight:700;font-size:16px;color:var(--ink);letter-spacing:.5px;}
-#sdhBrandBar .brand-tag{font-family:var(--font-serif);font-style:italic;font-size:11px;color:var(--brass-soft);}
-
 .btn{display:inline-block;font-weight:700;text-decoration:none;padding:14px 28px;border-radius:7px;font-size:17px;font-family:var(--font-sans);transition:transform .15s ease, box-shadow .15s ease;}
 .btn:hover{transform:translateY(-1px);}
 .btn-call{background:var(--cta-red);color:#fff !important;box-shadow:0 6px 18px rgba(179,38,30,.35);}
 .btn-outline{background:transparent;color:var(--walnut) !important;border:2px solid var(--walnut);}
 body.darkmode .btn-outline{color:var(--brass) !important;border-color:var(--brass);}
 
-main{padding-top:64px;}
 .hero{text-align:center;padding:56px 24px 40px;}
 .hero .kicker{font-family:var(--font-serif);font-style:italic;color:var(--brass-soft);font-size:20px;letter-spacing:1.5px;margin-bottom:6px;}
 .hero h1{font-family:var(--font-serif);font-size:40px;line-height:1.2;margin:0 0 18px;color:var(--ink);}
@@ -73,11 +69,24 @@ body.darkmode .info-grid .card h3{color:var(--brass);}
 
 .gallery-intro{text-align:center;margin-bottom:26px;}
 .gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;}
-.gallery figure{margin:0;border-radius:10px;overflow:hidden;background:var(--card-bg);border:1px solid var(--line);}
-.gallery figure a{display:block;}
-.gallery img{width:100%;height:320px;object-fit:cover;display:block;transition:transform .35s ease;}
+.gallery figure{position:relative;margin:0;border-radius:10px;overflow:hidden;background:var(--card-bg);border:1px solid var(--line);}
+.gallery figure a{display:block;background:var(--canvas-alt);}
+.gallery img{width:100%;height:420px;object-fit:contain;background:var(--canvas-alt);display:block;transition:transform .35s ease;}
 .gallery figure:hover img{transform:scale(1.05);}
 .gallery figcaption{padding:10px 12px;font-size:13px;color:var(--ink-soft);line-height:1.4;}
+.gallery-badge{position:absolute;top:8px;left:8px;background:var(--walnut);color:#fff;font-weight:700;font-size:13px;line-height:1;padding:6px 10px;border-radius:20px;box-shadow:0 2px 8px rgba(0,0,0,.25);z-index:2;pointer-events:none;}
+body.darkmode .gallery-badge{background:var(--brass);color:#1b1712;}
+
+.gallery-progress{display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;margin:0 0 28px;padding:14px 20px;background:var(--card-bg);border:1px solid var(--line);border-radius:12px;}
+.gallery-progress .gp-dots{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;}
+.gallery-progress .gp-dots a{display:flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:var(--canvas-alt);color:var(--ink-soft);font-weight:700;font-size:14px;text-decoration:none;border:1px solid var(--line);}
+.gallery-progress .gp-dots a.active{background:var(--walnut);color:#fff;border-color:var(--walnut);}
+body.darkmode .gallery-progress .gp-dots a.active{background:var(--brass);color:#1b1712;}
+.gallery-progress .gp-label{font-weight:700;color:var(--ink);font-size:14px;white-space:nowrap;}
+.gallery-progress a.gp-prev, .gallery-progress a.gp-next{font-weight:700;color:var(--walnut);text-decoration:none;font-size:14px;padding:10px 4px;min-height:44px;display:flex;align-items:center;}
+.gallery-progress .gp-disabled{color:var(--ink-soft);opacity:.4;font-weight:700;font-size:14px;padding:10px 4px;min-height:44px;display:flex;align-items:center;}
+body.darkmode .gallery-progress a.gp-prev, body.darkmode .gallery-progress a.gp-next{color:var(--brass);}
+@media(max-width:640px){.gallery-progress{gap:10px;padding:12px;} .gallery-progress .gp-dots a{width:30px;height:30px;font-size:13px;}}
 
 .service-list{columns:2;column-gap:50px;padding-left:20px;font-size:16px;line-height:1.9;color:var(--ink-soft);}
 @media(max-width:640px){.service-list{columns:1;}}
@@ -89,8 +98,9 @@ body.darkmode .info-grid .card h3{color:var(--brass);}
 footer.sdh-footer{background:var(--canvas-alt);border-top:1px solid var(--line);padding:48px 24px 28px;text-align:center;margin-top:40px;}
 footer.sdh-footer .f-name{font-family:var(--font-serif);font-size:26px;font-weight:700;color:var(--ink);}
 footer.sdh-footer p{color:var(--ink-soft);font-size:15px;max-width:760px;margin:8px auto;line-height:1.6;}
-footer.sdh-footer .f-call{font-size:22px;font-weight:700;margin:16px 0;}
-footer.sdh-footer .f-call a{color:var(--cta-red);text-decoration:none;}
+footer.sdh-footer .f-call{font-size:22px;font-weight:700;margin:16px 0;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:6px 14px;max-width:100%;}
+footer.sdh-footer .f-call a{color:var(--cta-red);text-decoration:none;word-break:break-word;overflow-wrap:anywhere;}
+footer.sdh-footer .f-call .f-call-sep{opacity:.5;}
 footer.sdh-footer .f-links a{color:var(--walnut);text-decoration:underline;font-weight:600;}
 body.darkmode footer.sdh-footer .f-links a{color:var(--brass);}
 footer.sdh-footer .copyright{font-size:13px;opacity:.6;margin-top:22px;}

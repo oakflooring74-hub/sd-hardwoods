@@ -1,4 +1,4 @@
-NEW <img> count: 42
+NEW <img> count: 43
 RAW <img> count: 42
 gallery img count tracked: 42
 ld+json occurrences in NEW: 1
