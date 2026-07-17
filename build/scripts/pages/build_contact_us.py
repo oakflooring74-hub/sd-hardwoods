@@ -5,7 +5,7 @@ BUILD = Path(__file__).resolve().parent.parent.parent  # -> build/
 sys.path.insert(0, str(BUILD / "scripts" / "common"))
 from assemble_page import assemble
 
-HEAD_META = """<title>Contact San Diego Hardwoods | Free Estimates for Hardwood Floor Refinishing, Repairs &amp; Installation</title>
+HEAD_META = """<title>Contact San Diego Hardwoods | Hardwood Floor Refinishing, Repairs &amp; Installation</title>
 <link href="https://www.sdhardwoods.com/favicon.ico" rel="icon" type="image/x-icon">
 <link href="https://www.sdhardwoods.com/favicon-192.ico" rel="icon" sizes="192x192" type="image/x-icon">
 <link href="https://www.sdhardwoods.com/favicon-512.ico" rel="icon" sizes="512x512" type="image/x-icon">
@@ -69,71 +69,12 @@ MAIN = """
 </section>
 
 <section class="block" id="consultation-services">
-  <p class="eyebrow">More Than 35 Years of Specialized Expertise</p>
-  <h2>Professional Consultation Services</h2>
-  <p class="lede">When a floor needs more than a phone conversation, our in-home services put three decades of hands-on hardwood expertise to work for you &mdash; honest diagnosis, education, documentation, and planning. The free phone assessment is always the right first step, and it tells us which service, if any, actually fits your situation.</p>
-
-  <div class="consult-grid">
-    <div class="consult-card consult-free">
-      <div class="consult-head">
-        <h3>Free Phone Assessment</h3>
-        <span class="consult-price">Free</span>
-      </div>
-      <p>Call or text clear photographs of your floor for an initial phone assessment at no charge. Emailed photographs are also welcome. This first step helps determine whether your floor appears to need cleaning, maintenance, repair, refinishing, damage evaluation &mdash; or an in-person consultation.</p>
-      <div class="cta-row" style="justify-content:flex-start;margin-top:6px;">
-        <a class="btn btn-call" href="tel:8586990072" style="padding:11px 22px;font-size:15.5px;">&#9742; Call or Text 858-699-0072</a>
-        <a class="btn btn-outline" href="sms:+18586990072?&amp;body=Hi%20San%20Diego%20Hardwoods%2C%20I%20have%20photos%20of%20my%20floors%20to%20send%20for%20a%20free%20phone%20assessment." style="padding:11px 22px;font-size:15.5px;">Text Floor Photos</a>
-      </div>
-    </div>
-
-    <div class="consult-card">
-      <div class="consult-head">
-        <h3>Initial In-Home Floor Assessment</h3>
-        <span class="consult-price">$75</span>
-      </div>
-      <p>A focused appointment of up to one hour for straightforward concerns involving worn, faded, dirty, poorly maintained, water-affected, or tenant-damaged hardwood floors. Includes an initial visual assessment and practical recommendations for next steps.</p>
-      <p class="consult-fine">Ideal when you simply want an experienced set of eyes on the floor and a clear direction.</p>
-    </div>
-
-    <div class="consult-card">
-      <div class="consult-head">
-        <h3>Extended Hardwood Floor Consultation &amp; Education</h3>
-        <span class="consult-price">$150</span>
-      </div>
-      <p>A more detailed in-person consultation for owners who need deeper analysis, material or finish discussion, restoration options, maintenance planning, problem diagnosis, or one-on-one education about the condition and future care of their floor.</p>
-      <p class="consult-fine">Choose this over the $75 assessment when you want time to go deep &mdash; not just a look, but a working session about your floor.</p>
-    </div>
-
-    <div class="consult-card">
-      <div class="consult-head">
-        <h3>Property Management &amp; Tenant Move-Out Floor Assessment</h3>
-        <span class="consult-price">$350</span>
-      </div>
-      <p>Professional assessment and documentation of the visible hardwood-floor condition for property managers, landlords, owners, and tenant move-out situations. May address observed damage, maintenance condition, restoration needs, and the distinction between apparent damage and ordinary wear.</p>
-      <p class="consult-fine">Documents visible floor condition from a flooring-trade perspective; it is not a binding legal determination regarding security deposits, liability, tenancy law, or damages.</p>
-    </div>
-
-    <div class="consult-card">
-      <div class="consult-head">
-        <h3>Insurance Damage Consultation &amp; Documentation Support</h3>
-        <span class="consult-price">$750</span>
-      </div>
-      <p>An in-home hardwood-floor damage consultation focused on visible flooring conditions, damage analysis, restoration options, photographs, and organization of flooring-related information that may be useful to the owner, property manager, contractor, or insurer.</p>
-      <p class="consult-fine">A flooring-expertise service &mdash; not a public-adjuster service, legal advice, insurance-policy interpretation, claim representation, or coverage advice, and no insurance payment or outcome is guaranteed.</p>
-    </div>
-
-    <div class="consult-card">
-      <div class="consult-head">
-        <h3>Formal Hardwood Floor Inspection Report &amp; Separate Project Estimate</h3>
-        <span class="consult-price">$1,500</span>
-      </div>
-      <p>A detailed inspection service that may include site observations, photographic documentation, written findings, apparent damage or condition analysis, recommended remediation, and a separate estimate for proposed flooring work. The report may be provided by you to an insurer, property manager, attorney, or other relevant party.</p>
-      <p><strong>Some or all of the inspection and report fee may be credited toward the approved flooring project under written agreement.</strong></p>
-      <p class="consult-fine">Acceptance by any third party, and any specific outcome, cannot be guaranteed.</p>
-    </div>
+  <p class="eyebrow">Assessments, Inspections &amp; Consultation</p>
+  <h2>Looking for Our Floor Assessment &amp; Inspection Services?</h2>
+  <p class="lede">Our professional floor assessment, inspection, and consultation options &mdash; from the free phone and photo assessment to the in-home project assessment, pre-purchase floor inspections, and complex damage or insurance analysis &mdash; are now presented on our homepage.</p>
+  <div style="text-align:center;">
+    <a class="btn btn-outline" href="https://www.sdhardwoods.com/#professional-floor-assessments">View Floor Assessments &amp; Inspections &rarr;</a>
   </div>
-
-  <p class="consult-note">These services reflect professional hardwood flooring expertise &mdash; diagnosis, education, and documentation &mdash; not a fee to estimate ordinary project work. Exact scope and deliverables are confirmed when scheduling. Call or text <a href="tel:8586990072" style="color:var(--cta-red);font-weight:700;">858-699-0072</a> to start with a free phone assessment.</p>
 </section>
 """
 
