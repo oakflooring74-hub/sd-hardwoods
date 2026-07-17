@@ -27,7 +27,7 @@ title_new = re.search(r'<title>(.*?)</title>', new, re.DOTALL).group(1).strip()
 gaq_new = new.count('_gaq')
 
 out = BUILD / "data" / "recent_project_gallery_5" / "verify_report.txt"
-with open(out, "w", encoding="utf-8") as f:
+with open(out, "w", encoding="utf-8", newline="\n") as f:
     f.write(f"raw <img> count: {raw_img}\n")
     f.write(f"new <img> count: {new_img}\n")
     f.write(f"MATCH: {raw_img == new_img}\n\n")

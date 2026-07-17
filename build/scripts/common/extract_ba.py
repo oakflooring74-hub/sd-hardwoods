@@ -142,10 +142,10 @@ def main():
         "standalone": standalone,
     }
 
-    with open(out_json, "w", encoding="utf-8") as f:
+    with open(out_json, "w", encoding="utf-8", newline="\n") as f:
         json.dump(result, f, indent=2, ensure_ascii=False)
 
-    with open(out_json + ".log.txt", "w", encoding="utf-8") as f:
+    with open(out_json + ".log.txt", "w", encoding="utf-8", newline="\n") as f:
         f.write(f"total <img> in doc: {total_imgs}\n")
         f.write(f"modules found: {len(modules)}\n")
         f.write(f"images inside modules: {module_img_count}\n")

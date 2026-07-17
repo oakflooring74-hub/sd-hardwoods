@@ -263,7 +263,7 @@ def build_page(cfg):
 </html>
 '''
 
-    with open(cfg["out_path"], "w", encoding="utf-8") as f:
+    with open(cfg["out_path"], "w", encoding="utf-8", newline="\n") as f:
         f.write(html)
 
     return check
@@ -326,7 +326,7 @@ def main():
     for cfg in CONFIGS:
         check = build_page(cfg)
         results[cfg["name"]] = check
-    with open(str(DATA / "build_page_results.json"), "w", encoding="utf-8") as f:
+    with open(str(DATA / "build_page_results.json"), "w", encoding="utf-8", newline="\n") as f:
         json.dump(results, f, indent=2)
 
 if __name__ == "__main__":

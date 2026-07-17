@@ -22,7 +22,7 @@ for fname, label in [
     print("vcard:", vm.group(1)[:150] if vm else None)
     blocks = re.findall(r'<script type="application/ld\+json">.*?</script>', html, re.DOTALL)
     print("jsonld blocks:", len(blocks))
-    with open(DATA / label / "jsonld.html", "w", encoding="utf-8") as f:
+    with open(DATA / label / "jsonld.html", "w", encoding="utf-8", newline="\n") as f:
         f.write("\n".join(blocks))
-    with open(DATA / label / "vcard.txt", "w", encoding="utf-8") as f:
+    with open(DATA / label / "vcard.txt", "w", encoding="utf-8", newline="\n") as f:
         f.write(vm.group(1).strip() if vm else "")

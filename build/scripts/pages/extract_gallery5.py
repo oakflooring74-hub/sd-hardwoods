@@ -40,12 +40,12 @@ for im in img_re.finditer(region):
     })
 
 DATA = BUILD / "data" / "recent_project_gallery_5"
-with open(DATA / "images.json", "w", encoding="utf-8") as f:
+with open(DATA / "images.json", "w", encoding="utf-8", newline="\n") as f:
     json.dump(results, f, indent=2, ensure_ascii=False)
 
 raw_full_count = len(img_re.findall(html))
 region_count = len(img_re.findall(region))
-with open(DATA / "extraction_report.txt", "w", encoding="utf-8") as f:
+with open(DATA / "extraction_report.txt", "w", encoding="utf-8", newline="\n") as f:
     f.write(f"Extracted images (bd..ft region): {len(results)}\n")
     f.write(f"raw <img> count in bd..ft region: {region_count}\n")
     f.write(f"raw <img> count in ENTIRE raw-source/recent_project_gallery_5.html (incl old nav/footer): {raw_full_count}\n")

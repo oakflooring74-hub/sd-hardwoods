@@ -78,6 +78,6 @@ def assemble(head_meta_html, jsonld_html, ga_html, vcard_desc, scroll_topic, mai
 </body>
 </html>
 """
-    with open(out_path, "w", encoding="utf-8") as f:
+    with open(out_path, "w", encoding="utf-8", newline="\n") as f:
         f.write(doc)
     print(f"Wrote {out_path} ({len(doc)} chars)")

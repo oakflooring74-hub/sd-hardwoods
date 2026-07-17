@@ -179,10 +179,10 @@ L(f"standalone h3.module.caseStudy found: {bool(h3cs_m)}")
 if h3cs_m:
     L(f"standalone raw (first 300 chars): {standalone_title_html[:300]!r}")
 
-with open(OUT_JSON, "w", encoding="utf-8") as f:
+with open(OUT_JSON, "w", encoding="utf-8", newline="\n") as f:
     json.dump({"records": records, "standalone_html": standalone_title_html}, f, indent=2, ensure_ascii=False)
 
-with open(LOG, "w", encoding="utf-8") as f:
+with open(LOG, "w", encoding="utf-8", newline="\n") as f:
     f.write("\n".join(log))
 
 print("done", file=sys.stderr)

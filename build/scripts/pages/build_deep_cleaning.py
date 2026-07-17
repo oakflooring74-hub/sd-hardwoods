@@ -211,14 +211,14 @@ for idx, block in enumerate(modules, start=1):
 L(f"records built: {len(records)}")
 L(f"total <img> extracted via module parsing: {all_img_count}")
 
-with open(BUILD / "data" / "deep-cleaning-hardwood-floors-san-diego" / "gallery_records.json", "w", encoding="utf-8") as f:
+with open(BUILD / "data" / "deep-cleaning-hardwood-floors-san-diego" / "gallery_records.json", "w", encoding="utf-8", newline="\n") as f:
     json.dump(records, f, indent=2, ensure_ascii=False)
 
 # raw <img> count sanity check across whole zA
 raw_img_count_zA = len(img_re.findall(zA_ul_inner))
 L(f"raw <img> count found by direct regex over zA: {raw_img_count_zA}")
 
-with open(LOG, "w", encoding="utf-8") as f:
+with open(LOG, "w", encoding="utf-8", newline="\n") as f:
     f.write("\n".join(log))
 
 print("done - see log file", file=sys.stderr)

@@ -25,7 +25,7 @@ idx_gaq_end = html.index('</script>', idx_gaq_start) + len('</script>')
 gaq_block = html[script_open:idx_gaq_end]
 
 out = BUILD / "data" / "recent_project_gallery_5" / "jsonld_extracted_annotated.txt"
-with open(out, "w", encoding="utf-8") as f:
+with open(out, "w", encoding="utf-8", newline="\n") as f:
     f.write("=== VIDEO_OBJECT ===\n")
     f.write(m1.group(0) if m1 else "NOT FOUND")
     f.write("\n\n=== FOOTER_LINE (contains 3 script tags) ===\n")

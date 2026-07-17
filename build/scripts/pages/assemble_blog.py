@@ -265,7 +265,7 @@ full_html = f'''<!DOCTYPE html><html lang="en">
 </html>
 '''
 
-with open(OUT, "w", encoding="utf-8") as f:
+with open(OUT, "w", encoding="utf-8", newline="\n") as f:
     f.write(full_html)
 
 # ---- verification ----
@@ -288,6 +288,6 @@ L(f"_gaq present in NEW: {'_gaq' in full_html}")
 L(f"vcard_desc: {vcard_desc!r}")
 L(f"cs3_title: {cs3_title!r}")
 
-with open(LOG, "w", encoding="utf-8") as f:
+with open(LOG, "w", encoding="utf-8", newline="\n") as f:
     f.write("\n".join(log))
 print("done")

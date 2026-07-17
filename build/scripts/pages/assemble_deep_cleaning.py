@@ -227,7 +227,7 @@ full_html = f'''<!DOCTYPE html><html lang="en">
 </html>
 '''
 
-with open(OUT, "w", encoding="utf-8") as f:
+with open(OUT, "w", encoding="utf-8", newline="\n") as f:
     f.write(full_html)
 
 # ---- verification ----
@@ -247,6 +247,6 @@ L(f"sdh-toggle count: {len(re.findall('id=\"sdh-toggle\"', full_html))}")
 L(f"title extracted: {title!r}")
 L(f"_gaq present in NEW: {'_gaq' in full_html}")
 
-with open(LOG, "w", encoding="utf-8") as f:
+with open(LOG, "w", encoding="utf-8", newline="\n") as f:
     f.write("\n".join(log))
 print("done")

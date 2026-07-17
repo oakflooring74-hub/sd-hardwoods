@@ -69,7 +69,7 @@ def extract_images(section, label):
 
 imgs = extract_images(zA, "zA") + extract_images(zB, "zB")
 print(f"Total images extracted: {len(imgs)}", file=sys.stderr)
-with open(BUILD / "data" / "index" / "gallery.json", "w", encoding="utf-8") as f:
+with open(BUILD / "data" / "index" / "gallery.json", "w", encoding="utf-8", newline="\n") as f:
     json.dump(imgs, f, indent=2, ensure_ascii=False)
 
 # sanity check: no duplicated/missing alt text vs raw count of <img in section
