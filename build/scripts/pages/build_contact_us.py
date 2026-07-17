@@ -5,7 +5,7 @@ BUILD = Path(__file__).resolve().parent.parent.parent  # -> build/
 sys.path.insert(0, str(BUILD / "scripts" / "common"))
 from assemble_page import assemble
 
-HEAD_META = """<title>Contact San Diego Hardwoods | Hardwood Floor Refinishing, Repairs &amp; Installation</title>
+HEAD_META = """<title>Contact San Diego Hardwoods | Free Estimates for Hardwood Floor Refinishing, Repairs &amp; Installation</title>
 <link href="https://www.sdhardwoods.com/favicon.ico" rel="icon" type="image/x-icon">
 <link href="https://www.sdhardwoods.com/favicon-192.ico" rel="icon" sizes="192x192" type="image/x-icon">
 <link href="https://www.sdhardwoods.com/favicon-512.ico" rel="icon" sizes="512x512" type="image/x-icon">
