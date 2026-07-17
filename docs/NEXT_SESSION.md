@@ -59,9 +59,9 @@ A separate milestone, done between Milestone 1 and Milestone 2: manual `wrangler
 - **Live verification:** `https://redesign.sd-hardwoods.pages.dev` returns HTTP 200 and serves the new markup (`sdhLightbox`, `gallery-progress`, etc.) — confirmed pointing at this deployment. `https://sd-hardwoods.pages.dev` (production) returns HTTP 200 with none of that markup — confirmed untouched; `wrangler pages deployment list` shows Production deployments still pinned to `master` at `c3e8e0c`/`b6ac6a1`, unchanged throughout this entire milestone.
 - **Conclusion:** the automation works end-to-end. Future pushes to `redesign` deploy automatically with no manual `wrangler` invocation needed.
 
-## Milestone 2 — IMPLEMENTED (2026-07-16), UNCOMMITTED — awaiting owner visual review
+## Milestone 2 — COMPLETE (2026-07-16): site-wide header, brand identity & navigation redesign
 
-The full site-wide header/brand/navigation redesign plus the owner's expanded Milestone 2 spec (consultation services, hero rebalance, homepage cleanup, CTA repositioning) is **implemented, built, and locally QA'd, but deliberately NOT committed or pushed** — the owner wants to visually review before anything lands on `origin/redesign`. The owner supplied the exact navigation grouping in the Milestone 2 brief, which resolved the "confirm grouping first" blocker from the previous session.
+**Owner-approved, committed on `redesign` as "Complete Milestone 2: site-wide header, brand identity & navigation redesign" (`9117b84`), pushed, and auto-deployed to the Cloudflare preview** (Actions run `29555706718`, both jobs green — the CI regenerate-and-diff gate passed, confirming build determinism on `windows-latest` too). Verified live at `https://redesign.sd-hardwoods.pages.dev`: mini-header/consultation/gallery-nav markup all serving, brand WebP served directly from Cloudflare (normal caching), and production `https://sd-hardwoods.pages.dev` confirmed untouched (none of the new markup). The owner supplied the exact navigation grouping in the Milestone 2 brief, which resolved the "confirm grouping first" blocker from the previous session.
 
 **What was built (all via shared `build/` sources, regenerated with `build_all.py`):**
 
@@ -84,7 +84,7 @@ The full site-wide header/brand/navigation redesign plus the owner's expanded Mi
 - Brand images load via a tiny JS resolver (`data-brand-src`) because of the `<base href>` Turbify bridge — with JS off, logos don't render (nav/noscript still works). Acceptable trade-off until images migrate off Turbify.
 - The Bona seal derivative was made from the screenshot in `assets/branding` (`Screenshot 2026-07-16 193517.png`) — if the owner has an official higher-quality Bona asset, swap it into `assets/branding/web/` later.
 
-**Next step: owner reviews (locally or via screenshots) → if approved, commit everything on `redesign` and push (auto-deploys to the Cloudflare preview). Nothing touches `master`.**
+**Status: approved by the owner on 2026-07-16 and deployed to the preview. `master` untouched — promoting to production remains a separate, owner-initiated decision.**
 
 **Hard constraints honored (unchanged for future sessions):**
 - URLs, canonical URLs, meta titles/descriptions, primary headings, image `src`/alt, watermarks, structured data, and the long SEO paragraph's wording/crawlable presence — all preserved.
@@ -111,7 +111,7 @@ The full site-wide header/brand/navigation redesign plus the owner's expanded Mi
 
 - **Google Search Console export** (Query, Page, Clicks, Impressions, CTR, Position — full history, ideally per-page) — needed before any heading-level changes or meta-description rewrites on pages that already have one. See `docs/2026-07-seo-heading-audit.md` for exactly what this unlocks and why pulling it *before* the redesign goes live matters (it's the only way to get a clean pre-launch ranking baseline).
 - **Image optimization** — deferred, but not dismissed. See the "Image optimization feasibility" section of `docs/2026-07-qa-report.md`: it's genuinely harder right now because images are still served live from Turbify hosting via a `<base href>` shim, not because image compression itself is hard. Worth revisiting if/when images move to being repo-hosted.
-- **Milestone 2 owner review** — the implementation is complete and sitting uncommitted on `redesign` (see the Milestone 2 section above). Nothing further should be built on top of it until the owner approves and it gets committed; if the owner requests changes, adjust the `build/` sources and re-run `build_all.py`.
+- ~~**Milestone 2 owner review**~~ — resolved: approved, committed (`9117b84`), pushed, and preview-deployed on 2026-07-16.
 
 ## Safe to do without waiting on GSC data
 

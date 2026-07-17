@@ -12,9 +12,9 @@ This is a point-in-time report. If the site changes before the fixes below are i
 
 Findings #2, #9, #10, #12 remain exactly as documented below — no action taken, per owner decision (unchanged).
 
-## MILESTONE 2 IMPLEMENTATION + QA (2026-07-16, evening — uncommitted, awaiting owner review)
+## MILESTONE 2 IMPLEMENTATION + QA (2026-07-16, evening — approved & preview-deployed)
 
-The full header/brand/navigation redesign scoped below in "Remaining issues after Milestone 1" **is now implemented and locally QA'd**, along with the rest of the owner's Milestone 2 spec (consultation-services pricing, hero rebalance, homepage images #91–#96 removed at the generator level, gallery-navigation replacement, explore-bar redesign, CTA language shift to "free phone assessment"). All work is on `redesign`, **uncommitted**, pending the owner's visual review. Full change list in `docs/NEXT_SESSION.md`.
+The full header/brand/navigation redesign scoped below in "Remaining issues after Milestone 1" **is now implemented and locally QA'd**, along with the rest of the owner's Milestone 2 spec (consultation-services pricing, hero rebalance, homepage images #91–#96 removed at the generator level, gallery-navigation replacement, explore-bar redesign, CTA language shift to "free phone assessment"). **Owner approved on 2026-07-16; committed as `9117b84`, pushed, and auto-deployed to the Cloudflare preview (verified live; production untouched).** Full change list in `docs/NEXT_SESSION.md`.
 
 **QA method:** all 12 regenerated pages served over local HTTP (`python -m http.server`), driven with real headless Chromium (Playwright) at 1440×900 desktop and 390×844 mobile, plus a `prefers-reduced-motion: reduce` context. ~100 scripted checks, all passing:
 
