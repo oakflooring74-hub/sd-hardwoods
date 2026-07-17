@@ -1,6 +1,11 @@
 <!-- SDH masthead + primary navigation.
-     Layout: slim utility bar > brand masthead (real medallion logo + tagline + phone/email + CTA)
-     > full-width nav band (desktop dropdowns / mobile drawer) > de-emphasized crawlable SEO strip.
+     Layout: brand masthead (real medallion logo + tagline + phone/email + CTA)
+     > full-width nav band (desktop dropdowns / mobile drawer).
+     Milestone 2.1: the slim top utility bar (city/phone/email) and the tiny crawlable SEO
+     strip that used to render below the nav were removed at the owner's request -- the same
+     business information lives in the masthead, footer, contact page, and JSON-LD, and each
+     page's useful strip language was relocated into readable body content (see
+     docs/milestone-2.1-seo-content-map.md).
      The masthead is in-flow and scrolls away; a compact fixed mini-header (#sdhMiniHeader) slides
      in only after the masthead has scrolled out (IntersectionObserver, reduced-motion aware).
      Brand images are committed static files (assets/branding/web/) referenced via
@@ -8,13 +13,6 @@
      resolveBrandImages() note below for why they can't be literal root-relative URLs. -->
 <style>
 header#sdhHeader{background:var(--canvas);}
-
-/* --- utility bar --- */
-#sdhUtilityBar{background:var(--util-bg);color:var(--util-ink);font-size:13px;letter-spacing:.4px;padding:7px 16px;text-align:center;font-family:var(--font-sans);}
-#sdhUtilityBar a{color:var(--util-ink);text-decoration:none;font-weight:600;}
-#sdhUtilityBar a:hover{text-decoration:underline;}
-#sdhUtilityBar .util-sep{opacity:.45;margin:0 10px;}
-@media(max-width:560px){#sdhUtilityBar .util-loc{display:none;}#sdhUtilityBar .util-sep.loc-sep{display:none;}}
 
 /* --- brand masthead --- */
 #sdhMasthead{max-width:1180px;margin:0 auto;padding:18px 24px 16px;display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;}
@@ -69,11 +67,6 @@ header#sdhHeader{background:var(--canvas);}
 }
 @media(min-width:1021px){#sdhNavCall{display:none;}}
 
-/* --- de-emphasized crawlable SEO strip (wording preserved) --- */
-#sdhSeoStrip{background:var(--canvas-alt);border-bottom:1px solid var(--line);padding:8px 20px;}
-#sdhSeoStrip .biz-desc{display:block;max-width:1060px;margin:0 auto;font-size:10.5px;line-height:1.55;color:var(--ink-soft);opacity:.62;text-align:center;letter-spacing:.2px;}
-#sdhSeoStrip a{color:inherit;text-decoration:none;}
-
 /* --- compact sticky mini-header (appears only after masthead scrolls away) --- */
 #sdhMiniHeader{position:fixed;top:0;left:0;right:0;z-index:999900;display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:56px;padding:6px 14px;background:var(--canvas);border-bottom:1px solid var(--line);box-shadow:0 6px 22px rgba(20,12,3,.16);transform:translateY(-104%);visibility:hidden;transition:transform .26s ease,visibility .26s;}
 #sdhMiniHeader.show{transform:none;visibility:visible;}
@@ -123,6 +116,9 @@ body.darkmode .drawer-ctas .d-sms{border-color:var(--brass);color:var(--brass);}
 #sdhDrawer details a:hover{background:var(--canvas-alt);color:var(--ink);}
 #sdhDrawer details a[aria-current="page"]{color:var(--brass-deep);font-weight:700;}
 .drawer-foot{margin-top:auto;padding:14px 18px 22px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:12px;}
+.drawer-theme{display:flex;align-items:center;gap:10px;min-height:48px;padding:8px 14px;border:1px solid var(--line);border-radius:10px;background:var(--canvas-alt);color:var(--ink);font-family:var(--font-sans);font-size:15px;font-weight:700;cursor:pointer;text-align:left;}
+.drawer-theme:hover{border-color:var(--brass);}
+.drawer-theme .theme-ico{font-size:17px;line-height:1;}
 .drawer-foot .d-youtube{display:flex;align-items:center;gap:9px;font-size:15px;font-weight:700;color:var(--ink);text-decoration:none;min-height:44px;}
 .drawer-foot .d-email{font-size:14px;color:var(--ink-soft);text-decoration:none;word-break:break-all;min-height:44px;display:flex;align-items:center;}
 .drawer-foot a:hover{color:var(--brass-deep);}
@@ -133,10 +129,6 @@ html.sdh-lock,html.sdh-lock body{overflow:hidden;}
 }
 </style>
 <header id="sdhHeader">
-<div id="sdhUtilityBar">
-  <span class="util-loc">San Diego, CA 92130</span><span class="util-sep loc-sep" aria-hidden="true">|</span><a href="tel:8586990072">858-699-0072</a><span class="util-sep" aria-hidden="true">|</span><a href="mailto:SANDIEGOHARDWOODS@GMAIL.COM">sandiegohardwoods@gmail.com</a>
-</div>
-
 <div id="sdhMasthead">
   <a id="sdhBrand" href="https://www.sdhardwoods.com/">
     <img class="brand-logo" data-brand-src="assets/branding/web/sdh-logo-256.webp" alt="" width="84" height="84">
@@ -197,10 +189,6 @@ html.sdh-lock,html.sdh-lock body{overflow:hidden;}
     <a id="sdhNavCall" href="tel:8586990072"><span aria-hidden="true">&#9742;</span> Call or Text</a>
   </div>
 </nav>
-
-<div id="sdhSeoStrip">
-  <span class="biz-desc"><span class="vcard"><span class="fn org"><span class="organization-name">__VCARD_DESC__</span></span> <span class="adr"><span class="locality">San Diego</span><span class="separator">, </span><span class="region">CA</span> <span class="postal-code">92130</span></span> <span class="phoneNumbers"><span class="tel"><span class="type">ph: </span>858-699-0072</span></span> <span class="mailtoWrapper"><a class="email" href="mailto:SANDIEGOHARDWOODS@GMAIL.COM">SANDIEGOHARDWOODS@GMAIL.COM</a></span></span></span>
-</div>
 </header>
 
 <div id="sdhMiniHeader" aria-hidden="true">
@@ -254,6 +242,7 @@ html.sdh-lock,html.sdh-lock body{overflow:hidden;}
     <a data-nav="contact_us" href="https://www.sdhardwoods.com/contact_us">Contact</a>
   </nav>
   <div class="drawer-foot">
+    <button type="button" class="drawer-theme sdh-theme-btn" aria-pressed="false"><span class="theme-ico" aria-hidden="true">&#9790;</span><span class="theme-label">Use Dark Appearance</span></button>
     <a class="d-youtube" href="https://www.youtube.com/@SANDIEGOHARDWOODS" target="_blank" rel="noopener"><span class="yt-ico" aria-hidden="true"><svg viewBox="0 0 28 20" width="22" height="16" focusable="false"><path fill="#FF0000" d="M27.4 3.1A3.5 3.5 0 0 0 25 .6C22.9 0 14 0 14 0S5.1 0 3 .6A3.5 3.5 0 0 0 .6 3.1 36.6 36.6 0 0 0 0 10a36.6 36.6 0 0 0 .6 6.9A3.5 3.5 0 0 0 3 19.4c2.1.6 11 .6 11 .6s8.9 0 11-.6a3.5 3.5 0 0 0 2.4-2.5A36.6 36.6 0 0 0 28 10a36.6 36.6 0 0 0-.6-6.9z"/><path fill="#fff" d="M11.2 14.3 18.5 10l-7.3-4.3z"/></svg></span>Watch Our Work on YouTube</a>
     <a class="d-email" href="mailto:sandiegohardwoods@gmail.com">sandiegohardwoods@gmail.com</a>
   </div>

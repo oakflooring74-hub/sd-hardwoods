@@ -42,6 +42,7 @@ MAIN = """
 
 <section class="block">
   <h2>Call or Text Today for a Free Hardwood Flooring Phone Assessment &mdash; Anywhere in San Diego County</h2>
+  <p class="lede">Based in San Diego (92130), we restore and repair solid and engineered hardwood and bamboo flooring for homeowners throughout San Diego County, with select projects in Orange County. Texting photos of your floors is the fastest way to get an experienced specialist's assessment of your project &mdash; usually the same day.</p>
   <div class="info-grid">
     <div class="card">
       <h3>Call or Text</h3>
@@ -63,11 +64,6 @@ MAIN = """
       <h3>Not Every Hardwood Floor Needs Refinishing</h3>
       <p>Before investing in a complete refinishing project, let us evaluate your floors. Many hardwood, engineered hardwood, wire-brushed, hand-scraped and oil-finished floors can often be restored with our <strong>Bona Power Scrubber deep cleaning system</strong>, professional maintenance coat, or targeted repairs. We'll recommend the solution that gives you the best long-term value&mdash;not simply the most expensive option.</p>
       <p><a class="btn btn-outline" href="https://www.sdhardwoods.com/deep-cleaning-hardwood-floors-san-diego.html">Learn When Deep Cleaning Is a Better Option &rarr;</a></p>
-    </div>
-    <div class="cta-media">
-      <a href="https://www.sdhardwoods.com/deep-cleaning-hardwood-floors-san-diego.html">
-        <img src="https://www.sdhardwoods.com/ultra%20clean%20button.png" alt="San Diego hardwood floor deep cleaning using the Bona Power Scrubber for hardwood, engineered hardwood, wire-brushed and oil-finished floors">
-      </a>
     </div>
   </div>
 </section>

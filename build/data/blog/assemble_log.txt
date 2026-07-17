@@ -1,12 +1,12 @@
-NEW <img> count: 53
+NEW <img> count: 47
 RAW <img> count: 49
-img_total tracked in script: 49
+img_total tracked in script: 43
 ld+json occurrences in NEW: 0
 ld+json occurrences in RAW: 0
 triple-backtick occurrences in NEW: 0
 <footer count: 1
 sdhMegaNav count: 0
-sdh-toggle count: 1
+sdh-toggle count: 0
 title extracted: 'San Diego Hardwood Flooring Blog | Expert Advice on Refinishing, Repairs, Restoration &amp; Floor Care'
 _gaq present in NEW: True
 vcard_desc: 'Professional Hardwood Floor Refinishing, Restoration &amp; Floor Care in San Diego'

@@ -1,0 +1,35 @@
+{
+  "_comment": "Milestone 2.1: restores the original four-project structure of solid_wood_floor_photo_gallery from the raw source (build/raw-source/solid_wood_floor_photo_gallery.html), which the previous flat photo grid had collapsed. Headings, intro/outro prose, and per-project sourcing lines are the original page's own text. Each project lists its images by src in original order; the builder joins them with the byte-identical alt text kept in images.json (the frozen extraction). The four legacy image-button records in images.json (NEXT PAGE BUTTON 2025, CONTACT US BETTER BUTTON 2025, ABOUT US 2025 BUTTON, HOME BUTTON 2025) are deliberately excluded from generated output.",
+  "intro": {
+    "heading": "Craftsman-Level Hardwood Floors — Nailed Down or Glued to Concrete, Built to Last",
+    "body": "San Diego Hardwoods specializes in the installation, sanding, and finishing of <strong>real solid wood strip and plank flooring</strong>, along with unfinished engineered wood floors glued to concrete. We offer custom colors, square-edge unfinished engineered wide plank flooring for perfectly flat surfaces, and a 100% dust containment option for cleaner, safer work. See examples of our recent projects in the gallery below, including hand-selected rift and quartered white oak chosen for its natural beauty and durability."
+  },
+  "sourcing": {
+    "heading": "Buy Premium Solid & Engineered Hardwood Flooring Direct — Complete Material Sourcing and Expert Installation",
+    "body": "Eliminate the showroom markup. When you buy your solid or engineered wood flooring material directly through us, you get premium mill-direct quality backed by 35+ years of local expertise. We source high-grade lumber from trusted mills that far exceeds big-box store quality, and we handle the precise climate acclimation required for San Diego&rsquo;s unique coastal and inland environments. Whether you need traditional solid wood or high-spec engineered wide planks for concrete slabs, we supply the premium materials and provide the flawless installation all in one seamless package.",
+    "note": "See a style you love below? We source these exact premium mill-direct hardwoods and high-spec engineered planks directly for your project&mdash;saving you the retail showroom markup."
+  },
+  "outro": "Since 1990, San Diego Hardwoods has installed and restored solid and unfinished engineered wood floors with custom colors, dust-free sanding, and Bona-certified craftsmanship. Serving all of San Diego County &mdash; from La Jolla and Mission Hills to Rancho Santa Fe and Coronado. Call today.",
+  "projects": [
+    {
+      "heading": "San Diego Hardwood Floor Installation · 3\"×3/4\" Select-Grade Rift & Quartered White Oak · Custom Sand Dune Stain + Bona Traffic HD Matte Finish",
+      "note": "Nail-down installation of Graff Brothers solid rift and quartered white oak, staged on tar paper underlayment, then sanded, stained in a custom sand dune color, and finished with Bona Traffic HD matte.",
+      "images": ["/TRICIA WALNUT27.jpg", "/TRICIA WALNUT30.jpg", "/TRICIA WALNUT63.jpg", "/TRICIA WALNUT76.jpg"]
+    },
+    {
+      "heading": "San Diego Real Wood Flooring Contractor · 2¼\" Rift & Quartered White Oak · Custom Light Stain + Bona Matte Finish",
+      "note": "Looking to buy this exact style? Skip the distributor markup&mdash;we source and deliver these premium real wood planks directly for your project. This Mission Hills historical-home kitchen was taken down to the subfloor, then nailed down with rift and quartered select-grade oak matched to the home's original hardwood, including new solid 1\" oak stair treads.",
+      "images": ["/WESLEY BLANK FLOOR.jpg", "/WESLEY RACKED OUT.jpg", "/WES WHITE OAK11.jpg", "/WES WHITE OAK32.jpg", "/WES WHITE OAK48.jpg", "/WES WHITE OAK49.jpg", "/WES WHITE OAK78.jpg"]
+    },
+    {
+      "heading": "Install Solid White Oak Hardwood Floors in San Diego · 2¼\" Rift & Quartered · Natural Finish with Bona Traffic HD Satin",
+      "note": "Want to buy this exact look? We source premium, mill-direct solid white oak and high-grade planks directly for your project at contractor pricing. This vintage Mission Hills cottage received solid rift and quartered select-grade white oak laid over tar paper underlayment, nailed down, sanded flat, and finished natural &mdash; no stain &mdash; with Bona Traffic HD satin.",
+      "images": ["/COTTAGE OAK INSTALL5.jpg", "/COTTAGE OAK INSTALL10.jpg", "/COTTAGE OAK INSTALL14.jpg", "/COTTAGE OAK INSTALL49.jpg", "/COTTAGE OAK INSTALL64.jpg", "/COTTAGE OAK INSTALL65.jpg", "/COTTAGE OAK INSTALL55.jpg", "/COTTAGE OAK INSTALL50.jpg"]
+    },
+    {
+      "heading": "Nail Down Hardwood Floor Installation San Diego · 2¼\" Red Oak Plainsawn · Custom Water-Based Sealer + Bona Matte Finish",
+      "note": "Get direct access to mill pricing &mdash; we supply and deliver top-tier red oak and traditional domestic hardwood materials seamlessly for your home. Solid select-grade red oak nailed down in a North County bedroom and office, aligned seamlessly with the existing hallway floors, then finished with a light custom water-based sealer and Bona Traffic HD matte.",
+      "images": ["/HERNAN38.jpg", "/HERNAN39.jpg", "/HERNAN42.jpg", "/HERNAN71.jpg", "/HERNAN72.jpg", "/HERNAN33.jpg", "/HERNAN88.jpg", "/HERNAN41.jpg", "/HERNAN76.jpg"]
+    }
+  ]
+}

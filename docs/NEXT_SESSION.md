@@ -1,6 +1,22 @@
-# Start here — project status as of 2026-07-16
+# Start here — project status as of 2026-07-17
 
 Read this file first when picking this project back up. It links to everything else and tells you what's done, what's approved next, and what to ask the owner before doing anything.
+
+## Milestone 2.1 — COMPLETE, APPROVED & COMMITTED (2026-07-17)
+
+The Milestone 2.1 refinement (owner's brief of 2026-07-16) is implemented, built, QA'd, **approved by the owner after visual review on 2026-07-17, and committed on `redesign`** ("Complete Milestone 2.1: owner-requested refinement, content restoration, video library, SEO cleanup & legacy-asset removal" — see `git log` for the hash). It is deliberately **not pushed, not merged to `master`, and not deployed** — pushing to `redesign` (which auto-deploys to the Cloudflare preview via Actions) and any production promotion are separate, owner-initiated next steps. Immediately before committing, the full verification suite was re-run: double build byte-identical, legacy-asset assertion zero matches, browser QA 330/330. `docs/2026-07-milestone-2.1-qa-report.md` is the authoritative record (build results, QA details, screenshots list, judgment calls). Highlights:
+
+- Explore bar redesigned (translucent blue-glow surface; never over the initial hero; hides at footer; session-dismissable; reduced-motion aware).
+- Top contact strip and tiny per-page SEO strip removed from the shared chrome; content responsibly relocated — full inventory in `docs/milestone-2.1-seo-content-map.md`. Footer now carries the ZIP + CSLB line.
+- Homepage: new broader H1 (owner-directed), Bona DCS 2.0 dust-containment section, cleaning-only/recoat/oiled-conversion positioning. Only intentional metadata change site-wide is this H1.
+- Theme control moved into the menu drawer (floating toggle gone); first visit now respects the system color scheme.
+- All legacy image-button graphics (CONTACT US/NEXT PAGE/ABOUT US/CALL OR TEXT/HOME/ultra-clean ×2 variants) excluded from generated output on every page, replaced with text links where useful; assertion in the QA report proves zero occurrences remain.
+- Gallery 5 rebuilt as five explicit before/after project pairs (raw-source write-ups #81–#85 restored) via `data/recent_project_gallery_5/projects.json`.
+- Solid Wood Gallery restored to its original four-project structure via `data/solid_wood_floor_photo_gallery/projects.json`.
+- Videos page rebuilt as the complete channel archive: 58 public videos (47 + 11 Shorts) from the checked-in snapshot `build/data/youtube_videos.json`; click-to-play nocookie modal (zero iframes on load); category filters; accurate VideoObject graph. Refresh utility: `build/scripts/update_youtube_videos.py` (see build/README.md).
+- Build is deterministic (double-build byte-identical); regenerating after commit will keep CI's diff gate green.
+
+Next session: when the owner says go, push `redesign` to origin — GitHub Actions will regenerate, verify the diff gate, and auto-deploy to the preview URL (`https://redesign.sd-hardwoods.pages.dev`). Do not merge to `master` or touch production without an explicit, separate owner instruction.
 
 ## The site, in one paragraph
 

@@ -1,102 +1,118 @@
-<!-- SDH explore bar: rotating, *linked* invitations to the site's real destinations
-     (galleries / videos / solid-wood work), replacing the old decorative scroll pill.
-     First message is page-specific (__SCROLL_TOPIC__) and scrolls the page; the rest
-     navigate. Pauses on hover/focus, hides after scrolling, session-dismissable,
-     static under prefers-reduced-motion. -->
+<!-- SDH explore bar (Milestone 2.1 redesign): a refined translucent bar that invites
+     visitors to the site's real project destinations. Behavior contract:
+     - NEVER visible over the initial hero: it appears only after the visitor has
+       scrolled far enough that the hero (and its CTA buttons) is fully above the
+       bar's own strip of the viewport, and it hides again while the footer is on
+       screen so it never sits on top of footer links.
+     - Fixed near the bottom center once shown; respects mobile safe areas.
+     - Dismissable (persists for the browser session via sessionStorage).
+     - Rotating destination messages pause on hover and keyboard focus.
+     - prefers-reduced-motion: no glow pulse, no float, no message rotation.
+     The old floating "Toggle Light Mode" button that lived in this partial was removed;
+     theme control now lives in the menu drawer (see top.html + darkmode_boot_scripts.html). -->
 <style>
-#sdhExplore{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);z-index:999899;display:flex;align-items:center;gap:4px;width:min(700px,94vw);padding:6px 8px 6px 20px;border-radius:16px;background:var(--card-bg);border:1px solid var(--line);border-top:2px solid var(--brass);box-shadow:0 12px 34px rgba(20,12,3,.22);transition:opacity .4s ease,transform .4s ease;}
-#sdhExplore .xp-label{font:700 11px/1 var(--font-sans);letter-spacing:2.2px;text-transform:uppercase;color:var(--brass-deep);flex:0 0 auto;padding-right:14px;border-right:1px solid var(--line);}
-#sdhExplore .xp-link{flex:1 1 auto;display:flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:4px 8px;font-family:var(--font-serif);font-style:italic;font-size:15.5px;line-height:1.35;color:var(--ink);text-decoration:none;text-align:center;transition:opacity .22s ease;}
-#sdhExplore .xp-link:hover{color:var(--brass-deep);}
-#sdhExplore .xp-link .xp-arrow{font-style:normal;font-size:13px;color:var(--brass-deep);flex:0 0 auto;}
-#sdhExplore .xp-close{flex:0 0 auto;display:flex;align-items:center;justify-content:center;width:44px;height:44px;border:none;background:none;color:var(--ink-soft);font-size:15px;cursor:pointer;opacity:.65;border-radius:12px;}
-#sdhExplore .xp-close:hover{opacity:1;background:var(--canvas-alt);}
-#sdhExplore.hidden{opacity:0;transform:translate(-50%,120px);pointer-events:none;}
-@media(max-width:1000px){#sdhExplore{bottom:76px;}}
-@media(max-width:560px){#sdhExplore .xp-label{display:none;}#sdhExplore{padding-left:10px;}#sdhExplore .xp-link{font-size:13.5px;}}
-@media (prefers-reduced-motion: reduce){#sdhExplore,#sdhExplore .xp-link{transition:none;}}
+#sdhExplore{position:fixed;left:50%;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:999899;display:flex;align-items:center;gap:12px;width:min(680px,94vw);padding:9px 10px 9px 18px;border-radius:18px;color:#dbe7f3;background:rgba(15,21,31,.82);-webkit-backdrop-filter:blur(10px) saturate(1.15);backdrop-filter:blur(10px) saturate(1.15);border:1px solid rgba(108,176,230,.5);box-shadow:0 0 0 1px rgba(56,120,180,.14),0 12px 32px rgba(4,9,17,.5),0 0 16px rgba(72,142,205,.2);opacity:0;visibility:hidden;transform:translate(-50%,16px);pointer-events:none;transition:opacity .35s ease,transform .35s ease,visibility .35s;}
+#sdhExplore.show{opacity:1;visibility:visible;transform:translate(-50%,0);pointer-events:auto;animation:sdhExplorePulse 7s ease-in-out infinite,sdhExploreFloat 9s ease-in-out infinite;}
+#sdhExplore:hover,#sdhExplore:focus-within{animation-play-state:paused,paused;}
+@keyframes sdhExplorePulse{
+  0%,100%{box-shadow:0 0 0 1px rgba(56,120,180,.14),0 12px 32px rgba(4,9,17,.5),0 0 16px rgba(72,142,205,.2);border-color:rgba(108,176,230,.5);}
+  50%{box-shadow:0 0 0 1px rgba(76,150,210,.24),0 12px 32px rgba(4,9,17,.5),0 0 26px rgba(92,168,235,.38);border-color:rgba(132,196,245,.72);}
+}
+@keyframes sdhExploreFloat{0%,100%{transform:translate(-50%,0);}50%{transform:translate(-50%,-3px);}}
+#sdhExplore .xp-eyebrow{flex:0 0 auto;font:700 10.5px/1.3 var(--font-sans);letter-spacing:2.1px;text-transform:uppercase;color:#8fc4ee;padding-right:14px;border-right:1px solid rgba(120,180,230,.3);}
+#sdhExplore .xp-link{flex:1 1 auto;display:flex;align-items:center;justify-content:center;gap:9px;min-height:44px;padding:4px 6px;font-family:var(--font-serif);font-size:15.5px;line-height:1.35;color:#f0f6fc;text-decoration:none;text-align:center;border-radius:10px;}
+#sdhExplore .xp-link:hover{color:#aed7f8;}
+#sdhExplore .xp-link:focus-visible,#sdhExplore .xp-close:focus-visible{outline:2px solid #8fc9f6;outline-offset:2px;}
+#sdhExplore .xp-link .xp-arrow{font-size:13px;color:#8fc4ee;flex:0 0 auto;}
+#sdhExplore .xp-text{transition:opacity .2s ease;}
+#sdhExplore .xp-close{flex:0 0 auto;display:flex;align-items:center;justify-content:center;width:44px;height:44px;border:none;background:none;color:#b7c9da;font-size:15px;cursor:pointer;opacity:.75;border-radius:12px;}
+#sdhExplore .xp-close:hover{opacity:1;background:rgba(255,255,255,.09);color:#fff;}
+@media(max-width:560px){#sdhExplore .xp-eyebrow{display:none;}#sdhExplore{padding-left:10px;gap:6px;}#sdhExplore .xp-link{font-size:13.5px;}}
+@media (prefers-reduced-motion: reduce){
+  #sdhExplore,#sdhExplore.show{transition:none;animation:none;}
+  #sdhExplore .xp-text{transition:none;}
+}
 </style>
-<div id="sdhExplore" role="complementary" aria-label="Explore San Diego Hardwoods">
-  <span class="xp-label" aria-hidden="true">Explore</span>
-  <a class="xp-link" id="sdhExploreLink" href="#sdh-explore-down"><span class="xp-arrow" aria-hidden="true">&darr;</span><span id="sdhExploreText">Scroll to Explore __SCROLL_TOPIC__</span></a>
+<div id="sdhExplore" role="complementary" aria-label="Explore real San Diego Hardwoods projects">
+  <span class="xp-eyebrow" aria-hidden="true">Explore Real Projects</span>
+  <a class="xp-link" id="sdhExploreLink" href="https://www.sdhardwoods.com/recent_project_photo_gallery_1"><span class="xp-arrow" aria-hidden="true">&rarr;</span><span class="xp-text" id="sdhExploreText">See Before-and-After Hardwood Floor Transformations</span></a>
   <button type="button" class="xp-close" aria-label="Dismiss explore bar">&#10005;</button>
 </div>
 <script>
 (function(){
   var bar = document.getElementById("sdhExplore");
   if (!bar) return;
-  if (sessionStorage.getItem("sdhScrollClosed")) { bar.style.display = "none"; return; }
+  try { if (sessionStorage.getItem("sdhScrollClosed")) { bar.remove(); return; } } catch(e){}
 
   var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var link = document.getElementById("sdhExploreLink");
   var txt = document.getElementById("sdhExploreText");
 
-  /* First entry scrolls this page; the rest are real destinations. */
+  /* Real, useful site destinations -- every message is a working link. */
   var messages = [
-    { text: "Scroll to Explore __SCROLL_TOPIC__", href: null },
-    { text: "Explore Real San Diego Hardwood Floor Refinishing Projects", href: "https://www.sdhardwoods.com/recent_project_photo_gallery_1" },
-    { text: "Compare Before-and-After Hardwood Floor Restorations", href: "https://www.sdhardwoods.com/recent_project_photo_gallery_2" },
-    { text: "Watch Real San Diego Hardwood Floor Refinishing Videos", href: "https://www.sdhardwoods.com/videos_of_refinishing_process" },
-    { text: "View Dust-Contained Sanding and Refinishing in Progress", href: "https://www.sdhardwoods.com/videos_of_refinishing_process" },
-    { text: "Browse Five Detailed Recent-Project Galleries", href: "https://www.sdhardwoods.com/recent_project_photo_gallery_1" },
-    { text: "See Solid Wood, Engineered Wood, Bamboo, Repair, and Restoration Work", href: "https://www.sdhardwoods.com/solid_wood_floor_photo_gallery" }
+    { text: "See Before-and-After Hardwood Floor Transformations", href: "https://www.sdhardwoods.com/recent_project_photo_gallery_1" },
+    { text: "Watch Dust-Contained Refinishing on Real Projects", href: "https://www.sdhardwoods.com/videos_of_refinishing_process" },
+    { text: "Repairs and Restoration — Real Project Results", href: "https://www.sdhardwoods.com/recent_project_photo_gallery_4" },
+    { text: "Deep Cleaning and Recoating — When Sanding Isn’t Needed", href: "https://www.sdhardwoods.com/deep-cleaning-hardwood-floors-san-diego.html" },
+    { text: "Solid Hardwood Installation Projects", href: "https://www.sdhardwoods.com/solid_wood_floor_photo_gallery" },
+    { text: "Browse Five Detailed Project Galleries", href: "https://www.sdhardwoods.com/recent_project_photo_gallery_2" },
+    { text: "Watch Our Refinishing Videos", href: "https://www.sdhardwoods.com/videos_of_refinishing_process" }
   ];
   var i = 0, paused = false, timer = null;
 
   function apply(idx){
     var m = messages[idx];
     txt.textContent = m.text;
-    if (m.href) { link.setAttribute("href", m.href); link.removeAttribute("data-scroll"); }
-    else { link.setAttribute("href", "#sdh-explore-down"); link.setAttribute("data-scroll", "1"); }
+    link.setAttribute("href", m.href);
   }
   apply(0);
 
-  link.addEventListener("click", function(e){
-    if (link.getAttribute("data-scroll")) {
-      e.preventDefault();
-      window.scrollBy({ top: Math.round(window.innerHeight * .85), behavior: reduceMotion ? "auto" : "smooth" });
-    }
-  });
-
   function rotate(){
-    if (paused || document.hidden) return;
+    if (paused || document.hidden || !bar.classList.contains("show")) return;
     i = (i + 1) % messages.length;
     txt.style.opacity = 0;
     setTimeout(function(){ apply(i); txt.style.opacity = 1; }, 200);
   }
   if (!reduceMotion) {
-    txt.style.transition = "opacity .2s ease";
-    timer = setInterval(rotate, 5500);
+    timer = setInterval(rotate, 6000);
     bar.addEventListener("mouseenter", function(){ paused = true; });
     bar.addEventListener("mouseleave", function(){ paused = false; });
     bar.addEventListener("focusin", function(){ paused = true; });
     bar.addEventListener("focusout", function(){ paused = false; });
   }
 
-  window.addEventListener("scroll", function(){
-    bar.classList.toggle("hidden", window.scrollY > 320);
-  }, { passive: true });
+  /* Visibility: shown only once the hero (and its CTA buttons) sits fully above the
+     bar's strip of the viewport, and hidden again while the footer is on screen. */
+  var hero = document.querySelector(".hero");
+  var footerVisible = false;
+  var CLEARANCE = 130; /* px of viewport bottom the bar occupies, incl. margin */
+
+  function heroCleared(){
+    if (!hero) return true;
+    var r = hero.getBoundingClientRect();
+    return r.bottom < window.innerHeight - CLEARANCE;
+  }
+  function update(){
+    /* require real scrolling too, so the bar never appears on initial load even on
+       pages whose hero is short enough to clear the bar's strip at scroll 0 */
+    bar.classList.toggle("show", window.scrollY > 250 && heroCleared() && !footerVisible);
+  }
+  window.addEventListener("scroll", update, { passive: true });
+  window.addEventListener("resize", update, { passive: true });
+  update();
+
+  var footer = document.querySelector("footer.sdh-footer");
+  if (footer && "IntersectionObserver" in window) {
+    new IntersectionObserver(function(entries){
+      footerVisible = entries[0].isIntersecting;
+      update();
+    }, { threshold: 0 }).observe(footer);
+  }
 
   bar.querySelector(".xp-close").addEventListener("click", function(){
-    bar.style.display = "none";
+    bar.remove();
     if (timer) clearInterval(timer);
-    sessionStorage.setItem("sdhScrollClosed", "1");
+    try { sessionStorage.setItem("sdhScrollClosed", "1"); } catch(e){}
   });
-})();
-</script>
-
-<button aria-label="Toggle legacy light mode" id="sdh-toggle" title="Toggle legacy light mode">Toggle Light Mode</button>
-<script>
-(function(){
-  var toggleBtn = document.getElementById("sdh-toggle");
-  var footer = document.querySelector("footer.sdh-footer");
-  if(!toggleBtn || !footer || !("IntersectionObserver" in window)) return;
-  var io = new IntersectionObserver(function(entries){
-    entries.forEach(function(entry){
-      toggleBtn.style.opacity = entry.isIntersecting ? "0" : "1";
-      toggleBtn.style.pointerEvents = entry.isIntersecting ? "none" : "auto";
-    });
-  }, {threshold:0});
-  io.observe(footer);
 })();
 </script>

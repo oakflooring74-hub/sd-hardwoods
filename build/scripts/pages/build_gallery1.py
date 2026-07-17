@@ -82,11 +82,6 @@ MAIN = f"""
       <p>Many hardwood floors can be dramatically improved without sanding. Our Bona Power Scrubber deep cleaning system removes years of embedded dirt, contaminants, and residue before applying a protective low-VOC maintenance recoat when appropriate.</p>
       <p><a class="btn btn-outline" href="https://www.sdhardwoods.com/deep-cleaning-hardwood-floors-san-diego.html">Learn When Deep Cleaning Is Better Than Refinishing &rarr;</a></p>
     </div>
-    <div class="cta-media">
-      <a href="https://www.sdhardwoods.com/deep-cleaning-hardwood-floors-san-diego.html">
-        <img src="https://www.sdhardwoods.com/ultra%20clean%20button.png" alt="hardwood floor deep cleaning in San Diego with professional Bona Power Scrubber maintenance">
-      </a>
-    </div>
   </div>
 </section>
 
@@ -109,11 +104,6 @@ MAIN = f"""
       <h3>See Whether Deep Cleaning Could Save You From a Full Refinish</h3>
       <p>San Diego hardwood floor deep cleaning and polishing service — often the right call before committing to a full dust-contained sand and refinish.</p>
       <p><a class="btn btn-outline" href="https://www.sdhardwoods.com/deep-cleaning-hardwood-floors-san-diego.html">Learn More &rarr;</a></p>
-    </div>
-    <div class="cta-media">
-      <a href="https://www.sdhardwoods.com/deep-cleaning-hardwood-floors-san-diego.html">
-        <img src="https://www.sdhardwoods.com/ultra%20clean%20button%202.png" alt="San Diego hardwood floor deep cleaning and polishing service">
-      </a>
     </div>
   </div>
 </section>

@@ -93,13 +93,20 @@ work the same way conceptually; the table below says which is which.
 `chrome/` holds the one shared copy of:
 - `site_css.html` — every CSS custom property (colors, type) and component class (`.btn`,
   `.card`, `.gallery`, `.hero`, etc.) used across all 12 pages.
-- `darkmode_boot_scripts.html` — the dark-mode-by-default boot logic + toggle click handler.
-- `top.html` — the utility bar, brand bar, and mega-nav flyout (with a `__VCARD_DESC__`
-  placeholder each page's build script fills in with its own business-description text).
-- `footer.html` — the single unified footer (the original site had this duplicated, with
-  drifted content, on almost every page).
-- `scrollhint_and_toggle.html` — the "scroll to explore" pill + the light/dark toggle button
-  (with a `__SCROLL_TOPIC__` placeholder for page-specific wording).
+- `darkmode_boot_scripts.html` — theme boot logic (stored choice wins; first visit follows
+  the visitor's `prefers-color-scheme`, falling back to dark) + the handler for the
+  `.sdh-theme-btn` theme control that lives in the menu drawer since Milestone 2.1.
+- `top.html` — the brand masthead, nav band, mini-header, and menu drawer (which contains
+  the theme control). The old slim utility bar and tiny SEO strip were removed in
+  Milestone 2.1 (see docs/milestone-2.1-seo-content-map.md); build scripts still pass a
+  vcard string to `assemble()`, but the `__VCARD_DESC__` placeholder no longer exists so
+  the replace is a harmless no-op.
+- `footer.html` — the single unified footer (now also carries the address/ZIP + CSLB line
+  that used to live in the removed utility bar).
+- `scrollhint_and_toggle.html` — the Milestone 2.1 explore bar (translucent, rotating
+  linked destinations, appears only after the hero is scrolled clear, hides at the footer,
+  session-dismissable, reduced-motion aware). The floating light/dark toggle button that
+  used to live here was removed — theme control is in the drawer now.
 
 **Change something in `chrome/`, then re-run `build_all.py`, and it applies to all 12 pages
 at once.** That's the entire point of this refactor versus the original site.
@@ -111,13 +118,13 @@ at once.** That's the entire point of this refactor versus the original site.
 | `index` (home) | `raw-source/index.html` | `data/index/` (`gallery.json`, `main_content.html`) | `pages/build_homepage.py` | See quirk #1 below |
 | `about_us` | `raw-source/about_us.html` | `data/about_us/` | `pages/build_about_us.py` | |
 | `contact_us` | `raw-source/contact_us.html` | `data/contact_us/` | `pages/build_contact_us.py` | No contact form on this site — call/text/email only |
-| `videos_of_refinishing_process` | `raw-source/videos_of_refinishing_process.html` | `data/videos_of_refinishing_process/` | `pages/build_videos.py` | See quirk #2 (broken JSON-LD, fixed) |
+| `videos_of_refinishing_process` | `raw-source/videos_of_refinishing_process.html` | `data/videos_of_refinishing_process/` + `data/youtube_videos.json` | `pages/build_videos.py` | See quirk #2 (broken JSON-LD, fixed) and "YouTube video snapshot" below |
 | `recent_project_photo_gallery_1` | `raw-source/recent_project_photo_gallery_1.html` | `data/recent_project_photo_gallery_1/` (`modules.json`) | `pages/build_gallery1.py` | Before/after module pairs |
 | `recent_project_photo_gallery_2` | `raw-source/recent_project_photo_gallery_2.html` | `data/recent_project_photo_gallery_2/` | `pages/build_gallery2.py` | See quirk #3 (split project fragment, fixed) |
 | `recent_project_photo_gallery_3` | `raw-source/recent_project_photo_gallery_3.html` | `data/recent_project_photo_gallery_3/` (`modules.json`) | `common/build_page.py` | Also builds gallery_4 in the same run (shared `CONFIGS` list) |
 | `recent_project_photo_gallery_4` | `raw-source/recent_project_photo_gallery_4.html` | `data/recent_project_photo_gallery_4/` (`modules.json`) | `common/build_page.py` | Same script as gallery_3 |
-| `recent_project_gallery_5` | `raw-source/recent_project_gallery_5.html` | `data/recent_project_gallery_5/` (`images.json`) | `pages/build_gallery5.py` | See quirk #4 |
-| `solid_wood_floor_photo_gallery` | `raw-source/solid_wood_floor_photo_gallery.html` | `data/solid_wood_floor_photo_gallery/` (`images.json`) | `pages/build_solidwood.py` | See quirk #4. No GA on this page (matches original) |
+| `recent_project_gallery_5` | `raw-source/recent_project_gallery_5.html` | `data/recent_project_gallery_5/` (`projects.json` + frozen `images.json`) | `pages/build_gallery5.py` | Milestone 2.1: explicit before/after pairing restored from the raw source's #81–#85 write-ups; quirk #4 is history now |
+| `solid_wood_floor_photo_gallery` | `raw-source/solid_wood_floor_photo_gallery.html` | `data/solid_wood_floor_photo_gallery/` (`projects.json` + frozen `images.json`) | `pages/build_solidwood.py` | Milestone 2.1: original four-project structure restored; alt text joined from `images.json`. No GA on this page (matches original) |
 | `deep-cleaning-hardwood-floors-san-diego` | `raw-source/deep-cleaning-hardwood-floors-san-diego.html` | `data/deep-cleaning-hardwood-floors-san-diego/` | `pages/build_deep_cleaning.py` **then** `pages/assemble_deep_cleaning.py` | Two-step |
 | `blog` | `raw-source/blog.html` | `data/blog/` (`case_studies.json`) | `pages/build_blog.py` **then** `pages/assemble_blog.py` | Two-step. 12 case-study entries |
 
@@ -134,6 +141,36 @@ kept separate from the main build script:
 - `common/inventory.py` — quick structural scan across all 12 raw-source pages (title, meta
   description, canonical, image count, and whether old-site markers like the mega-nav or
   dark-mode boot script are present) — useful as a sanity check, not part of the build itself
+
+## YouTube video snapshot (Videos page)
+
+Since Milestone 2.1, the Videos page renders **every public upload** of the San Diego
+Hardwoods YouTube channel from a checked-in snapshot:
+
+- `data/youtube_videos.json` — one record per public video (ID, original title, watch/embed
+  URLs, thumbnail, publish date, duration, is-Short flag, category, featured flag/rank,
+  original description, plus curated fields: `site_description`, `gallery_href`/`gallery_label`).
+  The normal build reads only this file — **no network access, fully deterministic**.
+- `pages/build_videos.py` — renders the featured section, filterable library grid,
+  click-to-activate `youtube-nocookie` modal player, and an accurate `VideoObject`
+  structured-data graph generated from the snapshot (the legacy raw-source VideoObject
+  block carried a placeholder upload date and is intentionally replaced; the raw source's
+  other schema blocks are kept byte-for-byte).
+
+**To refresh the snapshot** when the owner uploads/removes videos:
+
+```
+python build/scripts/update_youtube_videos.py
+python build/scripts/build_all.py
+```
+
+Then review `git diff` (snapshot + regenerated page) before committing. The utility
+scrapes public YouTube page metadata only (no API key, no credentials — do not add any
+to the repo), preserves the curated fields for existing videos, categorizes new videos
+by a title heuristic (baked into the JSON so output stays deterministic), and prints a
+loud NOTICE for any video that is no longer public before dropping it. If the scrape
+ever breaks, yt-dlp or the YouTube Data API (key kept outside the repo) can feed the
+same snapshot schema — see the utility's docstring.
 
 ## To re-crawl the live site
 

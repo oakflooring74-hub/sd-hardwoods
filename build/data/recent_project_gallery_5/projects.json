@@ -1,0 +1,75 @@
+{
+  "_comment": "Milestone 2.1: explicit before/after pairing for recent_project_gallery_5, reconstructed from the raw-source project write-ups (#81-#85 in build/raw-source/recent_project_gallery_5.html). Titles, descriptions, and captions are the original page's own text (the #82 title is derived from its description, which had no heading in the source; the #83 after-caption reuses the image's own alt text because the raw source repeated the before-caption on both photos -- a source typo). Image alt text is byte-identical to data/recent_project_gallery_5/images.json (the frozen extraction, kept unchanged alongside this file). The five legacy image-button records from images.json (ultra clean button x2, ultra clean button 2, NEXT PAGE BUTTON 2025, CALL OR TEXT NOW BUTTON 2025) are deliberately excluded from generated output.",
+  "projects": [
+    {
+      "title": "#81 Mission Hills Hardwood Floor Refinishing — Solid White Oak",
+      "description": "San Diego hardwood floor refinishing service in Mission Hills near Washington Street, Sutter Street, and Goldfinch Street. This historic home featured ¾-inch by 2¼-inch select grade, random length, unfinished white oak flooring that had been stained dark and badly damaged. Our floor sanding service restored the old-growth oak by deep cleaning, sanding to a flat surface, and sealing with a natural finish to highlight its original beauty. Expansive rooms of white oak flooring were brought back to life, overlooking the San Diego Airport, Old Town, and the Gaslamp District.",
+      "before": {
+        "src": "/DALE9.jpg",
+        "alt": "San Diego hardwood floor installer and refinishing service in Mission Hills near Washington Street and Sutter Street — ¾ inch by 2¼ inch select grade random length unfinished white oak flooring, old growth, fully sanded, deep cleaned, and restored with a natural finish, overlooking Old Town, San Diego Airport, and the Gaslamp District.",
+        "caption": "Mission Hills San Diego hardwood floor sanding service — old ¾\" × 2¼\" select grade white oak floors deep cleaned and sanded down to raw wood for repairs and full refinishing."
+      },
+      "after": {
+        "src": "/DALE57.jpg",
+        "alt": "Mission Hills hardwood floor sanding service San Diego — historic home with vintage solid white oak floors near Goldfinch Street restored from dark stain and heavy damage, refinished by professional San Diego hardwood floor refinishing experts using dust-free sanding and natural sealing.",
+        "caption": "Historic Mission Hills home near Old Town and Gaslamp with vintage white oak floors fully refinished — natural finish highlighting the beauty of old-growth oak after professional sanding and restoration."
+      }
+    },
+    {
+      "title": "#82 Mission Hills Staircase Refinishing — Solid Oak Treads & Tile Risers",
+      "description": "This vintage Mission Hills staircase with solid oak treads and tile risers went from dark, heavily worn stain to a clean, natural oak finish. We sanded and deep cleaned the old-growth oak, removing years of damage and discoloration, then sealed it with a natural finish that brightens the entire staircase while preserving its historic character near Old Town, Gaslamp, and the San Diego Airport.",
+      "before": {
+        "src": "/DALE32.jpg",
+        "alt": "Mission Hills San Diego hardwood floor sanding service for vintage oak stair treads with tile risers — dark stain and surface wear before refinishing near Washington Street and Old Town.",
+        "caption": "Mission Hills staircase with oak treads and tile risers — dark stain showing heavy wear before refinishing."
+      },
+      "after": {
+        "src": "/DALE60.jpg",
+        "alt": "San Diego hardwood floor refinishing in Mission Hills near Goldfinch Street — vintage oak staircase with solid treads restored to natural finish and paired with tile risers overlooking Old Town and Gaslamp.",
+        "caption": "Staircase refinished in Mission Hills — solid oak treads restored to a natural tone with decorative tile risers."
+      }
+    },
+    {
+      "title": "#83 El Cajon Brazilian Cherry — Before & After",
+      "description": "In this El Cajon home, the solid pre-finished Brazilian cherry flooring had extreme sun fading and heavy surface wear. The first stage shows the floor before sanding, washed out and dull from years of sunlight. After sanding and restoration, the rich deep color of the cherry returned, sealed with a standard oil-based finish to bring out the natural beauty and durability of this exotic hardwood.",
+      "before": {
+        "src": "/CAJON4.jpg",
+        "alt": "El Cajon hardwood floor refinishing service — solid pre-finished Brazilian cherry flooring with extreme sun fading and surface wear before sanding and restoration in this San Diego home.",
+        "caption": "El Cajon solid Brazilian cherry floors with extreme sun fading and surface wear before sanding and refinishing."
+      },
+      "after": {
+        "src": "/CAJON32.jpg",
+        "alt": "El Cajon San Diego hardwood floor refinishing — solid Brazilian cherry floors restored after sanding, deep color revived with oil-based sealer to highlight the natural grain and durability of this exotic wood.",
+        "caption": "El Cajon Brazilian cherry floors restored after sanding — deep color revived with an oil-based sealer to highlight the natural grain of this exotic wood."
+      }
+    },
+    {
+      "title": "#84 Del Mar Beachfront Condo — Engineered Maple Before & After",
+      "description": "This split-level condo at the bottom of Del Mar Heights Road, right above the beach, had engineered maple floors exposed to decades of sun, salt air, and moisture. The original finish had turned orange with fading and discoloration. The first photo shows the floor during sanding, as we removed the worn finish and restored the surface. The second photo reveals the completed work — a clear sealer applied to bring out the natural maple color in a creamy, balanced tone without turning too yellow or too white. The matte sheen now looks stunning in this oceanfront Del Mar setting near the racetrack, Torrey Pines, Old Del Mar, and adjacent Carmel Valley.",
+      "before": {
+        "src": "/CAJON13.jpg",
+        "alt": "Del Mar San Diego hardwood floor sanding service — engineered maple floors in a beachfront condo near Del Mar Heights Road showing orange discoloration and fading during sanding to raw wood.",
+        "caption": "During sanding — the orange, sun-faded finish being removed down to raw maple."
+      },
+      "after": {
+        "src": "/CAJON45.jpg",
+        "alt": "Hardwood floor refinishing in Del Mar near Torrey Pines and Carmel Valley — engineered maple floors restored with a clear sealer to a natural creamy tone, matte sheen, and oceanfront durability.",
+        "caption": "After complete restoration — clear-sealed engineered maple in a natural creamy tone with a matte sheen."
+      }
+    },
+    {
+      "title": "#85 La Jolla Beach Rental — Red Oak Refinished with Gray Stain",
+      "description": "At this La Jolla beach rental near Bird Rock and La Jolla Boulevard, the homeowner tried to refinish the red oak floors themselves, leaving sanding marks and a poor finish. We were called in to restore them properly. The first photo shows the floor after initial sanding began to remove the failed finish. The second photo reveals the character-grade red oak sanded smooth and finished with a modern gray stain, creating a clean, stylish look. This project sits at the bottom of Mount Soledad, close to Pacific Beach, La Jolla Shores, Nautilus Street, Torrey Pines Road, and Scripps Pier.",
+      "before": {
+        "src": "/LA JOLLA REFINISH WOOD FLOOR.jpg",
+        "alt": "La Jolla hardwood floor sanding service near Bird Rock and Mount Soledad — character-grade red oak floors in a beach rental showing failed DIY refinishing and early sanding for restoration.",
+        "caption": "La Jolla beach rental near Bird Rock with red oak floors poorly refinished by the homeowner — shown here just after sanding started."
+      },
+      "after": {
+        "src": "/LA JOLLA WOOD REFINISH.jpg",
+        "alt": "Hardwood floor refinishing in La Jolla near Pacific Beach and La Jolla Boulevard — red oak floors sanded smooth and finished with a modern gray stain for a stylish coastal look.",
+        "caption": "Character-grade red oak floors in La Jolla sanded smooth and finished with a gray stain, transforming a failed DIY job into a stylish modern look."
+      }
+    }
+  ]
+}

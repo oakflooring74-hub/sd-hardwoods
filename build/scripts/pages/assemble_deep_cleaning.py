@@ -107,21 +107,13 @@ for rec in records:
     parts.append('</div>')
     gallery_cards.append("\n".join(parts))
 
-# trailing CTA button images from item #20's note_imgs (NEXT PAGE / CALL OR TEXT NOW buttons)
-cta_buttons_html = ""
-last_note_imgs = records[-1]["note_imgs"]
-if last_note_imgs:
-    figs = []
-    for im in last_note_imgs:
-        href = im["href"] or im["src"]
-        cls = im["class"].strip()
-        cls_attr = f' class="{cls}"' if cls else ""
-        figs.append(f'<figure><a href="{href}"><img src="{im["src"]}" alt="{im["alt"]}"{cls_attr} loading="lazy"></a></figure>')
-        img_count_in_gallery += 1
-    cta_buttons_html = f'''
-<div class="gallery" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr));max-width:520px;margin:34px auto 0;">
-{"".join(figs)}
-</div>'''
+# Milestone 2.1: the trailing legacy image-buttons from item #20's note_imgs (NEXT PAGE /
+# CALL OR TEXT NOW graphics) are no longer rendered -- replaced with real text links.
+cta_buttons_html = '''
+<p style="text-align:center;margin:34px auto 0;font-size:15.5px;">
+<a href="https://www.sdhardwoods.com/recent_project_photo_gallery_1.html" style="color:var(--brass-deep);font-weight:700;text-decoration:underline;">See Before &amp; After Project Galleries &rarr;</a>
+&nbsp;&bull;&nbsp; <a href="tel:858-699-0072" style="color:var(--cta-red);font-weight:700;text-decoration:underline;">Call or Text Now: 858-699-0072</a>
+</p>'''
 
 gallery_html = "\n".join(gallery_cards)
 
@@ -177,6 +169,22 @@ main_html = f'''<main>
     <p>{p_professionally}</p>
     <p>{p_proudly}</p>
   </div>
+
+  <div class="info-grid" style="margin-top:26px;">
+    <div class="card">
+      <h3>Cleaning-Only Service</h3>
+      <p>Not every floor needs a new coat of finish. When intensive cleaning is the appropriate scope, we provide deep cleaning as a stand-alone service &mdash; removing embedded dirt, old cleaner residue, and polish buildup so your existing finish looks and performs its best again.</p>
+    </div>
+    <div class="card">
+      <h3>Intensive Cleaning Before Recoating</h3>
+      <p>A maintenance recoat only bonds well over a genuinely clean, compatible finish. We deep clean and prepare the floor first, confirm finish compatibility, and then apply a protective low-VOC maintenance coat &mdash; extending the life of the floor without full sanding.</p>
+    </div>
+    <div class="card">
+      <h3>Wire-Brushed, Textured &amp; Oil-Finished Floors</h3>
+      <p>Wire-brushed and textured floors trap dirt deep in the grain where mops can't reach, and oil-finished floors need manufacturer-approved care. We deep clean both safely &mdash; and where an oiled floor has become a maintenance burden, we can discuss converting suitable floors to a durable, easy-to-clean, low-sheen waterborne finish such as Bona Traffic HD.</p>
+    </div>
+  </div>
+
   <div class="cta-row" style="justify-content:center;margin-top:34px;">
     <a class="btn btn-call" href="tel:8586990072">&#9742; Call or Text 858-699-0072</a>
   </div>

@@ -104,23 +104,17 @@ deep_cleaning_cta = '''<div class="card cta-card">
     <p>Not every hardwood floor needs refinishing. Many dull, dirty, lightly scratched, or worn floors can be dramatically improved with our Bona Power Scrubber deep cleaning system and a protective low-VOC maintenance coat. We also specialize in maintaining wire-brushed hardwood, matte finishes, satin finishes, natural oil finishes, engineered hardwood, and bamboo flooring throughout San Diego County.</p>
     <p><a class="btn btn-outline" href="https://www.sdhardwoods.com/deep-cleaning-hardwood-floors-san-diego.html">Learn When Deep Cleaning Is a Better Choice Than Refinishing &raquo;</a></p>
   </div>
-  <div class="cta-media">
-    <a href="https://www.sdhardwoods.com/deep-cleaning-hardwood-floors-san-diego.html">
-      <img src="https://www.sdhardwoods.com/ultra%20clean%20button.png" alt="Professional hardwood floor deep cleaning in San Diego using the Bona Power Scrubber for hardwood, engineered hardwood, bamboo, wire-brushed, matte, satin, and oil-finished floors">
-    </a>
-  </div>
 </div>'''
 
-# ---- zB / zC nav-button widgets (Contact / About / Home / Next Page) ----
-nav_buttons_html = '''<div class="gallery" style="grid-template-columns:repeat(auto-fit,minmax(200px,1fr));max-width:900px;margin:34px auto 0;">
-<figure><a href="https://www.sdhardwoods.com/contact_us.html"><img src="/CONTACT US BETTER BUTTON 2025.png" alt="Contact San Diego Hardwoods for a free in-home estimate — hardwood floor refinishing, dust-free sanding, repairs, and installation services in La Jolla, Del Mar, Encinitas, Rancho Santa Fe, Carmel Valley, and North County San Diego" loading="lazy"></a></figure>
-<figure><a href="https://www.sdhardwoods.com/about_us.html"><img src="/ABOUT US 2025 BUTTON.png" alt="About San Diego Hardwoods — meet your local hardwood floor refinishing and installation experts with 35+ years of experience serving La Jolla, Del Mar, Rancho Santa Fe, Encinitas, Carmel Valley, Solana Beach, and all coastal North County San Diego" loading="lazy"></a></figure>
-<figure><a href="https://www.sdhardwoods.com/"><img src="/HOME BUTTON 2025.png" alt="san diego hardwood floor and bamboo floor deep cleaning refinishing installation and repairs. top rated flooring company in san diego county near me" loading="lazy"></a></figure>
-<figure><a href="https://www.sdhardwoods.com/recent_project_photo_gallery_1.html"><img src="/NEXT PAGE BUTTON 2025.png" alt="SEE BEFORE AND AFTER PHOTOS OF SAN DIEGO HARDWOOD FLOOR REFINISHING DEEP CLEANING AND INSTALLATION FIX YOUR WOOD FLOOR TODAY NEAR ME FREE ESTIMATES SAN DIEGO HARDWOOD FLOOR INSTALLER" loading="lazy"></a></figure>
-</div>'''
-img_total += 4
-
-img_total += 2  # the two Deep Cleaning CTA occurrences (1 img each)
+# ---- Milestone 2.1: the legacy zB/zC image-button widgets (Contact / About / Home /
+# Next Page graphics) and the "ultra clean button" CTA image are no longer rendered.
+# Their navigation jobs are covered by the site's real navigation and text links;
+# a text link row below the case studies keeps the useful destinations. ----
+nav_links_html = '''<p style="text-align:center;margin:34px auto 0;font-size:15.5px;">
+<a href="https://www.sdhardwoods.com/recent_project_photo_gallery_1.html" style="color:var(--brass-deep);font-weight:700;text-decoration:underline;">See Before &amp; After Project Galleries &rarr;</a>
+&nbsp;&bull;&nbsp; <a href="https://www.sdhardwoods.com/contact_us.html" style="color:var(--brass-deep);font-weight:700;text-decoration:underline;">Contact Us</a>
+&nbsp;&bull;&nbsp; <a href="https://www.sdhardwoods.com/about_us.html" style="color:var(--brass-deep);font-weight:700;text-decoration:underline;">About San Diego Hardwoods</a>
+</p>'''
 
 main_html = f'''<main>
 
@@ -128,7 +122,7 @@ main_html = f'''<main>
   <div class="kicker">Est. 1990 &bull; San Diego's Finest Hardwood Flooring Specialist</div>
   <h1>San Diego Hardwood Flooring Blog &mdash; Expert Advice on Refinishing, Restoration, Deep Cleaning, Repairs, Installation &amp; Professional Floor Care</h1>
   <p>Licensed, Bonded &amp; Insured Hardwood Flooring Specialist with 35+ Years of Experience in Refinishing, Restoration, Repairs, Custom Installation, Dust Containment Sanding, Deep Cleaning, Custom Staining, Wire-Brushed &amp; Oil-Finished Floors. Call or Text <a href="tel:8586990072">858-699-0072</a> to Discuss Your Project with an Experienced Flooring Specialist.</p>
-  <p>REFINISH RESTORE REPAIR WOOD HARDWOOD BAMBOO SOLID AND ENGINEERED WOOD FLOORING IN SAN DIEGO COUNTY. BONA CERTIFIED CRAFTSMAN</p>
+  <p>We refinish, restore, and repair solid and engineered hardwood and bamboo flooring throughout San Diego County &mdash; a Bona Certified Craftsman company.</p>
   <div class="cta-row">
     <a class="btn btn-call" href="tel:8586990072">&#9742; Call or Text 858-699-0072</a>
   </div>
@@ -225,7 +219,7 @@ main_html = f'''<main>
   <div class="info-grid" style="grid-template-columns:repeat(auto-fit,minmax(min(480px,100%),1fr));">
 {case_studies_html}
   </div>
-  {nav_buttons_html}
+  {nav_links_html}
 </section>
 
 <section class="block">

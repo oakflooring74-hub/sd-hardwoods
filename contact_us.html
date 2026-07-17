@@ -40,14 +40,8 @@ body.darkmode{
   --util-bg:#0d0a06; --util-ink:#cbb98d;
   --nav-bg:#14100a; --nav-ink:#d9c49a; --nav-ink-strong:#f6ecd8; --nav-hover:rgba(217,179,116,.1); --nav-line:#2c2214;
 }
-#sdh-toggle{
-  position:fixed; right:16px; bottom:16px; z-index:99999;
-  font:600 13px/1.2 var(--font-sans); padding:12px 16px; min-height:44px; border-radius:10px;
-  border:1px solid var(--line); background:var(--card-bg); color:var(--ink);
-  cursor:pointer; box-shadow:0 4px 14px rgba(0,0,0,.18);
-  display:flex; align-items:center; justify-content:center;
-  transition:opacity .25s ease;
-}
+/* The floating light/dark toggle (#sdh-toggle) was removed in Milestone 2.1 --
+   theme control now lives inside the menu drawer (.sdh-theme-btn in top.html). */
 </style>
 <style id="sdh-site-css" type="text/css">
 *{box-sizing:border-box;}
@@ -209,7 +203,14 @@ footer.sdh-footer .copyright{font-size:13px;opacity:.6;margin-top:22px;}
 <script id="sdh-darkmode-boot">
 (function(){
   try {
-    var pref = localStorage.getItem('sdh-theme') || 'dark';
+    /* Stored choice wins; on first visit, respect the visitor's system preference
+       (falling back to dark, the site's long-standing default, when no preference
+       is detectable). The choice is only persisted once the visitor actually uses
+       the theme control, so an undecided first-timer keeps following their OS. */
+    var pref = localStorage.getItem('sdh-theme');
+    if (!pref) {
+      pref = (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) ? 'light' : 'dark';
+    }
     if (pref === 'dark') {
       document.addEventListener('DOMContentLoaded', function(){ document.body.classList.add('darkmode'); });
     }
@@ -219,14 +220,28 @@ footer.sdh-footer .copyright{font-size:13px;opacity:.6;margin-top:22px;}
 <script id="sdh-darkmode-logic">
 (function() {
   document.addEventListener('DOMContentLoaded', function() {
-    var toggleBtn = document.getElementById('sdh-toggle');
-    if (!toggleBtn) return;
+    var btns = Array.prototype.slice.call(document.querySelectorAll('.sdh-theme-btn'));
+    if (!btns.length) return;
 
-    toggleBtn.addEventListener('click', function() {
-      document.body.classList.toggle('darkmode');
+    function sync() {
       var isDark = document.body.classList.contains('darkmode');
-      localStorage.setItem('sdh-theme', isDark ? 'dark' : 'light');
+      btns.forEach(function(btn){
+        var label = btn.querySelector('.theme-label');
+        var ico = btn.querySelector('.theme-ico');
+        if (label) label.textContent = isDark ? 'Use Light Appearance' : 'Use Dark Appearance';
+        if (ico) ico.innerHTML = isDark ? '&#9788;' : '&#9790;';
+        btn.setAttribute('aria-pressed', isDark ? 'true' : 'false');
+      });
+    }
+    btns.forEach(function(btn){
+      btn.addEventListener('click', function() {
+        document.body.classList.toggle('darkmode');
+        var isDark = document.body.classList.contains('darkmode');
+        try { localStorage.setItem('sdh-theme', isDark ? 'dark' : 'light'); } catch(e){}
+        sync();
+      });
     });
+    sync();
   });
 })();
 </script>
@@ -234,8 +249,13 @@ footer.sdh-footer .copyright{font-size:13px;opacity:.6;margin-top:22px;}
 </head>
 <body class="lo_layout2wt" dir="ltr" spellcheck="false">
 <!-- SDH masthead + primary navigation.
-     Layout: slim utility bar > brand masthead (real medallion logo + tagline + phone/email + CTA)
-     > full-width nav band (desktop dropdowns / mobile drawer) > de-emphasized crawlable SEO strip.
+     Layout: brand masthead (real medallion logo + tagline + phone/email + CTA)
+     > full-width nav band (desktop dropdowns / mobile drawer).
+     Milestone 2.1: the slim top utility bar (city/phone/email) and the tiny crawlable SEO
+     strip that used to render below the nav were removed at the owner's request -- the same
+     business information lives in the masthead, footer, contact page, and JSON-LD, and each
+     page's useful strip language was relocated into readable body content (see
+     docs/milestone-2.1-seo-content-map.md).
      The masthead is in-flow and scrolls away; a compact fixed mini-header (#sdhMiniHeader) slides
      in only after the masthead has scrolled out (IntersectionObserver, reduced-motion aware).
      Brand images are committed static files (assets/branding/web/) referenced via
@@ -243,13 +263,6 @@ footer.sdh-footer .copyright{font-size:13px;opacity:.6;margin-top:22px;}
      resolveBrandImages() note below for why they can't be literal root-relative URLs. -->
 <style>
 header#sdhHeader{background:var(--canvas);}
-
-/* --- utility bar --- */
-#sdhUtilityBar{background:var(--util-bg);color:var(--util-ink);font-size:13px;letter-spacing:.4px;padding:7px 16px;text-align:center;font-family:var(--font-sans);}
-#sdhUtilityBar a{color:var(--util-ink);text-decoration:none;font-weight:600;}
-#sdhUtilityBar a:hover{text-decoration:underline;}
-#sdhUtilityBar .util-sep{opacity:.45;margin:0 10px;}
-@media(max-width:560px){#sdhUtilityBar .util-loc{display:none;}#sdhUtilityBar .util-sep.loc-sep{display:none;}}
 
 /* --- brand masthead --- */
 #sdhMasthead{max-width:1180px;margin:0 auto;padding:18px 24px 16px;display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;}
@@ -304,11 +317,6 @@ header#sdhHeader{background:var(--canvas);}
 }
 @media(min-width:1021px){#sdhNavCall{display:none;}}
 
-/* --- de-emphasized crawlable SEO strip (wording preserved) --- */
-#sdhSeoStrip{background:var(--canvas-alt);border-bottom:1px solid var(--line);padding:8px 20px;}
-#sdhSeoStrip .biz-desc{display:block;max-width:1060px;margin:0 auto;font-size:10.5px;line-height:1.55;color:var(--ink-soft);opacity:.62;text-align:center;letter-spacing:.2px;}
-#sdhSeoStrip a{color:inherit;text-decoration:none;}
-
 /* --- compact sticky mini-header (appears only after masthead scrolls away) --- */
 #sdhMiniHeader{position:fixed;top:0;left:0;right:0;z-index:999900;display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:56px;padding:6px 14px;background:var(--canvas);border-bottom:1px solid var(--line);box-shadow:0 6px 22px rgba(20,12,3,.16);transform:translateY(-104%);visibility:hidden;transition:transform .26s ease,visibility .26s;}
 #sdhMiniHeader.show{transform:none;visibility:visible;}
@@ -358,6 +366,9 @@ body.darkmode .drawer-ctas .d-sms{border-color:var(--brass);color:var(--brass);}
 #sdhDrawer details a:hover{background:var(--canvas-alt);color:var(--ink);}
 #sdhDrawer details a[aria-current="page"]{color:var(--brass-deep);font-weight:700;}
 .drawer-foot{margin-top:auto;padding:14px 18px 22px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:12px;}
+.drawer-theme{display:flex;align-items:center;gap:10px;min-height:48px;padding:8px 14px;border:1px solid var(--line);border-radius:10px;background:var(--canvas-alt);color:var(--ink);font-family:var(--font-sans);font-size:15px;font-weight:700;cursor:pointer;text-align:left;}
+.drawer-theme:hover{border-color:var(--brass);}
+.drawer-theme .theme-ico{font-size:17px;line-height:1;}
 .drawer-foot .d-youtube{display:flex;align-items:center;gap:9px;font-size:15px;font-weight:700;color:var(--ink);text-decoration:none;min-height:44px;}
 .drawer-foot .d-email{font-size:14px;color:var(--ink-soft);text-decoration:none;word-break:break-all;min-height:44px;display:flex;align-items:center;}
 .drawer-foot a:hover{color:var(--brass-deep);}
@@ -368,10 +379,6 @@ html.sdh-lock,html.sdh-lock body{overflow:hidden;}
 }
 </style>
 <header id="sdhHeader">
-<div id="sdhUtilityBar">
-  <span class="util-loc">San Diego, CA 92130</span><span class="util-sep loc-sep" aria-hidden="true">|</span><a href="tel:8586990072">858-699-0072</a><span class="util-sep" aria-hidden="true">|</span><a href="mailto:SANDIEGOHARDWOODS@GMAIL.COM">sandiegohardwoods@gmail.com</a>
-</div>
-
 <div id="sdhMasthead">
   <a id="sdhBrand" href="https://www.sdhardwoods.com/">
     <img class="brand-logo" data-brand-src="assets/branding/web/sdh-logo-256.webp" alt="" width="84" height="84">
@@ -432,10 +439,6 @@ html.sdh-lock,html.sdh-lock body{overflow:hidden;}
     <a id="sdhNavCall" href="tel:8586990072"><span aria-hidden="true">&#9742;</span> Call or Text</a>
   </div>
 </nav>
-
-<div id="sdhSeoStrip">
-  <span class="biz-desc"><span class="vcard"><span class="fn org"><span class="organization-name">SAN DIEGO LICENSED WOOD FLOOR RESTORATION/REFINISHING CONTRACTOR 858-699-0072 EXPERIENCE EXCEPTIONAL DUSTLESS HARDWOOD AND BAMBOO FLOOR REFINISHING IN SAN DIEGO. ALL WORK PERFORED BY A HIGHLY EXPERIENCED FLOORING EXPERT WITH OVER 30 YEARS EXPERIENCE RESTORING AND REPAIRING SOLID AND ENGINEERED HARDWOOD AND BAMBOO FLOORING. CALL TODAY TO SCHEDULE A CONSULTATION. TEXT PHOTOS OF YOUR PROJECT FOR AN IMMEDIATE ASSESSMENT.</span></span> <span class="adr"><span class="locality">San Diego</span><span class="separator">, </span><span class="region">CA</span> <span class="postal-code">92130</span></span> <span class="phoneNumbers"><span class="tel"><span class="type">ph: </span>858-699-0072</span></span> <span class="mailtoWrapper"><a class="email" href="mailto:SANDIEGOHARDWOODS@GMAIL.COM">SANDIEGOHARDWOODS@GMAIL.COM</a></span></span></span>
-</div>
 </header>
 
 <div id="sdhMiniHeader" aria-hidden="true">
@@ -489,6 +492,7 @@ html.sdh-lock,html.sdh-lock body{overflow:hidden;}
     <a data-nav="contact_us" href="https://www.sdhardwoods.com/contact_us">Contact</a>
   </nav>
   <div class="drawer-foot">
+    <button type="button" class="drawer-theme sdh-theme-btn" aria-pressed="false"><span class="theme-ico" aria-hidden="true">&#9790;</span><span class="theme-label">Use Dark Appearance</span></button>
     <a class="d-youtube" href="https://www.youtube.com/@SANDIEGOHARDWOODS" target="_blank" rel="noopener"><span class="yt-ico" aria-hidden="true"><svg viewBox="0 0 28 20" width="22" height="16" focusable="false"><path fill="#FF0000" d="M27.4 3.1A3.5 3.5 0 0 0 25 .6C22.9 0 14 0 14 0S5.1 0 3 .6A3.5 3.5 0 0 0 .6 3.1 36.6 36.6 0 0 0 0 10a36.6 36.6 0 0 0 .6 6.9A3.5 3.5 0 0 0 3 19.4c2.1.6 11 .6 11 .6s8.9 0 11-.6a3.5 3.5 0 0 0 2.4-2.5A36.6 36.6 0 0 0 28 10a36.6 36.6 0 0 0-.6-6.9z"/><path fill="#fff" d="M11.2 14.3 18.5 10l-7.3-4.3z"/></svg></span>Watch Our Work on YouTube</a>
     <a class="d-email" href="mailto:sandiegohardwoods@gmail.com">sandiegohardwoods@gmail.com</a>
   </div>
@@ -639,6 +643,7 @@ html.sdh-lock,html.sdh-lock body{overflow:hidden;}
 
 <section class="block">
   <h2>Call or Text Today for a Free Hardwood Flooring Phone Assessment &mdash; Anywhere in San Diego County</h2>
+  <p class="lede">Based in San Diego (92130), we restore and repair solid and engineered hardwood and bamboo flooring for homeowners throughout San Diego County, with select projects in Orange County. Texting photos of your floors is the fastest way to get an experienced specialist's assessment of your project &mdash; usually the same day.</p>
   <div class="info-grid">
     <div class="card">
       <h3>Call or Text</h3>
@@ -660,11 +665,6 @@ html.sdh-lock,html.sdh-lock body{overflow:hidden;}
       <h3>Not Every Hardwood Floor Needs Refinishing</h3>
       <p>Before investing in a complete refinishing project, let us evaluate your floors. Many hardwood, engineered hardwood, wire-brushed, hand-scraped and oil-finished floors can often be restored with our <strong>Bona Power Scrubber deep cleaning system</strong>, professional maintenance coat, or targeted repairs. We'll recommend the solution that gives you the best long-term value&mdash;not simply the most expensive option.</p>
       <p><a class="btn btn-outline" href="https://www.sdhardwoods.com/deep-cleaning-hardwood-floors-san-diego.html">Learn When Deep Cleaning Is a Better Option &rarr;</a></p>
-    </div>
-    <div class="cta-media">
-      <a href="https://www.sdhardwoods.com/deep-cleaning-hardwood-floors-san-diego.html">
-        <img src="https://www.sdhardwoods.com/ultra%20clean%20button.png" alt="San Diego hardwood floor deep cleaning using the Bona Power Scrubber for hardwood, engineered hardwood, wire-brushed and oil-finished floors">
-      </a>
     </div>
   </div>
 </section>
@@ -743,110 +743,127 @@ html.sdh-lock,html.sdh-lock body{overflow:hidden;}
   <p>Owner Operated Since 1990 &bull; 35+ Years of Hardwood Flooring Craftsmanship<br>Licensed, Bonded &amp; Insured California Flooring Contractor &bull; Bona Certified Craftsman</p>
   <p>Specializing in Dust Containment Sanding, Hardwood Floor Refinishing, Repairs, Deep Cleaning, Custom Installation, Wire-Brushed &amp; Oil-Finished Hardwood Floors throughout San Diego County. Proudly serving La Jolla, Del Mar, Rancho Santa Fe, Encinitas, Solana Beach, Carmel Valley, Carlsbad, Oceanside, Poway, Rancho Bernardo and all of San Diego County.</p>
   <div class="f-call"><a href="tel:8586990072">Call or Text 858-699-0072</a><span class="f-call-sep" aria-hidden="true">|</span><a href="mailto:sandiegohardwoods@gmail.com" style="color:var(--cta-red);">sandiegohardwoods@gmail.com</a></div>
+  <p>San Diego, CA 92130 &bull; CSLB-Licensed California Flooring Contractor</p>
   <p class="f-links"><a href="https://www.bona.com/en-us/homeowner/find-a-contractor/contractor-details/?storeid=83667" target="_blank" rel="noopener nofollow">Verify Our Bona Certified Craftsman Status</a></p>
   <div class="copyright">&copy; 2026 San Diego Hardwoods. All Rights Reserved.</div>
 </footer>
 
-<!-- SDH explore bar: rotating, *linked* invitations to the site's real destinations
-     (galleries / videos / solid-wood work), replacing the old decorative scroll pill.
-     First message is page-specific (Ways to Reach Us) and scrolls the page; the rest
-     navigate. Pauses on hover/focus, hides after scrolling, session-dismissable,
-     static under prefers-reduced-motion. -->
+<!-- SDH explore bar (Milestone 2.1 redesign): a refined translucent bar that invites
+     visitors to the site's real project destinations. Behavior contract:
+     - NEVER visible over the initial hero: it appears only after the visitor has
+       scrolled far enough that the hero (and its CTA buttons) is fully above the
+       bar's own strip of the viewport, and it hides again while the footer is on
+       screen so it never sits on top of footer links.
+     - Fixed near the bottom center once shown; respects mobile safe areas.
+     - Dismissable (persists for the browser session via sessionStorage).
+     - Rotating destination messages pause on hover and keyboard focus.
+     - prefers-reduced-motion: no glow pulse, no float, no message rotation.
+     The old floating "Toggle Light Mode" button that lived in this partial was removed;
+     theme control now lives in the menu drawer (see top.html + darkmode_boot_scripts.html). -->
 <style>
-#sdhExplore{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);z-index:999899;display:flex;align-items:center;gap:4px;width:min(700px,94vw);padding:6px 8px 6px 20px;border-radius:16px;background:var(--card-bg);border:1px solid var(--line);border-top:2px solid var(--brass);box-shadow:0 12px 34px rgba(20,12,3,.22);transition:opacity .4s ease,transform .4s ease;}
-#sdhExplore .xp-label{font:700 11px/1 var(--font-sans);letter-spacing:2.2px;text-transform:uppercase;color:var(--brass-deep);flex:0 0 auto;padding-right:14px;border-right:1px solid var(--line);}
-#sdhExplore .xp-link{flex:1 1 auto;display:flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:4px 8px;font-family:var(--font-serif);font-style:italic;font-size:15.5px;line-height:1.35;color:var(--ink);text-decoration:none;text-align:center;transition:opacity .22s ease;}
-#sdhExplore .xp-link:hover{color:var(--brass-deep);}
-#sdhExplore .xp-link .xp-arrow{font-style:normal;font-size:13px;color:var(--brass-deep);flex:0 0 auto;}
-#sdhExplore .xp-close{flex:0 0 auto;display:flex;align-items:center;justify-content:center;width:44px;height:44px;border:none;background:none;color:var(--ink-soft);font-size:15px;cursor:pointer;opacity:.65;border-radius:12px;}
-#sdhExplore .xp-close:hover{opacity:1;background:var(--canvas-alt);}
-#sdhExplore.hidden{opacity:0;transform:translate(-50%,120px);pointer-events:none;}
-@media(max-width:1000px){#sdhExplore{bottom:76px;}}
-@media(max-width:560px){#sdhExplore .xp-label{display:none;}#sdhExplore{padding-left:10px;}#sdhExplore .xp-link{font-size:13.5px;}}
-@media (prefers-reduced-motion: reduce){#sdhExplore,#sdhExplore .xp-link{transition:none;}}
+#sdhExplore{position:fixed;left:50%;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:999899;display:flex;align-items:center;gap:12px;width:min(680px,94vw);padding:9px 10px 9px 18px;border-radius:18px;color:#dbe7f3;background:rgba(15,21,31,.82);-webkit-backdrop-filter:blur(10px) saturate(1.15);backdrop-filter:blur(10px) saturate(1.15);border:1px solid rgba(108,176,230,.5);box-shadow:0 0 0 1px rgba(56,120,180,.14),0 12px 32px rgba(4,9,17,.5),0 0 16px rgba(72,142,205,.2);opacity:0;visibility:hidden;transform:translate(-50%,16px);pointer-events:none;transition:opacity .35s ease,transform .35s ease,visibility .35s;}
+#sdhExplore.show{opacity:1;visibility:visible;transform:translate(-50%,0);pointer-events:auto;animation:sdhExplorePulse 7s ease-in-out infinite,sdhExploreFloat 9s ease-in-out infinite;}
+#sdhExplore:hover,#sdhExplore:focus-within{animation-play-state:paused,paused;}
+@keyframes sdhExplorePulse{
+  0%,100%{box-shadow:0 0 0 1px rgba(56,120,180,.14),0 12px 32px rgba(4,9,17,.5),0 0 16px rgba(72,142,205,.2);border-color:rgba(108,176,230,.5);}
+  50%{box-shadow:0 0 0 1px rgba(76,150,210,.24),0 12px 32px rgba(4,9,17,.5),0 0 26px rgba(92,168,235,.38);border-color:rgba(132,196,245,.72);}
+}
+@keyframes sdhExploreFloat{0%,100%{transform:translate(-50%,0);}50%{transform:translate(-50%,-3px);}}
+#sdhExplore .xp-eyebrow{flex:0 0 auto;font:700 10.5px/1.3 var(--font-sans);letter-spacing:2.1px;text-transform:uppercase;color:#8fc4ee;padding-right:14px;border-right:1px solid rgba(120,180,230,.3);}
+#sdhExplore .xp-link{flex:1 1 auto;display:flex;align-items:center;justify-content:center;gap:9px;min-height:44px;padding:4px 6px;font-family:var(--font-serif);font-size:15.5px;line-height:1.35;color:#f0f6fc;text-decoration:none;text-align:center;border-radius:10px;}
+#sdhExplore .xp-link:hover{color:#aed7f8;}
+#sdhExplore .xp-link:focus-visible,#sdhExplore .xp-close:focus-visible{outline:2px solid #8fc9f6;outline-offset:2px;}
+#sdhExplore .xp-link .xp-arrow{font-size:13px;color:#8fc4ee;flex:0 0 auto;}
+#sdhExplore .xp-text{transition:opacity .2s ease;}
+#sdhExplore .xp-close{flex:0 0 auto;display:flex;align-items:center;justify-content:center;width:44px;height:44px;border:none;background:none;color:#b7c9da;font-size:15px;cursor:pointer;opacity:.75;border-radius:12px;}
+#sdhExplore .xp-close:hover{opacity:1;background:rgba(255,255,255,.09);color:#fff;}
+@media(max-width:560px){#sdhExplore .xp-eyebrow{display:none;}#sdhExplore{padding-left:10px;gap:6px;}#sdhExplore .xp-link{font-size:13.5px;}}
+@media (prefers-reduced-motion: reduce){
+  #sdhExplore,#sdhExplore.show{transition:none;animation:none;}
+  #sdhExplore .xp-text{transition:none;}
+}
 </style>
-<div id="sdhExplore" role="complementary" aria-label="Explore San Diego Hardwoods">
-  <span class="xp-label" aria-hidden="true">Explore</span>
-  <a class="xp-link" id="sdhExploreLink" href="#sdh-explore-down"><span class="xp-arrow" aria-hidden="true">&darr;</span><span id="sdhExploreText">Scroll to Explore Ways to Reach Us</span></a>
+<div id="sdhExplore" role="complementary" aria-label="Explore real San Diego Hardwoods projects">
+  <span class="xp-eyebrow" aria-hidden="true">Explore Real Projects</span>
+  <a class="xp-link" id="sdhExploreLink" href="https://www.sdhardwoods.com/recent_project_photo_gallery_1"><span class="xp-arrow" aria-hidden="true">&rarr;</span><span class="xp-text" id="sdhExploreText">See Before-and-After Hardwood Floor Transformations</span></a>
   <button type="button" class="xp-close" aria-label="Dismiss explore bar">&#10005;</button>
 </div>
 <script>
 (function(){
   var bar = document.getElementById("sdhExplore");
   if (!bar) return;
-  if (sessionStorage.getItem("sdhScrollClosed")) { bar.style.display = "none"; return; }
+  try { if (sessionStorage.getItem("sdhScrollClosed")) { bar.remove(); return; } } catch(e){}
 
   var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var link = document.getElementById("sdhExploreLink");
   var txt = document.getElementById("sdhExploreText");
 
-  /* First entry scrolls this page; the rest are real destinations. */
+  /* Real, useful site destinations -- every message is a working link. */
   var messages = [
-    { text: "Scroll to Explore Ways to Reach Us", href: null },
-    { text: "Explore Real San Diego Hardwood Floor Refinishing Projects", href: "https://www.sdhardwoods.com/recent_project_photo_gallery_1" },
-    { text: "Compare Before-and-After Hardwood Floor Restorations", href: "https://www.sdhardwoods.com/recent_project_photo_gallery_2" },
-    { text: "Watch Real San Diego Hardwood Floor Refinishing Videos", href: "https://www.sdhardwoods.com/videos_of_refinishing_process" },
-    { text: "View Dust-Contained Sanding and Refinishing in Progress", href: "https://www.sdhardwoods.com/videos_of_refinishing_process" },
-    { text: "Browse Five Detailed Recent-Project Galleries", href: "https://www.sdhardwoods.com/recent_project_photo_gallery_1" },
-    { text: "See Solid Wood, Engineered Wood, Bamboo, Repair, and Restoration Work", href: "https://www.sdhardwoods.com/solid_wood_floor_photo_gallery" }
+    { text: "See Before-and-After Hardwood Floor Transformations", href: "https://www.sdhardwoods.com/recent_project_photo_gallery_1" },
+    { text: "Watch Dust-Contained Refinishing on Real Projects", href: "https://www.sdhardwoods.com/videos_of_refinishing_process" },
+    { text: "Repairs and Restoration — Real Project Results", href: "https://www.sdhardwoods.com/recent_project_photo_gallery_4" },
+    { text: "Deep Cleaning and Recoating — When Sanding Isn’t Needed", href: "https://www.sdhardwoods.com/deep-cleaning-hardwood-floors-san-diego.html" },
+    { text: "Solid Hardwood Installation Projects", href: "https://www.sdhardwoods.com/solid_wood_floor_photo_gallery" },
+    { text: "Browse Five Detailed Project Galleries", href: "https://www.sdhardwoods.com/recent_project_photo_gallery_2" },
+    { text: "Watch Our Refinishing Videos", href: "https://www.sdhardwoods.com/videos_of_refinishing_process" }
   ];
   var i = 0, paused = false, timer = null;
 
   function apply(idx){
     var m = messages[idx];
     txt.textContent = m.text;
-    if (m.href) { link.setAttribute("href", m.href); link.removeAttribute("data-scroll"); }
-    else { link.setAttribute("href", "#sdh-explore-down"); link.setAttribute("data-scroll", "1"); }
+    link.setAttribute("href", m.href);
   }
   apply(0);
 
-  link.addEventListener("click", function(e){
-    if (link.getAttribute("data-scroll")) {
-      e.preventDefault();
-      window.scrollBy({ top: Math.round(window.innerHeight * .85), behavior: reduceMotion ? "auto" : "smooth" });
-    }
-  });
-
   function rotate(){
-    if (paused || document.hidden) return;
+    if (paused || document.hidden || !bar.classList.contains("show")) return;
     i = (i + 1) % messages.length;
     txt.style.opacity = 0;
     setTimeout(function(){ apply(i); txt.style.opacity = 1; }, 200);
   }
   if (!reduceMotion) {
-    txt.style.transition = "opacity .2s ease";
-    timer = setInterval(rotate, 5500);
+    timer = setInterval(rotate, 6000);
     bar.addEventListener("mouseenter", function(){ paused = true; });
     bar.addEventListener("mouseleave", function(){ paused = false; });
     bar.addEventListener("focusin", function(){ paused = true; });
     bar.addEventListener("focusout", function(){ paused = false; });
   }
 
-  window.addEventListener("scroll", function(){
-    bar.classList.toggle("hidden", window.scrollY > 320);
-  }, { passive: true });
+  /* Visibility: shown only once the hero (and its CTA buttons) sits fully above the
+     bar's strip of the viewport, and hidden again while the footer is on screen. */
+  var hero = document.querySelector(".hero");
+  var footerVisible = false;
+  var CLEARANCE = 130; /* px of viewport bottom the bar occupies, incl. margin */
+
+  function heroCleared(){
+    if (!hero) return true;
+    var r = hero.getBoundingClientRect();
+    return r.bottom < window.innerHeight - CLEARANCE;
+  }
+  function update(){
+    /* require real scrolling too, so the bar never appears on initial load even on
+       pages whose hero is short enough to clear the bar's strip at scroll 0 */
+    bar.classList.toggle("show", window.scrollY > 250 && heroCleared() && !footerVisible);
+  }
+  window.addEventListener("scroll", update, { passive: true });
+  window.addEventListener("resize", update, { passive: true });
+  update();
+
+  var footer = document.querySelector("footer.sdh-footer");
+  if (footer && "IntersectionObserver" in window) {
+    new IntersectionObserver(function(entries){
+      footerVisible = entries[0].isIntersecting;
+      update();
+    }, { threshold: 0 }).observe(footer);
+  }
 
   bar.querySelector(".xp-close").addEventListener("click", function(){
-    bar.style.display = "none";
+    bar.remove();
     if (timer) clearInterval(timer);
-    sessionStorage.setItem("sdhScrollClosed", "1");
+    try { sessionStorage.setItem("sdhScrollClosed", "1"); } catch(e){}
   });
-})();
-</script>
-
-<button aria-label="Toggle legacy light mode" id="sdh-toggle" title="Toggle legacy light mode">Toggle Light Mode</button>
-<script>
-(function(){
-  var toggleBtn = document.getElementById("sdh-toggle");
-  var footer = document.querySelector("footer.sdh-footer");
-  if(!toggleBtn || !footer || !("IntersectionObserver" in window)) return;
-  var io = new IntersectionObserver(function(entries){
-    entries.forEach(function(entry){
-      toggleBtn.style.opacity = entry.isIntersecting ? "0" : "1";
-      toggleBtn.style.pointerEvents = entry.isIntersecting ? "none" : "auto";
-    });
-  }, {threshold:0});
-  io.observe(footer);
 })();
 </script>
 

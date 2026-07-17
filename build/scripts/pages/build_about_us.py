@@ -76,11 +76,6 @@ MAIN = """
       <p>One of the biggest mistakes homeowners make is sanding a floor that could be restored another way. After more than 35 years refinishing hardwood floors throughout San Diego County, we can determine whether your floors would benefit most from a professional <strong>Bona Power Scrubber deep cleaning</strong>, a protective maintenance coat, targeted repairs, or complete refinishing. Deep cleaning is especially effective for <strong>wire-brushed hardwood, matte finishes, oil-finished floors, and floors with embedded dirt or residue</strong>, often restoring their natural beauty without the expense of sanding.</p>
       <p><a class="btn btn-outline" href="https://www.sdhardwoods.com/deep-cleaning-hardwood-floors-san-diego.html">Learn When Deep Cleaning Is the Better Option &rarr;</a></p>
     </div>
-    <div class="cta-media">
-      <a href="https://www.sdhardwoods.com/deep-cleaning-hardwood-floors-san-diego.html">
-        <img src="https://www.sdhardwoods.com/ultra%20clean%20button.png" alt="Professional Bona Power Scrubber hardwood floor deep cleaning, maintenance coats, and wire-brushed floor restoration in San Diego">
-      </a>
-    </div>
   </div>
 </section>
 
@@ -111,7 +106,7 @@ MAIN = """
     </div>
     <div class="card">
       <h3>Professional Credentials</h3>
-      <p>Every project is personally supervised by an experienced flooring craftsman. San Diego Hardwoods is a licensed, bonded and insured California flooring contractor and proud member of the Bona Certified Craftsman Program.</p>
+      <p>Every project is personally supervised by an experienced flooring craftsman. San Diego Hardwoods is a CSLB-licensed, bonded and insured California flooring contractor and proud member of the Bona Certified Craftsman Program. All work is guaranteed and performed by a small crew of skilled, courteous craftsmen &mdash; and dust-containment sanding equipment is used on every phase of every project.</p>
     </div>
     <div class="card">
       <h3>Specialty Hardwood Flooring Services</h3>

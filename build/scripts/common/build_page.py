@@ -30,24 +30,14 @@ def figure(img):
     fig += '</figure>'
     return fig
 
-def cta_button(img, extra_style=""):
-    cls = f' class="{esc_attr(img["class"])}"' if img.get("class") else ""
-    href = img.get("href") or img.get("src")
-    return (f'<a class="btn-img-link" href="{esc_attr(href)}">'
-            f'<img src="{esc_attr(img["src"])}" alt="{esc_attr(img["alt"])}"{cls} loading="lazy" '
-            f'style="max-width:220px;border-radius:10px;{extra_style}"></a>')
-
-def deepclean_cta(img, heading, body_html):
-    href = img.get("href") or img.get("src")
+def deepclean_cta(heading, body_html):
+    # Milestone 2.1: text-only card -- the legacy "ultra clean button" graphic that used
+    # to sit beside this copy is excluded from generated output (see LEGACY-ASSET notes).
     return f'''  <div class="card cta-card">
     <div class="cta-copy">
       <h3>{heading}</h3>
       {body_html}
-    </div>
-    <div class="cta-media">
-      <a href="{esc_attr(href)}">
-        <img src="{esc_attr(img["src"])}" alt="{esc_attr(img["alt"])}" loading="lazy">
-      </a>
+      <p><a class="btn btn-outline" href="https://www.sdhardwoods.com/deep-cleaning-hardwood-floors-san-diego.html">See Our Deep Cleaning &amp; Recoating Service &rarr;</a></p>
     </div>
   </div>'''
 
@@ -70,21 +60,19 @@ def build_gallery_section(gallery_json_path, intro_html, top_cta_heading, top_ct
     standalone = data["standalone"]
 
     real_modules = [m for m in modules if m["title"]]
-    nav_button_imgs = []
-    ultra_clean_imgs = []
 
+    # Milestone 2.1: legacy image-buttons (NEXT PAGE / CALL OR TEXT / ultra clean, etc.)
+    # are excluded from generated output entirely. They used to be collected from
+    # title-less modules, trailing module images, and standalone records and rendered
+    # at the bottom of the page; their navigation jobs are covered by the site's real
+    # navigation and the text CTA cards. Counted here only for the build check.
+    excluded_imgs = []
     for m in modules:
         if m["title"] is None:
-            for img in m["images"]:
-                nav_button_imgs.append(img)
+            excluded_imgs.extend(m["images"])
     for m in real_modules:
-        for img in m["images"][2:]:
-            nav_button_imgs.append(img)
-    for img in standalone:
-        if "ultra clean" in img["src"].lower():
-            ultra_clean_imgs.append(img)
-        else:
-            nav_button_imgs.append(img)
+        excluded_imgs.extend(m["images"][2:])
+    excluded_imgs.extend(standalone)
 
     parts = []
     parts.append('<section class="block">')
@@ -95,8 +83,7 @@ def build_gallery_section(gallery_json_path, intro_html, top_cta_heading, top_ct
     if gallery_index is not None:
         parts.append(gallery_progress_html(gallery_index))
 
-    if ultra_clean_imgs:
-        parts.append(deepclean_cta(ultra_clean_imgs[0], top_cta_heading, top_cta_body))
+    parts.append(deepclean_cta(top_cta_heading, top_cta_body))
 
     for m in real_modules:
         before = m["images"][0]
@@ -110,25 +97,17 @@ def build_gallery_section(gallery_json_path, intro_html, top_cta_heading, top_ct
         parts.append('    </div>')
         parts.append('  </div>')
 
-    if len(ultra_clean_imgs) > 1:
-        parts.append(deepclean_cta(ultra_clean_imgs[1], bottom_cta_heading, bottom_cta_body))
-
-    if nav_button_imgs:
-        parts.append('  <div class="cta-row" style="justify-content:center;flex-wrap:wrap;margin-top:12px;">')
-        for img in nav_button_imgs:
-            parts.append('    ' + cta_button(img))
-        parts.append('  </div>')
+    parts.append(deepclean_cta(bottom_cta_heading, bottom_cta_body))
 
     parts.append('</section>')
 
-    total_rendered = sum(min(2, len(m["images"])) for m in real_modules) + len(nav_button_imgs) + len(ultra_clean_imgs)
+    total_rendered = sum(min(2, len(m["images"])) for m in real_modules)
     check = {
         "real_modules": len(real_modules),
-        "ultra_clean_imgs": len(ultra_clean_imgs),
-        "nav_button_imgs": len(nav_button_imgs),
+        "excluded_legacy_imgs": len(excluded_imgs),
         "total_rendered": total_rendered,
         "doc_total": data["total_img_tags_in_doc"],
-        "match": total_rendered == data["total_img_tags_in_doc"],
+        "match": total_rendered + len(excluded_imgs) == data["total_img_tags_in_doc"],
     }
     return "\n".join(parts), check
 
@@ -288,7 +267,7 @@ CONFIGS = [
         "video_desc": "See the professional hardwood floor refinishing process in San Diego. Expert craftsmanship for beautiful, durable floors.",
         "video_thumb": "https://www.sdhardwoods.com/images/thumbnails/Refinish_wood_floors_san_diego.png",
         "intro_html": '''    <h2>Real San Diego Hardwood Floor Projects: #41&ndash;#50</h2>
-    <p class="lede">Before-and-after results from homes across Solana Beach, La Jolla, Rancho Santa Fe, Del Mar, Encinitas, Pacific Beach, and throughout San Diego County.</p>''',
+    <p class="lede">Before-and-after results from homes across Solana Beach, La Jolla, Rancho Santa Fe, Del Mar, Encinitas, Pacific Beach, and throughout San Diego County &mdash; including rare solid yellow birch restored in Del Mar, wide-plank French oak installed over concrete in a La Jolla estate, and dust-contained refinishing with custom stain and finish work.</p>''',
         "top_cta_heading": "Think Your Hardwood Floors Need Sanding?",
         "top_cta_body": "<p>Many hardwood floors that appear dull, dirty, sticky, cloudy or worn can often be restored without sanding. Our commercial-grade Bona Power Scrubber removes embedded dirt, old cleaners, wax buildup, grease, haze and contaminants that ordinary mopping leaves behind. We professionally deep clean hardwood, engineered wood, bamboo, luxury vinyl plank (LVP), laminate and specialty wood flooring throughout San Diego County.</p><p>Before spending thousands on refinishing, find out if professional deep cleaning is all your floors really need.</p>",
         "bottom_cta_heading": "Deep Cleaning for Hardwood, Wire-Brushed &amp; Matte Floors",
@@ -312,7 +291,7 @@ CONFIGS = [
         "video_desc": "Expert refinishing for engineered maple hardwood floors in San Diego. Restore your floors with our professional dust-free process.",
         "video_thumb": "https://www.sdhardwoods.com/images/thumbnails/engineered_maple_floor_refinishing_san_diego.png",
         "intro_html": '''    <h2>San Diego Hardwood Flooring Gallery: Projects #61&ndash;#80</h2>
-    <p class="lede">Before-and-after results from homes across Del Mar, Rancho Santa Fe, Carmel Valley, Golden Hill, Encinitas, Coronado, Pacific Beach, and throughout San Diego County.</p>''',
+    <p class="lede">Before-and-after results from homes across Del Mar, Rancho Santa Fe, Carmel Valley, Golden Hill, Encinitas, Coronado, Pacific Beach, and throughout San Diego County &mdash; including solid hickory refinished with matching butcher-block countertops in Rancho Santa Fe, a major termite-damage repair blended into vintage oak near La Jolla Shores, and sun-faded engineered oak restored in Santa Luz.</p>''',
         "top_cta_heading": "Not Every Hardwood Floor Needs Refinishing",
         "top_cta_body": "<p>Many dull, dirty, lightly scratched, or worn hardwood floors can be dramatically improved with our Bona Power Scrubber deep cleaning system and protective low-VOC recoat. We clean hardwood, engineered hardwood, bamboo, cork, laminate, and luxury vinyl plank floors throughout San Diego County. Discover when deep cleaning is the smarter alternative to full refinishing.</p>",
         "bottom_cta_heading": "Not Every Hardwood Floor Needs Refinishing",

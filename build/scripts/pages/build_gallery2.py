@@ -119,11 +119,6 @@ MAIN = f"""
       <p>Many hardwood floors can be dramatically improved without sanding. Our Bona Power Scrubber deep cleaning system removes years of embedded dirt and residue before applying a protective low-VOC maintenance recoat when appropriate.</p>
       <p><a class="btn btn-outline" href="https://www.sdhardwoods.com/deep-cleaning-hardwood-floors-san-diego.html">San Diego Floor Deep Cleaning Service &rarr;</a></p>
     </div>
-    <div class="cta-media">
-      <a href="https://www.sdhardwoods.com/deep-cleaning-hardwood-floors-san-diego.html">
-        <img src="https://www.sdhardwoods.com/ultra%20clean%20button.png" alt="San Diego Floor Deep Cleaning wood floor cleaning service">
-      </a>
-    </div>
   </div>
 </section>
 

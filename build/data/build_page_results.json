@@ -1,17 +1,15 @@
 {
   "gallery3": {
     "real_modules": 10,
-    "ultra_clean_imgs": 2,
-    "nav_button_imgs": 2,
-    "total_rendered": 24,
+    "excluded_legacy_imgs": 4,
+    "total_rendered": 20,
     "doc_total": 24,
     "match": true
   },
   "gallery4": {
     "real_modules": 20,
-    "ultra_clean_imgs": 2,
-    "nav_button_imgs": 2,
-    "total_rendered": 44,
+    "excluded_legacy_imgs": 4,
+    "total_rendered": 40,
     "doc_total": 44,
     "match": true
   }
