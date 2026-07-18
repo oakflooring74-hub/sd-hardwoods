@@ -36,7 +36,7 @@ MAIN = """
 <section class="hero">
   <div class="kicker">Est. 1990 &bull; San Diego's Finest Hardwood Flooring Specialist</div>
   <h1>About San Diego Hardwoods &mdash; Trusted Hardwood Floor Refinishing, Installation, Restoration &amp; Deep Cleaning Experts Serving San Diego Since 1990</h1>
-  <p><strong>Text photos for a fast, expert assessment &mdash; same-day replies.</strong></p>
+  <p><strong>Text photos for a fast, expert assessment &mdash; most replies the same day.</strong></p>
   <div class="cta-row">
     <a class="btn btn-call" href="tel:+18586990072">&#9742; Call 858-699-0072</a>
     <a class="btn btn-outline" href="sms:+18586990072">Text Floor Photos</a>
@@ -102,7 +102,7 @@ MAIN = """
     </div>
     <div class="card">
       <h3>Professional Credentials</h3>
-      <p>Every project is personally supervised by an experienced flooring craftsman. San Diego Hardwoods is a CSLB-licensed, bonded and insured California flooring contractor and proud member of the Bona Certified Craftsman Program. All work is guaranteed and performed by a small crew of skilled, courteous craftsmen &mdash; and dust-containment sanding equipment is used on every phase of every project.</p>
+      <p>Every project is personally supervised by an experienced flooring craftsman. San Diego Hardwoods is a CSLB-licensed, bonded and insured California flooring contractor &mdash; <strong>California contractor license #1017549</strong> &mdash; and a proud member of the Bona Certified Craftsman Program. All work is guaranteed and performed by a small crew of skilled, courteous craftsmen &mdash; and dust-containment sanding equipment is used on every phase of every project.</p>
     </div>
     <div class="card">
       <h3>Specialty Hardwood Flooring Services</h3>
@@ -112,7 +112,7 @@ MAIN = """
       <h3>Why Homeowners Choose San Diego Hardwoods</h3>
       <p><strong>35+ Years of Experience</strong> &mdash; Serving San Diego homeowners since 1990.</p>
       <p><strong>Owner-Operated Quality</strong> &mdash; The owner remains personally involved on every project.</p>
-      <p><strong>100% Dust Containment Sanding</strong> &mdash; Cleaner, healthier hardwood floor refinishing with advanced dust collection systems.</p>
+      <p><strong>Dust-Contained Sanding on Every Project</strong> &mdash; Cleaner, healthier hardwood floor refinishing with advanced dust collection systems.</p>
       <p><strong>Custom Color Expertise</strong> &mdash; Natural finishes, contemporary stains, whitewashed floors, matte finishes and specialty color matching.</p>
       <p><strong>Complete Hardwood Floor Services</strong> &mdash; Refinishing, restoration, repairs, installation, deep cleaning, maintenance coats and specialty hardwood flooring services.</p>
     </div>

@@ -110,7 +110,9 @@ for rec in records:
 # CALL OR TEXT NOW graphics) are no longer rendered -- replaced with real text links.
 cta_buttons_html = '''
 <p style="text-align:center;margin:34px auto 0;font-size:15.5px;">
-<a href="https://www.sdhardwoods.com/recent_project_photo_gallery_1.html" style="color:var(--brass-deep);font-weight:700;text-decoration:underline;">See Before &amp; After Project Galleries &rarr;</a>
+<a href="https://www.sdhardwoods.com/recent_project_photo_gallery_1.html" style="color:var(--brass-deep);font-weight:700;text-decoration:underline;">Real Hardwood Floor Refinishing Projects &rarr;</a>
+&nbsp;&bull;&nbsp; <a href="https://www.sdhardwoods.com/recent_project_photo_gallery_4.html" style="color:var(--brass-deep);font-weight:700;text-decoration:underline;">Restoration &amp; Deep-Cleaning Projects &rarr;</a>
+&nbsp;&bull;&nbsp; <a href="https://www.sdhardwoods.com/contact_us.html" style="color:var(--brass-deep);font-weight:700;text-decoration:underline;">Contact San Diego Hardwoods</a>
 &nbsp;&bull;&nbsp; <a href="tel:+18586990072" style="color:var(--cta-red);font-weight:700;text-decoration:underline;">Call 858-699-0072</a>
 &nbsp;&bull;&nbsp; <a href="sms:+18586990072" style="color:var(--cta-red);font-weight:700;text-decoration:underline;">Text Floor Photos</a>
 </p>'''
@@ -150,7 +152,7 @@ main_html = f'''<main>
 <section class="hero">
   <div class="kicker">Est. 1990 &bull; San Diego's Finest Hardwood Flooring Specialist</div>
   <h1>Hardwood Floor Deep Cleaning, Recoating &amp; Bona Traffic HD Finish Upgrades in San Diego</h1>
-  <p>Restore dull, worn floors without the cost, dust, or disruption of full sanding. Our professional Bona PowerScrubber system deep cleans, removes wax and polish buildup, and prepares hardwood floors for a durable maintenance recoat or premium finish upgrade&mdash;often completed in just one day. Call <a href="tel:+18586990072">858-699-0072</a>, <a href="sms:+18586990072">text floor photos</a> or email <a href="mailto:sandiegohardwoods@gmail.com">sandiegohardwoods@gmail.com</a></p>
+  <p>Professional hardwood floor cleaning without the cost, dust, or disruption of full sanding. Our Bona PowerScrubber wood floor deep cleaning system removes embedded dirt, wax and polish buildup, and prepares hardwood floors for a durable maintenance recoat or premium finish upgrade&mdash;often completed in just one day. Call <a href="tel:+18586990072">858-699-0072</a>, <a href="sms:+18586990072">text floor photos</a> or email <a href="mailto:sandiegohardwoods@gmail.com">sandiegohardwoods@gmail.com</a></p>
   <div class="cta-row">
     <a class="btn btn-call" href="tel:+18586990072">&#9742; Call 858-699-0072</a>
     <a class="btn btn-outline" href="sms:+18586990072">Text Floor Photos</a>
@@ -183,6 +185,10 @@ main_html = f'''<main>
     <div class="card">
       <h3>Wire-Brushed, Textured &amp; Oil-Finished Floors</h3>
       <p>Wire-brushed and textured floors trap dirt deep in the grain where mops can't reach, and oil-finished floors need manufacturer-approved care. We deep clean both safely &mdash; and where an oiled floor has become a maintenance burden, we can discuss converting suitable floors to a durable, easy-to-clean, low-sheen waterborne finish such as Bona Traffic HD.</p>
+    </div>
+    <div class="card">
+      <h3>When Cleaning Isn't Enough</h3>
+      <p>Deep cleaning cannot repair a finish that is worn through, deep scratches into raw wood, or gray, water-damaged boards. When a floor has reached that point, it needs full sanding and refinishing &mdash; see our <a href="https://www.sdhardwoods.com/" style="color:var(--brass-deep);font-weight:700;">dust-contained hardwood floor refinishing in San Diego</a>. We'll tell you honestly which service your floor actually needs.</p>
     </div>
   </div>
 

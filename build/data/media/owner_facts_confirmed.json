@@ -1,0 +1,71 @@
+{
+  "_comment": "Owner-confirmed media facts. This file is the ONLY place confirmed facts enter the media inventory: generate_media_inventory.py applies these to every placement of the listed assets and NEVER overwrites them with text extracted from pages. Facts recorded here must come from explicit owner statements (see docs/PROJECT_OPERATING_MANUAL.md sections 3 and 17). Do not add entries from filenames, visual appearance, or existing captions.",
+  "confirmed_assets": {
+    "TRICIA WALNUT102.jpg": {
+      "confirmed_on": "2026-07-18",
+      "owner_facts": {
+        "project_name": "Bing Crosby Ranch walnut floor refinishing",
+        "property_location": "Bing Crosby Ranch",
+        "city_or_neighborhood": "San Diego",
+        "floor_species": "walnut",
+        "work_performed": "refinishing",
+        "stage_shown": null,
+        "before_or_after": null
+      },
+      "notes": "One of four photographs confirmed to be from the same walnut refinishing project at Bing Crosby Ranch, San Diego. NOT a separate bamboo, parquet, maple, Rancho Santa Fe, or La Jolla project (previous homepage alt text was false and has been corrected). Exact stage/angle not yet confirmed - do not label before/after/sanding/bare wood/finish application.",
+      "verification_status": "owner_confirmed_project_identity",
+      "pending": ["stage_shown", "before_or_after", "stain_or_color", "final_finish"]
+    },
+    "TRICIA WALNUT110.jpg": {
+      "confirmed_on": "2026-07-18",
+      "owner_facts": {
+        "project_name": "Bing Crosby Ranch walnut floor refinishing",
+        "property_location": "Bing Crosby Ranch",
+        "city_or_neighborhood": "San Diego",
+        "floor_species": "walnut",
+        "work_performed": "refinishing",
+        "stage_shown": null,
+        "before_or_after": null
+      },
+      "notes": "One of four confirmed Bing Crosby Ranch walnut photos. Previous homepage alt text falsely described a bamboo deep-clean/recoat; corrected in Milestone 2.5.",
+      "verification_status": "owner_confirmed_project_identity",
+      "pending": ["stage_shown", "before_or_after", "stain_or_color", "final_finish"]
+    },
+    "TRICIA WALNUT54.jpg": {
+      "confirmed_on": "2026-07-18",
+      "owner_facts": {
+        "project_name": "Bing Crosby Ranch walnut floor refinishing",
+        "property_location": "Bing Crosby Ranch",
+        "city_or_neighborhood": "San Diego",
+        "floor_species": "walnut",
+        "work_performed": "refinishing",
+        "stage_shown": null,
+        "before_or_after": null
+      },
+      "notes": "One of four confirmed Bing Crosby Ranch walnut photos. Previous homepage alt text falsely described a Rancho Santa Fe parquet project; corrected in Milestone 2.5.",
+      "verification_status": "owner_confirmed_project_identity",
+      "pending": ["stage_shown", "before_or_after", "stain_or_color", "final_finish"]
+    },
+    "TRICIA WALNUT23.jpg": {
+      "confirmed_on": "2026-07-18",
+      "owner_facts": {
+        "project_name": "Bing Crosby Ranch walnut floor refinishing",
+        "property_location": "Bing Crosby Ranch",
+        "city_or_neighborhood": "San Diego",
+        "floor_species": "walnut",
+        "work_performed": "refinishing",
+        "stage_shown": null,
+        "before_or_after": null
+      },
+      "notes": "One of four confirmed Bing Crosby Ranch walnut photos. Previous homepage alt text falsely described a La Jolla maple project; corrected in Milestone 2.5.",
+      "verification_status": "owner_confirmed_project_identity",
+      "pending": ["stage_shown", "before_or_after", "stain_or_color", "final_finish"]
+    }
+  },
+  "known_conflicts": {
+    "TRICIA WALNUT27.jpg": "Filename suggests the TRICIA WALNUT project, but the visible Solid Wood Gallery project describes Graff Brothers solid rift & quartered WHITE OAK installation. Owner must confirm which identity is correct. Not covered by the four-image walnut confirmation.",
+    "TRICIA WALNUT30.jpg": "Same filename-vs-description conflict as TRICIA WALNUT27.jpg (white oak installation project on the Solid Wood Gallery).",
+    "TRICIA WALNUT63.jpg": "Same filename-vs-description conflict as TRICIA WALNUT27.jpg (white oak installation project on the Solid Wood Gallery).",
+    "TRICIA WALNUT76.jpg": "Same filename-vs-description conflict as TRICIA WALNUT27.jpg (white oak installation project on the Solid Wood Gallery)."
+  }
+}

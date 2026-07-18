@@ -304,7 +304,7 @@ MAIN = f"""{PAGE_CSS}
 <section class="hero">
   <div class="kicker">Est. 1990 &bull; San Diego's Finest Hardwood Flooring Specialist</div>
   <h1>Real Hardwood Floor Refinishing, Dustless Sanding &amp; Restoration Videos</h1>
-  <p>This page documents <strong>real San Diego Hardwoods projects</strong> &mdash; every public video from our YouTube channel in one place. Watch our equipment at work on actual customer floors: dust-contained sanding with the <strong>Bona DCS 2.0 containment system</strong>, hardwood floor repairs, restoration of vintage and historic floors, intensive deep cleaning and recoating, and premium Bona finish work &mdash; the same craftsmanship behind our refinishing, restoration, and installation projects across San Diego County.</p>
+  <p>This page documents <strong>real San Diego Hardwoods projects</strong> &mdash; every public video from our YouTube channel in one place. Watch our equipment at work on actual customer floors: dust-contained sanding with the <strong>Bona DCS 2.0 containment system</strong>, hardwood floor repairs, restoration of vintage and historic floors, custom staining, intensive deep cleaning and recoating, installation, and premium Bona finish work &mdash; the same craftsmanship behind our refinishing, restoration, and installation projects across San Diego County.</p>
   <div class="cta-row">
     <a class="btn btn-call" href="tel:+18586990072">&#9742; Call 858-699-0072 for a Free Phone Assessment</a>
     <a class="btn btn-outline" href="sms:+18586990072">Text Floor Photos</a>
@@ -344,6 +344,12 @@ MAIN = f"""{PAGE_CSS}
     <a class="btn btn-call" href="tel:+18586990072">Call 858-699-0072</a>
     <a class="btn btn-outline" href="sms:+18586990072">Text Floor Photos</a>
   </div>
+
+  <p style="text-align:center;margin:26px auto 0;font-size:15.5px;">
+  <a href="https://www.sdhardwoods.com/recent_project_photo_gallery_1.html" style="color:var(--brass-deep);font-weight:700;text-decoration:underline;">Real Hardwood Floor Refinishing Projects &rarr;</a>
+  &nbsp;&bull;&nbsp; <a href="https://www.sdhardwoods.com/deep-cleaning-hardwood-floors-san-diego.html" style="color:var(--brass-deep);font-weight:700;text-decoration:underline;">Professional Hardwood Floor Deep Cleaning &rarr;</a>
+  &nbsp;&bull;&nbsp; <a href="https://www.sdhardwoods.com/contact_us.html" style="color:var(--brass-deep);font-weight:700;text-decoration:underline;">Contact San Diego Hardwoods</a>
+  </p>
 </section>
 
 <div id="sdhVideoModal" role="dialog" aria-modal="true" aria-label="Video player" hidden>

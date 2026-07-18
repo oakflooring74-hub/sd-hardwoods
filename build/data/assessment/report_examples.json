@@ -1,0 +1,40 @@
+{
+  "_comment": "Structured input for future anonymized report excerpts on floor-assessments-inspections.html. NOTHING here may be published until the owner supplies real, anonymized excerpt text and approves the wording. Excerpts must come from actual professional floor-evaluation reports with all identifying details removed. Do not fabricate excerpts. The page generator does not read this file yet; a future milestone wires approved excerpts into build_floor_assessments.py.",
+  "publishing_rule": "publish only when status == 'owner_approved' for an excerpt AND overall_status == 'owner_approved'",
+  "overall_status": "awaiting_owner_input",
+  "excerpt_sections": [
+    {
+      "section_label": "Existing Condition",
+      "purpose": "Shows the depth of observation in a real report: what the floor is, its apparent construction/finish, and its observed condition.",
+      "excerpt_text": null,
+      "source_note": null,
+      "status": "awaiting_owner_input"
+    },
+    {
+      "section_label": "Probable Cause",
+      "purpose": "Shows how a report explains the likely cause of an observed problem, with appropriate uncertainty language.",
+      "excerpt_text": null,
+      "source_note": null,
+      "status": "awaiting_owner_input"
+    },
+    {
+      "section_label": "Feasibility or Limitations",
+      "purpose": "Shows how a report communicates what is and is not realistically possible for a floor.",
+      "excerpt_text": null,
+      "source_note": null,
+      "status": "awaiting_owner_input"
+    },
+    {
+      "section_label": "Recommended Next Step",
+      "purpose": "Shows how a report converts findings into a concrete, scoped recommendation.",
+      "excerpt_text": null,
+      "source_note": null,
+      "status": "awaiting_owner_input"
+    }
+  ],
+  "optional_sample_pdf": {
+    "description": "A single optional anonymized sample PDF may later demonstrate report format and depth (per the operating manual). Not created; requires the owner to supply and approve the document.",
+    "file": null,
+    "status": "awaiting_owner_input"
+  }
+}

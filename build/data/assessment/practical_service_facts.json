@@ -1,0 +1,53 @@
+{
+  "_comment": "Structured input for practical assessment/inspection service facts that the owner has NOT yet confirmed. Every value below is null until the owner supplies it; null values must never be published or paraphrased onto the page. The page generator does not read this file yet; a future milestone wires owner-approved values into build_floor_assessments.py.",
+  "publishing_rule": "publish a field only when its status == 'owner_confirmed'",
+  "facts": {
+    "typical_visit_duration": {
+      "applies_to": ["$95 In-Home Project Assessment", "$350 Pre-Purchase Verbal Inspection", "$750 Pre-Purchase Inspection with Written Documentation"],
+      "value": null,
+      "status": "awaiting_owner_input",
+      "note": "Per-service durations may differ; record each separately if the owner provides them."
+    },
+    "property_preparation": {
+      "description": "What the client should do before the visit (pets, access, parking, utilities).",
+      "value": null,
+      "status": "awaiting_owner_input"
+    },
+    "furniture_and_access_expectations": {
+      "description": "Whether furniture must be moved, how much floor must be visible, rugs lifted, closets opened.",
+      "value": null,
+      "status": "awaiting_owner_input"
+    },
+    "areas_that_must_be_accessible": {
+      "description": "Rooms/areas the inspection must reach to be meaningful (e.g., all wood-floored rooms, transitions, water sources).",
+      "value": null,
+      "status": "awaiting_owner_input"
+    },
+    "moisture_reading_limitations": {
+      "description": "When moisture readings are/aren't taken and what they can/cannot establish.",
+      "value": null,
+      "status": "awaiting_owner_input"
+    },
+    "destructive_access_limitations": {
+      "description": "Confirmation that no destructive testing/board removal occurs unless separately agreed in writing.",
+      "value": null,
+      "status": "awaiting_owner_input"
+    },
+    "typical_report_delivery_range": {
+      "applies_to": ["$750 Pre-Purchase Inspection with Written Documentation", "Complex Damage, Dispute & Insurance Analysis"],
+      "value": null,
+      "status": "awaiting_owner_input",
+      "note": "Do not publish any delivery timeframe until the owner states one they can consistently meet."
+    },
+    "client_documentation_received": {
+      "description": "Exactly what documents/files the client receives per service tier beyond what the page already states.",
+      "value": null,
+      "status": "awaiting_owner_input"
+    },
+    "third_party_communication_limitations": {
+      "description": "Bounds on communicating with insurers, agents, landlords, tenants, contractors (beyond the existing written-scope language).",
+      "value": null,
+      "status": "awaiting_owner_input"
+    }
+  }
+}

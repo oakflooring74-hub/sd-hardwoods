@@ -80,7 +80,7 @@ MAIN = f"""
 <section class="hero">
   <div class="kicker">Est. 1990 &bull; San Diego's Finest Hardwood Flooring Specialist</div>
   <h1>Solid &amp; Engineered Wood Floor Installation, Refinishing, Repairs &amp; Dustless Sanding</h1>
-  <p>Custom nail-down and glue-down hardwood installation throughout San Diego County, alongside our dust-contained refinishing, repair, and restoration services. Below: four complete installation projects, from staged raw lumber to the finished floor.</p>
+  <p>Professional hardwood floor installation in San Diego &mdash; custom nail-down and glue-down installation of solid and unfinished engineered wood floors, acclimated, sanded, and finished on site throughout San Diego County, alongside our dust-contained refinishing, repair, and restoration services. Below: four complete installation projects, from staged raw lumber to the finished floor.</p>
   <div class="cta-row">
     <a class="btn btn-call" href="tel:+18586990072">&#9742; Call 858-699-0072</a>
     <a class="btn btn-outline" href="sms:+18586990072">Text Floor Photos</a>
@@ -109,9 +109,15 @@ MAIN = f"""
   <p class="lede" style="margin-top:10px;">{OUTRO}</p>
 
   <div class="cta-row" style="justify-content:center;margin-top:20px;">
-    <a class="btn btn-call" href="tel:+18586990072">Call 858-699-0072</a>
+    <a class="btn btn-call" href="tel:+18586990072">Call 858-699-0072 &mdash; Discuss Your Installation Project</a>
     <a class="btn btn-outline" href="sms:+18586990072">Text Floor Photos</a>
   </div>
+
+  <p style="text-align:center;margin:26px auto 0;font-size:15.5px;">
+  <a href="https://www.sdhardwoods.com/" style="color:var(--brass-deep);font-weight:700;text-decoration:underline;">Hardwood Floor Refinishing in San Diego &rarr;</a>
+  &nbsp;&bull;&nbsp; <a href="https://www.sdhardwoods.com/recent_project_photo_gallery_2.html" style="color:var(--brass-deep);font-weight:700;text-decoration:underline;">More Installation &amp; Refinishing Projects &rarr;</a>
+  &nbsp;&bull;&nbsp; <a href="https://www.sdhardwoods.com/contact_us.html" style="color:var(--brass-deep);font-weight:700;text-decoration:underline;">Contact San Diego Hardwoods</a>
+  </p>
 </section>
 """
 

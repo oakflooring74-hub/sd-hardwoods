@@ -1,6 +1,25 @@
-# Start here — project status as of 2026-07-17
+# Start here — project status as of 2026-07-18
 
-Read this file first when picking this project back up. It links to everything else and tells you what's done, what's approved next, and what to ask the owner before doing anything.
+Read this file first when picking this project back up — **together with `docs/PROJECT_OPERATING_MANUAL.md` (the permanent governing document, added 2026-07-18) and `docs/PROJECT_DECISIONS.md` (binding decisions + standing blockers)**. This file links to everything else and tells you what's done, what's approved next, and what to ask the owner before doing anything.
+
+## Milestone 2.5 — COMPLETE & COMMITTED (see `git log` for the hash on `redesign`)
+
+**Search Console content preservation, internal-link alignment, and the structured media-fact system.** Current branch: `redesign`. Everything below is generator-first; regenerating with `python build/scripts/build_all.py` reproduces the committed pages byte-for-byte.
+
+- **SEO intent map:** `build/data/seo/page_intents.json` (13 records) + human-readable `docs/seo/search-console-content-preservation-map.md` — which GSC query themes each page owns, what must stay visible, cannibalization rules. Derived from the real GSC baseline in the operating manual §10.
+- **Content alignment:** restrained visible-wording changes on 8 pages (homepage, deep-cleaning, gallery 1, gallery 5, solid wood, videos, about, assessments); galleries 2/3/4, blog, and contact byte-identical. **No titles/descriptions/H1s changed.** Full before/after log: `docs/seo/2026-07-content-alignment-changes.md`. Includes the §12-flagged claim removals on Solid Wood ("far exceeds"/"flawless"/"exact"/absolute dust) and About's license number (#1017549) addition.
+- **Confirmed Tricia walnut correction:** the four homepage `TRICIA WALNUT102/110/54/23.jpg` alts no longer claim bamboo/parquet/maple/RSF/La Jolla identities — restrained provisional wording (Bing Crosby Ranch walnut refinishing, stage unconfirmed), seeded as owner-confirmed facts in `build/data/media/owner_facts_confirmed.json`.
+- **Structured media-fact system:** `build/scripts/generate_media_inventory.py` scans all 13 generated pages → `build/data/media/assets.json` (377 image + 58 video assets) and `build/data/media/placements/<page>.json` (516 placements, stable IDs like `HOME-IMG-005`, `VIDEOS-VID-014`). `build/scripts/validate_media_inventory.py` enforces completeness/uniqueness/no-auto-publish (currently 0 errors, 4 intentional warnings = the `TRICIA WALNUT27/30/63/76` filename-vs-white-oak conflict on Solid Wood, flagged for the owner, deliberately unchanged). Owner-facts merge preserves owner edits across regenerations; deterministic double-run verified.
+- **Owner review surface:** `docs/media-review/README.md` (workflow) + 13 generated per-page `.md` files + static read-only `docs/media-review/index.html` (thumbnails, placement IDs, flags — local only, never deploy).
+- **Assessment future-content inputs (empty by design):** `build/data/assessment/report_examples.json` + `practical_service_facts.json` — all values `awaiting_owner_input`; nothing publishes until owner-confirmed.
+- **QA:** static gate green (canonicals/viewport/title/H1/no-UA/noindex/sitemap 13 URLs/robots/JSON+JSON-LD strict/internal links/tel-label check/walnut assertions/content-preservation counts vs HEAD); double build byte-identical; browser QA (Playwright/Chromium, local HTTP server, desktop+mobile, all 13 pages) 176/180 — the only 4 fails are the **pre-existing** "YAHOO is not defined" console error from the legacy inline Turbify script on galleries 3/4 (byte-identical to 2.4 output; cleanup candidate for the hardening milestone). Details appended to `docs/2026-07-qa-report.md`.
+- **2.4 note resolved:** the suspected deep-cleaning meta-description mojibake ("Countyâ€”") is a display artifact — committed bytes are a correct UTF-8 em dash. No fix needed.
+
+**Recommended next milestone (per the operating-manual roadmap §35):** Assessment-page content completion & consultation-card optimization — needs the owner blockers in `docs/PROJECT_DECISIONS.md` (report excerpts, visit/delivery facts). Alternatively, page-by-page owner media review can start immediately using `docs/media-review/index.html`.
+
+## Milestone 2.4 — COMPLETE & COMMITTED (`1ecff4e`, pushed to origin/redesign)
+
+Technical SEO foundation, completed 2026-07-18 — full record in `docs/2026-07-milestone-2.4-technical-seo.md`. Summary: one correct canonical on all 13 pages (Gallery 3's wrong canonical fixed; six missing canonicals added), one standard viewport everywhere, homepage title/description replaced (refinishing-led), five missing meta descriptions added, all `tel:`/`sms:`/`mailto:` actions separated (no "Call or Text" tel labels), obsolete Universal Analytics removed site-wide (GA4 blocked pending owner's Measurement ID), deterministic `sitemap.xml` (exactly 13 canonical URLs, no invented lastmod) + `robots.txt` generated by `build/scripts/common/build_sitemap.py`, internal nav aligned to canonical `.html` URLs, `<base href>` kept (images still served from Turbify). Live-URL behavior measured and documented; no redirects created; master/production untouched.
 
 ## Milestone 2.3 — COMPLETE & COMMITTED (`d008327`, pushed to origin/redesign)
 

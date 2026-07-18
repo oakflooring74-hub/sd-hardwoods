@@ -107,3 +107,41 @@ Nav button measured 43px tall (guideline is ~44px minimum). Minor on its own; ow
 1. Fix the lightbox first (#8) — highest leverage engagement fix, turns "click a photo, leave the site" into "click a photo, keep browsing."
 2. **Approved:** a persistent "jump to gallery" / progress indicator across the 5 gallery pages (e.g. "Gallery 2 of 5 →"), so a visitor realizes there's more without needing to scroll all the way down.
 3. Not yet decided, worth a future conversation: filtering/sorting galleries by wood type, neighborhood, or service type, and numbered-photo deep links (`#photo-14`) for referring a specific customer to a specific result — both build naturally on top of the lightbox once it exists.
+
+---
+
+# MILESTONE 2.5 QA — 2026-07-18 (content alignment + media-fact system)
+
+**Branch:** `redesign` · **Method:** static gate + double-build determinism + real headless Chromium (Playwright) via local HTTP server (`http://127.0.0.1`, never file://), all 13 pages at desktop 1280×900 and mobile 390×844, with remote hosts stubbed for hermetic runs.
+
+## Commands run
+
+```
+python build/scripts/build_all.py                       # twice → byte-identical (md5 across 13 pages + sitemap + robots)
+python build/scripts/generate_media_inventory.py        # twice → deterministic (diff-clean)
+python build/scripts/validate_media_inventory.py        # 0 errors, 4 intentional owner-review warnings
+<scratchpad>/qa_static_m25.py                           # static gate
+<scratchpad>/qa_browser_m25.py                          # browser gate
+```
+
+## Static gate — PASSED (all 13 pages)
+
+- Exactly one canonical per page, matching the Milestone 2.4 approved map; sitemap.xml has exactly the 13 canonical URLs; robots.txt allow-all + sitemap pointer, no forbidden directives.
+- Exactly one viewport, one `<title>`, one `<h1>` per page; no `noindex`; no `_gaq`/`UA-20793161`/`ga.js` anywhere.
+- No `tel:` link labeled as a text action; every JSON-LD block strict-parses; every JSON file under `build/data/` strict-parses; all internal page links resolve to local files.
+- Content preservation vs `HEAD` (Milestone 2.4 commit `1ecff4e`): image count, video count, and heading count did not drop on any page — no project, section, image placement, or video disappeared.
+- The four corrected Bing Crosby Ranch walnut alts present; all four false alt fragments (bamboo / parquet / La Jolla maple / "museum grade") absent.
+
+## Media inventory — PASSED
+
+377 image assets + 58 video assets; 516 placements across 13 pages; every scanned image/video placement has a record; asset and placement IDs unique site-wide; no conflicting approved project identities; nothing auto-published. The 4 warnings are the deliberate `TRICIA WALNUT27/30/63/76` filename-vs-white-oak-description conflict flags (Solid Wood Gallery), awaiting the owner.
+
+## Browser gate — 176 / 180 checks passed
+
+Per page × viewport: no JS pageerrors, one H1, header + single footer present, no horizontal overflow, dark default. Interactive: mobile drawer open/Escape-close, desktop Services dropdown, mini-header on scroll, theme toggle to light + persistence across reload, gallery lightbox open/Escape-close, videos modal open + on-demand nocookie iframe + Escape-close, category filters, and the new Milestone 2.5 internal links (deep-cleaning → Gallery 4 / refinishing-home).
+
+**The 4 failing checks are one pre-existing issue, not a 2.5 regression:** galleries 3 and 4 (byte-identical to Milestone 2.4 output) carry the legacy inline Turbify `var $D…` script extracted from the raw source, which throws a console-only `YAHOO is not defined` pageerror because the Yahoo library it expects no longer loads. Page rendering and all functionality are unaffected. Recorded as a cleanup candidate for the performance/hardening milestone (remove or guard the legacy script at the generator level).
+
+## Preview verification
+
+Performed after the Milestone 2.5 push — see the milestone final report / NEXT_SESSION for the deployed commit confirmation. Production (`master`, Turbify live site) untouched.
