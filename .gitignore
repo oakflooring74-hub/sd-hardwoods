@@ -1,6 +1,8 @@
 # Development artifacts
 *.txt
 !build/**/*.txt
+# robots.txt is generated deployed output (build/scripts/common/build_sitemap.py) -- must be committed
+!robots.txt
 extract_images.js
 image_urls.txt
 

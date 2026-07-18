@@ -19,6 +19,7 @@ with open(DATA / "jsonld.html", encoding="utf-8") as f:
 
 HEAD_META = """<title>Recent Hardwood Flooring Projects | Refinishing, Installation &amp; Repair | San Diego</title>
 <meta name="DESCRIPTION" content="Browse recent San Diego hardwood floor refinishing, installation, repair, and restoration projects featuring dust containment sanding, deep cleaning, wire-brushed and oil-finished floors, custom stains, bamboo, and engineered hardwood. Explore our craftsmanship and discuss your project with an expert">
+<link href="https://www.sdhardwoods.com/recent_project_photo_gallery_2.html" rel="canonical">
 <link href="https://www.sdhardwoods.com/favicon.ico" rel="icon" type="image/x-icon">
 <link href="https://www.sdhardwoods.com/favicon-192.ico" rel="icon" sizes="192x192" type="image/x-icon">
 <link href="https://www.sdhardwoods.com/favicon-512.ico" rel="icon" sizes="512x512" type="image/x-icon">
@@ -28,16 +29,9 @@ HEAD_META = """<title>Recent Hardwood Flooring Projects | Refinishing, Installat
 <link href="https://s.turbifycdn.com/lm/lib/smb/css/hosting/yss/v2/mc_global.195798.css" id="globalCSS" media="screen" rel="stylesheet" type="text/css">
 <link href="https://s.turbifycdn.com/lm/themes/yhoo/ga/evident/vanilla_bean/palette1/1.0.1/en-us/theme.css" id="themeCSS" media="screen" rel="stylesheet" type="text/css">"""
 
-GA = """<script type="text/javascript">
-                var _gaq = _gaq || [];
-                _gaq.push(['_setAccount', "UA-20793161-1"]);
-                _gaq.push(['_trackPageview']);
-                (function() {
-                  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-                  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-                  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-                })();
-            </script>"""
+# Milestone 2.4: obsolete Universal Analytics (UA-20793161-1 / _gaq / ga.js) removed
+# site-wide. GA4 is blocked pending the owner's confirmed Measurement ID.
+GA = ""
 
 def esc(s):
     return (s or "").replace('"', "&quot;")
@@ -108,7 +102,8 @@ MAIN = f"""
   <h1>Recent Hardwood Flooring Projects Throughout San Diego County</h1>
   <p>Browse recent San Diego hardwood floor refinishing, installation, repair, and restoration projects featuring dust containment sanding, deep cleaning, wire-brushed and oil-finished floors, custom stains, bamboo, and engineered hardwood.</p>
   <div class="cta-row">
-    <a class="btn btn-call" href="tel:8586990072">&#9742; Call or Text 858-699-0072</a>
+    <a class="btn btn-call" href="tel:+18586990072">&#9742; Call 858-699-0072</a>
+    <a class="btn btn-outline" href="sms:+18586990072">Text Floor Photos</a>
   </div>
 </section>
 
@@ -131,7 +126,8 @@ MAIN = f"""
 
   <div class="cta-row" style="justify-content:center;flex-wrap:wrap;gap:16px;margin-top:20px;">
     <a class="btn btn-outline" href="https://www.sdhardwoods.com/recent_project_photo_gallery_3.html">Next Page: Project Gallery 3 &rarr;</a>
-    <a class="btn btn-call" href="tel:858-699-0072">Call or Text Now: 858-699-0072</a>
+    <a class="btn btn-call" href="tel:+18586990072">Call 858-699-0072</a>
+    <a class="btn btn-outline" href="sms:+18586990072">Text Floor Photos</a>
   </div>
 </section>
 """

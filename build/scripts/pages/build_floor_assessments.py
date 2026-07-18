@@ -123,16 +123,9 @@ JSONLD = """<script type="application/ld+json">
 }
 </script>"""
 
-GA = """<script type="text/javascript">
-                var _gaq = _gaq || [];
-                _gaq.push(['_setAccount', "UA-20793161-1"]);
-                _gaq.push(['_trackPageview']);
-                (function() {
-                  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-                  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-                  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-                })();
-            </script>"""
+# Milestone 2.4: obsolete Universal Analytics (UA-20793161-1 / _gaq / ga.js) removed
+# site-wide. GA4 is blocked pending the owner's confirmed Measurement ID.
+GA = ""
 
 VCARD = "SAN DIEGO LICENSED WOOD FLOOR RESTORATION/REFINISHING CONTRACTOR 858-699-0072 EXPERIENCE EXCEPTIONAL DUSTLESS HARDWOOD AND BAMBOO FLOOR REFINISHING IN SAN DIEGO. ALL WORK PERFORED BY A HIGHLY EXPERIENCED FLOORING EXPERT WITH OVER 30 YEARS EXPERIENCE RESTORING AND REPAIRING SOLID AND ENGINEERED HARDWOOD AND BAMBOO FLOORING. CALL TODAY TO SCHEDULE A CONSULTATION. TEXT PHOTOS OF YOUR PROJECT FOR AN IMMEDIATE ASSESSMENT."
 
@@ -142,8 +135,8 @@ MAIN = """
   <h1>Professional Hardwood Floor Assessments, Inspections &amp; Consultation</h1>
   <p>Our core business is the flooring work itself &mdash; refinishing, restoration, deep cleaning and recoating, repairs, and installation. When a floor or a property decision calls for professional expertise on site, we also offer a clear set of paid assessment and inspection services: an in-home project assessment, pre-purchase floor inspections with optional written documentation, and complex damage, dispute, and insurance analysis. Every one of them begins the same way: with a conversation that is free.</p>
   <div class="cta-row">
-    <a class="btn btn-call" href="tel:8586990072">&#9742; Call or Text 858-699-0072</a>
-    <a class="btn btn-outline" href="sms:+18586990072?&amp;body=Hi%20San%20Diego%20Hardwoods%2C%20I%20have%20photos%20of%20my%20floors%20to%20send%20for%20a%20free%20phone%20assessment.">Text Floor Photos</a>
+    <a class="btn btn-call" href="tel:+18586990072">&#9742; Call 858-699-0072</a>
+    <a class="btn btn-outline" href="sms:+18586990072">Text Floor Photos</a>
   </div>
 </section>
 
@@ -157,8 +150,8 @@ MAIN = """
     </div>
     <p>Start with a free phone and photo assessment. We can review the flooring, discuss your concerns, share preliminary guidance, and help determine the most appropriate next step. Initial contact may include a phone conversation; review of photos or a short video you text or email; or review of a public Zillow, Redfin, Realtor.com, or similar listing for a property you are considering. We will discuss likely flooring options, whether San Diego Hardwoods is a suitable fit, and which type of property visit or professional service &mdash; if any &mdash; makes sense for your situation.</p>
     <div class="cta-row" style="justify-content:flex-start;margin-top:6px;">
-      <a class="btn btn-call" href="tel:8586990072" style="padding:11px 22px;font-size:15.5px;">&#9742; Call or Text 858-699-0072</a>
-      <a class="btn btn-outline" href="sms:+18586990072?&amp;body=Hi%20San%20Diego%20Hardwoods%2C%20I%20have%20photos%20of%20my%20floors%20to%20send%20for%20a%20free%20phone%20assessment." style="padding:11px 22px;font-size:15.5px;">Text Floor Photos</a>
+      <a class="btn btn-call" href="tel:+18586990072" style="padding:11px 22px;font-size:15.5px;">&#9742; Call 858-699-0072</a>
+      <a class="btn btn-outline" href="sms:+18586990072" style="padding:11px 22px;font-size:15.5px;">Text Floor Photos</a>
     </div>
   </div>
 </section>
@@ -305,8 +298,9 @@ MAIN = """
   <h2>Ready to Get Started?</h2>
   <p class="lede">Text or email clear photos of your floors &mdash; or send a listing link for a property you are considering &mdash; and we will take it from there with a free phone and photo assessment.</p>
   <div class="cta-row" style="justify-content:center;">
-    <a class="btn btn-call" href="tel:8586990072">&#9742; Call or Text 858-699-0072</a>
-    <a class="btn btn-outline" href="mailto:sandiegohardwoods@gmail.com">Email sandiegohardwoods@gmail.com</a>
+    <a class="btn btn-call" href="tel:+18586990072">&#9742; Call 858-699-0072</a>
+    <a class="btn btn-outline" href="sms:+18586990072">Text Floor Photos</a>
+    <a class="btn btn-outline" href="mailto:sandiegohardwoods@gmail.com">Email San Diego Hardwoods</a>
   </div>
 </section>
 """

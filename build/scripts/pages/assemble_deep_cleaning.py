@@ -36,7 +36,6 @@ title = re.search(r"<title>(.*?)</title>", raw, re.DOTALL).group(1).strip()
 meta_desc = re.search(r'<meta name="DESCRIPTION" id="mDescription" content="([^"]*)"', raw).group(1)
 canonical = re.search(r'<link href="([^"]+)" rel="canonical"', raw).group(1)
 jsonld_block = re.search(r'<script type="application/ld\+json">.*?</script>', raw, re.DOTALL).group(0)
-gaq_block = re.search(r'<!--Google Analytics Tracking Code-->.*?</script>', raw, re.DOTALL).group(0)
 vcard_desc = re.search(r'<span class="organization-name">(.*?)</span>', raw, re.DOTALL).group(1).strip()
 
 # ---- prose paragraphs (extracted, not retyped) ----
@@ -112,7 +111,8 @@ for rec in records:
 cta_buttons_html = '''
 <p style="text-align:center;margin:34px auto 0;font-size:15.5px;">
 <a href="https://www.sdhardwoods.com/recent_project_photo_gallery_1.html" style="color:var(--brass-deep);font-weight:700;text-decoration:underline;">See Before &amp; After Project Galleries &rarr;</a>
-&nbsp;&bull;&nbsp; <a href="tel:858-699-0072" style="color:var(--cta-red);font-weight:700;text-decoration:underline;">Call or Text Now: 858-699-0072</a>
+&nbsp;&bull;&nbsp; <a href="tel:+18586990072" style="color:var(--cta-red);font-weight:700;text-decoration:underline;">Call 858-699-0072</a>
+&nbsp;&bull;&nbsp; <a href="sms:+18586990072" style="color:var(--cta-red);font-weight:700;text-decoration:underline;">Text Floor Photos</a>
 </p>'''
 
 gallery_html = "\n".join(gallery_cards)
@@ -150,9 +150,10 @@ main_html = f'''<main>
 <section class="hero">
   <div class="kicker">Est. 1990 &bull; San Diego's Finest Hardwood Flooring Specialist</div>
   <h1>Hardwood Floor Deep Cleaning, Recoating &amp; Bona Traffic HD Finish Upgrades in San Diego</h1>
-  <p>Restore dull, worn floors without the cost, dust, or disruption of full sanding. Our professional Bona PowerScrubber system deep cleans, removes wax and polish buildup, and prepares hardwood floors for a durable maintenance recoat or premium finish upgrade&mdash;often completed in just one day. Call or text 858-699-0072. Call or text <a href="tel:8586990072">858-699-0072</a> or email <a href="mailto:sandiegohardwoods@gmail.com">sandiegohardwoods@gmail.com</a></p>
+  <p>Restore dull, worn floors without the cost, dust, or disruption of full sanding. Our professional Bona PowerScrubber system deep cleans, removes wax and polish buildup, and prepares hardwood floors for a durable maintenance recoat or premium finish upgrade&mdash;often completed in just one day. Call <a href="tel:+18586990072">858-699-0072</a>, <a href="sms:+18586990072">text floor photos</a> or email <a href="mailto:sandiegohardwoods@gmail.com">sandiegohardwoods@gmail.com</a></p>
   <div class="cta-row">
-    <a class="btn btn-call" href="tel:8586990072">&#9742; Call or Text 858-699-0072</a>
+    <a class="btn btn-call" href="tel:+18586990072">&#9742; Call 858-699-0072</a>
+    <a class="btn btn-outline" href="sms:+18586990072">Text Floor Photos</a>
   </div>
 </section>
 
@@ -186,7 +187,8 @@ main_html = f'''<main>
   </div>
 
   <div class="cta-row" style="justify-content:center;margin-top:34px;">
-    <a class="btn btn-call" href="tel:8586990072">&#9742; Call or Text 858-699-0072</a>
+    <a class="btn btn-call" href="tel:+18586990072">&#9742; Call 858-699-0072</a>
+    <a class="btn btn-outline" href="sms:+18586990072">Text Floor Photos</a>
   </div>
 </section>
 
@@ -215,12 +217,12 @@ head_extra = f'''<meta name="DESCRIPTION" id="mDescription" content="{meta_desc}
 	<link href="https://www.sdhardwoods.com/LOGO-2025.png" rel="apple-touch-icon" sizes="180x180"><meta name="theme-color" content="#4b2e06"><meta name="msapplication-TileColor" content="#4b2e06"><meta name="msapplication-TileImage" content="https://www.sdhardwoods.com/LOGO-2025.png">
 	<link href="https://www.sdhardwoods.com/LOGO-2025.png" rel="logo" type="image/png">
 {jsonld_block}
-{gaq_block}
 '''
 
 full_html = f'''<!DOCTYPE html><html lang="en">
 <head xmlns="">
   <meta charset="utf-8"><base href="https://www.sdhardwoods.com/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 {head_extra}
 {site_css}
 {darkmode_boot}
@@ -253,7 +255,7 @@ L(f"<footer count: {len(re.findall('<footer', full_html))}")
 L(f"sdhMegaNav count: {len(re.findall('id=\"sdhMegaNav\"', full_html))}")
 L(f"sdh-toggle count: {len(re.findall('id=\"sdh-toggle\"', full_html))}")
 L(f"title extracted: {title!r}")
-L(f"_gaq present in NEW: {'_gaq' in full_html}")
+L(f"_gaq present in NEW (should be False since Milestone 2.4): {'_gaq' in full_html}")
 
 with open(LOG, "w", encoding="utf-8", newline="\n") as f:
     f.write("\n".join(log))

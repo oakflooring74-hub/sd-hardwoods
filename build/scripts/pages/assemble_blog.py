@@ -35,7 +35,6 @@ def clean_text(s):
 title = re.search(r"<title>(.*?)</title>", raw, re.DOTALL).group(1).strip()
 meta_desc = re.search(r'content="([^"]*)" id="mDescription"', raw).group(1)
 canonical = re.search(r'<link href="([^"]+)" rel="canonical"', raw).group(1)
-gaq_block = re.search(r'<!--Google Analytics Tracking Code-->.*?</script>', raw, re.DOTALL).group(0)
 vcard_desc = re.search(r'<span class="organization-name">(.*?)</span>', raw, re.DOTALL).group(1).strip()
 
 # ---- gallery records ----
@@ -121,10 +120,11 @@ main_html = f'''<main>
 <section class="hero">
   <div class="kicker">Est. 1990 &bull; San Diego's Finest Hardwood Flooring Specialist</div>
   <h1>San Diego Hardwood Flooring Blog &mdash; Expert Advice on Refinishing, Restoration, Deep Cleaning, Repairs, Installation &amp; Professional Floor Care</h1>
-  <p>Licensed, Bonded &amp; Insured Hardwood Flooring Specialist with 35+ Years of Experience in Refinishing, Restoration, Repairs, Custom Installation, Dust Containment Sanding, Deep Cleaning, Custom Staining, Wire-Brushed &amp; Oil-Finished Floors. Call or Text <a href="tel:8586990072">858-699-0072</a> to Discuss Your Project with an Experienced Flooring Specialist.</p>
+  <p>Licensed, Bonded &amp; Insured Hardwood Flooring Specialist with 35+ Years of Experience in Refinishing, Restoration, Repairs, Custom Installation, Dust Containment Sanding, Deep Cleaning, Custom Staining, Wire-Brushed &amp; Oil-Finished Floors. Call <a href="tel:+18586990072">858-699-0072</a> or <a href="sms:+18586990072">Text Floor Photos</a> to Discuss Your Project with an Experienced Flooring Specialist.</p>
   <p>We refinish, restore, and repair solid and engineered hardwood and bamboo flooring throughout San Diego County &mdash; a Bona Certified Craftsman company.</p>
   <div class="cta-row">
-    <a class="btn btn-call" href="tel:8586990072">&#9742; Call or Text 858-699-0072</a>
+    <a class="btn btn-call" href="tel:+18586990072">&#9742; Call 858-699-0072</a>
+    <a class="btn btn-outline" href="sms:+18586990072">Text Floor Photos</a>
   </div>
 </section>
 
@@ -154,7 +154,8 @@ main_html = f'''<main>
     </div>
   </div>
   <div class="cta-row" style="justify-content:center;margin-top:34px;">
-    <a class="btn btn-call" href="tel:8586990072">&#9742; Call or Text 858-699-0072 to Discuss Your Hardwood Flooring Project</a>
+    <a class="btn btn-call" href="tel:+18586990072">&#9742; Call 858-699-0072 to Discuss Your Hardwood Flooring Project</a>
+    <a class="btn btn-outline" href="sms:+18586990072">Text Floor Photos</a>
   </div>
 </section>
 
@@ -203,7 +204,8 @@ main_html = f'''<main>
   <h2>Request Your Free Hardwood Flooring Consultation</h2>
   <p class="lede">Whether you need hardwood floor refinishing, complete installation, repairs, restoration, dustless sanding, or professional deep cleaning, San Diego Hardwoods is ready to help. Call or text photos of your floors for a fast professional evaluation and honest recommendations backed by more than 35 years of experience.</p>
   <div class="cta-row" style="justify-content:center;">
-    <a class="btn btn-call" href="tel:8586990072">Call or Text: 858-699-0072</a>
+    <a class="btn btn-call" href="tel:+18586990072">Call 858-699-0072</a>
+    <a class="btn btn-outline" href="sms:+18586990072">Text Floor Photos</a>
   </div>
 </section>
 
@@ -239,12 +241,12 @@ head_extra = f'''<meta name="DESCRIPTION" id="mDescription" content="{meta_desc}
 	<link href="https://www.sdhardwoods.com/favicon-512.ico" rel="icon" sizes="512x512" type="image/x-icon">
 	<link href="https://www.sdhardwoods.com/LOGO-2025.png" rel="apple-touch-icon" sizes="180x180"><meta name="theme-color" content="#4b2e06"><meta name="msapplication-TileColor" content="#4b2e06"><meta name="msapplication-TileImage" content="https://www.sdhardwoods.com/LOGO-2025.png">
 	<link href="https://www.sdhardwoods.com/LOGO-2025.png" rel="logo" type="image/png">
-{gaq_block}
 '''
 
 full_html = f'''<!DOCTYPE html><html lang="en">
 <head xmlns="">
   <meta charset="utf-8"><base href="https://www.sdhardwoods.com/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 {head_extra}
 {site_css}
 {darkmode_boot}
@@ -278,7 +280,7 @@ L(f"<footer count: {len(re.findall('<footer', full_html))}")
 L(f"sdhMegaNav count: {len(re.findall('id=\"sdhMegaNav\"', full_html))}")
 L(f"sdh-toggle count: {len(re.findall('id=\"sdh-toggle\"', full_html))}")
 L(f"title extracted: {title!r}")
-L(f"_gaq present in NEW: {'_gaq' in full_html}")
+L(f"_gaq present in NEW (should be False since Milestone 2.4): {'_gaq' in full_html}")
 L(f"vcard_desc: {vcard_desc!r}")
 L(f"cs3_title: {cs3_title!r}")
 

@@ -8,6 +8,6 @@ triple-backtick occurrences in NEW: 0
 sdhMegaNav count: 0
 sdh-toggle count: 0
 title extracted: 'San Diego Hardwood Flooring Blog | Expert Advice on Refinishing, Repairs, Restoration &amp; Floor Care'
-_gaq present in NEW: True
+_gaq present in NEW (should be False since Milestone 2.4): False
 vcard_desc: 'Professional Hardwood Floor Refinishing, Restoration &amp; Floor Care in San Diego'
 cs3_title: '# 3 Solid Ash Hardwood Floor Refinishing in Del Mar'

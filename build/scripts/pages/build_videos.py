@@ -25,6 +25,8 @@ sys.path.insert(0, str(BUILD / "scripts" / "common"))
 from assemble_page import assemble
 
 HEAD_META = """<title>Hardwood Floor Refinishing &amp; Dustless Sanding Videos | San Diego</title>
+<meta name="description" content="Watch real San Diego hardwood floor refinishing, sanding, repair, staining and restoration videos from actual customer projects.">
+<link href="https://www.sdhardwoods.com/videos_of_refinishing_process.html" rel="canonical">
 <link href="https://www.sdhardwoods.com/favicon.ico" rel="icon" type="image/x-icon">
 <link href="https://www.sdhardwoods.com/favicon-192.ico" rel="icon" sizes="192x192" type="image/x-icon">
 <link href="https://www.sdhardwoods.com/favicon-512.ico" rel="icon" sizes="512x512" type="image/x-icon">
@@ -34,16 +36,9 @@ HEAD_META = """<title>Hardwood Floor Refinishing &amp; Dustless Sanding Videos |
 <link href="https://s.turbifycdn.com/lm/lib/smb/css/hosting/yss/v2/mc_global.195798.css" id="globalCSS" media="screen" rel="stylesheet" type="text/css">
 <link href="https://s.turbifycdn.com/lm/themes/yhoo/ga/evident/vanilla_bean/palette1/1.0.1/en-us/theme.css" id="themeCSS" media="screen" rel="stylesheet" type="text/css">"""
 
-GA = """<script type="text/javascript">
-                var _gaq = _gaq || [];
-                _gaq.push(['_setAccount', "UA-20793161-1"]);
-                _gaq.push(['_trackPageview']);
-                (function() {
-                  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-                  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-                  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-                })();
-            </script>"""
+# Milestone 2.4: obsolete Universal Analytics (UA-20793161-1 / _gaq / ga.js) removed
+# site-wide. GA4 is blocked pending the owner's confirmed Measurement ID.
+GA = ""
 
 VCARD = "THE BEST HARDWOOD FLOOR REFINISHING IN SAN DIEGO CALL TODAY 858-699-0072 LICENSED CONTRACTOR WITH OVER 30 YEARS EXPERIENCE WITH ALL TYPES OF SOLID AND ENGINEERED WOOD FLOORS. ALL WORK IS GUARANTEED AND PERFORMED BY A SMALL CREW OF SKILLED AND COURTEOUS CRAFTSMEN. TEXT PHOTOS FOR QUICK ASSESSMENT OF YOUR FLOORING PROJECT. CSLB LICENSED FLOORING CONTRACTOR IN SAN DIEGO. DUST CONTAINMENT SANDING EQUIPMENT USED FOR ALL PHASES OF EACH PROJECT."
 
@@ -311,7 +306,8 @@ MAIN = f"""{PAGE_CSS}
   <h1>Real Hardwood Floor Refinishing, Dustless Sanding &amp; Restoration Videos</h1>
   <p>This page documents <strong>real San Diego Hardwoods projects</strong> &mdash; every public video from our YouTube channel in one place. Watch our equipment at work on actual customer floors: dust-contained sanding with the <strong>Bona DCS 2.0 containment system</strong>, hardwood floor repairs, restoration of vintage and historic floors, intensive deep cleaning and recoating, and premium Bona finish work &mdash; the same craftsmanship behind our refinishing, restoration, and installation projects across San Diego County.</p>
   <div class="cta-row">
-    <a class="btn btn-call" href="tel:8586990072">&#9742; Call or Text 858-699-0072 for a Free Phone Assessment</a>
+    <a class="btn btn-call" href="tel:+18586990072">&#9742; Call 858-699-0072 for a Free Phone Assessment</a>
+    <a class="btn btn-outline" href="sms:+18586990072">Text Floor Photos</a>
   </div>
 </section>
 
@@ -345,7 +341,8 @@ MAIN = f"""{PAGE_CSS}
   <p class="lede">Whether your floors need <strong>hardwood floor refinishing</strong>, repairs, deep cleaning, recoating, color changes, engineered hardwood restoration, or complete hardwood floor installation, we provide free phone assessments throughout <strong>La Jolla, Del Mar, Rancho Santa Fe, Encinitas, Carmel Valley, Solana Beach, Point Loma, Mission Hills, Coronado, Poway, Escondido</strong>, and communities across San Diego County.</p>
 
   <div class="cta-row" style="justify-content:center;">
-    <a class="btn btn-call" href="tel:8586990072">Call or Text 858-699-0072</a>
+    <a class="btn btn-call" href="tel:+18586990072">Call 858-699-0072</a>
+    <a class="btn btn-outline" href="sms:+18586990072">Text Floor Photos</a>
   </div>
 </section>
 

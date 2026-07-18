@@ -12,13 +12,19 @@ DATA = BUILD / "data" / "index"
 with open(RAW, encoding="utf-8") as f:
     raw = f.read()
 
-title = re.search(r"<title>(.*?)</title>", raw, re.DOTALL).group(1)
 canonical = re.search(r'<link href="([^"]+)" rel="canonical">', raw).group(1)
 vcard_desc = re.search(r'<span class="organization-name">(.*?)</span>', raw, re.DOTALL).group(1).strip()
 jsonld_blocks = re.findall(r'<script type="application/ld\+json">.*?</script>', raw, re.DOTALL)
 # homepage carries no _gaq Google Analytics script in the live source (confirmed) -- leave GA empty
 
+# Milestone 2.4: the homepage is the site's primary full-service flooring page, so its
+# title/description no longer come from the raw source (whose title centered on videos).
+title = "Hardwood Floor Refinishing San Diego | San Diego Hardwoods"
+description = ("Owner-operated since 1990. Hardwood floor refinishing, restoration, repairs, "
+               "installation, deep cleaning and dust-contained sanding throughout San Diego County.")
+
 HEAD_META = f"""<title>{title}</title>
+<meta name="description" content="{description}">
 <link href="{canonical}" rel="canonical">
 <link href="https://www.sdhardwoods.com/favicon.ico" rel="icon" type="image/x-icon">
 <link href="https://www.sdhardwoods.com/favicon-192.ico" rel="icon" sizes="192x192" type="image/x-icon">

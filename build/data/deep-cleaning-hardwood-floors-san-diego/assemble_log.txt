@@ -7,4 +7,4 @@ triple-backtick occurrences in NEW: 0
 sdhMegaNav count: 0
 sdh-toggle count: 0
 title extracted: 'Hardwood Floor Deep Cleaning & Maintenance Recoating | San Diego'
-_gaq present in NEW: True
+_gaq present in NEW (should be False since Milestone 2.4): False

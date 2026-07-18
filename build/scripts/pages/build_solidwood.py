@@ -39,6 +39,7 @@ with open(DATA / "vcard.txt", encoding="utf-8") as f:
     VCARD = f.read().strip()
 
 HEAD_META = """<title>San Diego Solid &amp; Engineered Wood Floor Installation, Refinishing, Repairs &amp; Dustless Sanding</title>
+<meta name="description" content="See solid and unfinished engineered hardwood installations in San Diego, including nail-down, glue-down, sanding and custom finishing.">
 <link href="https://www.sdhardwoods.com/solid_wood_floor_photo_gallery.html" rel="canonical">
 <link href="https://www.sdhardwoods.com/favicon.ico" rel="icon" type="image/x-icon">
 <link href="https://www.sdhardwoods.com/favicon-192.ico" rel="icon" sizes="192x192" type="image/x-icon">
@@ -81,7 +82,8 @@ MAIN = f"""
   <h1>Solid &amp; Engineered Wood Floor Installation, Refinishing, Repairs &amp; Dustless Sanding</h1>
   <p>Custom nail-down and glue-down hardwood installation throughout San Diego County, alongside our dust-contained refinishing, repair, and restoration services. Below: four complete installation projects, from staged raw lumber to the finished floor.</p>
   <div class="cta-row">
-    <a class="btn btn-call" href="tel:8586990072">&#9742; Call or Text 858-699-0072</a>
+    <a class="btn btn-call" href="tel:+18586990072">&#9742; Call 858-699-0072</a>
+    <a class="btn btn-outline" href="sms:+18586990072">Text Floor Photos</a>
   </div>
 </section>
 
@@ -107,7 +109,8 @@ MAIN = f"""
   <p class="lede" style="margin-top:10px;">{OUTRO}</p>
 
   <div class="cta-row" style="justify-content:center;margin-top:20px;">
-    <a class="btn btn-call" href="tel:858-699-0072">Call or Text Now: 858-699-0072</a>
+    <a class="btn btn-call" href="tel:+18586990072">Call 858-699-0072</a>
+    <a class="btn btn-outline" href="sms:+18586990072">Text Floor Photos</a>
   </div>
 </section>
 """

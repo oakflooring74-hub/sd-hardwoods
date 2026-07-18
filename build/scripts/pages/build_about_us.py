@@ -12,6 +12,8 @@ def read(p):
         return f.read()
 
 HEAD_META = read(SCRATCH + r"\head_meta.html") + """
+<meta name="description" content="Learn about San Diego Hardwoods, an owner-operated licensed flooring contractor providing refinishing, restoration, repairs and installation since 1990.">
+<link href="https://www.sdhardwoods.com/about_us.html" rel="canonical">
 <link href="https://www.sdhardwoods.com/favicon.ico" rel="icon" type="image/x-icon">
 <link href="https://www.sdhardwoods.com/favicon-192.ico" rel="icon" sizes="192x192" type="image/x-icon">
 <link href="https://www.sdhardwoods.com/favicon-512.ico" rel="icon" sizes="512x512" type="image/x-icon">
@@ -24,16 +26,9 @@ HEAD_META = read(SCRATCH + r"\head_meta.html") + """
 
 JSONLD = read(SCRATCH + r"\jsonld.html")
 
-GA = """<script type="text/javascript">
-                var _gaq = _gaq || [];
-                _gaq.push(['_setAccount', "UA-20793161-1"]);
-                _gaq.push(['_trackPageview']);
-                (function() {
-                  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-                  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-                  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-                })();
-            </script>"""
+# Milestone 2.4: obsolete Universal Analytics (UA-20793161-1 / _gaq / ga.js) removed
+# site-wide. GA4 is blocked pending the owner's confirmed Measurement ID.
+GA = ""
 
 VCARD = read(SCRATCH + r"\vcard.txt").strip()
 
@@ -43,7 +38,8 @@ MAIN = """
   <h1>About San Diego Hardwoods &mdash; Trusted Hardwood Floor Refinishing, Installation, Restoration &amp; Deep Cleaning Experts Serving San Diego Since 1990</h1>
   <p><strong>Text photos for a fast, expert assessment &mdash; same-day replies.</strong></p>
   <div class="cta-row">
-    <a class="btn btn-call" href="tel:8586990072">&#9742; Call or Text 858-699-0072</a>
+    <a class="btn btn-call" href="tel:+18586990072">&#9742; Call 858-699-0072</a>
+    <a class="btn btn-outline" href="sms:+18586990072">Text Floor Photos</a>
   </div>
 </section>
 
@@ -51,7 +47,7 @@ MAIN = """
   <div class="video-frame"><div id="heroVideoMount"></div></div>
   <div class="video-cta">
     <p><strong style="color:var(--cta-red);">Expert French Oak &amp; Wire-Brushed Refinishing.</strong> Text photos of your project to start your professional assessment.</p>
-    <a class="btn btn-call" href="sms:+18586990072?&body=Hi%20San%20Diego%20Hardwoods,%20I%20have%20photos%20of%20my%20French%20Oak%20or%20wire-brushed%20floors%20I%20would%20like%20to%20send%20for%20a%20consultation.">Schedule a Phone Consultation</a>
+    <a class="btn btn-call" href="sms:+18586990072">Text Floor Photos</a>
   </div>
 </section>
 <script type="text/javascript">
@@ -125,11 +121,12 @@ MAIN = """
   <div class="card" style="max-width:820px;margin:34px auto 0;text-align:center;">
     <h3>Let's Discuss Your Hardwood Flooring Project</h3>
     <p>Whether your floors need refinishing, repairs, deep cleaning, custom installation or complete restoration, we're happy to discuss your options and recommend the solution that's right for your home.</p>
-    <p style="font-size:20px;"><strong>Call or Text <a href="tel:858-699-0072" style="color:var(--cta-red);">858-699-0072</a> today.</strong></p>
+    <p style="font-size:20px;"><strong>Call <a href="tel:+18586990072" style="color:var(--cta-red);">858-699-0072</a> or <a href="sms:+18586990072" style="color:var(--cta-red);">text floor photos</a> today.</strong></p>
   </div>
 
   <div class="cta-row" style="justify-content:center;margin-top:30px;">
-    <a class="btn btn-call" href="tel:8586990072">Call or Text 858-699-0072 for Your Free Phone Assessment</a>
+    <a class="btn btn-call" href="tel:+18586990072">Call 858-699-0072 for Your Free Phone Assessment</a>
+    <a class="btn btn-outline" href="sms:+18586990072">Text Floor Photos</a>
   </div>
 </section>
 """

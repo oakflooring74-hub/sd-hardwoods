@@ -16,6 +16,7 @@ with open(BUILD / "data" / "recent_project_photo_gallery_1" / "vcard.txt", encod
 
 HEAD_META = """<title>Hardwood Floor Refinishing Gallery | San Diego Before &amp; After Photos</title>
 <meta name="DESCRIPTION" content="View before and after hardwood floor refinishing projects completed throughout San Diego County. See dustless sanding, hardwood floor repairs, engineered hardwood refinishing, color changes, floor restoration, deep cleaning, and oiled floor upgrades completed in La Jolla, Del Mar, Mission Hills, Rancho Santa Fe, Encinitas, Carmel Valley, and nearby communities. Call or text 858-699-0072 for a professional phone consultation and expert floor evaluation.">
+<link href="https://www.sdhardwoods.com/recent_project_photo_gallery_1.html" rel="canonical">
 <link href="https://www.sdhardwoods.com/favicon.ico" rel="icon" type="image/x-icon">
 <link href="https://www.sdhardwoods.com/favicon-192.ico" rel="icon" sizes="192x192" type="image/x-icon">
 <link href="https://www.sdhardwoods.com/favicon-512.ico" rel="icon" sizes="512x512" type="image/x-icon">
@@ -27,16 +28,9 @@ HEAD_META = """<title>Hardwood Floor Refinishing Gallery | San Diego Before &amp
 
 JSONLD = ""  # original page04 has no JSON-LD schema block (confirmed via inventory scan)
 
-GA = """<script type="text/javascript">
-                var _gaq = _gaq || [];
-                _gaq.push(['_setAccount', "UA-20793161-1"]);
-                _gaq.push(['_trackPageview']);
-                (function() {
-                  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-                  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-                  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-                })();
-            </script>"""
+# Milestone 2.4: obsolete Universal Analytics (UA-20793161-1 / _gaq / ga.js) removed
+# site-wide. GA4 is blocked pending the owner's confirmed Measurement ID.
+GA = ""
 
 def esc(s):
     return (s or "").replace('"', "&quot;")
@@ -71,7 +65,8 @@ MAIN = f"""
   <h1>Hardwood Floor Refinishing Before &amp; After Gallery</h1>
   <p>Explore real San Diego hardwood floor refinishing projects featuring dustless sanding, hardwood floor repairs, restoration, color changes, custom stain work, and dramatic before-and-after transformations completed by San Diego Hardwoods throughout San Diego County.</p>
   <div class="cta-row">
-    <a class="btn btn-call" href="tel:8586990072">&#9742; Call or Text 858-699-0072</a>
+    <a class="btn btn-call" href="tel:+18586990072">&#9742; Call 858-699-0072</a>
+    <a class="btn btn-outline" href="sms:+18586990072">Text Floor Photos</a>
   </div>
 </section>
 
@@ -94,7 +89,8 @@ MAIN = f"""
 
   <div class="cta-row" style="justify-content:center;flex-wrap:wrap;gap:16px;margin-top:20px;">
     <a class="btn btn-outline" href="https://www.sdhardwoods.com/recent_project_photo_gallery_2.html">Next Page: Project Gallery 2 &rarr;</a>
-    <a class="btn btn-call" href="tel:858-699-0072">Call or Text Now: 858-699-0072</a>
+    <a class="btn btn-call" href="tel:+18586990072">Call 858-699-0072</a>
+    <a class="btn btn-outline" href="sms:+18586990072">Text Floor Photos</a>
   </div>
 </section>
 

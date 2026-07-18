@@ -196,13 +196,20 @@ def build_page(cfg):
     # jsonld already includes the VideoObject block (it's one of the extracted script tags),
     # so we do NOT duplicate video_jsonld -- just reuse extracted jsonld directly.
 
+    # Milestone 2.4: canonical comes from the approved canonical map (cfg), not from the
+    # raw source -- gallery 3's live page carries a wrong canonical URL
+    # (recent_project_gallery_3.html, a URL that 301s to the real page). The obsolete
+    # Universal Analytics snippet (UA-20793161-1 / _gaq / ga.js) extracted from the raw
+    # source is likewise no longer emitted; GA4 is blocked pending the owner's
+    # Measurement ID.
     html = f'''<!DOCTYPE html><html lang="en">
 <head xmlns="">
-  <meta charset="utf-8"><base href="https://www.sdhardwoods.com/">{head["uacompat"]}{head["generator"]}{head["desc_meta"]}
-\t{head["canonical"]}
+  <meta charset="utf-8"><base href="https://www.sdhardwoods.com/">
+\t<meta name="viewport" content="width=device-width, initial-scale=1">{head["uacompat"]}{head["generator"]}{head["desc_meta"]}
+\t<link href="{cfg["canonical"]}" rel="canonical">
 \t{head["css_links"]}{head["yahoo_script"]}
 \t<title>{head["title"]}</title>
-{jsonld}{head["ga_script"]}
+{jsonld}
 {site_css}
 {darkmode_boot}
 </head>
@@ -216,8 +223,8 @@ def build_page(cfg):
   <p>{cfg['hero_p1']}</p>
   <p>{cfg['hero_p2']}</p>
   <div class="cta-row">
-    <a class="btn btn-call" href="tel:8586990072">&#9742; Call or Text 858-699-0072</a>
-    <a class="btn btn-outline" href="{cfg['sms_href']}">Text Photos for a Free Assessment</a>
+    <a class="btn btn-call" href="tel:+18586990072">&#9742; Call 858-699-0072</a>
+    <a class="btn btn-outline" href="{cfg['sms_href']}">Text Floor Photos</a>
   </div>
 </section>
 
@@ -227,7 +234,7 @@ def build_page(cfg):
   </div>
   <div class="video-cta">
     <p><strong style="color:var(--cta-red);">{cfg['video_cta_strong']}</strong> Text photos of your project to start your professional assessment.</p>
-    <a class="btn btn-call" href="{cfg['sms_href']}">Schedule a Phone Consultation</a>
+    <a class="btn btn-call" href="{cfg['sms_href']}">Text Floor Photos</a>
   </div>
 </section>
 {video_script}
@@ -252,6 +259,7 @@ CONFIGS = [
     {
         "name": "gallery3",
         "gallery_index": 2,
+        "canonical": "https://www.sdhardwoods.com/recent_project_photo_gallery_3.html",
         "raw_path": str(RAW / "recent_project_photo_gallery_3.html"),
         "gallery_json": str(DATA / "recent_project_photo_gallery_3" / "modules.json"),
         "out_path": str(REPO_ROOT / "recent_project_photo_gallery_3.html"),
@@ -259,7 +267,7 @@ CONFIGS = [
         "h1": "Recent San Diego Hardwood Flooring Projects Featuring Expert Refinishing, Restoration, Dust Containment Sanding &amp; Custom Installation",
         "hero_p1": "Explore recent San Diego hardwood flooring transformations featuring expert refinishing, restoration, repairs, custom installation, dust containment sanding, deep cleaning, engineered hardwood, bamboo flooring, and the craftsmanship that has earned homeowners&rsquo; trust for more than 35 years.",
         "hero_p2": "Need advice on refinishing, repairs or installation? <strong>Call or text 858-699-0072</strong> to discuss your project.",
-        "sms_href": "sms:+18586990072?&body=Hi%20San%20Diego%20Hardwoods,%20I%20have%20photos%20of%20my%20floors%20I%20would%20like%20to%20send%20for%20a%20consultation.",
+        "sms_href": "sms:+18586990072",
         "video_cta_strong": "Professional Refinishing Results.",
         "yt_id": "hq0rLWe1C8o",
         "yt_params": "rel=0&modestbranding=1&playsinline=1&autoplay=0&mute=1&controls=1&loop=1&playlist=hq0rLWe1C8o&start=14&enablejsapi=1",
@@ -276,6 +284,7 @@ CONFIGS = [
     {
         "name": "gallery4",
         "gallery_index": 3,
+        "canonical": "https://www.sdhardwoods.com/recent_project_photo_gallery_4.html",
         "raw_path": str(RAW / "recent_project_photo_gallery_4.html"),
         "gallery_json": str(DATA / "recent_project_photo_gallery_4" / "modules.json"),
         "out_path": str(REPO_ROOT / "recent_project_photo_gallery_4.html"),
@@ -283,7 +292,7 @@ CONFIGS = [
         "h1": "Recent San Diego Hardwood Flooring Projects Featuring Expert Restoration, Deep Cleaning, Dust Containment Sanding, Repairs &amp; Custom Installation",
         "hero_p1": "Browse real hardwood flooring projects completed throughout San Diego County, including professional deep cleaning, dustless refinishing, restoration, repairs, custom installations, and premium Bona finishing systems. Every project shown was completed by San Diego Hardwoods using over 35 years of hands-on hardwood flooring experience.",
         "hero_p2": "Explore recent San Diego hardwood flooring projects featuring expert restoration, refinishing, repairs, dust containment sanding, deep cleaning, custom installation, and specialty finishes. <strong>Call or text 858-699-0072</strong> to discuss your project.",
-        "sms_href": "sms:+18586990072?&body=Hi%20San%20Diego%20Hardwoods,%20I%20have%20photos%20of%20my%20engineered%20maple%20floors%20I%20would%20like%20to%20send%20for%20a%20consultation.",
+        "sms_href": "sms:+18586990072",
         "video_cta_strong": "Expert Engineered Floor Refinishing.",
         "yt_id": "7mhqGYozb1o",
         "yt_params": "rel=0&modestbranding=1&playsinline=1&autoplay=0&mute=1&controls=1&loop=1&playlist=7mhqGYozb1o&enablejsapi=1",
