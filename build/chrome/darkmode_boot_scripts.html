@@ -1,18 +1,17 @@
 <script id="sdh-darkmode-boot">
 (function(){
-  try {
-    /* Stored choice wins; on first visit, respect the visitor's system preference
-       (falling back to dark, the site's long-standing default, when no preference
-       is detectable). The choice is only persisted once the visitor actually uses
-       the theme control, so an undecided first-timer keeps following their OS. */
-    var pref = localStorage.getItem('sdh-theme');
-    if (!pref) {
-      pref = (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) ? 'light' : 'dark';
-    }
-    if (pref === 'dark') {
-      document.addEventListener('DOMContentLoaded', function(){ document.body.classList.add('darkmode'); });
-    }
-  } catch(e){}
+  /* Milestone 2.3: dark is the site default. A stored explicit choice (made via the
+     theme control) always wins; with no stored choice the site opens dark regardless
+     of the OS color-scheme preference. The html-level class is applied synchronously,
+     before first paint, so the dark canvas variables (html.sdh-dark in site_css) take
+     effect immediately and there is no light-mode flash; the body class that the rest
+     of the dark styling keys off is added as soon as the body exists. */
+  var pref = null;
+  try { pref = localStorage.getItem('sdh-theme'); } catch(e){}
+  if (pref !== 'light') {
+    document.documentElement.classList.add('sdh-dark');
+    document.addEventListener('DOMContentLoaded', function(){ document.body.classList.add('darkmode'); });
+  }
 })();
 </script>
 <script id="sdh-darkmode-logic">
@@ -35,6 +34,7 @@
       btn.addEventListener('click', function() {
         document.body.classList.toggle('darkmode');
         var isDark = document.body.classList.contains('darkmode');
+        document.documentElement.classList.toggle('sdh-dark', isDark);
         try { localStorage.setItem('sdh-theme', isDark ? 'dark' : 'light'); } catch(e){}
         sync();
       });

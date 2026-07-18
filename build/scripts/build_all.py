@@ -1,5 +1,5 @@
 """
-Regenerate all 12 site pages from raw-source/ + data/ + chrome/.
+Regenerate all 13 site pages from raw-source/ + data/ + chrome/.
 
 Usage:
     python build_all.py
@@ -30,6 +30,7 @@ STEPS = [
     ("index (homepage)",              [PAGES / "build_homepage.py"]),
     ("about_us",                      [PAGES / "build_about_us.py"]),
     ("contact_us",                    [PAGES / "build_contact_us.py"]),
+    ("floor-assessments-inspections", [PAGES / "build_floor_assessments.py"]),
     ("videos_of_refinishing_process", [PAGES / "build_videos.py"]),
     ("recent_project_photo_gallery_1", [PAGES / "build_gallery1.py"]),
     ("recent_project_photo_gallery_2", [PAGES / "build_gallery2.py"]),
@@ -66,7 +67,7 @@ def main():
             print(f"  - {label} ({script})")
         sys.exit(1)
     else:
-        print("All 12 pages regenerated successfully.")
+        print("All 13 pages regenerated successfully.")
         print("Run `git diff` at the repo root to review what changed before committing.")
 
 

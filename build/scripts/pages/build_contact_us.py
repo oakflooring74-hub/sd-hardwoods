@@ -66,15 +66,8 @@ MAIN = """
       <p><a class="btn btn-outline" href="https://www.sdhardwoods.com/deep-cleaning-hardwood-floors-san-diego.html">Learn When Deep Cleaning Is a Better Option &rarr;</a></p>
     </div>
   </div>
-</section>
 
-<section class="block" id="consultation-services">
-  <p class="eyebrow">Assessments, Inspections &amp; Consultation</p>
-  <h2>Looking for Our Floor Assessment &amp; Inspection Services?</h2>
-  <p class="lede">Our professional floor assessment, inspection, and consultation options &mdash; from the free phone and photo assessment to the in-home project assessment, pre-purchase floor inspections, and complex damage or insurance analysis &mdash; are now presented on our homepage.</p>
-  <div style="text-align:center;">
-    <a class="btn btn-outline" href="https://www.sdhardwoods.com/#professional-floor-assessments">View Floor Assessments &amp; Inspections &rarr;</a>
-  </div>
+  <p class="lede" style="margin-top:30px;">Need an in-home project assessment, a pre-purchase floor inspection, or written floor-condition documentation? See our <a href="/floor-assessments-inspections" style="color:var(--brass-deep);font-weight:700;">Floor Assessments &amp; Inspections</a> services.</p>
 </section>
 """
 

@@ -8,7 +8,11 @@
   --font-serif:'Palatino Linotype','Book Antiqua',Palatino,Cambria,Georgia,serif;
   --font-sans:'Segoe UI',system-ui,-apple-system,'Helvetica Neue',Arial,sans-serif;
 }
-body.darkmode{
+/* html.sdh-dark carries the same variable overrides as body.darkmode. The boot
+   script sets it synchronously in <head> (before <body> exists), so the dark canvas
+   paints from the very first frame -- body.darkmode then lands on DOMContentLoaded
+   for every component rule that keys off it. Keep the two blocks identical. */
+html.sdh-dark, body.darkmode{
   --canvas:#1b1712; --canvas-alt:#221d16; --ink:#f2ece0; --ink-soft:#cdbfa8;
   --walnut:#d9b374; --brass:#d9b374; --brass-soft:#e7c98d; --brass-deep:#d9b374;
   --cta-red:#ff5147; --cta-red-dark:#ff8078; --line:#3a2f22; --card-bg:#241f18;

@@ -1,7 +1,10 @@
 # San Diego Hardwoods — site rebuild tooling
 
-This directory holds everything used to rebuild all 12 pages of sdhardwoods.com from the
-original Yahoo/Turbify "Site Solution" site into the current design. The generated output
+This directory holds everything used to rebuild all 13 pages of sdhardwoods.com from the
+original Yahoo/Turbify "Site Solution" site into the current design. (12 pages are rebuilt
+from crawled legacy raw source; the 13th, `floor-assessments-inspections`, is new in
+Milestone 2.3 and has no raw-source snapshot -- it is authored entirely in its build
+script.) The generated output
 (the actual `.html` files people visit) lives at the **repo root**, one level up from here.
 This folder is the *generator* — raw crawled source, extracted content data, shared design
 partials, and the scripts that combine them. Keeping the two separate means you can change
@@ -41,7 +44,7 @@ build/
   scripts/
     common/               <- reusable extraction + assembly tools
     pages/                <- one (or two) build scripts per page
-    build_all.py           <- regenerates all 12 pages in one run
+    build_all.py           <- regenerates all 13 pages in one run
   archive/                <- superseded/abandoned exploratory scripts, kept for history only
 ```
 
@@ -93,9 +96,11 @@ work the same way conceptually; the table below says which is which.
 `chrome/` holds the one shared copy of:
 - `site_css.html` — every CSS custom property (colors, type) and component class (`.btn`,
   `.card`, `.gallery`, `.hero`, etc.) used across all 12 pages.
-- `darkmode_boot_scripts.html` — theme boot logic (stored choice wins; first visit follows
-  the visitor's `prefers-color-scheme`, falling back to dark) + the handler for the
-  `.sdh-theme-btn` theme control that lives in the menu drawer since Milestone 2.1.
+- `darkmode_boot_scripts.html` — theme boot logic (Milestone 2.3: a stored explicit
+  choice always wins; with no stored choice the site opens **dark regardless of the OS
+  color scheme**, applied to `<html>` synchronously so there is no light flash) + the
+  handler for the `.sdh-theme-btn` theme control that lives in the menu drawer since
+  Milestone 2.1.
 - `top.html` — the brand masthead, nav band, mini-header, and menu drawer (which contains
   the theme control). The old slim utility bar and tiny SEO strip were removed in
   Milestone 2.1 (see docs/milestone-2.1-seo-content-map.md); build scripts still pass a
@@ -108,7 +113,7 @@ work the same way conceptually; the table below says which is which.
   session-dismissable, reduced-motion aware). The floating light/dark toggle button that
   used to live here was removed — theme control is in the drawer now.
 
-**Change something in `chrome/`, then re-run `build_all.py`, and it applies to all 12 pages
+**Change something in `chrome/`, then re-run `build_all.py`, and it applies to all 13 pages
 at once.** That's the entire point of this refactor versus the original site.
 
 ## Per-page reference
@@ -118,6 +123,7 @@ at once.** That's the entire point of this refactor versus the original site.
 | `index` (home) | `raw-source/index.html` | `data/index/` (`gallery.json`, `main_content.html`) | `pages/build_homepage.py` | See quirk #1 below |
 | `about_us` | `raw-source/about_us.html` | `data/about_us/` | `pages/build_about_us.py` | |
 | `contact_us` | `raw-source/contact_us.html` | `data/contact_us/` | `pages/build_contact_us.py` | No contact form on this site — call/text/email only |
+| `floor-assessments-inspections` | *(none — new page, Milestone 2.3)* | *(none — content authored in the script)* | `pages/build_floor_assessments.py` | Public URL `/floor-assessments-inspections`. Head metadata, JSON-LD graph (reuses the homepage's `#local`/`#org` business `@id`s), and body are all in the build script |
 | `videos_of_refinishing_process` | `raw-source/videos_of_refinishing_process.html` | `data/videos_of_refinishing_process/` + `data/youtube_videos.json` | `pages/build_videos.py` | See quirk #2 (broken JSON-LD, fixed) and "YouTube video snapshot" below |
 | `recent_project_photo_gallery_1` | `raw-source/recent_project_photo_gallery_1.html` | `data/recent_project_photo_gallery_1/` (`modules.json`) | `pages/build_gallery1.py` | Before/after module pairs |
 | `recent_project_photo_gallery_2` | `raw-source/recent_project_photo_gallery_2.html` | `data/recent_project_photo_gallery_2/` | `pages/build_gallery2.py` | See quirk #3 (split project fragment, fixed) |

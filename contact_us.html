@@ -33,7 +33,11 @@
   --font-serif:'Palatino Linotype','Book Antiqua',Palatino,Cambria,Georgia,serif;
   --font-sans:'Segoe UI',system-ui,-apple-system,'Helvetica Neue',Arial,sans-serif;
 }
-body.darkmode{
+/* html.sdh-dark carries the same variable overrides as body.darkmode. The boot
+   script sets it synchronously in <head> (before <body> exists), so the dark canvas
+   paints from the very first frame -- body.darkmode then lands on DOMContentLoaded
+   for every component rule that keys off it. Keep the two blocks identical. */
+html.sdh-dark, body.darkmode{
   --canvas:#1b1712; --canvas-alt:#221d16; --ink:#f2ece0; --ink-soft:#cdbfa8;
   --walnut:#d9b374; --brass:#d9b374; --brass-soft:#e7c98d; --brass-deep:#d9b374;
   --cta-red:#ff5147; --cta-red-dark:#ff8078; --line:#3a2f22; --card-bg:#241f18;
@@ -207,19 +211,18 @@ footer.sdh-footer .copyright{font-size:13px;opacity:.6;margin-top:22px;}
 
 <script id="sdh-darkmode-boot">
 (function(){
-  try {
-    /* Stored choice wins; on first visit, respect the visitor's system preference
-       (falling back to dark, the site's long-standing default, when no preference
-       is detectable). The choice is only persisted once the visitor actually uses
-       the theme control, so an undecided first-timer keeps following their OS. */
-    var pref = localStorage.getItem('sdh-theme');
-    if (!pref) {
-      pref = (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) ? 'light' : 'dark';
-    }
-    if (pref === 'dark') {
-      document.addEventListener('DOMContentLoaded', function(){ document.body.classList.add('darkmode'); });
-    }
-  } catch(e){}
+  /* Milestone 2.3: dark is the site default. A stored explicit choice (made via the
+     theme control) always wins; with no stored choice the site opens dark regardless
+     of the OS color-scheme preference. The html-level class is applied synchronously,
+     before first paint, so the dark canvas variables (html.sdh-dark in site_css) take
+     effect immediately and there is no light-mode flash; the body class that the rest
+     of the dark styling keys off is added as soon as the body exists. */
+  var pref = null;
+  try { pref = localStorage.getItem('sdh-theme'); } catch(e){}
+  if (pref !== 'light') {
+    document.documentElement.classList.add('sdh-dark');
+    document.addEventListener('DOMContentLoaded', function(){ document.body.classList.add('darkmode'); });
+  }
 })();
 </script>
 <script id="sdh-darkmode-logic">
@@ -242,6 +245,7 @@ footer.sdh-footer .copyright{font-size:13px;opacity:.6;margin-top:22px;}
       btn.addEventListener('click', function() {
         document.body.classList.toggle('darkmode');
         var isDark = document.body.classList.contains('darkmode');
+        document.documentElement.classList.toggle('sdh-dark', isDark);
         try { localStorage.setItem('sdh-theme', isDark ? 'dark' : 'light'); } catch(e){}
         sync();
       });
@@ -413,7 +417,7 @@ html.sdh-lock,html.sdh-lock body{overflow:hidden;}
         <ul class="nav-drop" id="sdhMenuServices">
           <li><a data-nav="index" href="https://www.sdhardwoods.com/">Hardwood Floor Refinishing</a></li>
           <li><a data-nav="deep-cleaning-hardwood-floors-san-diego" href="https://www.sdhardwoods.com/deep-cleaning-hardwood-floors-san-diego.html">Deep Cleaning Hardwood Floors</a></li>
-          <li><a href="https://www.sdhardwoods.com/#professional-floor-assessments">Floor Assessments &amp; Inspections</a></li>
+          <li><a data-nav="floor-assessments-inspections" href="/floor-assessments-inspections">Floor Assessments &amp; Inspections</a></li>
         </ul>
       </li>
       <li class="has-menu">
@@ -476,7 +480,7 @@ html.sdh-lock,html.sdh-lock body{overflow:hidden;}
       <summary>Services</summary>
       <a data-nav="index" href="https://www.sdhardwoods.com/">Hardwood Floor Refinishing</a>
       <a data-nav="deep-cleaning-hardwood-floors-san-diego" href="https://www.sdhardwoods.com/deep-cleaning-hardwood-floors-san-diego.html">Deep Cleaning Hardwood Floors</a>
-      <a href="https://www.sdhardwoods.com/#professional-floor-assessments">Floor Assessments &amp; Inspections</a>
+      <a data-nav="floor-assessments-inspections" href="/floor-assessments-inspections">Floor Assessments &amp; Inspections</a>
     </details>
     <details open>
       <summary>Project Galleries</summary>
@@ -672,15 +676,8 @@ html.sdh-lock,html.sdh-lock body{overflow:hidden;}
       <p><a class="btn btn-outline" href="https://www.sdhardwoods.com/deep-cleaning-hardwood-floors-san-diego.html">Learn When Deep Cleaning Is a Better Option &rarr;</a></p>
     </div>
   </div>
-</section>
 
-<section class="block" id="consultation-services">
-  <p class="eyebrow">Assessments, Inspections &amp; Consultation</p>
-  <h2>Looking for Our Floor Assessment &amp; Inspection Services?</h2>
-  <p class="lede">Our professional floor assessment, inspection, and consultation options &mdash; from the free phone and photo assessment to the in-home project assessment, pre-purchase floor inspections, and complex damage or insurance analysis &mdash; are now presented on our homepage.</p>
-  <div style="text-align:center;">
-    <a class="btn btn-outline" href="https://www.sdhardwoods.com/#professional-floor-assessments">View Floor Assessments &amp; Inspections &rarr;</a>
-  </div>
+  <p class="lede" style="margin-top:30px;">Need an in-home project assessment, a pre-purchase floor inspection, or written floor-condition documentation? See our <a href="/floor-assessments-inspections" style="color:var(--brass-deep);font-weight:700;">Floor Assessments &amp; Inspections</a> services.</p>
 </section>
 
 </main>
@@ -690,7 +687,7 @@ html.sdh-lock,html.sdh-lock body{overflow:hidden;}
   <p>Specializing in Dust Containment Sanding, Hardwood Floor Refinishing, Repairs, Deep Cleaning, Custom Installation, Wire-Brushed &amp; Oil-Finished Hardwood Floors throughout San Diego County. Proudly serving La Jolla, Del Mar, Rancho Santa Fe, Encinitas, Solana Beach, Carmel Valley, Carlsbad, Oceanside, Poway, Rancho Bernardo and all of San Diego County.</p>
   <div class="f-call"><a href="tel:8586990072">Call or Text 858-699-0072</a><span class="f-call-sep" aria-hidden="true">|</span><a href="mailto:sandiegohardwoods@gmail.com" style="color:var(--cta-red);">sandiegohardwoods@gmail.com</a></div>
   <p>San Diego, CA 92130 &bull; CSLB-Licensed California Flooring Contractor</p>
-  <p class="f-links"><a href="https://www.sdhardwoods.com/#professional-floor-assessments">Floor Assessments &amp; Inspections</a> &bull; <a href="https://www.bona.com/en-us/homeowner/find-a-contractor/contractor-details/?storeid=83667" target="_blank" rel="noopener nofollow">Verify Our Bona Certified Craftsman Status</a></p>
+  <p class="f-links"><a href="/floor-assessments-inspections">Floor Assessments &amp; Inspections</a> &bull; <a href="https://www.bona.com/en-us/homeowner/find-a-contractor/contractor-details/?storeid=83667" target="_blank" rel="noopener nofollow">Verify Our Bona Certified Craftsman Status</a></p>
   <div class="copyright">&copy; 2026 San Diego Hardwoods. All Rights Reserved.</div>
 </footer>
 
