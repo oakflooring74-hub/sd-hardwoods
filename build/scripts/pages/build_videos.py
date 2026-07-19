@@ -171,8 +171,24 @@ for v in VIDEOS:
         obj["description"] = desc[:300]
     video_objects.append(obj)
 
-video_graph = json.dumps({"@context": "https://schema.org", "@graph": video_objects},
-                         indent=1, ensure_ascii=False)
+# Rich Results milestone (2026-07-19): wrap the 58 real VideoObjects in a
+# proper ItemList (position-ordered) instead of leaving them as flat @graph
+# siblings, and give it the stable @id the page's CollectionPage.mainEntity
+# (set in jsonld_fixed.html) already points to -- this is the structure
+# Google's Video rich-result / ItemList guidance expects for a video gallery
+# page, and the priority page for reaching full Rich Results eligibility.
+video_itemlist = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "@id": "https://www.sdhardwoods.com/videos_of_refinishing_process.html#videolist",
+    "name": "Hardwood & Bamboo Floor Refinishing Process Videos",
+    "numberOfItems": len(video_objects),
+    "itemListElement": [
+        {"@type": "ListItem", "position": i, "item": obj}
+        for i, obj in enumerate(video_objects, start=1)
+    ],
+}
+video_graph = json.dumps(video_itemlist, indent=1, ensure_ascii=False)
 JSONLD = "\n".join(kept_blocks) + '\n<script type="application/ld+json">\n' + video_graph + "\n</script>"
 
 # ---------------- page ----------------

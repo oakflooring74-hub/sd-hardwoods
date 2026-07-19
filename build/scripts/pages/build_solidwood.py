@@ -16,6 +16,9 @@ from pathlib import Path
 BUILD = Path(__file__).resolve().parent.parent.parent  # -> build/
 sys.path.insert(0, str(BUILD / "scripts" / "common"))
 from assemble_page import assemble
+from public_business_rules import (
+    build_service_page_jsonld, PRIORITY_COASTAL_SD, SOUTH_ORANGE_COUNTY,
+)
 
 DATA = BUILD / "data" / "solid_wood_floor_photo_gallery"
 
@@ -28,7 +31,14 @@ with open(DATA / "projects.json", encoding="utf-8") as f:
 PROJECTS = pdata["projects"]
 INTRO = pdata["intro"]
 SOURCING = pdata["sourcing"]
-OUTRO = pdata["outro"]
+# Service-area milestone (2026-07-19): original OUTRO preserved verbatim
+# (from the frozen extraction); this appends one new sentence extending it
+# to South Orange County, matching the wording already approved on
+# contact_us.html.
+OUTRO = pdata["outro"] + (
+    " We also complete select installation projects throughout South Orange County, "
+    "including San Clemente, Dana Point, and Newport Beach."
+)
 
 # every image referenced by a project must exist in the frozen extraction
 for p in PROJECTS:
@@ -50,8 +60,32 @@ HEAD_META = """<title>San Diego Solid &amp; Engineered Wood Floor Installation, 
 <link href="https://s.turbifycdn.com/lm/lib/smb/css/hosting/yss/v2/mc_global.195798.css" id="globalCSS" media="screen" rel="stylesheet" type="text/css">
 <link href="https://s.turbifycdn.com/lm/themes/yhoo/ga/evident/vanilla_bean/palette1/1.0.1/en-us/theme.css" id="themeCSS" media="screen" rel="stylesheet" type="text/css">"""
 
-JSONLD = ""  # original solid_wood_floor_photo_gallery page has no JSON-LD block (confirmed)
-GA = ""      # original page has no _gaq Google Analytics script either (confirmed) -- leave both out
+# Schema milestone (2026-07-19): the original page had no JSON-LD block at
+# all (confirmed) -- this adds one, built entirely from this page's own real
+# content (INTRO/SOURCING/OUTRO above, project headings), not invented.
+JSONLD = build_service_page_jsonld(
+    page_url="https://www.sdhardwoods.com/solid_wood_floor_photo_gallery.html",
+    page_id_slug="service",
+    page_name="San Diego Solid & Engineered Wood Floor Installation, Refinishing, Repairs & Dustless Sanding",
+    page_description="See solid and unfinished engineered hardwood installations in San Diego, including nail-down, glue-down, sanding and custom finishing.",
+    service_name="Solid & Unfinished Engineered Wood Floor Installation",
+    service_description="Installation, sanding, and finishing of real solid wood strip and plank flooring, along with unfinished engineered wood floors glued to concrete, with custom colors, square-edge unfinished engineered wide plank flooring, and dust-contained sanding. Premium mill-direct materials are sourced directly, with careful climate acclimation for San Diego's coastal and inland environments.",
+    service_types=[
+        "Solid hardwood floor installation", "Nail-down hardwood installation",
+        "Unfinished engineered hardwood installation", "Glue-down installation over concrete",
+        "Wide-plank engineered flooring installation", "Custom stain and finish application",
+        "Dust-contained sanding", "Mill-direct hardwood flooring material sourcing",
+    ],
+    area_served=["San Diego County"] + PRIORITY_COASTAL_SD + SOUTH_ORANGE_COUNTY,
+    offer_catalog_name="Solid & Engineered Wood Floor Installation Services",
+    offer_items=[
+        ("Solid Wood Strip & Plank Installation", "Installation of real solid wood strip and plank flooring, nailed down and finished on site."),
+        ("Unfinished Engineered Wood Floor Installation", "Unfinished engineered wood floors glued to concrete, including square-edge wide-plank flooring for exceptionally flat surfaces."),
+        ("Custom Color & Finish Application", "Custom stain colors and Bona Traffic HD finishes applied on site after installation."),
+        ("Mill-Direct Material Sourcing", "Premium solid and engineered hardwood flooring sourced directly from trusted mills, with climate acclimation for San Diego's coastal and inland environments."),
+    ],
+)
+GA = ""      # original page has no _gaq Google Analytics script either (confirmed) -- leave out
 
 
 def esc(s):

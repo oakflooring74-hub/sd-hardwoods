@@ -20,6 +20,13 @@ from pathlib import Path
 BUILD = Path(__file__).resolve().parent.parent.parent  # -> build/
 sys.path.insert(0, str(BUILD / "scripts" / "common"))
 from assemble_page import assemble
+from public_business_rules import PRIORITY_COASTAL_SD, SOUTH_ORANGE_COUNTY
+import json as _json
+
+# Schema milestone (2026-07-19): the assessment/inspection services' area
+# coverage, matching the "select projects in South Orange County" wording
+# added to this page's visible copy above -- not just San Diego County.
+_ASSESSMENT_AREA = _json.dumps(["San Diego County"] + PRIORITY_COASTAL_SD + SOUTH_ORANGE_COUNTY)
 
 HEAD_META = """<title>Hardwood Floor Assessments &amp; Inspections San Diego | San Diego Hardwoods</title>
 <meta name="description" content="Hardwood floor assessments, pre-purchase inspections, written reports, and damage or insurance analysis in San Diego. Start with a free phone and photo review.">
@@ -44,12 +51,33 @@ JSONLD = """<script type="application/ld+json">
       "@type": ["LocalBusiness","HomeAndConstructionBusiness","FlooringContractor"],
       "@id": "https://www.sdhardwoods.com/#local",
       "name": "San Diego Hardwoods",
+      "alternateName": "San Diego Hardwoods Dustless Hardwood and Bamboo Floor Refinishing Installation Repairs and Deep Cleaning",
       "url": "https://www.sdhardwoods.com",
-      "telephone": "+1-858-699-0072",
+      "telephone": "+18586990072",
       "email": "sandiegohardwoods@gmail.com",
       "image": "https://www.sdhardwoods.com/LOGO-2025.png",
       "logo": "https://www.sdhardwoods.com/LOGO-2025.png",
-      "sameAs": ["https://www.youtube.com/@sandiegohardwoods"]
+      "priceRange": "$$$",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+18586990072",
+        "contactType": "sales",
+        "availableLanguage": ["en"],
+        "areaServed": "US"
+      },
+      "hasCredential": {
+        "@type": "EducationalOccupationalCredential",
+        "name": "Bona Certified Craftsman",
+        "url": "https://www.bona.com/en-us/homeowner/find-a-contractor/contractor-details/?storeid=83667",
+        "image": "https://www.sdhardwoods.com/bonacc.jpeg",
+        "issuer": {"@type": "Organization", "name": "Bona"}
+      },
+      "sameAs": ["https://www.youtube.com/@sandiegohardwoods", "https://maps.app.goo.gl/hbNaSo2guARgrZTa8"],
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "5.0",
+        "reviewCount": "16"
+      }
     },
     {
       "@type": "WebPage",
@@ -118,10 +146,86 @@ JSONLD = """<script type="application/ld+json">
         "priceCurrency": "USD",
         "priceSpecification": {"@type": "PriceSpecification", "minPrice": 1500, "priceCurrency": "USD"}
       }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://www.sdhardwoods.com/floor-assessments-inspections#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is the first phone conversation free?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Every client relationship starts with a free phone and photo assessment — a conversation, a review of the photos or video you send (or a public real-estate listing), and honest preliminary guidance about the most appropriate next step."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why is there a $95 charge for an in-home project assessment?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The in-home visit puts more than three decades of hardwood flooring experience on site: travel to the property, a visual assessment of the proposed project, identification of the floor and finish when reasonably determinable, the measurements needed for planning, and a discussion of realistic options — with a San Diego Hardwoods proposal when the work is a suitable fit."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is the $95 assessment fee credited toward flooring work?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "It can be. When San Diego Hardwoods performs the approved flooring project, part or all of the fee may be applied to that project under a written agreement confirmed before the work begins."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is included in the $350 pre-purchase inspection?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "An on-site inspection of a property you are evaluating before purchase: apparent identification of the flooring type, construction, and finish; an evaluation of visible condition, wear, damage, and maintenance concerns; and a verbal explanation of realistic options and likely future flooring needs. It is primarily verbal — written reports are part of the $750 service."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What written reports are included with the $750 service?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Two professional PDFs: a Floor Identification & Condition Report covering what the floor appears to be, its apparent condition, repairability, and restoration feasibility with important limitations; and a Recommended Scope & Estimate describing recommended work and, when appropriate, a proposal for San Diego Hardwoods to service the flooring after you take ownership. The documentation may assist with purchase planning, budgeting, or negotiations."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What situations call for the complex damage, dispute, or insurance service?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Insurance claims, water or moisture damage, landlord-tenant or security-deposit disputes, neighbor or contractor damage, conflicting opinions about a floor's condition, complicated repairability questions, and matters that need customized documentation or communication with specifically identified third parties. The exact scope is agreed in writing before work begins."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How are appointments and payments arranged?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "After the free phone and photo assessment, you receive written confirmation of the scope and fee. Payment may be requested through a Square invoice sent by email or text, or another directly approved method such as Zelle, and payment reserves the scheduled service."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can every damaged or worn floor be restored?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No — and a professional assessment is how you find out before spending real money. Construction, wear layer, finish, contamination, and existing damage all affect feasibility. Many floors that look tired have meaningful restoration options; some do not. Either way, you get an honest, experienced answer."
+          }
+        }
+      ]
     }
   ]
 }
 </script>"""
+
+# Schema milestone (2026-07-19): expand each service's areaServed from the
+# original bare "San Diego County" to the site's real priority-coastal +
+# South Orange County list, matching the "select projects in South Orange
+# County" wording added to this page's visible copy above.
+JSONLD = JSONLD.replace('{"@type": "Place", "name": "San Diego County"}', _ASSESSMENT_AREA)
 
 # Milestone 2.6: the shared GA4 implementation (build/chrome/analytics.html) is
 # injected by assemble() -- leave this empty; never add a per-page loader.
@@ -267,7 +371,7 @@ MAIN = """
 
 <section class="block" id="service-area">
   <h2>Serving San Diego County</h2>
-  <p class="lede">These assessment, inspection, and consultation services are offered throughout our established service area: La Jolla, Del Mar, Rancho Santa Fe, Encinitas, Solana Beach, Carmel Valley, Carlsbad, Oceanside, Poway, Rancho Bernardo, and communities across San Diego County. Whether you need a wood-floor damage assessment, a water-damaged floor evaluation, documentation for an insurance claim or a landlord-tenant matter, or an honest read on repair and refinishing feasibility, it starts with the same free phone and photo conversation.</p>
+  <p class="lede">These assessment, inspection, and consultation services are offered throughout our established service area: La Jolla, Del Mar, Rancho Santa Fe, Encinitas, Solana Beach, Carmel Valley, Carlsbad, Oceanside, Poway, Rancho Bernardo, and communities across San Diego County, with select projects in South Orange County including San Clemente, Dana Point, and Newport Beach. Whether you need a wood-floor damage assessment, a water-damaged floor evaluation, documentation for an insurance claim or a landlord-tenant matter, or an honest read on repair and refinishing feasibility, it starts with the same free phone and photo conversation.</p>
 </section>
 
 <section class="block" id="appointments-payment">

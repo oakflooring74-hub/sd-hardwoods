@@ -5,6 +5,7 @@ from pathlib import Path
 BUILD = Path(__file__).resolve().parent.parent.parent  # -> build/
 sys.path.insert(0, str(BUILD / "scripts" / "common"))
 from assemble_page import assemble, gallery_progress_html
+from public_business_rules import build_service_page_jsonld
 
 SCRATCH = str(BUILD)  # unused after this point but kept for reference
 
@@ -26,7 +27,37 @@ HEAD_META = """<title>Hardwood Floor Refinishing Gallery | San Diego Before &amp
 <link href="https://s.turbifycdn.com/lm/lib/smb/css/hosting/yss/v2/mc_global.195798.css" id="globalCSS" media="screen" rel="stylesheet" type="text/css">
 <link href="https://s.turbifycdn.com/lm/themes/yhoo/ga/evident/vanilla_bean/palette1/1.0.1/en-us/theme.css" id="themeCSS" media="screen" rel="stylesheet" type="text/css">"""
 
-JSONLD = ""  # original page04 has no JSON-LD schema block (confirmed via inventory scan)
+# Schema milestone (2026-07-19): original page had no JSON-LD block at all
+# (confirmed via inventory scan) -- built from this page's own real, already
+# -approved meta description and project-heading locations, not invented.
+JSONLD = build_service_page_jsonld(
+    page_url="https://www.sdhardwoods.com/recent_project_photo_gallery_1.html",
+    page_id_slug="service",
+    page_name="Hardwood Floor Refinishing Gallery | San Diego Before & After Photos",
+    page_description="View before and after hardwood floor refinishing projects completed throughout San Diego County. See dustless sanding, hardwood floor repairs, engineered hardwood refinishing, color changes, floor restoration, deep cleaning, and oiled floor upgrades completed in La Jolla, Del Mar, Mission Hills, Rancho Santa Fe, Encinitas, Carmel Valley, and nearby communities.",
+    service_name="Hardwood Floor Refinishing, Sanding, Repair & Restoration Proof Gallery",
+    service_description="Real before-and-after hardwood floor refinishing, dustless sanding, repair, restoration, and deep-cleaning projects completed throughout San Diego County.",
+    service_types=[
+        "Dustless hardwood floor sanding", "Hardwood floor refinishing",
+        "Hardwood floor repairs", "Engineered hardwood refinishing",
+        "Hardwood floor color changes", "Floor restoration",
+        "Hardwood floor deep cleaning", "Oiled floor upgrades",
+    ],
+    area_served=[
+        "San Diego County", "La Jolla", "Del Mar", "Mission Hills",
+        "Rancho Santa Fe", "Encinitas", "Carmel Valley", "Solana Beach",
+        "Golden Hill", "Hillcrest", "Bankers Hill", "South Park",
+        "Mission Valley", "Point Loma", "Downtown San Diego",
+    ],
+    offer_catalog_name="Refinishing, Repair & Restoration Project Types Shown",
+    offer_items=[
+        ("Dustless Sanding & Refinishing", "Dust-contained sanding and refinishing shown in real before-and-after project pairs."),
+        ("Hardwood Floor Repairs", "Board and finish repairs shown in real completed San Diego projects."),
+        ("Engineered Hardwood Refinishing & Color Changes", "Refinishing and color-change transformations of engineered hardwood floors."),
+        ("Floor Restoration & Deep Cleaning", "Restoration and deep-cleaning projects shown alongside full refinishing work."),
+        ("Oiled Floor Upgrades", "Upgrades and conversions of oil-finished hardwood floors."),
+    ],
+)
 
 # Milestone 2.4: obsolete Universal Analytics (UA-20793161-1 / _gaq / ga.js) removed
 # site-wide. GA4 is blocked pending the owner's confirmed Measurement ID.

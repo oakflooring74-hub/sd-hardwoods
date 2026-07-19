@@ -3,7 +3,10 @@ from pathlib import Path
 
 BUILD = Path(__file__).resolve().parent.parent.parent  # -> build/
 sys.path.insert(0, str(BUILD / "scripts" / "common"))
-from public_business_rules import sanitize_public_jsonld
+from public_business_rules import (
+    sanitize_public_jsonld, build_service_page_jsonld,
+    PRIORITY_COASTAL_SD, SOUTH_ORANGE_COUNTY,
+)
 RAW = str(BUILD / "raw-source" / "deep-cleaning-hardwood-floors-san-diego.html")
 CHROME = str(BUILD / "chrome")
 RECORDS = str(BUILD / "data" / "deep-cleaning-hardwood-floors-san-diego" / "gallery_records.json")
@@ -37,9 +40,50 @@ def clean_text(s):
 title = re.search(r"<title>(.*?)</title>", raw, re.DOTALL).group(1).strip()
 meta_desc = re.search(r'<meta name="DESCRIPTION" id="mDescription" content="([^"]*)"', raw).group(1)
 canonical = re.search(r'<link href="([^"]+)" rel="canonical"', raw).group(1)
-jsonld_block = re.search(r'<script type="application/ld\+json">.*?</script>', raw, re.DOTALL).group(0)
-# Milestone 2.6: raw-source schema passes through the shared public-business-rules
-# filter (no PostalAddress/street address, official YouTube channel).
+# Schema milestone (2026-07-19): the raw source's thin, generic schema
+# (single "Hardwood Floor Deep Cleaning and Re-Coating" Service, ~7-city
+# areaServed) is replaced with a WebPage + Service + OfferCatalog graph
+# built from this page's own real, already-approved visible content --
+# the three actual service distinctions from the info-grid cards below
+# (cleaning-only / intensive-cleaning-before-recoating / wire-brushed &
+# oil-finished), not invented copy. Area list mirrors the visible "We
+# proudly serve..." sentence plus the new South Orange County sentence
+# added below -- schema never claims more area than the page's own text.
+jsonld_block = build_service_page_jsonld(
+    page_url="https://www.sdhardwoods.com/deep-cleaning-hardwood-floors-san-diego.html",
+    page_id_slug="service",
+    page_name="Hardwood Floor Deep Cleaning & Maintenance Recoating | San Diego",
+    page_description="Professional deep cleaning, wax and polish residue removal, wire-brushed and oil-finished floor cleaning, and maintenance recoating for hardwood, engineered wood, vinyl, laminate, bamboo, and cork floors throughout San Diego County and select South Orange County communities.",
+    service_name="Hardwood, Engineered Wood, Vinyl, Laminate, Bamboo & Cork Floor Deep Cleaning and Maintenance Recoating",
+    service_description="Professional deep cleaning and restoration for hardwood, engineered wood, vinyl, laminate, bamboo, and cork floors using commercial Bona PowerScrubber equipment and specialty cleaning solutions that remove embedded dirt, wax buildup, cloudy residue, cleaning-product films, and contaminants that ordinary mopping cannot eliminate -- reaching smooth, wire-brushed, hand-scraped, and textured surfaces without sanding or creating dust. When appropriate, the process is completed with a professional low-VOC maintenance recoat, or older oil-finished floors are evaluated for conversion to a durable, low-sheen Bona Traffic HD waterborne finish.",
+    service_types=[
+        "Hardwood floor deep cleaning",
+        "Engineered wood floor deep cleaning",
+        "Bamboo floor deep cleaning",
+        "Vinyl and laminate floor deep cleaning",
+        "Cork floor deep cleaning",
+        "Wire-brushed and textured floor cleaning",
+        "Oiled-floor cleaning and finish-conversion evaluation",
+        "Maintenance recoating preparation and application",
+    ],
+    area_served=(
+        ["San Diego County"] + PRIORITY_COASTAL_SD +
+        ["Poway", "Escondido"] + SOUTH_ORANGE_COUNTY
+    ),
+    offer_catalog_name="Deep Cleaning & Maintenance Recoating Services",
+    offer_items=[
+        ("Cleaning-Only Service",
+         "Removing embedded dirt, old cleaner residue, and polish buildup so an existing finish looks and performs its best again -- a stand-alone service when a new coat of finish is not the appropriate scope."),
+        ("Intensive Cleaning Before Recoating",
+         "Deep cleaning and preparation of the floor, confirmation of finish compatibility, then a protective low-VOC maintenance coat -- extending the life of the floor without full sanding."),
+        ("Wire-Brushed, Textured & Oil-Finished Floor Cleaning",
+         "Reaches dirt trapped deep in wire-brushed and textured grain that mops can't reach; oil-finished floors receive manufacturer-approved care, with conversion to a durable, easy-to-clean, low-sheen waterborne finish such as Bona Traffic HD discussed when a floor has become a maintenance burden."),
+    ],
+)
+# Milestone 2.6: every page's schema passes through the shared
+# public-business-rules filter (no PostalAddress/street address, official
+# YouTube channel) -- harmless here since nothing above introduces that
+# data, but keeps the same safety net every page's schema goes through.
 jsonld_block = sanitize_public_jsonld(jsonld_block)
 analytics_html = read(CHROME + r"\analytics.html")
 vcard_desc = re.search(r'<span class="organization-name">(.*?)</span>', raw, re.DOTALL).group(1).strip()
@@ -58,7 +102,15 @@ def heading_containing(marker, tag):
     return raw[h_start:h_end]
 
 p_professionally = clean_text(para_containing("We professionally deep clean and restore hardwood"))
-p_proudly = clean_text(para_containing("We proudly serve homeowners throughout San Diego County"))
+# Service-area milestone (2026-07-19, owner direction): the original approved
+# sentence is preserved verbatim (extracted, not retyped); this appends one
+# new sentence extending it to the South Orange County corridor, matching
+# the "select projects in Orange County" framing already approved on
+# contact_us.html rather than overclaiming full coverage.
+p_proudly = clean_text(para_containing("We proudly serve homeowners throughout San Diego County")) + (
+    " We also complete select projects throughout South Orange County, including San Clemente, "
+    "Dana Point, Laguna Beach, Newport Beach, and San Juan Capistrano."
+)
 h2_sub = clean_text(heading_containing("Professional Deep Cleaning, Recoating", "h2"))
 h3_gallery_intro = clean_text(heading_containing("See Our Hardwood Floor Deep Cleaning System in Action", "h3"))
 

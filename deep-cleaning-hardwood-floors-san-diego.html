@@ -18,92 +18,145 @@
  "@context": "https://schema.org",
  "@graph": [
   {
-   "@type": "HomeAndConstructionBusiness",
+   "@context": "https://schema.org",
+   "@type": [
+    "LocalBusiness",
+    "HomeAndConstructionBusiness",
+    "FlooringContractor"
+   ],
+   "@id": "https://www.sdhardwoods.com/#local",
    "name": "San Diego Hardwoods",
-   "url": "https://www.sdhardwoods.com/deep-cleaning-hardwood-floors-san-diego.html",
+   "alternateName": "San Diego Hardwoods Dustless Hardwood and Bamboo Floor Refinishing Installation Repairs and Deep Cleaning",
+   "url": "https://www.sdhardwoods.com",
    "telephone": "+18586990072",
-   "image": "https://www.sdhardwoods.com/images/deep-cleaning-bona-powerscrubber.jpg",
-   "priceRange": "$$",
-   "description": "Tired of dull, worn hardwood floors? San Diego Hardwoods deep cleans and re-coats without sanding — restoring wire-brushed and smooth floors to a clean, natural finish. Call 858-699-0072 for a dust-free consultation.",
+   "email": "sandiegohardwoods@gmail.com",
+   "image": "https://www.sdhardwoods.com/LOGO-2025.png",
+   "logo": "https://www.sdhardwoods.com/LOGO-2025.png",
+   "priceRange": "$$$",
+   "contactPoint": {
+    "@type": "ContactPoint",
+    "telephone": "+18586990072",
+    "contactType": "sales",
+    "availableLanguage": [
+     "en"
+    ],
+    "areaServed": "US"
+   },
+   "hasCredential": {
+    "@type": "EducationalOccupationalCredential",
+    "name": "Bona Certified Craftsman",
+    "url": "https://www.bona.com/en-us/homeowner/find-a-contractor/contractor-details/?storeid=83667",
+    "image": "https://www.sdhardwoods.com/bonacc.jpeg",
+    "issuer": {
+     "@type": "Organization",
+     "name": "Bona"
+    }
+   },
+   "sameAs": [
+    "https://www.youtube.com/@sandiegohardwoods",
+    "https://maps.app.goo.gl/hbNaSo2guARgrZTa8"
+   ],
+   "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "5.0",
+    "reviewCount": "16"
+   }
+  },
+  {
+   "@type": "WebPage",
+   "@id": "https://www.sdhardwoods.com/deep-cleaning-hardwood-floors-san-diego.html#webpage",
+   "url": "https://www.sdhardwoods.com/deep-cleaning-hardwood-floors-san-diego.html",
+   "name": "Hardwood Floor Deep Cleaning & Maintenance Recoating | San Diego",
+   "description": "Professional deep cleaning, wax and polish residue removal, wire-brushed and oil-finished floor cleaning, and maintenance recoating for hardwood, engineered wood, vinyl, laminate, bamboo, and cork floors throughout San Diego County and select South Orange County communities.",
+   "inLanguage": "en",
+   "about": {
+    "@id": "https://www.sdhardwoods.com/#local"
+   },
+   "mainEntity": {
+    "@id": "https://www.sdhardwoods.com/deep-cleaning-hardwood-floors-san-diego.html#service"
+   }
+  },
+  {
+   "@type": "Service",
+   "@id": "https://www.sdhardwoods.com/deep-cleaning-hardwood-floors-san-diego.html#service",
+   "name": "Hardwood, Engineered Wood, Vinyl, Laminate, Bamboo & Cork Floor Deep Cleaning and Maintenance Recoating",
+   "url": "https://www.sdhardwoods.com/deep-cleaning-hardwood-floors-san-diego.html",
+   "mainEntityOfPage": {
+    "@id": "https://www.sdhardwoods.com/deep-cleaning-hardwood-floors-san-diego.html#webpage"
+   },
+   "provider": {
+    "@id": "https://www.sdhardwoods.com/#local"
+   },
    "areaServed": [
     "San Diego County",
     "La Jolla",
     "Del Mar",
+    "Solana Beach",
     "Encinitas",
+    "Cardiff-by-the-Sea",
     "Rancho Santa Fe",
     "Carmel Valley",
-    "Mission Hills"
+    "Fairbanks Ranch",
+    "Santaluz",
+    "Coronado",
+    "Point Loma",
+    "Poway",
+    "Escondido",
+    "San Clemente",
+    "Dana Point",
+    "Laguna Beach",
+    "Newport Beach",
+    "Huntington Beach",
+    "San Juan Capistrano",
+    "Laguna Niguel",
+    "Laguna Hills",
+    "Aliso Viejo",
+    "Mission Viejo",
+    "Rancho Santa Margarita",
+    "Ladera Ranch",
+    "Lake Forest"
    ],
    "serviceType": [
     "Hardwood floor deep cleaning",
-    "Polish residue removal",
-    "Maintenance re-coating"
+    "Engineered wood floor deep cleaning",
+    "Bamboo floor deep cleaning",
+    "Vinyl and laminate floor deep cleaning",
+    "Cork floor deep cleaning",
+    "Wire-brushed and textured floor cleaning",
+    "Oiled-floor cleaning and finish-conversion evaluation",
+    "Maintenance recoating preparation and application"
    ],
+   "description": "Professional deep cleaning and restoration for hardwood, engineered wood, vinyl, laminate, bamboo, and cork floors using commercial Bona PowerScrubber equipment and specialty cleaning solutions that remove embedded dirt, wax buildup, cloudy residue, cleaning-product films, and contaminants that ordinary mopping cannot eliminate -- reaching smooth, wire-brushed, hand-scraped, and textured surfaces without sanding or creating dust. When appropriate, the process is completed with a professional low-VOC maintenance recoat, or older oil-finished floors are evaluated for conversion to a durable, low-sheen Bona Traffic HD waterborne finish.",
    "hasOfferCatalog": {
     "@type": "OfferCatalog",
-    "name": "Deep Cleaning & Re-Coating Services",
+    "name": "Deep Cleaning & Maintenance Recoating Services",
     "itemListElement": [
      {
       "@type": "Offer",
       "itemOffered": {
        "@type": "Service",
-       "name": "Hardwood Floor Deep Cleaning",
-       "description": "Professional Bona Power Scrubber process to remove embedded dirt and residue from wire-brushed and smooth hardwood floors without sanding."
+       "name": "Cleaning-Only Service",
+       "description": "Removing embedded dirt, old cleaner residue, and polish buildup so an existing finish looks and performs its best again -- a stand-alone service when a new coat of finish is not the appropriate scope."
       }
      },
      {
       "@type": "Offer",
       "itemOffered": {
        "@type": "Service",
-       "name": "Maintenance Re-Coating",
-       "description": "Low-VOC, fast-drying protective coat to renew clarity and sheen after deep cleaning; dust-free process."
+       "name": "Intensive Cleaning Before Recoating",
+       "description": "Deep cleaning and preparation of the floor, confirmation of finish compatibility, then a protective low-VOC maintenance coat -- extending the life of the floor without full sanding."
+      }
+     },
+     {
+      "@type": "Offer",
+      "itemOffered": {
+       "@type": "Service",
+       "name": "Wire-Brushed, Textured & Oil-Finished Floor Cleaning",
+       "description": "Reaches dirt trapped deep in wire-brushed and textured grain that mops can't reach; oil-finished floors receive manufacturer-approved care, with conversion to a durable, easy-to-clean, low-sheen waterborne finish such as Bona Traffic HD discussed when a floor has become a maintenance burden."
       }
      }
     ]
    }
-  },
-  {
-   "@type": "Service",
-   "serviceType": "Hardwood Floor Deep Cleaning and Re-Coating",
-   "provider": {
-    "@type": "LocalBusiness",
-    "name": "San Diego Hardwoods",
-    "image": "https://www.sdhardwoods.com/images/deep-cleaning-bona-powerscrubber.jpg",
-    "telephone": "+18586990072",
-    "url": "https://www.sdhardwoods.com/deep-cleaning-hardwood-floors-san-diego.html",
-    "priceRange": "$$"
-   },
-   "areaServed": [
-    {
-     "@type": "Place",
-     "name": "San Diego County"
-    },
-    {
-     "@type": "Place",
-     "name": "La Jolla"
-    },
-    {
-     "@type": "Place",
-     "name": "Del Mar"
-    },
-    {
-     "@type": "Place",
-     "name": "Encinitas"
-    },
-    {
-     "@type": "Place",
-     "name": "Rancho Santa Fe"
-    },
-    {
-     "@type": "Place",
-     "name": "Carmel Valley"
-    },
-    {
-     "@type": "Place",
-     "name": "Mission Hills"
-    }
-   ],
-   "description": "Professional hardwood floor deep cleaning, polish removal, and re-coating using Bona Power Scrubber and low-VOC finishes. Dust-free, fast-drying, and ideal for wire-brushed or textured floors. Call 858-699-0072 for a quote."
   }
  ]
 }
@@ -837,7 +890,7 @@ html.sdh-lock,html.sdh-lock body{overflow:hidden;}
   <h2>Professional Deep Cleaning, Recoating & Finish Upgrades for Hardwood & Engineered Wood Floors</h2>
   <div class="card">
     <p>We professionally deep clean and restore hardwood, engineered wood, vinyl, laminate, bamboo, and cork floors throughout San Diego using commercial Bona PowerScrubber equipment and specialty cleaning solutions that remove embedded dirt, wax buildup, cloudy residue, cleaning product films, and contaminants that ordinary mopping cannot eliminate. Our process reaches deep into smooth, wire-brushed, hand-scraped, and textured flooring surfaces without sanding or creating dust. When appropriate, we complete the process with a professional maintenance recoat or upgrade older oil-finished hardwood floors to premium Bona Traffic HD water-based finishes for improved durability, easier maintenance, and long-lasting protection.</p>
-    <p>We proudly serve homeowners throughout San Diego County, including La Jolla, Del Mar, Solana Beach, Encinitas, Carmel Valley, Rancho Santa Fe, Point Loma, Coronado, Poway, Escondido, and surrounding communities. If your floors look dull, feel sticky, or have lost their original beauty, our deep cleaning and recoating system can often restore their appearance without the expense and disruption of full sanding.</p>
+    <p>We proudly serve homeowners throughout San Diego County, including La Jolla, Del Mar, Solana Beach, Encinitas, Carmel Valley, Rancho Santa Fe, Point Loma, Coronado, Poway, Escondido, and surrounding communities. If your floors look dull, feel sticky, or have lost their original beauty, our deep cleaning and recoating system can often restore their appearance without the expense and disruption of full sanding. We also complete select projects throughout South Orange County, including San Clemente, Dana Point, Laguna Beach, Newport Beach, and San Juan Capistrano.</p>
   </div>
 
   <div class="info-grid" style="margin-top:26px;">

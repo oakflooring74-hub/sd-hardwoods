@@ -38,7 +38,7 @@ MAIN = """
 
 <section class="block">
   <h2>Start With a Free Phone &amp; Photo Assessment &mdash; Anywhere in San Diego County</h2>
-  <p class="lede">Based in Carmel Valley, San Diego 92130, we restore and repair solid and engineered hardwood and bamboo flooring for homeowners throughout San Diego County, with select projects in Orange County. Text clear overall and close-up photos of your floors for the fastest initial review &mdash; you are also welcome and encouraged to call, and photos may be emailed when texting is not practical.</p>
+  <p class="lede">Based in Carmel Valley, San Diego 92130, we restore and repair solid and engineered hardwood and bamboo flooring for homeowners throughout San Diego County, with select projects in South Orange County, including San Clemente, Dana Point, Laguna Beach, and Newport Beach. Text clear overall and close-up photos of your floors for the fastest initial review &mdash; you are also welcome and encouraged to call, and photos may be emailed when texting is not practical.</p>
   <div class="info-grid">
     <div class="card">
       <h3>1. Text Photos for a Free Assessment</h3>

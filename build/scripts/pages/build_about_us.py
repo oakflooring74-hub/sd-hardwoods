@@ -114,7 +114,7 @@ MAIN = """
       <p><strong>Owner-Operated Quality</strong> &mdash; The owner remains personally involved on every project.</p>
       <p><strong>Dust-Contained Sanding on Every Project</strong> &mdash; Cleaner, healthier hardwood floor refinishing with advanced dust collection systems.</p>
       <p><strong>Custom Color Expertise</strong> &mdash; Natural finishes, contemporary stains, whitewashed floors, matte finishes and specialty color matching.</p>
-      <p><strong>Complete Hardwood Floor Services</strong> &mdash; Refinishing, restoration, repairs, installation, deep cleaning, maintenance coats and specialty hardwood flooring services.</p>
+      <p><strong>Complete Hardwood Floor Services</strong> &mdash; Refinishing, restoration, repairs, installation, deep cleaning, maintenance coats and specialty hardwood flooring services throughout San Diego County, with select projects in South Orange County including San Clemente, Dana Point, and Newport Beach.</p>
     </div>
   </div>
 

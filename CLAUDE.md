@@ -16,7 +16,10 @@ Goals:
 For normal work, read:
 1. `CLAUDE.md`
 2. `docs/NEXT_SESSION.md`
-3. Only the files and reference documents relevant to the assigned task
+3. `docs/PROJECT_QUALITY_BAR.md` — the site's final-goal definition and the standing rule to
+   question any task that leaves out pages or doesn't clearly unify/progress toward that goal.
+   Mandatory for any site-wide or multi-page task (schema, meta, titles, CTAs, navigation).
+4. Only the files and reference documents relevant to the assigned task
 
 Use when relevant:
 - `build/README.md` — architecture, build commands, page map, deployment
@@ -109,6 +112,11 @@ For substantial work:
 5. Build and validate.
 6. Review the milestone diff.
 7. Report the exact result and Git state.
+
+Any task described as spanning the site, a page type, or a category of pages must explicitly
+account for all 13 pages (the canonical URL map in `docs/PROJECT_DECISIONS.md`) before
+implementing -- each page is either in scope or named and deferred with a stated reason, never
+silently skipped. See `docs/PROJECT_QUALITY_BAR.md`.
 
 For narrow approved work, proceed without unnecessary questions.
 

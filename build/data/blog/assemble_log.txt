@@ -1,7 +1,7 @@
 NEW <img> count: 47
 RAW <img> count: 49
 img_total tracked in script: 43
-ld+json occurrences in NEW: 0
+ld+json occurrences in NEW: 1
 ld+json occurrences in RAW: 0
 triple-backtick occurrences in NEW: 0
 <footer count: 1

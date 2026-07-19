@@ -11,7 +11,32 @@ DATA = BUILD / "data"
 
 sys.path.insert(0, str(BUILD / "scripts" / "common"))
 from assemble_page import gallery_progress_html
-from public_business_rules import sanitize_public_jsonld
+from public_business_rules import (
+    sanitize_public_jsonld, consolidate_business_jsonld, build_webpage_service_graph,
+)
+
+
+def _replace_generic_service_array(jsonld_html, new_graph):
+    """Swap the generic, identical-on-every-page 5-Service array that
+    `consolidate_business_jsonld()` leaves behind for a real, page-specific
+    WebPage + Service (+ OfferCatalog) graph (2026-07-19 schema milestone).
+    `new_graph` entities reference the canonical #local entity by @id
+    (already present elsewhere in `jsonld_html`), so nothing is re-declared.
+    """
+    blocks = re.findall(r'<script type="application/ld\+json">(.*?)</script>', jsonld_html, re.DOTALL)
+    out_blocks = []
+    replaced = False
+    for b in blocks:
+        obj = json.loads(b)
+        if isinstance(obj, list) and obj and all(isinstance(x, dict) and x.get("@type") == "Service" for x in obj):
+            for entity in new_graph:
+                out_blocks.append('<script type="application/ld+json">\n' + json.dumps(entity, indent=1, ensure_ascii=False) + '\n</script>')
+            replaced = True
+        else:
+            out_blocks.append('<script type="application/ld+json">\n' + json.dumps(obj, indent=1, ensure_ascii=False) + '\n</script>')
+    if not replaced:
+        raise AssertionError("_replace_generic_service_array: no generic Service array found to replace")
+    return "\n".join(out_blocks)
 
 def rd(path):
     with open(path, encoding="utf-8") as f:
@@ -154,7 +179,15 @@ def build_page(cfg):
 
     # Milestone 2.6: raw-source schema passes through the shared
     # public-business-rules filter (no PostalAddress, official YouTube channel).
+    # Schema milestone (2026-07-19): consolidate the raw source's duplicate,
+    # unlinked business declarations into references to the one canonical
+    # #local entity (see public_business_rules.py) -- must run after sanitize
+    # so YouTube-handle normalization happens before the sameAs dedupe.
     jsonld = sanitize_public_jsonld("\n".join(head["jsonld_blocks"]))
+    jsonld = consolidate_business_jsonld(jsonld)
+    if "service_content" in cfg:
+        new_graph = build_webpage_service_graph(page_url=cfg["canonical"], **cfg["service_content"])
+        jsonld = _replace_generic_service_array(jsonld, new_graph)
     analytics_html = rd(CHROME + r"\analytics.html")
 
     gallery_html, check = build_gallery_section(
@@ -265,6 +298,21 @@ CONFIGS = [
         "name": "gallery3",
         "gallery_index": 2,
         "canonical": "https://www.sdhardwoods.com/recent_project_photo_gallery_3.html",
+        "service_content": {
+            "page_id_slug": "service",
+            "page_name": "Recent San Diego Hardwood Flooring Projects Featuring Expert Refinishing, Restoration, Dust Containment Sanding & Custom Installation",
+            "page_description": "Before-and-after results from homes across Solana Beach, La Jolla, Rancho Santa Fe, Del Mar, Encinitas, and Pacific Beach, including rare solid yellow birch restoration and wide-plank French oak installation.",
+            "service_name": "Hardwood Floor Refinishing, Restoration & Custom Installation Proof Gallery",
+            "service_description": "Real completed hardwood flooring projects (#41-#50) showing refinishing, restoration, dust containment sanding, and custom installation throughout San Diego County.",
+            "service_types": ["Hardwood floor refinishing", "Hardwood floor restoration", "Dust-contained sanding", "Custom hardwood installation", "Wide-plank hardwood installation", "Solid yellow birch restoration"],
+            "area_served": ["San Diego County", "Solana Beach", "La Jolla", "Rancho Santa Fe", "Del Mar", "Encinitas", "Pacific Beach"],
+            "offer_catalog_name": "Project Types Shown",
+            "offer_items": [
+                ("Hardwood Floor Refinishing & Sanding", "Dust-contained sanding and refinishing shown in real completed San Diego projects."),
+                ("Hardwood Floor Restoration", "Restoration projects including rare species such as solid yellow birch."),
+                ("Custom Hardwood Installation", "Wide-plank French oak and other custom installation projects over concrete and traditional subfloors."),
+            ],
+        },
         "raw_path": str(RAW / "recent_project_photo_gallery_3.html"),
         "gallery_json": str(DATA / "recent_project_photo_gallery_3" / "modules.json"),
         "out_path": str(REPO_ROOT / "recent_project_photo_gallery_3.html"),
@@ -290,6 +338,21 @@ CONFIGS = [
         "name": "gallery4",
         "gallery_index": 3,
         "canonical": "https://www.sdhardwoods.com/recent_project_photo_gallery_4.html",
+        "service_content": {
+            "page_id_slug": "service",
+            "page_name": "Recent San Diego Hardwood Flooring Projects Featuring Expert Restoration, Deep Cleaning, Dust Containment Sanding, Repairs & Custom Installation",
+            "page_description": "Before-and-after results from homes across Del Mar, Rancho Santa Fe, Carmel Valley, Golden Hill, Encinitas, Coronado, Pacific Beach, La Jolla Shores, and Santa Luz.",
+            "service_name": "Hardwood Floor Restoration, Deep Cleaning & Custom Installation Proof Gallery",
+            "service_description": "Real completed hardwood flooring projects (#61-#80) showing restoration, deep cleaning, dust containment sanding, repairs, and custom installation throughout San Diego County.",
+            "service_types": ["Hardwood floor restoration", "Hardwood floor deep cleaning", "Dust-contained sanding", "Hardwood floor repairs", "Custom hardwood installation", "Bamboo floor restoration"],
+            "area_served": ["San Diego County", "Del Mar", "Rancho Santa Fe", "Carmel Valley", "Golden Hill", "Encinitas", "Coronado", "Pacific Beach", "La Jolla Shores", "Santaluz", "Black Mountain Ranch", "Rancho Penasquitos"],
+            "offer_catalog_name": "Project Types Shown",
+            "offer_items": [
+                ("Hardwood Floor Restoration", "Restoration projects shown in real before-and-after pairs, including confirmed walnut restoration work."),
+                ("Hardwood Floor Deep Cleaning", "Deep-cleaning and recoating projects shown alongside full restoration work."),
+                ("Custom Hardwood Installation", "Custom installation projects shown in real completed San Diego homes."),
+            ],
+        },
         "raw_path": str(RAW / "recent_project_photo_gallery_4.html"),
         "gallery_json": str(DATA / "recent_project_photo_gallery_4" / "modules.json"),
         "out_path": str(REPO_ROOT / "recent_project_photo_gallery_4.html"),

@@ -93,6 +93,58 @@ for rec in records:
 
 case_studies_html = "\n".join(case_study_cards)
 
+# Schema milestone (2026-07-19): original page had no JSON-LD block at all
+# (confirmed) -- this adds a Blog + BlogPosting graph built from the page's
+# own real 12 case-study titles (the same `records` used to render the
+# visible cards above, post title-merge), plus a WebPage entity referencing
+# the canonical #local entity, matching every other page's pattern. No
+# prose is invented here beyond the real, already-rendered case-study
+# titles themselves.
+import sys as _sys
+_sys.path.insert(0, str(BUILD / "scripts" / "common"))
+from public_business_rules import (
+    CANONICAL_LOCAL_STUB, CANONICAL_LOCAL_ID, sanitize_public_jsonld,
+)
+
+_blog_posts = []
+for rec in records:
+    if not rec.get("title"):
+        continue
+    _blog_posts.append({
+        "@type": "BlogPosting",
+        "headline": rec["title"],
+        "author": {"@id": CANONICAL_LOCAL_ID},
+        "publisher": {"@id": CANONICAL_LOCAL_ID},
+    })
+
+_blog_graph = {
+    "@context": "https://schema.org",
+    "@graph": [
+        dict(CANONICAL_LOCAL_STUB),
+        {
+            "@type": "WebPage",
+            "@id": "https://www.sdhardwoods.com/blog.html#webpage",
+            "url": "https://www.sdhardwoods.com/blog.html",
+            "name": title,
+            "description": meta_desc,
+            "inLanguage": "en",
+            "about": {"@id": CANONICAL_LOCAL_ID},
+            "mainEntity": {"@id": "https://www.sdhardwoods.com/blog.html#blog"},
+        },
+        {
+            "@type": "Blog",
+            "@id": "https://www.sdhardwoods.com/blog.html#blog",
+            "name": "San Diego Hardwoods Project Case Studies",
+            "blogPost": _blog_posts,
+        },
+    ],
+}
+jsonld_block = sanitize_public_jsonld(
+    '<script type="application/ld+json">\n'
+    + json.dumps(_blog_graph, indent=1, ensure_ascii=False)
+    + '\n</script>'
+)
+
 # ---- vcard swap / scroll topic ----
 body_top = top_html.replace("__VCARD_DESC__", vcard_desc)
 scrollhint = scrollhint_html.replace("__SCROLL_TOPIC__", "Our Hardwood Flooring Case Studies")
@@ -243,6 +295,7 @@ head_extra = f'''<meta name="DESCRIPTION" id="mDescription" content="{meta_desc}
 	<link href="https://www.sdhardwoods.com/favicon-512.ico" rel="icon" sizes="512x512" type="image/x-icon">
 	<link href="https://www.sdhardwoods.com/LOGO-2025.png" rel="apple-touch-icon" sizes="180x180"><meta name="theme-color" content="#4b2e06"><meta name="msapplication-TileColor" content="#4b2e06"><meta name="msapplication-TileImage" content="https://www.sdhardwoods.com/LOGO-2025.png">
 	<link href="https://www.sdhardwoods.com/LOGO-2025.png" rel="logo" type="image/png">
+{jsonld_block}
 {analytics_html}
 '''
 

@@ -42,6 +42,13 @@ _JSONLD_BLOCK_RE = re.compile(
     r'(<script type="application/ld\+json">)(.*?)(</script>)', re.DOTALL
 )
 
+# Body-only variant (no capture of the surrounding tags) used by the
+# canonical-business-entity functions below, which always rebuild the
+# `<script>` wrapper themselves.
+_JSONLD_BLOCK_RE_BODY = re.compile(
+    r'<script type="application/ld\+json">(.*?)</script>', re.DOTALL
+)
+
 # The exact contractor license number must never re-enter public output.
 # Kept as split digit strings so this source file itself never contains the
 # number in searchable form.
@@ -81,3 +88,320 @@ def sanitize_public_jsonld(jsonld_html):
             raise AssertionError(
                 f"public-business rule violation: {banned!r} survived sanitize")
     return out
+
+
+# ---------------------------------------------------------------------------
+# Canonical business-entity consolidation (owner-approved schema milestone,
+# 2026-07-19). Prior to this, most pages re-declared the business from
+# scratch as brand-new, unlinked JSON-LD nodes (a standalone FlooringContractor,
+# a standalone Organization, and five more Organization stubs nested in each
+# Service's `provider`) instead of referencing the one canonical entity by
+# `@id`, the way floor-assessments-inspections.html already did. That meant
+# ~40 duplicate, disconnected "San Diego Hardwoods" declarations site-wide,
+# with inconsistent priceRange/phone formatting between them -- diluting
+# entity confidence instead of presenting Google one confident local
+# business. `consolidate_business_jsonld()` fixes this: on every page it's
+# applied to, every unlinked business node is dropped, every Service
+# `provider` is rewritten to a bare `{"@id": ...}` reference, and exactly one
+# canonical declaration (below) is prepended once.
+#
+# Facts below are owner-confirmed 2026-07-19 from the live Google Business
+# Profile dashboard (5.0 rating / 16 reviews) and Google Maps share link;
+# `alternateName` is the long-form GBP listing name, active for years.
+CANONICAL_LOCAL_ID = "https://www.sdhardwoods.com/#local"
+
+CANONICAL_LOCAL_STUB = {
+    "@context": "https://schema.org",
+    "@type": ["LocalBusiness", "HomeAndConstructionBusiness", "FlooringContractor"],
+    "@id": CANONICAL_LOCAL_ID,
+    "name": "San Diego Hardwoods",
+    "alternateName": "San Diego Hardwoods Dustless Hardwood and Bamboo Floor Refinishing Installation Repairs and Deep Cleaning",
+    "url": "https://www.sdhardwoods.com",
+    "telephone": "+18586990072",
+    "email": "sandiegohardwoods@gmail.com",
+    "image": "https://www.sdhardwoods.com/LOGO-2025.png",
+    "logo": "https://www.sdhardwoods.com/LOGO-2025.png",
+    "priceRange": "$$$",
+    "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+18586990072",
+        "contactType": "sales",
+        "availableLanguage": ["en"],
+        "areaServed": "US",
+    },
+    "hasCredential": {
+        "@type": "EducationalOccupationalCredential",
+        "name": "Bona Certified Craftsman",
+        "url": "https://www.bona.com/en-us/homeowner/find-a-contractor/contractor-details/?storeid=83667",
+        "image": "https://www.sdhardwoods.com/bonacc.jpeg",
+        "issuer": {"@type": "Organization", "name": "Bona"},
+    },
+    "sameAs": [
+        "https://www.youtube.com/@sandiegohardwoods",
+        "https://maps.app.goo.gl/hbNaSo2guARgrZTa8",
+    ],
+    "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "5.0",
+        "reviewCount": "16",
+    },
+}
+
+# Same facts, as a plain dict for pages that add them to an *existing*
+# richer entity (index.html's #local, which also carries areaServed,
+# openingHoursSpecification, and its own description) instead of getting the
+# full stub above.
+CANONICAL_LOCAL_EXTRAS = {
+    "alternateName": CANONICAL_LOCAL_STUB["alternateName"],
+    "telephone": CANONICAL_LOCAL_STUB["telephone"],
+    "priceRange": CANONICAL_LOCAL_STUB["priceRange"],
+    "contactPoint": CANONICAL_LOCAL_STUB["contactPoint"],
+    "hasCredential": CANONICAL_LOCAL_STUB["hasCredential"],
+    "sameAs": CANONICAL_LOCAL_STUB["sameAs"],
+    "aggregateRating": CANONICAL_LOCAL_STUB["aggregateRating"],
+}
+
+_BUSINESS_TYPES = {"LocalBusiness", "HomeAndConstructionBusiness", "FlooringContractor", "Organization"}
+
+
+def _types_of(node):
+    t = node.get("@type")
+    if t is None:
+        return set()
+    return set(t) if isinstance(t, list) else {t}
+
+
+def _is_unlinked_business_node(node):
+    return isinstance(node, dict) and "@id" not in node and bool(_types_of(node) & _BUSINESS_TYPES)
+
+
+def _rewrite_providers(node):
+    """Recursively replace any inline duplicate-business `provider` value
+    with a bare @id reference to the canonical #local entity."""
+    if isinstance(node, dict):
+        if isinstance(node.get("provider"), dict) and _is_unlinked_business_node(node["provider"]):
+            node["provider"] = {"@id": CANONICAL_LOCAL_ID}
+        for v in node.values():
+            _rewrite_providers(v)
+    elif isinstance(node, list):
+        for v in node:
+            _rewrite_providers(v)
+
+
+def _contains_full_canonical_declaration(node, target_id=CANONICAL_LOCAL_ID):
+    """True if `node` contains a *full* declaration of the canonical entity
+    (an "@id": target_id node that also carries "@type"), as opposed to a
+    bare `{"@id": target_id}` reference -- the shape `_rewrite_providers()`
+    intentionally creates, which must not itself count as a duplicate."""
+    if isinstance(node, dict):
+        if node.get("@id") == target_id and "@type" in node:
+            return True
+        return any(_contains_full_canonical_declaration(v, target_id) for v in node.values())
+    if isinstance(node, list):
+        return any(_contains_full_canonical_declaration(v, target_id) for v in node)
+    return False
+
+
+def consolidate_business_jsonld(jsonld_html):
+    """Drop every unlinked business declaration from `jsonld_html`, rewrite
+    every Service `provider` to reference the canonical entity by `@id`, and
+    prepend exactly one canonical declaration. Non-business blocks
+    (VideoObject, FAQPage, CollectionPage, ...) pass through untouched aside
+    from the same (no-op, for these types) provider rewrite. Call this
+    *after* `sanitize_public_jsonld()` -- consolidation's list-field dedupe
+    (e.g. sameAs) compares exact strings, so the legacy YouTube handle must
+    already be normalized to the official channel first, or the same
+    channel URL can end up listed twice.
+    """
+    kept_objs = []
+    for raw in _JSONLD_BLOCK_RE_BODY.findall(jsonld_html):
+        obj = json.loads(raw)
+        if isinstance(obj, list):
+            obj = [item for item in obj if not _is_unlinked_business_node(item)]
+            _rewrite_providers(obj)
+            if not obj:
+                continue
+        elif isinstance(obj, dict) and isinstance(obj.get("@graph"), list):
+            obj["@graph"] = [item for item in obj["@graph"] if not _is_unlinked_business_node(item)]
+            _rewrite_providers(obj["@graph"])
+            if not obj["@graph"]:
+                continue
+        elif _is_unlinked_business_node(obj):
+            continue
+        else:
+            _rewrite_providers(obj)
+        kept_objs.append(obj)
+
+    # Guard against double-consolidation: this is called once, at build time,
+    # on raw/duplicate-laden source. If it's ever accidentally re-run on
+    # already-consolidated output, blindly prepending a second canonical
+    # declaration would create a duplicate `@id` on the page instead of
+    # silently doing nothing -- fail loudly so that can never slip through.
+    # Must check for a *full* declaration (has @type), not just any node
+    # carrying "@id": CANONICAL_LOCAL_ID -- the bare {"@id": ...} references
+    # `_rewrite_providers()` just created above legitimately match by @id
+    # alone and are not duplicates.
+    if _contains_full_canonical_declaration(kept_objs):
+        raise AssertionError(
+            f"consolidate_business_jsonld: a full node with @id={CANONICAL_LOCAL_ID!r} "
+            "already exists in this input -- it looks like this content has "
+            "already been consolidated once; re-running would duplicate it.")
+
+    kept_blocks = [
+        f'<script type="application/ld+json">\n{json.dumps(obj, indent=1, ensure_ascii=False)}\n</script>'
+        for obj in kept_objs
+    ]
+    canonical_body = json.dumps(CANONICAL_LOCAL_STUB, indent=1, ensure_ascii=False)
+    canonical_block = f'<script type="application/ld+json">\n{canonical_body}\n</script>'
+    return "\n".join([canonical_block] + kept_blocks)
+
+
+def _merge_into_id(node, target_id, extra_fields):
+    """Recursively find the node with `"@id": target_id` and merge
+    `extra_fields` into it (list-valued fields are appended-to, not
+    replaced, so already-present entries like an existing sameAs survive).
+    Returns True if a merge happened anywhere in `node`."""
+    if isinstance(node, dict):
+        if node.get("@id") == target_id:
+            for k, v in extra_fields.items():
+                if isinstance(node.get(k), list) and isinstance(v, list):
+                    node[k] = node[k] + [x for x in v if x not in node[k]]
+                else:
+                    node[k] = v
+            return True
+        return any(_merge_into_id(v, target_id, extra_fields) for v in node.values())
+    if isinstance(node, list):
+        return any(_merge_into_id(v, target_id, extra_fields) for v in node)
+    return False
+
+
+def augment_local_entity(jsonld_html, extra_fields=None, local_id=CANONICAL_LOCAL_ID):
+    """Merge `extra_fields` (default CANONICAL_LOCAL_EXTRAS) into the
+    existing node identified by `"@id": local_id`, wherever it appears.
+    Unlike `consolidate_business_jsonld()`, this does not touch any other
+    block and does not drop or replace anything -- for pages (index.html)
+    that already have exactly one, correctly-linked canonical declaration
+    and just need the new fields added to it. Raises if no matching node is
+    found, so a silent no-op can never slip through. Call this *after*
+    `sanitize_public_jsonld()`, for the same reason as
+    `consolidate_business_jsonld()` above.
+    """
+    if extra_fields is None:
+        extra_fields = CANONICAL_LOCAL_EXTRAS
+    out_blocks = []
+    touched = False
+    for raw in _JSONLD_BLOCK_RE_BODY.findall(jsonld_html):
+        obj = json.loads(raw)
+        if _merge_into_id(obj, local_id, extra_fields):
+            touched = True
+        out_blocks.append(f'<script type="application/ld+json">\n{json.dumps(obj, indent=1, ensure_ascii=False)}\n</script>')
+    if not touched:
+        raise AssertionError(f"augment_local_entity: no node with @id={local_id!r} found")
+    return "\n".join(out_blocks)
+
+
+# ---------------------------------------------------------------------------
+# Per-page service schema (owner-approved schema milestone, 2026-07-19).
+#
+# Area-priority tiers, per the owner's explicit direction: San Diego County
+# service is always the broad, county-wide claim; affluent coastal San Diego
+# and a defined South Orange County corridor (San Clemente up to Huntington
+# Beach, no further north) are priority targets to name explicitly; South
+# Bay / East County stay folded into the general county-wide claim only,
+# since they're already well-served by local competitors and are not a
+# target area, even though they are technically within "San Diego County."
+# South OC city names researched (not invented) 2026-07-19 -- see the
+# session record for sources (Wikipedia: Orange Coast, Orange County CA,
+# Laguna Niguel, Mission Viejo).
+PRIORITY_COASTAL_SD = [
+    "La Jolla", "Del Mar", "Solana Beach", "Encinitas", "Cardiff-by-the-Sea",
+    "Rancho Santa Fe", "Carmel Valley", "Fairbanks Ranch", "Santaluz",
+    "Coronado", "Point Loma",
+]
+
+SOUTH_ORANGE_COUNTY = [
+    "San Clemente", "Dana Point", "Laguna Beach", "Newport Beach",
+    "Huntington Beach", "San Juan Capistrano", "Laguna Niguel",
+    "Laguna Hills", "Aliso Viejo", "Mission Viejo", "Rancho Santa Margarita",
+    "Ladera Ranch", "Lake Forest",
+]
+
+
+def build_webpage_service_graph(page_url, page_id_slug, page_name, page_description,
+                                 service_name, service_description, service_types,
+                                 area_served, offer_catalog_name, offer_items):
+    """Build just the WebPage + Service (+ OfferCatalog) entities for one
+    page, `@id`-linked to each other and referencing the canonical business
+    by `@id` only (no local-entity declaration included) -- for pages that
+    already declare `#local` themselves elsewhere on the page (index.html's
+    augmented raw-source entity; floor-assessments-inspections.html's own
+    inline entity). Using this instead of `build_service_page_jsonld()` on
+    those pages avoids re-declaring `#local` a second time, which would
+    recreate the exact duplicate-entity problem the 2026-07-19 consolidation
+    milestone fixed.
+
+    `offer_items` is a list of (name, description) tuples -- real,
+    already-approved copy only, never invented here. `area_served` is
+    deliberately this page's own list (see PRIORITY_COASTAL_SD /
+    SOUTH_ORANGE_COUNTY above), not one blanket list repeated everywhere.
+    Returns the list of graph entities (not yet wrapped in a `<script>` tag
+    or `@context`/`@graph` envelope) so callers can merge it into an
+    existing graph.
+    """
+    webpage_id = f"{page_url}#webpage"
+    service_id = f"{page_url}#{page_id_slug}"
+    return [
+        {
+            "@type": "WebPage",
+            "@id": webpage_id,
+            "url": page_url,
+            "name": page_name,
+            "description": page_description,
+            "inLanguage": "en",
+            "about": {"@id": CANONICAL_LOCAL_ID},
+            "mainEntity": {"@id": service_id},
+        },
+        {
+            "@type": "Service",
+            "@id": service_id,
+            "name": service_name,
+            "url": page_url,
+            "mainEntityOfPage": {"@id": webpage_id},
+            "provider": {"@id": CANONICAL_LOCAL_ID},
+            "areaServed": area_served,
+            "serviceType": service_types,
+            "description": service_description,
+            "hasOfferCatalog": {
+                "@type": "OfferCatalog",
+                "name": offer_catalog_name,
+                "itemListElement": [
+                    {"@type": "Offer", "itemOffered": {"@type": "Service", "name": n, "description": d}}
+                    for n, d in offer_items
+                ],
+            },
+        },
+    ]
+
+
+def build_service_page_jsonld(page_url, page_id_slug, page_name, page_description,
+                               service_name, service_description, service_types,
+                               area_served, offer_catalog_name, offer_items,
+                               extra_local_fields=None):
+    """Like `build_webpage_service_graph()`, but for pages that do NOT
+    already declare `#local` themselves -- this one also prepends a full
+    canonical business declaration, returned as a ready-to-use `<script>`
+    block. See `build_webpage_service_graph()` for the parameter contract;
+    still needs to pass through `sanitize_public_jsonld()` afterward
+    (harmless/idempotent here, but keeps the same safety net every page's
+    schema goes through).
+    """
+    local = dict(CANONICAL_LOCAL_STUB)
+    if extra_local_fields:
+        local.update(extra_local_fields)
+    graph = [local] + build_webpage_service_graph(
+        page_url, page_id_slug, page_name, page_description,
+        service_name, service_description, service_types,
+        area_served, offer_catalog_name, offer_items,
+    )
+    body = json.dumps({"@context": "https://schema.org", "@graph": graph}, indent=1, ensure_ascii=False)
+    return f'<script type="application/ld+json">\n{body}\n</script>'

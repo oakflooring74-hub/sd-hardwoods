@@ -4,6 +4,10 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "common"))
 from assemble_page import assemble
+from public_business_rules import (
+    sanitize_public_jsonld, augment_local_entity, build_webpage_service_graph,
+    PRIORITY_COASTAL_SD, SOUTH_ORANGE_COUNTY,
+)
 
 BUILD = Path(__file__).resolve().parent.parent.parent  # -> build/
 RAW = BUILD / "raw-source" / "index.html"
@@ -35,7 +39,53 @@ HEAD_META = f"""<title>{title}</title>
 <link href="https://s.turbifycdn.com/lm/lib/smb/css/hosting/yss/v2/mc_global.195798.css" id="globalCSS" media="screen" rel="stylesheet" type="text/css">
 <link href="https://s.turbifycdn.com/lm/themes/yhoo/ga/evident/vanilla_bean/palette1/1.0.1/en-us/theme.css" id="themeCSS" media="screen" rel="stylesheet" type="text/css">"""
 
-JSONLD = "\n".join(jsonld_blocks)
+# Schema milestone (2026-07-19): the homepage's #local entity already has a
+# correct, single, richer declaration (areaServed, hours, description) -- it
+# just needs the new owner-confirmed fields added, not consolidation. Runs
+# assemble()'s own sanitize step here too (idempotent) because augment must
+# see the YouTube handle already normalized before it dedupes sameAs.
+JSONLD = sanitize_public_jsonld("\n".join(jsonld_blocks))
+JSONLD = augment_local_entity(JSONLD)
+
+# Schema milestone (2026-07-19): add a WebPage + Service (+ OfferCatalog)
+# graph naming the site's real core service categories, built from the
+# homepage's own real visible content (hero intro, "Not Every Hardwood
+# Floor Needs Refinishing" section, Bona DCS 2.0 section) -- not invented.
+# References the existing #local entity above by @id rather than
+# re-declaring it (that entity already carries the full county-wide
+# areaServed list; this Service's own areaServed is a shorter priority
+# list so the two don't just repeat each other verbatim on the same page).
+_homepage_graph = build_webpage_service_graph(
+    page_url="https://www.sdhardwoods.com/",
+    page_id_slug="service",
+    page_name=title,
+    page_description=description,
+    service_name="Hardwood & Bamboo Floor Refinishing, Restoration, Repairs, Installation & Deep Cleaning",
+    service_description="Since 1990, San Diego Hardwoods has restored solid, engineered, and bamboo floors through repair, dust-contained sanding and refinishing, intensive deep cleaning, maintenance recoating, and traditional nail-down and glue-down installation throughout San Diego County.",
+    service_types=[
+        "Hardwood floor refinishing", "Bamboo floor refinishing",
+        "Dust-contained sanding", "Hardwood floor repairs",
+        "Hardwood floor restoration", "Solid hardwood installation",
+        "Engineered hardwood installation", "Hardwood floor deep cleaning",
+        "Maintenance recoating",
+    ],
+    area_served=["San Diego County"] + PRIORITY_COASTAL_SD + SOUTH_ORANGE_COUNTY,
+    offer_catalog_name="Complete Hardwood & Bamboo Flooring Services",
+    offer_items=[
+        ("Dust-Contained Refinishing & Sanding",
+         "Bona DCS 2.0 portable dust-containment system with dual HEPA filtration and continuous bagging captures sanding and abrasion dust at the source, for virtually dust-free sanding in most normal project conditions."),
+        ("Deep Cleaning & Maintenance Recoating",
+         "Bona Power Scrubber deep cleaning removes years of embedded dirt, contaminants, and residue before an optional protective low-VOC maintenance recoat; cleaning-only service is offered as its own scope when a new coat of finish isn't needed."),
+        ("Solid & Engineered Hardwood Installation",
+         "Traditional nail-down and glue-down installation of solid and engineered hardwood floors."),
+        ("Hardwood Floor Repairs & Restoration",
+         "Board replacement, water or termite damage remediation, subfloor fixes, squeak elimination, and color-matched patches that blend with existing flooring."),
+        ("Free Phone & Photo Assessment",
+         "Initial floor evaluation by phone and photos to identify condition, finish compatibility, wear layer, and project scope before recommending the right service."),
+    ],
+)
+_homepage_body = json.dumps({"@context": "https://schema.org", "@graph": _homepage_graph}, indent=1, ensure_ascii=False)
+JSONLD = JSONLD + f'\n<script type="application/ld+json">\n{_homepage_body}\n</script>'
 GA = ""
 
 with open(DATA / "gallery.json", encoding="utf-8") as f:
