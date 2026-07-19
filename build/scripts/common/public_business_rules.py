@@ -24,6 +24,7 @@ deterministically.
 """
 import json
 import re
+from pathlib import Path
 
 OFFICIAL_YOUTUBE_CHANNEL = "https://www.youtube.com/@sandiegohardwoods"
 
@@ -146,6 +147,9 @@ CANONICAL_LOCAL_STUB = {
         "reviewCount": "16",
     },
 }
+# `areaServed` is attached below, once FULL_SAN_DIEGO_AREAS/SOUTH_ORANGE_COUNTY are built
+# (Milestone 2.9), so CANONICAL_LOCAL_STUB carries the complete location footprint -- the
+# only place OC service areas appear anywhere on the site.
 
 # Same facts, as a plain dict for pages that add them to an *existing*
 # richer entity (index.html's #local, which also carries areaServed,
@@ -300,31 +304,84 @@ def augment_local_entity(jsonld_html, extra_fields=None, local_id=CANONICAL_LOCA
     return "\n".join(out_blocks)
 
 
+def _set_field(node, target_id, field, value):
+    if isinstance(node, dict):
+        if node.get("@id") == target_id:
+            node[field] = value
+            return True
+        return any(_set_field(v, target_id, field, value) for v in node.values())
+    if isinstance(node, list):
+        return any(_set_field(v, target_id, field, value) for v in node)
+    return False
+
+
+def replace_area_served(jsonld_html, area_served, local_id=CANONICAL_LOCAL_ID):
+    """Overwrite (not append/merge) the `areaServed` field of the node with
+    `"@id": local_id`, wherever it appears. Used instead of
+    `augment_local_entity()` for this one field because that function's
+    list-merge logic appends to whatever is already there -- correct for
+    `sameAs`, wrong for `areaServed` on pages (the homepage) that already
+    carry a legacy, since-superseded area list: appending would keep the
+    old list alongside the new one instead of replacing it. Raises if no
+    matching node is found, same safety contract as `augment_local_entity`.
+    """
+    out_blocks = []
+    touched = False
+    for raw in _JSONLD_BLOCK_RE_BODY.findall(jsonld_html):
+        obj = json.loads(raw)
+        if _set_field(obj, local_id, "areaServed", area_served):
+            touched = True
+        out_blocks.append(f'<script type="application/ld+json">\n{json.dumps(obj, indent=1, ensure_ascii=False)}\n</script>')
+    if not touched:
+        raise AssertionError(f"replace_area_served: no node with @id={local_id!r} found")
+    return "\n".join(out_blocks)
+
+
 # ---------------------------------------------------------------------------
-# Per-page service schema (owner-approved schema milestone, 2026-07-19).
-#
-# Area-priority tiers, per the owner's explicit direction: San Diego County
-# service is always the broad, county-wide claim; affluent coastal San Diego
-# and a defined South Orange County corridor (San Clemente up to Huntington
-# Beach, no further north) are priority targets to name explicitly; South
-# Bay / East County stay folded into the general county-wide claim only,
-# since they're already well-served by local competitors and are not a
-# target area, even though they are technically within "San Diego County."
-# South OC city names researched (not invented) 2026-07-19 -- see the
-# session record for sources (Wikipedia: Orange Coast, Orange County CA,
-# Laguna Niguel, Mission Viejo).
+# Centralized service-area source (Milestone 2.9), replacing the drifting
+# per-page/per-milestone area lists. Single source of truth:
+# build/data/seo/service_areas.json -- the owner's detailed San Diego
+# regional/enclave lists plus every broader San Diego County area already
+# in the shared schema before this milestone (owner direction 2026-07-19:
+# leave every area already in the site's data alone, only add to it -- the
+# coastal/estate regions are ordered first for internal structured-data
+# emphasis reasons that must never be stated or made visible on the site).
+_SERVICE_AREAS_PATH = Path(__file__).resolve().parent.parent.parent / "data" / "seo" / "service_areas.json"
+with open(_SERVICE_AREAS_PATH, encoding="utf-8") as _f:
+    _SERVICE_AREAS = json.load(_f)
+
+
+def _dedupe_keep_first(items):
+    seen, out = set(), []
+    for x in items:
+        if x not in seen:
+            seen.add(x)
+            out.append(x)
+    return out
+
+
+# The complete San Diego location footprint for the shared #local entity only
+# -- never repeated in full on any individual page's Service.areaServed.
+FULL_SAN_DIEGO_AREAS = _dedupe_keep_first(
+    ["San Diego County"]
+    + [area for region in _SERVICE_AREAS["regions"] for area in region["areas"]]
+    + _SERVICE_AREAS["additional_legacy_areas"]
+)
+
+# Owner's exact South Orange County list (2026-07-19). Attached only to the
+# shared #local entity's areaServed -- never to a per-page Service, and
+# never in visible copy anywhere on the site.
+SOUTH_ORANGE_COUNTY = list(_SERVICE_AREAS["south_orange_county"])
+
+# Short San-Diego-only priority tier for per-page Service.areaServed (each
+# page uses its own flavor of this, never the full county list, never OC).
 PRIORITY_COASTAL_SD = [
     "La Jolla", "Del Mar", "Solana Beach", "Encinitas", "Cardiff-by-the-Sea",
     "Rancho Santa Fe", "Carmel Valley", "Fairbanks Ranch", "Santaluz",
     "Coronado", "Point Loma",
 ]
 
-SOUTH_ORANGE_COUNTY = [
-    "San Clemente", "Dana Point", "Laguna Beach", "Newport Beach",
-    "Huntington Beach", "San Juan Capistrano", "Laguna Niguel",
-    "Laguna Hills", "Aliso Viejo", "Mission Viejo", "Rancho Santa Margarita",
-    "Ladera Ranch", "Lake Forest",
-]
+CANONICAL_LOCAL_STUB["areaServed"] = FULL_SAN_DIEGO_AREAS + SOUTH_ORANGE_COUNTY
 
 
 def build_webpage_service_graph(page_url, page_id_slug, page_name, page_description,

@@ -16,7 +16,7 @@ with open(BUILD / "data" / "recent_project_photo_gallery_1" / "vcard.txt", encod
     VCARD = f.read().strip()
 
 HEAD_META = """<title>Hardwood Floor Refinishing Gallery | San Diego Before &amp; After Photos</title>
-<meta name="DESCRIPTION" content="View before and after hardwood floor refinishing projects completed throughout San Diego County. See dustless sanding, hardwood floor repairs, engineered hardwood refinishing, color changes, floor restoration, deep cleaning, and oiled floor upgrades completed in La Jolla, Del Mar, Mission Hills, Rancho Santa Fe, Encinitas, Carmel Valley, and nearby communities. Call or text 858-699-0072 for a professional phone consultation and expert floor evaluation.">
+<meta name="description" content="View before and after hardwood floor refinishing projects completed throughout San Diego County. See dustless sanding, hardwood floor repairs, engineered hardwood refinishing, color changes, floor restoration, deep cleaning, and oiled floor upgrades completed in La Jolla, Del Mar, Mission Hills, Rancho Santa Fe, Encinitas, Carmel Valley, and nearby communities. Call or text 858-699-0072 for a professional phone consultation and expert floor evaluation.">
 <link href="https://www.sdhardwoods.com/recent_project_photo_gallery_1.html" rel="canonical">
 <link href="https://www.sdhardwoods.com/favicon.ico" rel="icon" type="image/x-icon">
 <link href="https://www.sdhardwoods.com/favicon-192.ico" rel="icon" sizes="192x192" type="image/x-icon">

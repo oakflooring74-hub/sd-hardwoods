@@ -20,13 +20,14 @@ from pathlib import Path
 BUILD = Path(__file__).resolve().parent.parent.parent  # -> build/
 sys.path.insert(0, str(BUILD / "scripts" / "common"))
 from assemble_page import assemble
-from public_business_rules import PRIORITY_COASTAL_SD, SOUTH_ORANGE_COUNTY
+from public_business_rules import (
+    PRIORITY_COASTAL_SD, replace_area_served, FULL_SAN_DIEGO_AREAS, SOUTH_ORANGE_COUNTY,
+)
 import json as _json
 
-# Schema milestone (2026-07-19): the assessment/inspection services' area
-# coverage, matching the "select projects in South Orange County" wording
-# added to this page's visible copy above -- not just San Diego County.
-_ASSESSMENT_AREA = _json.dumps(["San Diego County"] + PRIORITY_COASTAL_SD + SOUTH_ORANGE_COUNTY)
+# Milestone 2.9: South Orange County removed from this page's Service area --
+# per owner direction it appears only in the shared #local schema entity.
+_ASSESSMENT_AREA = _json.dumps(["San Diego County"] + PRIORITY_COASTAL_SD)
 
 HEAD_META = """<title>Hardwood Floor Assessments &amp; Inspections San Diego | San Diego Hardwoods</title>
 <meta name="description" content="Hardwood floor assessments, pre-purchase inspections, written reports, and damage or insurance analysis in San Diego. Start with a free phone and photo review.">
@@ -221,11 +222,16 @@ JSONLD = """<script type="application/ld+json">
 }
 </script>"""
 
-# Schema milestone (2026-07-19): expand each service's areaServed from the
-# original bare "San Diego County" to the site's real priority-coastal +
-# South Orange County list, matching the "select projects in South Orange
-# County" wording added to this page's visible copy above.
+# Schema milestone (2026-07-19, refined 2.9): expand each service's
+# areaServed from the original bare "San Diego County" to the site's real
+# priority-coastal list (San Diego only -- South Orange County lives on the
+# shared #local entity, never on a per-page Service).
 JSONLD = JSONLD.replace('{"@type": "Place", "name": "San Diego County"}', _ASSESSMENT_AREA)
+# Milestone 2.9: this page's #local declaration had no areaServed at all --
+# add the complete, centralized San Diego + South Orange County list so the
+# shared entity carries the full location footprint on every page it's
+# declared on, not just the homepage.
+JSONLD = replace_area_served(JSONLD, FULL_SAN_DIEGO_AREAS + SOUTH_ORANGE_COUNTY)
 
 # Milestone 2.6: the shared GA4 implementation (build/chrome/analytics.html) is
 # injected by assemble() -- leave this empty; never add a per-page loader.
@@ -371,7 +377,7 @@ MAIN = """
 
 <section class="block" id="service-area">
   <h2>Serving San Diego County</h2>
-  <p class="lede">These assessment, inspection, and consultation services are offered throughout our established service area: La Jolla, Del Mar, Rancho Santa Fe, Encinitas, Solana Beach, Carmel Valley, Carlsbad, Oceanside, Poway, Rancho Bernardo, and communities across San Diego County, with select projects in South Orange County including San Clemente, Dana Point, and Newport Beach. Whether you need a wood-floor damage assessment, a water-damaged floor evaluation, documentation for an insurance claim or a landlord-tenant matter, or an honest read on repair and refinishing feasibility, it starts with the same free phone and photo conversation.</p>
+  <p class="lede">These assessment, inspection, and consultation services are offered throughout our established service area: La Jolla, Del Mar, Rancho Santa Fe, Encinitas, Solana Beach, Carmel Valley, Carlsbad, Oceanside, Poway, Rancho Bernardo, and communities across San Diego County. Whether you need a wood-floor damage assessment, a water-damaged floor evaluation, documentation for an insurance claim or a landlord-tenant matter, or an honest read on repair and refinishing feasibility, it starts with the same free phone and photo conversation.</p>
 </section>
 
 <section class="block" id="appointments-payment">

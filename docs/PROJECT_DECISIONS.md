@@ -108,6 +108,47 @@ superseded by Milestone 2.6 rule 2 above: the exact number is NOT published anyw
 7. YouTube title cleanups ("Title:" prefix, "Sold Cherry", duplicate titles) — verified
    still live 2026-07-18; fix on YouTube, then rerun `update_youtube_videos.py`.
 
+## Service-area & metadata rules (Milestone 2.9, 2026-07-19) — DURABLE OWNER DECISIONS
+
+1. **Centralized service-area source.** `build/data/seo/service_areas.json` is the single
+   source of truth for every location name used anywhere in the site's schema. It holds the
+   owner's detailed San Diego regional/enclave lists (La Jolla; Point Loma/Coronado/historic;
+   Del Mar/Carmel Valley; Rancho Santa Fe; Solana Beach/Cardiff/Encinitas; Carlsbad; other North
+   County/estate), every other legitimate San Diego County area already in the site's data
+   before this milestone (including El Cajon, Chula Vista, Bonita, National City, Imperial
+   Beach — **owner override 2026-07-19: leave every area already in the site's data alone, only
+   add to it**; do not remove San Diego areas in future sessions either), and the owner's exact
+   13-city South Orange County list. `build/scripts/common/public_business_rules.py` loads it
+   into `FULL_SAN_DIEGO_AREAS` and `SOUTH_ORANGE_COUNTY`.
+2. **South Orange County lives only on the shared `#local` entity's `areaServed`** (now 174
+   entries site-wide: 161 San Diego + 13 OC), never on any individual page's `Service.
+   areaServed`, and never in visible copy anywhere on the site. The coastal/estate ordering in
+   `service_areas.json` reflects an internal targeting-priority reason (better margins/working
+   conditions on premium coastal and estate work) that is intentionally **never stated or made
+   visible** on the site or in public-facing output — schema-only, silent.
+3. **`replace_area_served()`** (new helper in `public_business_rules.py`) overwrites — never
+   appends to — a `#local` node's `areaServed`. Use this, not `augment_local_entity()`, whenever
+   a page's `#local` declaration needs the centralized list; every one of the 13 pages now calls
+   it (or gets the list automatically via `CANONICAL_LOCAL_STUB`, which carries it by default).
+4. **Deep-cleaning page metadata is owner-locked verbatim** (2026-07-19): title "Hardwood Floor
+   Deep Cleaning & Maintenance Recoating | San Diego", meta description "Professional hardwood,
+   engineered wood and bamboo floor deep cleaning, wax and polish removal, and maintenance
+   recoating throughout San Diego County.", H1 "Hardwood Floor Deep Cleaning, Wax & Polish
+   Removal and Maintenance Recoating in San Diego" — do not rewrite without new owner direction.
+   (This also removed a pre-existing "dust-free" claims-policy violation that was live in the
+   old meta description; the same phrase still appears in a handful of this page's real gallery
+   captions/alt text, extracted from frozen raw-source records — flagged, not fixed, since it's
+   outside this milestone's approved scope.)
+5. **Videos page hero.** One server-rendered `<iframe>` (video `Jv1KsJndmww`, the page's
+   established featured-rank-1 video) now sits above the featured/library sections, always
+   present in the initial HTML. Its `ItemList` entry carries a stable
+   `#hero-video` `@id`; `CollectionPage.video` references that `@id` — a link, not a second
+   `VideoObject` declaration. The other 57 videos, filters, and click-to-play modal are
+   unchanged.
+6. **Legacy uppercase `<meta name="DESCRIPTION" id="mDescription">` normalized** to
+   `name="description"` (content unchanged) on blog, gallery 1/2/3, and deep-cleaning, matching
+   the other 8 pages. Applies going forward to any newly-onboarded legacy page too.
+
 ## Deployment / launch
 
 Push to `redesign` auto-deploys the Cloudflare **preview** only. `master` = production; never

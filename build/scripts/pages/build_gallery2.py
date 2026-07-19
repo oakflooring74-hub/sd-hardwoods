@@ -5,6 +5,7 @@ from pathlib import Path
 BUILD = Path(__file__).resolve().parent.parent.parent  # -> build/
 sys.path.insert(0, str(BUILD / "scripts" / "common"))
 from assemble_page import assemble, gallery_progress_html
+from public_business_rules import replace_area_served, FULL_SAN_DIEGO_AREAS, SOUTH_ORANGE_COUNTY
 
 DATA = BUILD / "data" / "recent_project_photo_gallery_2"
 
@@ -16,9 +17,14 @@ with open(DATA / "vcard.txt", encoding="utf-8") as f:
 
 with open(DATA / "jsonld.html", encoding="utf-8") as f:
     JSONLD = f.read()
+# Milestone 2.9: this page's #local declaration had no areaServed at all --
+# add the complete, centralized San Diego + South Orange County list so the
+# shared entity carries the full location footprint on every page it's
+# declared on, not just the homepage.
+JSONLD = replace_area_served(JSONLD, FULL_SAN_DIEGO_AREAS + SOUTH_ORANGE_COUNTY)
 
 HEAD_META = """<title>Recent Hardwood Flooring Projects | Refinishing, Installation &amp; Repair | San Diego</title>
-<meta name="DESCRIPTION" content="Browse recent San Diego hardwood floor refinishing, installation, repair, and restoration projects featuring dust containment sanding, deep cleaning, wire-brushed and oil-finished floors, custom stains, bamboo, and engineered hardwood. Explore our craftsmanship and discuss your project with an expert">
+<meta name="description" content="Browse recent San Diego hardwood floor refinishing, installation, repair, and restoration projects featuring dust containment sanding, deep cleaning, wire-brushed and oil-finished floors, custom stains, bamboo, and engineered hardwood. Explore our craftsmanship and discuss your project with an expert.">
 <link href="https://www.sdhardwoods.com/recent_project_photo_gallery_2.html" rel="canonical">
 <link href="https://www.sdhardwoods.com/favicon.ico" rel="icon" type="image/x-icon">
 <link href="https://www.sdhardwoods.com/favicon-192.ico" rel="icon" sizes="192x192" type="image/x-icon">

@@ -4,8 +4,7 @@ from pathlib import Path
 BUILD = Path(__file__).resolve().parent.parent.parent  # -> build/
 sys.path.insert(0, str(BUILD / "scripts" / "common"))
 from public_business_rules import (
-    sanitize_public_jsonld, build_service_page_jsonld,
-    PRIORITY_COASTAL_SD, SOUTH_ORANGE_COUNTY,
+    sanitize_public_jsonld, build_service_page_jsonld, PRIORITY_COASTAL_SD,
 )
 RAW = str(BUILD / "raw-source" / "deep-cleaning-hardwood-floors-san-diego.html")
 CHROME = str(BUILD / "chrome")
@@ -38,22 +37,27 @@ def clean_text(s):
 
 # ---- head bits ----
 title = re.search(r"<title>(.*?)</title>", raw, re.DOTALL).group(1).strip()
-meta_desc = re.search(r'<meta name="DESCRIPTION" id="mDescription" content="([^"]*)"', raw).group(1)
 canonical = re.search(r'<link href="([^"]+)" rel="canonical"', raw).group(1)
+# Milestone 2.9 (owner-specified, verbatim): the raw legacy meta description
+# ("Dust-free deep cleaning...") violated the project's own claims policy
+# (never "dust-free", only "dust-contained" -- docs/PROJECT_DECISIONS.md) and
+# mentioned no maintenance recoating. Replaced with the owner's exact text.
+meta_desc = ("Professional hardwood, engineered wood and bamboo floor deep cleaning, wax "
+             "and polish removal, and maintenance recoating throughout San Diego County.")
 # Schema milestone (2026-07-19): the raw source's thin, generic schema
 # (single "Hardwood Floor Deep Cleaning and Re-Coating" Service, ~7-city
 # areaServed) is replaced with a WebPage + Service + OfferCatalog graph
 # built from this page's own real, already-approved visible content --
 # the three actual service distinctions from the info-grid cards below
 # (cleaning-only / intensive-cleaning-before-recoating / wire-brushed &
-# oil-finished), not invented copy. Area list mirrors the visible "We
-# proudly serve..." sentence plus the new South Orange County sentence
-# added below -- schema never claims more area than the page's own text.
+# oil-finished), not invented copy. Milestone 2.9: description mirrors the
+# real meta description above; South Orange County stays out of every
+# per-page Service (shared #local entity only, per owner direction).
 jsonld_block = build_service_page_jsonld(
     page_url="https://www.sdhardwoods.com/deep-cleaning-hardwood-floors-san-diego.html",
     page_id_slug="service",
     page_name="Hardwood Floor Deep Cleaning & Maintenance Recoating | San Diego",
-    page_description="Professional deep cleaning, wax and polish residue removal, wire-brushed and oil-finished floor cleaning, and maintenance recoating for hardwood, engineered wood, vinyl, laminate, bamboo, and cork floors throughout San Diego County and select South Orange County communities.",
+    page_description=meta_desc,
     service_name="Hardwood, Engineered Wood, Vinyl, Laminate, Bamboo & Cork Floor Deep Cleaning and Maintenance Recoating",
     service_description="Professional deep cleaning and restoration for hardwood, engineered wood, vinyl, laminate, bamboo, and cork floors using commercial Bona PowerScrubber equipment and specialty cleaning solutions that remove embedded dirt, wax buildup, cloudy residue, cleaning-product films, and contaminants that ordinary mopping cannot eliminate -- reaching smooth, wire-brushed, hand-scraped, and textured surfaces without sanding or creating dust. When appropriate, the process is completed with a professional low-VOC maintenance recoat, or older oil-finished floors are evaluated for conversion to a durable, low-sheen Bona Traffic HD waterborne finish.",
     service_types=[
@@ -67,8 +71,7 @@ jsonld_block = build_service_page_jsonld(
         "Maintenance recoating preparation and application",
     ],
     area_served=(
-        ["San Diego County"] + PRIORITY_COASTAL_SD +
-        ["Poway", "Escondido"] + SOUTH_ORANGE_COUNTY
+        ["San Diego County"] + PRIORITY_COASTAL_SD + ["Poway", "Escondido"]
     ),
     offer_catalog_name="Deep Cleaning & Maintenance Recoating Services",
     offer_items=[
@@ -102,15 +105,10 @@ def heading_containing(marker, tag):
     return raw[h_start:h_end]
 
 p_professionally = clean_text(para_containing("We professionally deep clean and restore hardwood"))
-# Service-area milestone (2026-07-19, owner direction): the original approved
-# sentence is preserved verbatim (extracted, not retyped); this appends one
-# new sentence extending it to the South Orange County corridor, matching
-# the "select projects in Orange County" framing already approved on
-# contact_us.html rather than overclaiming full coverage.
-p_proudly = clean_text(para_containing("We proudly serve homeowners throughout San Diego County")) + (
-    " We also complete select projects throughout South Orange County, including San Clemente, "
-    "Dana Point, Laguna Beach, Newport Beach, and San Juan Capistrano."
-)
+# Milestone 2.9: the South Orange County sentence added in 2.8 is removed --
+# per owner direction, OC appears only in the shared #local schema entity,
+# never in visible copy. Original approved sentence preserved verbatim.
+p_proudly = clean_text(para_containing("We proudly serve homeowners throughout San Diego County"))
 h2_sub = clean_text(heading_containing("Professional Deep Cleaning, Recoating", "h2"))
 h3_gallery_intro = clean_text(heading_containing("See Our Hardwood Floor Deep Cleaning System in Action", "h3"))
 
@@ -209,7 +207,7 @@ main_html = f'''<main>
 
 <section class="hero">
   <div class="kicker">Est. 1990 &bull; San Diego's Finest Hardwood Flooring Specialist</div>
-  <h1>Hardwood Floor Deep Cleaning, Recoating &amp; Bona Traffic HD Finish Upgrades in San Diego</h1>
+  <h1>Hardwood Floor Deep Cleaning, Wax &amp; Polish Removal and Maintenance Recoating in San Diego</h1>
   <p>Professional hardwood floor cleaning without the cost, dust, or disruption of full sanding. Our Bona PowerScrubber wood floor deep cleaning system removes embedded dirt, wax and polish buildup, and prepares hardwood floors for a durable maintenance recoat or premium finish upgrade&mdash;often completed in just one day. Call <a href="tel:+18586990072">858-699-0072</a>, <a href="sms:+18586990072">text floor photos</a> or email <a href="mailto:sandiegohardwoods@gmail.com">sandiegohardwoods@gmail.com</a></p>
   <div class="cta-row">
     <a class="btn btn-call" href="tel:+18586990072">&#9742; Call 858-699-0072</a>
@@ -269,7 +267,7 @@ main_html = f'''<main>
 
 </main>'''
 
-head_extra = f'''<meta name="DESCRIPTION" id="mDescription" content="{meta_desc}">
+head_extra = f'''<meta name="description" content="{meta_desc}">
 	<link href="{canonical}" rel="canonical">
 	<link href="https://s.turbifycdn.com/lm/lib/smb/css/hosting/yss/v2/mc_global.195798.css" id="globalCSS" media="screen" rel="stylesheet" type="text/css">
 	<link href="https://s.turbifycdn.com/lm/themes/yhoo/ga/evident/vanilla_bean/palette1/1.0.1/en-us/theme.css" id="themeCSS" media="screen" rel="stylesheet" type="text/css">

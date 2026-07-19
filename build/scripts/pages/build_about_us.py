@@ -4,6 +4,7 @@ from pathlib import Path
 BUILD = Path(__file__).resolve().parent.parent.parent  # -> build/
 sys.path.insert(0, str(BUILD / "scripts" / "common"))
 from assemble_page import assemble
+from public_business_rules import replace_area_served, FULL_SAN_DIEGO_AREAS, SOUTH_ORANGE_COUNTY
 
 SCRATCH = str(BUILD / "data" / "about_us")
 
@@ -25,6 +26,11 @@ HEAD_META = read(SCRATCH + r"\head_meta.html") + """
 """
 
 JSONLD = read(SCRATCH + r"\jsonld.html")
+# Milestone 2.9: this page's #local declaration had no areaServed at all --
+# add the complete, centralized San Diego + South Orange County list so the
+# shared entity carries the full location footprint on every page it's
+# declared on, not just the homepage.
+JSONLD = replace_area_served(JSONLD, FULL_SAN_DIEGO_AREAS + SOUTH_ORANGE_COUNTY)
 
 # Milestone 2.6: the shared GA4 implementation (build/chrome/analytics.html) is
 # injected by assemble() -- leave this empty; never add a per-page loader.
@@ -114,7 +120,7 @@ MAIN = """
       <p><strong>Owner-Operated Quality</strong> &mdash; The owner remains personally involved on every project.</p>
       <p><strong>Dust-Contained Sanding on Every Project</strong> &mdash; Cleaner, healthier hardwood floor refinishing with advanced dust collection systems.</p>
       <p><strong>Custom Color Expertise</strong> &mdash; Natural finishes, contemporary stains, whitewashed floors, matte finishes and specialty color matching.</p>
-      <p><strong>Complete Hardwood Floor Services</strong> &mdash; Refinishing, restoration, repairs, installation, deep cleaning, maintenance coats and specialty hardwood flooring services throughout San Diego County, with select projects in South Orange County including San Clemente, Dana Point, and Newport Beach.</p>
+      <p><strong>Complete Hardwood Floor Services</strong> &mdash; Refinishing, restoration, repairs, installation, deep cleaning, maintenance coats and specialty hardwood flooring services throughout San Diego County.</p>
     </div>
   </div>
 

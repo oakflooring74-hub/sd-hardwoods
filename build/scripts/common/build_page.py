@@ -141,7 +141,13 @@ def build_gallery_section(gallery_json_path, intro_html, top_cta_heading, top_ct
 def extract_head_pieces(raw_doc):
     pieces = {}
     pieces["title"] = extract_one(r'<title>(.*?)</title>', raw_doc, group=1)
-    pieces["desc_meta"] = extract_one(r'<meta[^>]+name="[Dd][Ee][Ss][Cc][Rr][Ii][Pp][Tt][Ii][Oo][Nn]"[^>]*/?>', raw_doc)
+    desc_meta = extract_one(r'<meta[^>]+name="[Dd][Ee][Ss][Cc][Rr][Ii][Pp][Tt][Ii][Oo][Nn]"[^>]*/?>', raw_doc)
+    # Milestone 2.9: normalize the legacy uppercase `name="DESCRIPTION"` attribute
+    # and drop the unused `id="mDescription"` -- technically-clean consistency
+    # with the other 8 pages' `name="description"`; content is untouched.
+    desc_meta = re.sub(r'name="[Dd][Ee][Ss][Cc][Rr][Ii][Pp][Tt][Ii][Oo][Nn]"', 'name="description"', desc_meta)
+    desc_meta = re.sub(r'\s+id="mDescription"', '', desc_meta)
+    pieces["desc_meta"] = desc_meta
     pieces["canonical"] = extract_one(r'<link[^>]+rel="canonical"[^>]*/?>', raw_doc)
     pieces["uacompat"] = extract_one(r'<meta http-equiv="X-UA-Compatible"[^>]*/?>', raw_doc, required=False) or ""
     pieces["generator"] = extract_one(r'<meta name="Generator"[^>]*/?>', raw_doc, required=False) or ""

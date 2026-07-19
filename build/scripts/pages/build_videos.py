@@ -23,6 +23,7 @@ from pathlib import Path
 BUILD = Path(__file__).resolve().parent.parent.parent  # -> build/
 sys.path.insert(0, str(BUILD / "scripts" / "common"))
 from assemble_page import assemble
+from public_business_rules import replace_area_served, FULL_SAN_DIEGO_AREAS, SOUTH_ORANGE_COUNTY
 
 HEAD_META = """<title>Hardwood Floor Refinishing &amp; Dustless Sanding Videos | San Diego</title>
 <meta name="description" content="Watch real San Diego hardwood floor refinishing, sanding, repair, staining and restoration videos from actual customer projects.">
@@ -53,6 +54,14 @@ assert len(ids) == len(set(ids)), "duplicate YouTube IDs in snapshot"
 
 featured = sorted([v for v in VIDEOS if v["featured"]], key=lambda v: v["featured_rank"])
 library = [v for v in VIDEOS if not v["featured"]]
+
+# Milestone 2.9: one server-rendered hero video above the featured/library
+# sections, for Rich Results video eligibility (a real playable iframe must
+# exist in the initial HTML, not only a click-to-play facade). Reuses the
+# video already established as this page's #1 featured video -- no new
+# research, no change to the other 57 videos or the featured/library grids.
+HERO = featured[0]
+HERO_ID = "https://www.sdhardwoods.com/videos_of_refinishing_process.html#hero-video"
 
 CATEGORY_ORDER = [
     ("dust-contained-refinishing", "Dust-Contained Sanding & Refinishing"),
@@ -155,6 +164,19 @@ with open(BUILD / "data" / "videos_of_refinishing_process" / "jsonld_fixed.html"
 blocks = re.findall(r"<script type=\"application/ld\+json\">.*?</script>", jsonld_raw, re.S)
 kept_blocks = [b for b in blocks if '"VideoObject"' not in b]
 
+# Milestone 2.9: give the CollectionPage a `video` reference to the hero's
+# VideoObject (by @id -- see below), so the hero is connected to the page as
+# its primary video without declaring a second, conflicting VideoObject.
+_new_kept_blocks = []
+for b in kept_blocks:
+    body = re.match(r'<script type="application/ld\+json">\s*(.*?)\s*</script>', b, re.S).group(1)
+    node = json.loads(body)
+    if node.get("@type") == "CollectionPage":
+        node["video"] = {"@id": HERO_ID}
+        b = '<script type="application/ld+json">\n' + json.dumps(node, indent=1, ensure_ascii=False) + '\n</script>'
+    _new_kept_blocks.append(b)
+kept_blocks = _new_kept_blocks
+
 video_objects = []
 for v in VIDEOS:
     obj = {
@@ -166,6 +188,11 @@ for v in VIDEOS:
         "contentUrl": v["watch_url"],
         "embedUrl": v["embed_url"],
     }
+    if v["id"] == HERO["id"]:
+        # The one primary VideoObject, connected to the page via
+        # CollectionPage.video above -- same entry as its ItemList position,
+        # not a second duplicate declaration.
+        obj["@id"] = HERO_ID
     desc = re.sub(r"\s+", " ", (v.get("site_description") or v.get("description") or "")).strip()
     if desc:
         obj["description"] = desc[:300]
@@ -190,6 +217,11 @@ video_itemlist = {
 }
 video_graph = json.dumps(video_itemlist, indent=1, ensure_ascii=False)
 JSONLD = "\n".join(kept_blocks) + '\n<script type="application/ld+json">\n' + video_graph + "\n</script>"
+# Milestone 2.9: this page's #local declaration had no areaServed at all --
+# add the complete, centralized San Diego + South Orange County list so the
+# shared entity carries the full location footprint on every page it's
+# declared on, not just the homepage.
+JSONLD = replace_area_served(JSONLD, FULL_SAN_DIEGO_AREAS + SOUTH_ORANGE_COUNTY)
 
 # ---------------- page ----------------
 PAGE_CSS = """<style>
@@ -324,6 +356,10 @@ PAGE_JS = """<script>
 })();
 </script>"""
 
+HERO_TITLE = esc(display_title(HERO))
+HERO_DESC = esc(re.sub(r"\s+", " ", (HERO.get("site_description") or HERO.get("description") or "")).strip())
+HERO_IFRAME_SRC = HERO["embed_url"] + "?rel=0&modestbranding=1&playsinline=1"
+
 MAIN = f"""{PAGE_CSS}
 <section class="hero">
   <div class="kicker">Est. 1990 &bull; San Diego's Finest Hardwood Flooring Specialist</div>
@@ -333,6 +369,18 @@ MAIN = f"""{PAGE_CSS}
     <a class="btn btn-call" href="sms:+18586990072">Text Photos for a Free Assessment</a>
     <a class="btn btn-outline" href="tel:+18586990072">&#9742; Call 858-699-0072</a>
   </div>
+</section>
+
+<section class="block" id="hero-video">
+  <p class="eyebrow">Watch Now</p>
+  <h2>{HERO_TITLE}</h2>
+  <div class="video-frame">
+    <div style="position:relative;padding-top:56.25%;height:0;overflow:hidden;">
+      <iframe src="{esc(HERO_IFRAME_SRC)}" title="{HERO_TITLE}" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe>
+    </div>
+  </div>
+  <p class="lede" style="margin-top:16px;">{HERO_DESC}</p>
+  <p class="vid-meta">{nice_date(HERO["publish_date"])} &bull; {esc(HERO["duration_text"])} &bull; <a class="vid-yt-link" href="{esc(HERO["watch_url"])}" target="_blank" rel="noopener">Watch on YouTube &#8599;</a></p>
 </section>
 
 <section class="block" id="featured-videos">

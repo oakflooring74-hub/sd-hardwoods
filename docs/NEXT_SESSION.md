@@ -2,6 +2,41 @@
 
 Read this file first when picking this project back up — **together with `docs/PROJECT_OPERATING_MANUAL.md` (the permanent governing document, added 2026-07-18) and `docs/PROJECT_DECISIONS.md` (binding decisions + standing blockers)**. This file links to everything else and tells you what's done, what's approved next, and what to ask the owner before doing anything.
 
+## Milestone 2.9 — prelaunch SEO & structured-data pass (2026-07-19)
+
+Full record of the durable rules: `docs/PROJECT_DECISIONS.md` → "Service-area & metadata rules
+(Milestone 2.9)". Headlines:
+
+- **Fixed a real regression from 2.8:** the prior milestone's South Orange County expansion had
+  landed visibly on 5 pages and inside multiple per-page `Service.areaServed` arrays, plus used
+  an OC city list that didn't match the owner's latest exact 13-city list. Both fixed — OC now
+  lives only on the shared `#local` entity's `areaServed`, never visible, never per-page.
+- **New centralized service-area source**: `build/data/seo/service_areas.json` — the owner's
+  detailed San Diego regional/enclave lists, merged with every San Diego area already in the
+  site's data (owner instruction: never remove San Diego areas, only add — El Cajon/Chula
+  Vista/National City/Imperial Beach/Bonita all deliberately kept), plus the exact South OC
+  list. Shared `#local` entity now carries 174 areas (161 SD + 13 OC) identically on all 13
+  pages (`replace_area_served()` in `public_business_rules.py`).
+- **Deep-cleaning page**: title/meta description/H1 replaced with owner-exact text (also fixed
+  a live "dust-free" claims-policy violation in the old meta description).
+- **Videos page**: one server-rendered hero `<iframe>` added above the featured/library
+  sections (reuses the existing featured-rank-1 video, `Jv1KsJndmww`) — present in initial HTML,
+  not click-to-play. Linked into schema via `CollectionPage.video` → the hero's `ItemList`
+  `@id`, no duplicate `VideoObject`. All 58 other videos, filters, and modal untouched.
+- **Meta description casing** normalized (`DESCRIPTION`→`description`, dropped stray
+  `id="mDescription"`) on blog/gallery1/gallery2/gallery3/deep-cleaning — content unchanged.
+- **QA**: double build byte-identical; all 13 pages' JSON-LD parses, exactly one full `#local`
+  declaration each, zero OC in any per-page `Service`, zero visible OC/wealth-language anywhere;
+  all 58 video IDs still present; `git diff --check` clean.
+- **Flagged, not fixed (out of this milestone's scope):** "dust-free" claims-policy wording
+  still appears in real gallery captions/alt text on the deep-cleaning page (pre-existing,
+  extracted from frozen raw-source records) and in a couple of other pages' video/image
+  metadata (e.g. gallery4's video description, about_us's FAQ "What is dust-free sanding?").
+  Worth a dedicated claims-language pass in a future session.
+- **Not regenerated:** `build/data/media/assets.json` / `placements/*.json` were already stale
+  before this session (per the 2.7 note below) and still are — regenerate before the next
+  media-facts session; not touched here.
+
 ## Milestone 2.7 — COMPLETE, PUSHED to `origin/redesign` (2026-07-19)
 
 **Homepage featured-image metadata (images 5–90).** Owner facts source:

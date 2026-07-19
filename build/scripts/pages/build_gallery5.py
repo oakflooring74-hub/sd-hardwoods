@@ -18,6 +18,7 @@ from pathlib import Path
 BUILD = Path(__file__).resolve().parent.parent.parent  # -> build/
 sys.path.insert(0, str(BUILD / "scripts" / "common"))
 from assemble_page import assemble, gallery_progress_html
+from public_business_rules import replace_area_served, FULL_SAN_DIEGO_AREAS, SOUTH_ORANGE_COUNTY
 
 DATA = BUILD / "data" / "recent_project_gallery_5"
 
@@ -29,6 +30,12 @@ with open(DATA / "vcard.txt", encoding="utf-8") as f:
 
 with open(DATA / "jsonld.html", encoding="utf-8") as f:
     JSONLD = f.read()
+# Milestone 2.9: this page's #local declaration had no areaServed at all --
+# add the complete, centralized San Diego + South Orange County list so the
+# shared entity carries the full location footprint on every page it's
+# declared on, not just the homepage. This page's own Service.areaServed
+# (including "El Cajon", a real target area per owner direction) is untouched.
+JSONLD = replace_area_served(JSONLD, FULL_SAN_DIEGO_AREAS + SOUTH_ORANGE_COUNTY)
 
 HEAD_META = """<title>San Diego Hardwood Flooring Project Gallery | Expert Restoration, Repairs, Custom Installation &amp; Specialty Finishes</title>
 <meta name="description" content="View real San Diego hardwood floor refinishing, repair, restoration and installation projects with photographs and detailed project information.">

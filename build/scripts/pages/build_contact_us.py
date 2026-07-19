@@ -4,6 +4,7 @@ from pathlib import Path
 BUILD = Path(__file__).resolve().parent.parent.parent  # -> build/
 sys.path.insert(0, str(BUILD / "scripts" / "common"))
 from assemble_page import assemble
+from public_business_rules import replace_area_served, FULL_SAN_DIEGO_AREAS, SOUTH_ORANGE_COUNTY
 
 HEAD_META = """<title>Contact San Diego Hardwoods | Free Phone &amp; Photo Assessment</title>
 <meta name="description" content="Call, text floor photos or email San Diego Hardwoods for a free preliminary phone and photo assessment of flooring service needs.">
@@ -19,6 +20,11 @@ HEAD_META = """<title>Contact San Diego Hardwoods | Free Phone &amp; Photo Asses
 
 with open(BUILD / "data" / "contact_us" / "jsonld.html", encoding="utf-8") as f:
     JSONLD = f.read()
+# Milestone 2.9: this page's #local declaration had no areaServed at all --
+# add the complete, centralized San Diego + South Orange County list so the
+# shared entity carries the full location footprint on every page it's
+# declared on, not just the homepage.
+JSONLD = replace_area_served(JSONLD, FULL_SAN_DIEGO_AREAS + SOUTH_ORANGE_COUNTY)
 
 # Milestone 2.6: the shared GA4 implementation (build/chrome/analytics.html) is
 # injected by assemble() -- leave this empty; never add a per-page loader.
@@ -38,7 +44,7 @@ MAIN = """
 
 <section class="block">
   <h2>Start With a Free Phone &amp; Photo Assessment &mdash; Anywhere in San Diego County</h2>
-  <p class="lede">Based in Carmel Valley, San Diego 92130, we restore and repair solid and engineered hardwood and bamboo flooring for homeowners throughout San Diego County, with select projects in South Orange County, including San Clemente, Dana Point, Laguna Beach, and Newport Beach. Text clear overall and close-up photos of your floors for the fastest initial review &mdash; you are also welcome and encouraged to call, and photos may be emailed when texting is not practical.</p>
+  <p class="lede">Based in Carmel Valley, San Diego 92130, we restore and repair solid and engineered hardwood and bamboo flooring for homeowners throughout San Diego County. Text clear overall and close-up photos of your floors for the fastest initial review &mdash; you are also welcome and encouraged to call, and photos may be emailed when texting is not practical.</p>
   <div class="info-grid">
     <div class="card">
       <h3>1. Text Photos for a Free Assessment</h3>

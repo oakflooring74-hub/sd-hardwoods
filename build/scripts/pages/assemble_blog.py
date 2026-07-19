@@ -284,7 +284,7 @@ main_html = f'''<main>
 
 </main>'''
 
-head_extra = f'''<meta name="DESCRIPTION" id="mDescription" content="{meta_desc}">
+head_extra = f'''<meta name="description" content="{meta_desc}">
 	<link href="{canonical}" rel="canonical">
 	<link href="https://s.turbifycdn.com/lm/lib/smb/css/hosting/yss/v2/mc_global.195798.css" id="globalCSS" media="screen" rel="stylesheet" type="text/css">
 	<link href="https://s.turbifycdn.com/lm/themes/yhoo/ga/evident/vanilla_bean/palette1/1.0.1/en-us/theme.css" id="themeCSS" media="screen" rel="stylesheet" type="text/css">

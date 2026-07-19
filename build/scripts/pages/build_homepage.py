@@ -5,8 +5,9 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "common"))
 from assemble_page import assemble
 from public_business_rules import (
-    sanitize_public_jsonld, augment_local_entity, build_webpage_service_graph,
-    PRIORITY_COASTAL_SD, SOUTH_ORANGE_COUNTY,
+    sanitize_public_jsonld, augment_local_entity, replace_area_served,
+    build_webpage_service_graph, PRIORITY_COASTAL_SD, FULL_SAN_DIEGO_AREAS,
+    SOUTH_ORANGE_COUNTY,
 )
 
 BUILD = Path(__file__).resolve().parent.parent.parent  # -> build/
@@ -46,6 +47,13 @@ HEAD_META = f"""<title>{title}</title>
 # see the YouTube handle already normalized before it dedupes sameAs.
 JSONLD = sanitize_public_jsonld("\n".join(jsonld_blocks))
 JSONLD = augment_local_entity(JSONLD)
+# Milestone 2.9: the homepage's #local entity carried a legacy, since-superseded
+# areaServed array (missing the owner's detailed coastal/estate enclaves and South
+# Orange County, and using a different OC list than the rest of the site). Replace
+# it wholesale with the centralized list -- augment_local_entity() above only
+# appends list fields, which would leave the old array in place alongside the new
+# one instead of correcting it.
+JSONLD = replace_area_served(JSONLD, FULL_SAN_DIEGO_AREAS + SOUTH_ORANGE_COUNTY)
 
 # Schema milestone (2026-07-19): add a WebPage + Service (+ OfferCatalog)
 # graph naming the site's real core service categories, built from the
@@ -69,7 +77,7 @@ _homepage_graph = build_webpage_service_graph(
         "Engineered hardwood installation", "Hardwood floor deep cleaning",
         "Maintenance recoating",
     ],
-    area_served=["San Diego County"] + PRIORITY_COASTAL_SD + SOUTH_ORANGE_COUNTY,
+    area_served=["San Diego County"] + PRIORITY_COASTAL_SD,
     offer_catalog_name="Complete Hardwood & Bamboo Flooring Services",
     offer_items=[
         ("Dust-Contained Refinishing & Sanding",

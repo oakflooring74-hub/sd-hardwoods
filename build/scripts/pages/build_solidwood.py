@@ -16,9 +16,7 @@ from pathlib import Path
 BUILD = Path(__file__).resolve().parent.parent.parent  # -> build/
 sys.path.insert(0, str(BUILD / "scripts" / "common"))
 from assemble_page import assemble
-from public_business_rules import (
-    build_service_page_jsonld, PRIORITY_COASTAL_SD, SOUTH_ORANGE_COUNTY,
-)
+from public_business_rules import build_service_page_jsonld, PRIORITY_COASTAL_SD
 
 DATA = BUILD / "data" / "solid_wood_floor_photo_gallery"
 
@@ -31,14 +29,10 @@ with open(DATA / "projects.json", encoding="utf-8") as f:
 PROJECTS = pdata["projects"]
 INTRO = pdata["intro"]
 SOURCING = pdata["sourcing"]
-# Service-area milestone (2026-07-19): original OUTRO preserved verbatim
-# (from the frozen extraction); this appends one new sentence extending it
-# to South Orange County, matching the wording already approved on
-# contact_us.html.
-OUTRO = pdata["outro"] + (
-    " We also complete select installation projects throughout South Orange County, "
-    "including San Clemente, Dana Point, and Newport Beach."
-)
+# Milestone 2.9: the South Orange County sentence added in 2.8 is removed --
+# per owner direction, OC appears only in the shared #local schema entity,
+# never in visible copy. OUTRO is the original, frozen-extraction text.
+OUTRO = pdata["outro"]
 
 # every image referenced by a project must exist in the frozen extraction
 for p in PROJECTS:
@@ -76,7 +70,7 @@ JSONLD = build_service_page_jsonld(
         "Wide-plank engineered flooring installation", "Custom stain and finish application",
         "Dust-contained sanding", "Mill-direct hardwood flooring material sourcing",
     ],
-    area_served=["San Diego County"] + PRIORITY_COASTAL_SD + SOUTH_ORANGE_COUNTY,
+    area_served=["San Diego County"] + PRIORITY_COASTAL_SD,
     offer_catalog_name="Solid & Engineered Wood Floor Installation Services",
     offer_items=[
         ("Solid Wood Strip & Plank Installation", "Installation of real solid wood strip and plank flooring, nailed down and finished on site."),
