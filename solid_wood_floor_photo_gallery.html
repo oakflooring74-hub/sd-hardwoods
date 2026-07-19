@@ -966,7 +966,8 @@ html.sdh-lock,html.sdh-lock body{overflow:hidden;}
     var href = a.getAttribute("href") || "";
     if(!IMG_RE.test(href)) return;
     var img = a.querySelector("img");
-    items.push({ href: href, alt: img ? (img.getAttribute("alt") || "") : "", link: a });
+    var alt = img ? (img.getAttribute("alt") || "") : "";
+    items.push({ href: href, alt: alt, caption: a.getAttribute("data-caption") || alt, link: a });
   });
   if(!items.length) return;
 
@@ -985,7 +986,7 @@ html.sdh-lock,html.sdh-lock body{overflow:hidden;}
     var item = items[current];
     lbImg.src = item.href;
     lbImg.alt = item.alt;
-    lbCaption.textContent = item.alt;
+    lbCaption.textContent = item.caption;
     lbCounter.textContent = (current + 1) + " / " + items.length;
   }
   function open(i){

@@ -65,7 +65,10 @@ for idx, im in enumerate(imgs, start=1):
     cls = im["class"]
     href = im["href"] or src
     cls_attr = f' class="{esc(cls)}"' if cls else ""
-    figs.append(f'<figure><span class="gallery-badge">#{idx}</span><a href="{href}"><img src="{src}" alt="{alt}"{cls_attr} loading="lazy"></a></figure>')
+    # Milestone 2.7: owner-approved visible lightbox caption, distinct from the alt
+    # text. The lightbox (chrome/lightbox.html) prefers data-caption over alt.
+    cap_attr = f' data-caption="{esc(im["caption"])}"' if im.get("caption") else ""
+    figs.append(f'<figure><span class="gallery-badge">#{idx}</span><a href="{href}"{cap_attr}><img src="{src}" alt="{alt}"{cls_attr} loading="lazy"></a></figure>')
 gallery_html = "\n".join(figs)
 
 with open(DATA / "main_content.html", encoding="utf-8") as f:

@@ -1,8 +1,35 @@
-# Start here — project status as of 2026-07-18
+# Start here — project status as of 2026-07-19
 
 Read this file first when picking this project back up — **together with `docs/PROJECT_OPERATING_MANUAL.md` (the permanent governing document, added 2026-07-18) and `docs/PROJECT_DECISIONS.md` (binding decisions + standing blockers)**. This file links to everything else and tells you what's done, what's approved next, and what to ask the owner before doing anything.
 
-## Milestone 2.6 — COMPLETE, COMMITTED LOCALLY on `redesign` (2026-07-18, NOT pushed)
+## Milestone 2.7 — COMPLETE, PUSHED to `origin/redesign` (2026-07-19)
+
+**Homepage featured-image metadata (images 5–90).** Owner facts source:
+`homepage_image_owner_facts_5-90.yaml` (repo root, untracked owner input).
+
+- **Authoritative data:** `build/data/index/gallery.json` now carries owner-approved
+  `alt` + new `caption` field for the 85 project images after the locked Tricia Walnut
+  set (#1–#4 untouched, byte-identical output). Captions were refined per image after
+  visually inspecting all 86 photos (view/room/angle wording only; no invented facts).
+- **Separate visible caption:** `build_homepage.py` emits `data-caption` on each gallery
+  link; shared `build/chrome/lightbox.html` shows `data-caption` and falls back to alt
+  everywhere else (only lightbox change on the other 12 pages — behavior identical there).
+- **Image #30 removed** (old numbering): visually confirmed near-duplicate of #17 — same
+  Rancho Santa Fe wet-coat corridor shot 2 seconds apart (`20141113_181549` vs `_181551`).
+  Generator renumbers badges automatically → homepage now #1–#89; gallery lede count
+  updated "Ninety" → "Eighty-nine". No file deleted, no other page affected.
+- **Image 71 location** published as owner-confirmed **San Elijo Hills**.
+- **Bird Rock #10 and Bankers Hill #53–55 do NOT name Traffic HD** (unconfirmed, per YAML).
+- **Factual note for owner:** YAML describes old #83 as an equipment/dust-containment view,
+  but the photo shows a finished columned room with French doors (same Mission Hills
+  project era; shot minutes after #72's photo). Caption written to match what is visible.
+- **QA:** deterministic rebuild verified; 89 sequential badges; unique alts; Playwright
+  desktop+mobile lightbox QA passed (captions on #5/#89, alt fallback on locked #4,
+  counter "…/ 89", prev/next/Escape) — `qa-screenshots/m2-7-*.png`. Note: the
+  `generate_media_inventory.py` snapshot (`build/data/media/placements/*.json`) predates
+  this milestone; regenerate before the next media-facts session.
+
+## Milestone 2.6 — COMPLETE, PUSHED to `origin/redesign` (2026-07-18)
 
 **Public business rules, assessment conversion, YouTube metadata, GA4.** Full record:
 `docs/2026-07-milestone-2.6-report.md`; durable owner decisions in
