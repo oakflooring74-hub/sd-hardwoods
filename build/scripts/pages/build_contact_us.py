@@ -5,7 +5,7 @@ BUILD = Path(__file__).resolve().parent.parent.parent  # -> build/
 sys.path.insert(0, str(BUILD / "scripts" / "common"))
 from assemble_page import assemble
 
-HEAD_META = """<title>Contact San Diego Hardwoods | Free Estimates for Hardwood Floor Refinishing, Repairs &amp; Installation</title>
+HEAD_META = """<title>Contact San Diego Hardwoods | Free Phone &amp; Photo Assessment</title>
 <meta name="description" content="Call, text floor photos or email San Diego Hardwoods for a free preliminary phone and photo assessment of flooring service needs.">
 <link href="https://www.sdhardwoods.com/contact_us.html" rel="canonical">
 <link href="https://www.sdhardwoods.com/favicon.ico" rel="icon" type="image/x-icon">
@@ -20,8 +20,8 @@ HEAD_META = """<title>Contact San Diego Hardwoods | Free Estimates for Hardwood 
 with open(BUILD / "data" / "contact_us" / "jsonld.html", encoding="utf-8") as f:
     JSONLD = f.read()
 
-# Milestone 2.4: obsolete Universal Analytics (UA-20793161-1 / _gaq / ga.js) removed
-# site-wide. GA4 is blocked pending the owner's confirmed Measurement ID.
+# Milestone 2.6: the shared GA4 implementation (build/chrome/analytics.html) is
+# injected by assemble() -- leave this empty; never add a per-page loader.
 GA = ""
 
 VCARD = "SAN DIEGO LICENSED WOOD FLOOR RESTORATION/REFINISHING CONTRACTOR 858-699-0072 EXPERIENCE EXCEPTIONAL DUSTLESS HARDWOOD AND BAMBOO FLOOR REFINISHING IN SAN DIEGO. ALL WORK PERFORED BY A HIGHLY EXPERIENCED FLOORING EXPERT WITH OVER 30 YEARS EXPERIENCE RESTORING AND REPAIRING SOLID AND ENGINEERED HARDWOOD AND BAMBOO FLOORING. CALL TODAY TO SCHEDULE A CONSULTATION. TEXT PHOTOS OF YOUR PROJECT FOR AN IMMEDIATE ASSESSMENT."
@@ -31,24 +31,29 @@ MAIN = """
   <div class="kicker">Est. 1990 &bull; San Diego's Finest Hardwood Flooring Specialist</div>
   <h1>Contact San Diego Hardwoods &mdash; Hardwood Floor Refinishing, Installation, Deep Cleaning, Repairs &amp; Restoration in San Diego</h1>
   <div class="cta-row">
-    <a class="btn btn-call" href="tel:+18586990072">&#9742; Call 858-699-0072</a>
-    <a class="btn btn-outline" href="sms:+18586990072">Text Floor Photos</a>
+    <a class="btn btn-call" href="sms:+18586990072">Text Photos for a Free Assessment</a>
+    <a class="btn btn-outline" href="tel:+18586990072">&#9742; Call 858-699-0072</a>
   </div>
 </section>
 
 <section class="block">
-  <h2>Call or Text Today for a Free Hardwood Flooring Phone Assessment &mdash; Anywhere in San Diego County</h2>
-  <p class="lede">Based in San Diego (92130), we restore and repair solid and engineered hardwood and bamboo flooring for homeowners throughout San Diego County, with select projects in Orange County. Texting photos of your floors is the fastest way to get an experienced specialist's assessment of your project &mdash; usually the same day.</p>
+  <h2>Start With a Free Phone &amp; Photo Assessment &mdash; Anywhere in San Diego County</h2>
+  <p class="lede">Based in Carmel Valley, San Diego 92130, we restore and repair solid and engineered hardwood and bamboo flooring for homeowners throughout San Diego County, with select projects in Orange County. Text clear overall and close-up photos of your floors for the fastest initial review &mdash; you are also welcome and encouraged to call, and photos may be emailed when texting is not practical.</p>
   <div class="info-grid">
     <div class="card">
-      <h3>Call or Text</h3>
-      <p style="font-size:22px;font-weight:700;"><a href="tel:+18586990072" style="color:var(--cta-red);">Call 858-699-0072</a></p>
-      <p style="font-size:18px;font-weight:700;"><a href="sms:+18586990072" style="color:var(--cta-red);">Text Floor Photos</a></p>
-      <p>Texting clear photos of your floors is the fastest way to get expert guidance.</p>
+      <h3>1. Text Photos for a Free Assessment</h3>
+      <p style="font-size:18px;font-weight:700;"><a href="sms:+18586990072" style="color:var(--cta-red);">Text Floor Photos to 858-699-0072</a></p>
+      <p>Texting clear overall and close-up photos of your floors is the fastest way to start your Free Phone &amp; Photo Assessment &mdash; usually with a same-day initial review.</p>
     </div>
     <div class="card">
-      <h3>Email Project Photos or Questions</h3>
+      <h3>2. Call to Discuss Your Floor</h3>
+      <p style="font-size:22px;font-weight:700;"><a href="tel:+18586990072" style="color:var(--cta-red);">Call 858-699-0072</a></p>
+      <p>You are always welcome to simply call and talk through your floors with an experienced specialist.</p>
+    </div>
+    <div class="card">
+      <h3>3. Email Photos</h3>
       <p style="font-size:18px;"><a href="mailto:sandiegohardwoods@gmail.com" style="color:var(--cta-red);font-weight:700;">sandiegohardwoods@gmail.com</a></p>
+      <p>When texting is not practical, email your photos or questions instead.</p>
     </div>
     <div class="card">
       <h3>Response Time</h3>

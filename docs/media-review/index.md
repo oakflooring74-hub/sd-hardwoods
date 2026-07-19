@@ -860,7 +860,7 @@ Owner facts still needed: project_name, property_location, city_or_neighborhood,
 | Page position | Real San Diego Hardwood Floor Projects |
 | Current heading | Real San Diego Hardwood Floor Projects |
 | Current caption | — |
-| Current alt text | historical hardwood floor repair and san diego hardwood floor refinishing. del mar bamboo floor repair and dustless sanding with free estimates and cherry bleaching to get red out of french oak after deep cleaning |
+| Current alt text | historical hardwood floor repair and san diego hardwood floor refinishing. del mar bamboo floor repair and dustless sanding with a free phone and photo assessment and cherry bleaching to get red out of french oak after deep cleaning |
 | Full-size link | /PEGGY ENCINITAS49.jpg |
 | Verification | **needs_owner_review** |
 | Status | present |

@@ -36,8 +36,8 @@ HEAD_META = """<title>Hardwood Floor Refinishing &amp; Dustless Sanding Videos |
 <link href="https://s.turbifycdn.com/lm/lib/smb/css/hosting/yss/v2/mc_global.195798.css" id="globalCSS" media="screen" rel="stylesheet" type="text/css">
 <link href="https://s.turbifycdn.com/lm/themes/yhoo/ga/evident/vanilla_bean/palette1/1.0.1/en-us/theme.css" id="themeCSS" media="screen" rel="stylesheet" type="text/css">"""
 
-# Milestone 2.4: obsolete Universal Analytics (UA-20793161-1 / _gaq / ga.js) removed
-# site-wide. GA4 is blocked pending the owner's confirmed Measurement ID.
+# Milestone 2.6: the shared GA4 implementation (build/chrome/analytics.html) is
+# injected by assemble() -- leave this empty; never add a per-page loader.
 GA = ""
 
 VCARD = "THE BEST HARDWOOD FLOOR REFINISHING IN SAN DIEGO CALL TODAY 858-699-0072 LICENSED CONTRACTOR WITH OVER 30 YEARS EXPERIENCE WITH ALL TYPES OF SOLID AND ENGINEERED WOOD FLOORS. ALL WORK IS GUARANTEED AND PERFORMED BY A SMALL CREW OF SKILLED AND COURTEOUS CRAFTSMEN. TEXT PHOTOS FOR QUICK ASSESSMENT OF YOUR FLOORING PROJECT. CSLB LICENSED FLOORING CONTRACTOR IN SAN DIEGO. DUST CONTAINMENT SANDING EQUIPMENT USED FOR ALL PHASES OF EACH PROJECT."
@@ -68,6 +68,14 @@ def esc(s):
     return html.escape(s or "", quote=True)
 
 
+def display_title(v):
+    """Milestone 2.6: the page (and its VideoObject names) show
+    `site_display_title` when the snapshot carries one -- used only where the
+    live YouTube title is blank or date-only, with a restrained owner-confirmed
+    fallback. The original live title is always preserved in `title`."""
+    return v.get("site_display_title") or v["title"]
+
+
 def nice_date(iso):
     try:
         y, m, _ = iso.split("-")
@@ -95,7 +103,7 @@ def video_card(v, big=False):
     if v.get("gallery_href"):
         gallery_html = (f'<a class="vid-gallery" href="{esc(v["gallery_href"])}">'
                         f'{esc(v["gallery_label"])} &rarr;</a>')
-    t = esc(v["title"])
+    t = esc(display_title(v))
     return f'''<article class="{cls}" data-cat="{v["category"]}" data-short="{'1' if v["is_short"] else '0'}">
   <button type="button" class="vid-thumb" data-yt="{v["id"]}" data-vtitle="{t}" aria-label="Play video: {t}">
     <img src="{esc(v["thumbnail_url"])}" alt="" loading="lazy" width="480" height="360">
@@ -151,7 +159,7 @@ video_objects = []
 for v in VIDEOS:
     obj = {
         "@type": "VideoObject",
-        "name": v["title"],
+        "name": display_title(v),
         "thumbnailUrl": v["thumbnail_url"],
         "uploadDate": v["publish_date"],
         "duration": v["duration_iso8601"],
@@ -306,8 +314,8 @@ MAIN = f"""{PAGE_CSS}
   <h1>Real Hardwood Floor Refinishing, Dustless Sanding &amp; Restoration Videos</h1>
   <p>This page documents <strong>real San Diego Hardwoods projects</strong> &mdash; every public video from our YouTube channel in one place. Watch our equipment at work on actual customer floors: dust-contained sanding with the <strong>Bona DCS 2.0 containment system</strong>, hardwood floor repairs, restoration of vintage and historic floors, custom staining, intensive deep cleaning and recoating, installation, and premium Bona finish work &mdash; the same craftsmanship behind our refinishing, restoration, and installation projects across San Diego County.</p>
   <div class="cta-row">
-    <a class="btn btn-call" href="tel:+18586990072">&#9742; Call 858-699-0072 for a Free Phone Assessment</a>
-    <a class="btn btn-outline" href="sms:+18586990072">Text Floor Photos</a>
+    <a class="btn btn-call" href="sms:+18586990072">Text Photos for a Free Assessment</a>
+    <a class="btn btn-outline" href="tel:+18586990072">&#9742; Call 858-699-0072</a>
   </div>
 </section>
 
@@ -338,7 +346,7 @@ MAIN = f"""{PAGE_CSS}
 <section class="block">
   <h2>Why Homeowners Throughout San Diego Watch Our Videos Before Hiring a Hardwood Floor Contractor</h2>
   <p class="lede">For more than <strong>35 years</strong>, San Diego Hardwoods has helped homeowners restore <strong>hardwood, engineered hardwood, bamboo, cork, and historic wood floors</strong> throughout San Diego County. These videos feature actual customer projects&mdash;not stock footage or demonstrations&mdash;so you can see our <strong>dust-contained sanding equipment</strong>, hardwood floor repair techniques, professional restoration process, and premium Bona finishing systems being used in real homes. All work is guaranteed, performed by a small crew of skilled and courteous craftsmen, and backed by a CSLB-licensed San Diego flooring contractor.</p>
-  <p class="lede">Whether your floors need <strong>hardwood floor refinishing</strong>, repairs, deep cleaning, recoating, color changes, engineered hardwood restoration, or complete hardwood floor installation, we provide free phone assessments throughout <strong>La Jolla, Del Mar, Rancho Santa Fe, Encinitas, Carmel Valley, Solana Beach, Point Loma, Mission Hills, Coronado, Poway, Escondido</strong>, and communities across San Diego County.</p>
+  <p class="lede">Whether your floors need <strong>hardwood floor refinishing</strong>, repairs, deep cleaning, recoating, color changes, engineered hardwood restoration, or complete hardwood floor installation, we provide free phone &amp; photo assessments throughout <strong>La Jolla, Del Mar, Rancho Santa Fe, Encinitas, Carmel Valley, Solana Beach, Point Loma, Mission Hills, Coronado, Poway, Escondido</strong>, and communities across San Diego County.</p>
 
   <div class="cta-row" style="justify-content:center;">
     <a class="btn btn-call" href="tel:+18586990072">Call 858-699-0072</a>

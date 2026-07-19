@@ -20,9 +20,50 @@ its unusual `recent_project_gallery_5.html` filename; Gallery 3's canonical is t
 - Exact fee-credit sentence (do not alter): "Some or all of the inspection and report fee may
   be credited toward the approved flooring project under written agreement."
 - Contact page stays low-friction lead intake; never carries the full pricing table.
-  Its legacy "Free Estimates" SEO title is deliberately preserved (Milestone 2.2 decision);
-  retitling requires owner sign-off.
+  ~~Its legacy "Free Estimates" SEO title is deliberately preserved~~ — superseded 2026-07-18
+  (Milestone 2.6): the owner signed off on retitling to
+  "Contact San Diego Hardwoods | Free Phone & Photo Assessment" (see below).
 - No automatic litigation/testimony/engineering/lab/legal/appraisal implications anywhere.
+
+## Public-business rules (Milestone 2.6, 2026-07-18) — DURABLE OWNER DECISIONS
+
+1. **Service-area business — no published street address.** San Diego Hardwoods does not
+   publish a street or mailing address anywhere in public output: no `streetAddress`, no
+   public `PostalAddress` schema, no wording implying customers visit a storefront. (The
+   legacy schema's `geo` coordinates and street-address `hasMap` link are removed under the
+   same rule.) Approved public wording: **"Based in Carmel Valley, San Diego 92130"**
+   (consistent with the Google Business Profile). Accurate San Diego County service-area
+   wording stays. Never invent a street address. Frozen `build/raw-source/` snapshots and
+   dated historical reports keep their legacy address data; the build-time filter
+   `build/scripts/common/public_business_rules.py` strips it from every generated page.
+2. **No published contractor license number.** The exact CSLB license number must not appear
+   in generated pages, structured data, active metadata, active generator content, or
+   current operational documentation. Generic truthful wording is approved: "Licensed
+   California flooring contractor", "Licensed, bonded and insured", "CSLB-licensed".
+   (Occurrences in frozen raw-source and dated 2.5-era historical records remain as
+   history only.)
+3. **Official YouTube channel:** `https://www.youtube.com/@sandiegohardwoods` — used in
+   navigation, footer/drawer, structured data (`sameAs`), video data, outbound links, and
+   docs. The `@SD-1974` handle and uppercase `@SANDIEGOHARDWOODS` variant are retired;
+   the build-time filter normalizes any legacy schema occurrence.
+4. **"Free estimate(s)" is banned from public output** (any capitalization). The approved
+   entry service is the **Free Phone & Photo Assessment**, presented with the contact
+   hierarchy: 1) Text Photos for a Free Assessment, 2) Call to Discuss Your Floor,
+   3) Email Photos. Texting photos is preferred; visitors must clearly feel welcome to
+   call; never imply every inquiry requires a paid visit.
+5. **GA4:** Measurement ID `G-L9RDVK6H9W`, implemented once in
+   `build/chrome/analytics.html` (see build/README.md "Analytics"). Transmits ONLY on
+   `www.sdhardwoods.com` / `sdhardwoods.com`; localhost and `*.pages.dev` previews make no
+   Analytics network requests. Conversion events: `phone_call_click`,
+   `text_message_click`, `email_click`, `assessment_cta_click`,
+   `assessment_page_link_click`. No message/photo/visitor-entered contents are collected.
+6. **YouTube titles:** live-channel titles are authoritative and preserved. Where a live
+   title is blank or date-only, curated `site_display_title` (preserved across snapshot
+   refreshes) supplies a restrained display title ("Initial Hardwood Floor Sanding —
+   Project Video", disambiguated by upload date); the owner confirms date-only videos show
+   the initial sanding stage. As of the 2026-07-18 live verification no blank/date-only
+   titles exist; "Sold Cherry" and the "Title:" prefix are still the actual live titles —
+   correct them on YouTube, then re-run `update_youtube_videos.py`.
 
 ## Design lock (Milestones 2–2.3)
 
@@ -47,20 +88,25 @@ visual redesign without an owner-authorized milestone.
 ## Claims policy enforcement (Milestone 2.5)
 
 "Dust-contained" (never "100%"/"dust-free"), no "flawless"/"perfect"/"far exceeds"/"exact
-match", qualified response-time claims. License number 1017549 is published on About.
+match", qualified response-time claims. ~~License number is published on About~~ —
+superseded by Milestone 2.6 rule 2 above: the exact number is NOT published anywhere.
 
 ## Standing blockers (owner input required)
 
-1. GA4 Measurement ID (no analytics until supplied; never invent one).
-2. Public street-address / NAP decision.
-3. Official YouTube channel URL (`@SANDIEGOHARDWOODS` visible vs. `@SD-1974` in
-   assessments-page schema `sameAs`).
-4. Image/video owner facts (media-review workflow).
+1. ~~GA4 Measurement ID~~ — resolved Milestone 2.6 (`G-L9RDVK6H9W`, shared implementation).
+2. ~~Public street-address / NAP decision~~ — resolved Milestone 2.6 (service-area
+   business; "Based in Carmel Valley, San Diego 92130").
+3. ~~Official YouTube channel URL~~ — resolved Milestone 2.6
+   (`https://www.youtube.com/@sandiegohardwoods`).
+4. Image/video owner facts (media-review workflow) — including the unresolved
+   `TRICIA WALNUT27/30/63/76` filename-vs-white-oak conflict (deliberately unchanged).
 5. Assessment visit durations, report-delivery ranges, preparation/access expectations
    (`build/data/assessment/practical_service_facts.json`).
-6. Anonymized report excerpts (`build/data/assessment/report_examples.json`).
-7. YouTube title cleanups ("Title:" prefix, "Sold Cherry", duplicate titles) — fix on
-   YouTube, then rerun `update_youtube_videos.py`.
+6. Anonymized report excerpts (`build/data/assessment/report_examples.json`) — the
+   Milestone 2.6 "What a Professional Evaluation Can Clarify" section uses clearly labeled
+   illustrative examples in the meantime.
+7. YouTube title cleanups ("Title:" prefix, "Sold Cherry", duplicate titles) — verified
+   still live 2026-07-18; fix on YouTube, then rerun `update_youtube_videos.py`.
 
 ## Deployment / launch
 

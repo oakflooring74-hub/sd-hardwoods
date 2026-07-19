@@ -135,7 +135,7 @@
       "primary_search_intent": "Hardwood floor refinishing company / contractors / refinishers (trust and brand validation).",
       "secondary_search_topics": ["San Diego hardwood flooring company", "owner-operated hardwood floor specialist"],
       "gsc_query_themes": ["hardwood floor refinishing company", "hardwood floor refinishing contractors", "hardwood floor refinishers", "hardwood floor refinishing services", "wood floor refinishing services", "San Diego hardwood flooring company", "owner-operated hardwood floor specialist"],
-      "must_remain_visible": ["owner operated since 1990", "35+ years of experience", "California flooring contractor", "license number 1017549 (added Milestone 2.5)", "Bona Certified Craftsman", "licensed, bonded and insured", "second-generation craftsmanship story", "San Diego County service"],
+      "must_remain_visible": ["owner operated since 1990", "35+ years of experience", "California flooring contractor", "CSLB-licensed wording WITHOUT the exact license number (Milestone 2.6 owner decision: the number is not published)", "Bona Certified Craftsman", "licensed, bonded and insured", "second-generation craftsmanship story", "San Diego County service"],
       "belongs_on_other_pages": ["service mechanics and pricing (service pages)"],
       "cannibalization_risks": "Must not read like a large anonymous organization; no unsupported completion-time or perfect-result claims.",
       "internal_link_targets": ["deep-cleaning-hardwood-floors-san-diego.html", "call/SMS CTAs"],
@@ -165,10 +165,10 @@
       "gsc_query_themes": [],
       "must_remain_visible": ["call action", "Text Floor Photos action", "email action", "free phone & photo assessment as the starting point", "referral to the assessments page", "same-day response wording (qualified with 'typically')"],
       "belongs_on_other_pages": ["full assessment pricing architecture (assessment page only)"],
-      "cannibalization_risks": "Must not duplicate the assessment pricing table. Title's 'Free Estimates' wording is the legacy SEO title deliberately preserved (Milestone 2.2 decision); body copy carries the accurate free-phone-assessment framing.",
+      "cannibalization_risks": "Must not duplicate the assessment pricing table. Title retitled in Milestone 2.6 by owner decision to 'Contact San Diego Hardwoods | Free Phone & Photo Assessment' ('free estimate(s)' is banned from public output); body copy carries the Text -> Call -> Email hierarchy.",
       "internal_link_targets": ["/floor-assessments-inspections", "deep-cleaning-hardwood-floors-san-diego.html"],
-      "factual_limitations": "Never imply every in-home visit is free.",
-      "owner_review_required": ["Whether the legacy 'Free Estimates' title should eventually be retitled (needs owner sign-off; it has snippet history)"]
+      "factual_limitations": "Never imply every in-home visit is free; never imply any inquiry requires a paid visit.",
+      "owner_review_required": []
     },
     {
       "page_file": "floor-assessments-inspections.html",

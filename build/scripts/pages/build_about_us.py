@@ -26,8 +26,8 @@ HEAD_META = read(SCRATCH + r"\head_meta.html") + """
 
 JSONLD = read(SCRATCH + r"\jsonld.html")
 
-# Milestone 2.4: obsolete Universal Analytics (UA-20793161-1 / _gaq / ga.js) removed
-# site-wide. GA4 is blocked pending the owner's confirmed Measurement ID.
+# Milestone 2.6: the shared GA4 implementation (build/chrome/analytics.html) is
+# injected by assemble() -- leave this empty; never add a per-page loader.
 GA = ""
 
 VCARD = read(SCRATCH + r"\vcard.txt").strip()
@@ -102,7 +102,7 @@ MAIN = """
     </div>
     <div class="card">
       <h3>Professional Credentials</h3>
-      <p>Every project is personally supervised by an experienced flooring craftsman. San Diego Hardwoods is a CSLB-licensed, bonded and insured California flooring contractor &mdash; <strong>California contractor license #1017549</strong> &mdash; and a proud member of the Bona Certified Craftsman Program. All work is guaranteed and performed by a small crew of skilled, courteous craftsmen &mdash; and dust-containment sanding equipment is used on every phase of every project.</p>
+      <p>Every project is personally supervised by an experienced flooring craftsman. San Diego Hardwoods is a CSLB-licensed, bonded and insured California flooring contractor and a proud member of the Bona Certified Craftsman Program. All work is guaranteed and performed by a small crew of skilled, courteous craftsmen &mdash; and dust-containment sanding equipment is used on every phase of every project.</p>
     </div>
     <div class="card">
       <h3>Specialty Hardwood Flooring Services</h3>
@@ -125,8 +125,8 @@ MAIN = """
   </div>
 
   <div class="cta-row" style="justify-content:center;margin-top:30px;">
-    <a class="btn btn-call" href="tel:+18586990072">Call 858-699-0072 for Your Free Phone Assessment</a>
-    <a class="btn btn-outline" href="sms:+18586990072">Text Floor Photos</a>
+    <a class="btn btn-call" href="sms:+18586990072">Text Photos for a Free Assessment</a>
+    <a class="btn btn-outline" href="tel:+18586990072">Call to Discuss Your Floor</a>
   </div>
 </section>
 """

@@ -1,6 +1,8 @@
 import sys
 from pathlib import Path
 
+from public_business_rules import sanitize_public_jsonld
+
 # build/scripts/common/assemble_page.py -> build/chrome
 CHROME = str(Path(__file__).resolve().parent.parent.parent / "chrome")
 
@@ -51,6 +53,13 @@ def gallery_progress_html(current_index):
 </nav>'''
 
 def assemble(head_meta_html, jsonld_html, ga_html, vcard_desc, scroll_topic, main_html, out_path):
+    # Milestone 2.6: every page's schema passes through the shared
+    # public-business-rules filter (no PostalAddress/street address, official
+    # YouTube channel), and the one shared GA4 implementation
+    # (chrome/analytics.html) is injected here. Per-page ga_html stays empty --
+    # never add a second analytics loader to an individual page.
+    jsonld_html = sanitize_public_jsonld(jsonld_html)
+    analytics = read(CHROME + r"\analytics.html")
     site_css = read(CHROME + r"\site_css.html")
     dm_scripts = read(CHROME + r"\darkmode_boot_scripts.html")
     top = read(CHROME + r"\top.html").replace("__VCARD_DESC__", vcard_desc)
@@ -64,7 +73,7 @@ def assemble(head_meta_html, jsonld_html, ga_html, vcard_desc, scroll_topic, mai
 <meta name="viewport" content="width=device-width, initial-scale=1">
 {head_meta_html}
 {jsonld_html}
-{ga_html}
+{ga_html}{analytics}
 {site_css}
 {dm_scripts}
 </head>

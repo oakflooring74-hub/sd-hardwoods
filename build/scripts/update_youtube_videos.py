@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Refresh build/data/youtube_videos.json from the public San Diego Hardwoods
-YouTube channel (https://www.youtube.com/@SANDIEGOHARDWOODS).
+YouTube channel (https://www.youtube.com/@sandiegohardwoods).
 
     python build/scripts/update_youtube_videos.py
 
@@ -14,8 +14,9 @@ no credentials, nothing secret):
   2. Fetches each video's watch page (ytInitialPlayerResponse) for the exact
      title, publish date, duration, and description.
   3. Merges with the existing snapshot: curated fields maintained by hand in
-     the snapshot (site_description, gallery_href, gallery_label, featured,
-     featured_rank) are preserved for videos that already exist. New videos
+     the snapshot (site_description, site_display_title, gallery_href,
+     gallery_label, featured, featured_rank) are preserved for videos that
+     already exist. New videos
      are added with a heuristic category (baked into the file so the rendered
      result stays deterministic); videos no longer public are DROPPED, with a
      loud notice printed so the removal is a conscious decision at review time.
@@ -39,7 +40,7 @@ from pathlib import Path
 
 BUILD = Path(__file__).resolve().parent.parent  # -> build/
 SNAPSHOT = BUILD / "data" / "youtube_videos.json"
-CHANNEL = "https://www.youtube.com/@SANDIEGOHARDWOODS"
+CHANNEL = "https://www.youtube.com/@sandiegohardwoods"
 UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/126.0 Safari/537.36")
 
@@ -196,7 +197,7 @@ def main():
             "description": meta["description"],
         }
         rec["category_label"] = CATEGORIES[rec["category"]]
-        for key in ("site_description", "gallery_href", "gallery_label"):
+        for key in ("site_description", "site_display_title", "gallery_href", "gallery_label"):
             if prev.get(key):
                 rec[key] = prev[key]
         records.append(rec)
@@ -215,11 +216,14 @@ def main():
 
     snapshot = {
         "_comment": ("Checked-in snapshot of every public upload on the San Diego Hardwoods "
-                     "YouTube channel (https://www.youtube.com/@SANDIEGOHARDWOODS). The Videos "
+                     "YouTube channel (https://www.youtube.com/@sandiegohardwoods). The Videos "
                      "page build consumes this file only -- no network access during builds. "
                      "Refresh with: python build/scripts/update_youtube_videos.py (see "
                      "build/README.md). Curated fields preserved across refreshes: "
-                     "site_description, gallery_href, gallery_label, featured, featured_rank."),
+                     "site_description, site_display_title, gallery_href, gallery_label, "
+                     "featured, featured_rank. site_display_title is used only where the live "
+                     "title is blank or date-only; the live title is always preserved in "
+                     "`title`."),
         "channel_url": CHANNEL,
         "snapshot_date": time.strftime("%Y-%m-%d"),
         "video_count": len(records),

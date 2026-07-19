@@ -49,7 +49,7 @@ JSONLD = """<script type="application/ld+json">
       "email": "sandiegohardwoods@gmail.com",
       "image": "https://www.sdhardwoods.com/LOGO-2025.png",
       "logo": "https://www.sdhardwoods.com/LOGO-2025.png",
-      "sameAs": ["https://www.youtube.com/@SD-1974"]
+      "sameAs": ["https://www.youtube.com/@sandiegohardwoods"]
     },
     {
       "@type": "WebPage",
@@ -123,8 +123,8 @@ JSONLD = """<script type="application/ld+json">
 }
 </script>"""
 
-# Milestone 2.4: obsolete Universal Analytics (UA-20793161-1 / _gaq / ga.js) removed
-# site-wide. GA4 is blocked pending the owner's confirmed Measurement ID.
+# Milestone 2.6: the shared GA4 implementation (build/chrome/analytics.html) is
+# injected by assemble() -- leave this empty; never add a per-page loader.
 GA = ""
 
 VCARD = "SAN DIEGO LICENSED WOOD FLOOR RESTORATION/REFINISHING CONTRACTOR 858-699-0072 EXPERIENCE EXCEPTIONAL DUSTLESS HARDWOOD AND BAMBOO FLOOR REFINISHING IN SAN DIEGO. ALL WORK PERFORED BY A HIGHLY EXPERIENCED FLOORING EXPERT WITH OVER 30 YEARS EXPERIENCE RESTORING AND REPAIRING SOLID AND ENGINEERED HARDWOOD AND BAMBOO FLOORING. CALL TODAY TO SCHEDULE A CONSULTATION. TEXT PHOTOS OF YOUR PROJECT FOR AN IMMEDIATE ASSESSMENT."
@@ -135,8 +135,8 @@ MAIN = """
   <h1>Professional Hardwood Floor Assessments, Inspections &amp; Consultation</h1>
   <p>Our core business is the flooring work itself &mdash; refinishing, restoration, deep cleaning and recoating, repairs, and installation. When a floor or a property decision calls for professional expertise on site, we also offer a clear set of paid assessment and inspection services: an in-home project assessment, pre-purchase floor inspections with optional written documentation, and complex damage, dispute, and insurance analysis. Every one of them begins the same way: with a conversation that is free.</p>
   <div class="cta-row">
-    <a class="btn btn-call" href="tel:+18586990072">&#9742; Call 858-699-0072</a>
-    <a class="btn btn-outline" href="sms:+18586990072">Text Floor Photos</a>
+    <a class="btn btn-call" href="sms:+18586990072">Text Photos for a Free Assessment</a>
+    <a class="btn btn-outline" href="tel:+18586990072">&#9742; Call 858-699-0072</a>
   </div>
 </section>
 
@@ -148,10 +148,12 @@ MAIN = """
       <h3>Free Phone &amp; Photo Assessment</h3>
       <span class="consult-price">Free</span>
     </div>
-    <p>Start with a free phone and photo assessment. We can review the flooring, discuss your concerns, share preliminary guidance, and help determine the most appropriate next step. Initial contact may include a phone conversation; review of photos or a short video you text or email; or review of a public Zillow, Redfin, Realtor.com, or similar listing for a property you are considering. We will discuss likely flooring options, whether San Diego Hardwoods is a suitable fit, and which type of property visit or professional service &mdash; if any &mdash; makes sense for your situation.</p>
+    <p><strong>An initial conversation and review of submitted photographs to identify likely options and determine whether an on-site service may be worthwhile.</strong> Text clear overall and close-up photos for the fastest initial review. You are also welcome and encouraged to call, and photos may be emailed when texting is not practical.</p>
+    <p>Initial contact may include a phone conversation; review of photos or a short video you text or email; or review of a public Zillow, Redfin, Realtor.com, or similar listing for a property you are considering. We will discuss likely flooring options, whether San Diego Hardwoods is a suitable fit, and which type of property visit or professional service &mdash; if any &mdash; makes sense for your situation. Many questions are answered completely in this free conversation; a paid visit is never a requirement for getting an initial answer.</p>
     <div class="cta-row" style="justify-content:flex-start;margin-top:6px;">
-      <a class="btn btn-call" href="tel:+18586990072" style="padding:11px 22px;font-size:15.5px;">&#9742; Call 858-699-0072</a>
-      <a class="btn btn-outline" href="sms:+18586990072" style="padding:11px 22px;font-size:15.5px;">Text Floor Photos</a>
+      <a class="btn btn-call" href="sms:+18586990072" style="padding:11px 22px;font-size:15.5px;">Text Photos for a Free Assessment</a>
+      <a class="btn btn-outline" href="tel:+18586990072" style="padding:11px 22px;font-size:15.5px;">&#9742; Call to Discuss Your Floor</a>
+      <a class="btn btn-outline" href="mailto:sandiegohardwoods@gmail.com" style="padding:11px 22px;font-size:15.5px;">Email Photos</a>
     </div>
   </div>
 </section>
@@ -164,6 +166,7 @@ MAIN = """
       <h3>In-Home Project Assessment</h3>
       <span class="consult-price">$95</span>
     </div>
+    <p><strong>An on-site review of visible condition, probable project scope, feasibility, and practical next steps. Findings are primarily verbal unless another deliverable is agreed in advance.</strong></p>
     <p>For owners and authorized decision-makers considering San Diego Hardwoods for their flooring work. We travel to the property, visually assess the proposed flooring project, identify the floor and finish when reasonably determinable, take the measurements needed for project planning, and discuss realistic flooring-service options. When the project is a suitable fit, we prepare a San Diego Hardwoods proposal.</p>
     <p><strong>Some or all of the assessment fee may be credited toward the approved flooring project under written agreement.</strong></p>
     <p class="consult-fine">This is a project-planning visit, not a formal inspection or damage-analysis service &mdash; it does not include formal written inspection reports, purchase-negotiation documents, insurance or dispute documentation, detailed causation analysis, or communication with third parties.</p>
@@ -173,14 +176,15 @@ MAIN = """
 <section class="block" id="pre-purchase-inspections">
   <p class="eyebrow">Buying a Home</p>
   <h2>Pre-Purchase Hardwood Floor Inspections</h2>
-  <p class="lede">Both pre-purchase services are for someone evaluating a property they do not yet own. An experienced hardwood flooring specialist inspects the floors before you commit, so the flooring's real condition &mdash; and its realistic future &mdash; is part of your purchase decision.</p>
+  <p class="lede">Both pre-purchase services are for someone evaluating a property they do not yet own. An experienced hardwood flooring specialist inspects the floors before you commit, so the flooring's real condition &mdash; and its realistic future &mdash; is part of your purchase decision. A pre-purchase inspection can help distinguish ordinary wear from conditions that may require moisture correction, board replacement, or a larger restoration budget before closing.</p>
   <div class="consult-grid">
     <div class="consult-card">
       <div class="consult-head">
         <h3>Pre-Purchase Floor Inspection &mdash; Verbal Assessment</h3>
         <span class="consult-price">$350</span>
       </div>
-      <p>An on-site floor inspection of a property you are evaluating before purchase. Includes apparent identification of the flooring type, construction, and finish; evaluation of visible condition, wear, damage, and maintenance concerns; and a verbal explanation of realistic cleaning, repair, restoration, refinishing, or replacement options, along with apparent limitations and likely future flooring needs.</p>
+      <p><strong>An on-site review focused on visible condition, refinishing feasibility, damage, and practical purchase risks, followed by verbal findings.</strong></p>
+      <p>Includes apparent identification of the flooring type, construction, and finish; evaluation of visible condition, wear, damage, and maintenance concerns; and a verbal explanation of realistic cleaning, repair, restoration, refinishing, or replacement options, along with apparent limitations and likely future flooring needs.</p>
       <p class="consult-fine">This service is primarily verbal and does not include formal written reports or negotiation documents. The fee covers the inspection and professional analysis whether or not you purchase the property, the transaction closes, or you later hire San Diego Hardwoods.</p>
     </div>
 
@@ -189,6 +193,7 @@ MAIN = """
         <h3>Pre-Purchase Inspection with Written Documentation</h3>
         <span class="consult-price">$750</span>
       </div>
+      <p><strong>A written summary of observed conditions, photographs, measurements when included in the agreed scope, limitations, and recommended next steps.</strong></p>
       <p>The full on-site pre-purchase inspection, plus two professional PDF documents:</p>
       <ul>
         <li><strong>Floor Identification &amp; Condition Report</strong> &mdash; what the floor appears to be (and does not appear to be), its apparent construction and finish, what appears sound, serviceable, or properly maintained versus worn, damaged, questionable, or improperly maintained, apparent repairability, restoration or refinishing feasibility, and important limitations and uncertainties &mdash; with supporting photographs, observations, measurements, or moisture readings when relevant.</li>
@@ -201,16 +206,43 @@ MAIN = """
 
 <section class="block" id="complex-analysis">
   <p class="eyebrow">Complex &amp; Customized Matters</p>
-  <h2>Complex Damage, Dispute &amp; Insurance Analysis &mdash; From $1,500</h2>
+  <h2>Complex Damage, Dispute &amp; Insurance Analysis &mdash; Starting at $1,500</h2>
   <div class="consult-card">
     <div class="consult-head">
       <h3>Complex Damage, Dispute &amp; Insurance Analysis</h3>
-      <span class="consult-price">From $1,500</span>
+      <span class="consult-price">Starting at $1,500</span>
     </div>
+    <p><strong>A custom scope for technically difficult or potentially multi-cause conditions. Scope, limitations, and deliverables are confirmed before scheduling.</strong></p>
     <p>A customizable professional service for matters involving insurance claims, water or moisture damage, landlord-tenant and security-deposit disputes, neighbor or contractor damage, conflicting opinions about floor condition, complicated repairability or damage questions, third-party communication, and customized documentation.</p>
     <p>When specifically agreed in writing, this service can include on-site professional evaluation; multiple scheduled phone consultations; multiple PDFs or customized written documents; professional photographs; measurements and moisture readings when relevant; forensic-style analysis of flooring construction, finish, wear, damage, repairability, restoration feasibility, and realistic limitations; repair, restoration, refinishing, or replacement recommendations; scope or cost documentation; and communication with specifically identified insurers, property managers, tenants, landlords, contractors, neighbors, designers, real-estate professionals, or other involved parties.</p>
     <p class="consult-fine">The exact scope and deliverables are customized and agreed upon before work begins, and work beyond the agreed scope requires separate written authorization. This is professional flooring analysis &mdash; not laboratory analysis, engineering services, or legal representation.</p>
   </div>
+  <p class="consult-fine" style="max-width:860px;margin:22px auto 0;">These assessment and inspection services do not automatically include engineering, laboratory analysis, real-estate appraisal, legal opinions, insurance coverage decisions, destructive testing, testimony, or expert-witness services. Any specialized scope beyond professional flooring analysis must be specifically agreed in writing before scheduling.</p>
+</section>
+
+<section class="block" id="what-an-evaluation-clarifies">
+  <p class="eyebrow">Report-Style Examples</p>
+  <h2>What a Professional Evaluation Can Clarify</h2>
+  <p class="lede">The examples below are <strong>illustrative report-style examples</strong> written to show the kind of clarity a professional evaluation is meant to deliver. They are not excerpts from actual client reports, and they are not a promise that every service includes testing, measurements, photographs, or written documentation &mdash; each service's deliverables are confirmed before scheduling.</p>
+  <div class="info-grid">
+    <div class="card">
+      <h3>Existing Condition</h3>
+      <p><em>&ldquo;Localized cupping and finish breakdown are visible near the exterior door and refrigerator run. Much of the surrounding floor may remain refinishable, but the affected area should not be sanded until moisture conditions and the source of exposure are evaluated.&rdquo;</em></p>
+    </div>
+    <div class="card">
+      <h3>Probable Cause</h3>
+      <p><em>&ldquo;The pattern is more consistent with repeated moisture exposure and restricted drying than with ordinary finish wear. An on-site evaluation may narrow the likely cause, but concealed conditions can require access beyond the visible flooring surface.&rdquo;</em></p>
+    </div>
+    <div class="card">
+      <h3>Feasibility or Limitations</h3>
+      <p><em>&ldquo;Sanding and refinishing may improve the overall surface and color, but replaced boards may remain visible because of age, oxidation, grain, prior coatings, and natural wood variation. An invisible match should not be promised.&rdquo;</em></p>
+    </div>
+    <div class="card">
+      <h3>Recommended Next Step</h3>
+      <p><em>&ldquo;Correct the moisture source, document readings when included in the agreed service, inspect accessible transitions and subfloor conditions, then choose between selective board replacement, localized repair, or full refinishing.&rdquo;</em></p>
+    </div>
+  </div>
+  <p class="lede" style="margin-top:26px;">This is the difference between guessing and knowing: the free phone and photo assessment identifies likely options, and a paid on-site evaluation turns them into findings you can act on &mdash; stated plainly, with their limitations.</p>
 </section>
 
 <section class="block" id="who-these-services-help">
@@ -296,11 +328,11 @@ MAIN = """
 
 <section class="block" id="get-started">
   <h2>Ready to Get Started?</h2>
-  <p class="lede">Text or email clear photos of your floors &mdash; or send a listing link for a property you are considering &mdash; and we will take it from there with a free phone and photo assessment. All of our contact options are on the <a href="https://www.sdhardwoods.com/contact_us.html" style="color:var(--brass-deep);font-weight:700;">Contact San Diego Hardwoods</a> page.</p>
+  <p class="lede">Text clear overall and close-up photos of your floors &mdash; or send a listing link for a property you are considering &mdash; and we will take it from there with a Free Phone &amp; Photo Assessment. You are also welcome and encouraged to call, and photos may be emailed when texting is not practical. All of our contact options are on the <a href="https://www.sdhardwoods.com/contact_us.html" style="color:var(--brass-deep);font-weight:700;">Contact San Diego Hardwoods</a> page.</p>
   <div class="cta-row" style="justify-content:center;">
-    <a class="btn btn-call" href="tel:+18586990072">&#9742; Call 858-699-0072</a>
-    <a class="btn btn-outline" href="sms:+18586990072">Text Floor Photos</a>
-    <a class="btn btn-outline" href="mailto:sandiegohardwoods@gmail.com">Email San Diego Hardwoods</a>
+    <a class="btn btn-call" href="sms:+18586990072">Text Photos for a Free Assessment</a>
+    <a class="btn btn-outline" href="tel:+18586990072">&#9742; Call to Discuss Your Floor</a>
+    <a class="btn btn-outline" href="mailto:sandiegohardwoods@gmail.com">Email Photos</a>
   </div>
   <p style="text-align:center;margin:26px auto 0;font-size:15.5px;">
   See the work behind these evaluations:

@@ -46,7 +46,10 @@ Core experience and credibility:
 - Owner operated since 1990
 - More than 35 years of flooring experience
 - California flooring contractor
-- California contractor license number 1017549
+- CSLB-licensed (owner decision, Milestone 2.6: the exact contractor license number is
+  NOT published in public pages, structured data, metadata, generator content, or
+  operational documentation — use generic wording such as "Licensed, bonded and insured"
+  or "CSLB-licensed California flooring contractor")
 - Bona Certified Craftsman
 - Licensed, bonded and insured
 - Real project photography and technical experience
@@ -66,9 +69,14 @@ sms:+18586990072
 Email:
 sandiegohardwoods@gmail.com
 
-Public street-address publication remains subject to owner confirmation.
-
-Do not publish, standardize or place a full street address into visible content or structured data until the owner has explicitly confirmed the exact public NAP information.
+Public address (owner decision, Milestone 2.6): San Diego Hardwoods is a service-area
+business and does not publish a street or mailing address. No street address,
+`streetAddress`, or public `PostalAddress` schema may appear in generated output, and no
+wording may imply customers visit a storefront. The approved public wording is:
+"Based in Carmel Valley, San Diego 92130" (consistent with the Google Business Profile).
+Accurate service-area wording for San Diego County remains correct. Never invent a street
+address. Enforced at build time by
+`build/scripts/common/public_business_rules.py`.
 
 ==================================================
 2. REPOSITORY AND ENVIRONMENT

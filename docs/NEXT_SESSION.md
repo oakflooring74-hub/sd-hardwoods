@@ -2,12 +2,50 @@
 
 Read this file first when picking this project back up — **together with `docs/PROJECT_OPERATING_MANUAL.md` (the permanent governing document, added 2026-07-18) and `docs/PROJECT_DECISIONS.md` (binding decisions + standing blockers)**. This file links to everything else and tells you what's done, what's approved next, and what to ask the owner before doing anything.
 
+## Milestone 2.6 — COMPLETE, COMMITTED LOCALLY on `redesign` (2026-07-18, NOT pushed)
+
+**Public business rules, assessment conversion, YouTube metadata, GA4.** Full record:
+`docs/2026-07-milestone-2.6-report.md`; durable owner decisions in
+`docs/PROJECT_DECISIONS.md` → "Public-business rules". Headlines:
+
+- **Service-area business:** no street address / `PostalAddress` / geo / hasMap in any
+  generated output (build-time filter `build/scripts/common/public_business_rules.py`);
+  approved wording "Based in Carmel Valley, San Diego 92130" in the shared footer.
+- **License number removed** from public output & operational docs (generic
+  CSLB-licensed wording stays).
+- **Official YouTube channel** `@sandiegohardwoods` everywhere; `@SD-1974` retired.
+- **"Free estimate(s)" banned** from output; entry service is the **Free Phone & Photo
+  Assessment** with Text → Call → Email hierarchy site-wide; Contact retitled (owner
+  sign-off) — the only metadata change.
+- **Assessments page:** owner's clarified service-level descriptions ($95/$350/$750/
+  Starting at $1,500; fee-credit sentence untouched) + new clearly-labeled illustrative
+  "What a Professional Evaluation Can Clarify" section + consolidated no-automatic
+  engineering/lab/appraisal/legal/testimony exclusion line.
+- **YouTube titles:** live-channel refresh 2026-07-18 confirmed all 58 snapshot titles are
+  the actual live titles (so "Sold Cherry"/"Title:" stay until fixed on YouTube); new
+  curated `site_display_title` mechanism (refresh-preserved, used by `build_videos.py`)
+  for any future blank/date-only titles.
+- **GA4 `G-L9RDVK6H9W`** in one shared partial `build/chrome/analytics.html` (see
+  `build/README.md` → "Analytics"): production hosts only (localhost/`*.pages.dev` make
+  zero Analytics requests — browser-verified both ways); events `phone_call_click`,
+  `text_message_click`, `email_click`, `assessment_cta_click`,
+  `assessment_page_link_click`.
+- **QA:** double build byte-identical; static gate green; media inventory 0 errors /
+  4 known walnut warnings; browser QA 98/98. Committed locally on `redesign`
+  (with the new root `CLAUDE.md`); **not pushed, not merged, no deploys, `master`
+  untouched** — pushing to `redesign` (preview deploy) is the owner's call.
+
+**Next step:** owner review of the preview once pushed; then the page-by-page owner
+media-fact review (`docs/media-review/index.html`) and/or assessment practical-facts
+completion (blockers 4–6 in `docs/PROJECT_DECISIONS.md`). Fixing the "Sold Cherry" /
+"Title:" video titles happens on YouTube first, then `update_youtube_videos.py` + rebuild.
+
 ## Milestone 2.5 — COMPLETE & COMMITTED (see `git log` for the hash on `redesign`)
 
 **Search Console content preservation, internal-link alignment, and the structured media-fact system.** Current branch: `redesign`. Everything below is generator-first; regenerating with `python build/scripts/build_all.py` reproduces the committed pages byte-for-byte.
 
 - **SEO intent map:** `build/data/seo/page_intents.json` (13 records) + human-readable `docs/seo/search-console-content-preservation-map.md` — which GSC query themes each page owns, what must stay visible, cannibalization rules. Derived from the real GSC baseline in the operating manual §10.
-- **Content alignment:** restrained visible-wording changes on 8 pages (homepage, deep-cleaning, gallery 1, gallery 5, solid wood, videos, about, assessments); galleries 2/3/4, blog, and contact byte-identical. **No titles/descriptions/H1s changed.** Full before/after log: `docs/seo/2026-07-content-alignment-changes.md`. Includes the §12-flagged claim removals on Solid Wood ("far exceeds"/"flawless"/"exact"/absolute dust) and About's license number (#1017549) addition.
+- **Content alignment:** restrained visible-wording changes on 8 pages (homepage, deep-cleaning, gallery 1, gallery 5, solid wood, videos, about, assessments); galleries 2/3/4, blog, and contact byte-identical. **No titles/descriptions/H1s changed.** Full before/after log: `docs/seo/2026-07-content-alignment-changes.md`. Includes the §12-flagged claim removals on Solid Wood ("far exceeds"/"flawless"/"exact"/absolute dust) and About's license-number addition (reversed in Milestone 2.6 — the owner has since ruled the exact number is not published).
 - **Confirmed Tricia walnut correction:** the four homepage `TRICIA WALNUT102/110/54/23.jpg` alts no longer claim bamboo/parquet/maple/RSF/La Jolla identities — restrained provisional wording (Bing Crosby Ranch walnut refinishing, stage unconfirmed), seeded as owner-confirmed facts in `build/data/media/owner_facts_confirmed.json`.
 - **Structured media-fact system:** `build/scripts/generate_media_inventory.py` scans all 13 generated pages → `build/data/media/assets.json` (377 image + 58 video assets) and `build/data/media/placements/<page>.json` (516 placements, stable IDs like `HOME-IMG-005`, `VIDEOS-VID-014`). `build/scripts/validate_media_inventory.py` enforces completeness/uniqueness/no-auto-publish (currently 0 errors, 4 intentional warnings = the `TRICIA WALNUT27/30/63/76` filename-vs-white-oak conflict on Solid Wood, flagged for the owner, deliberately unchanged). Owner-facts merge preserves owner edits across regenerations; deterministic double-run verified.
 - **Owner review surface:** `docs/media-review/README.md` (workflow) + 13 generated per-page `.md` files + static read-only `docs/media-review/index.html` (thumbnails, placement IDs, flags — local only, never deploy).

@@ -159,8 +159,15 @@ Hardwoods YouTube channel from a checked-in snapshot:
 
 - `data/youtube_videos.json` — one record per public video (ID, original title, watch/embed
   URLs, thumbnail, publish date, duration, is-Short flag, category, featured flag/rank,
-  original description, plus curated fields: `site_description`, `gallery_href`/`gallery_label`).
+  original description, plus curated fields: `site_description`, `site_display_title`,
+  `gallery_href`/`gallery_label`).
   The normal build reads only this file — **no network access, fully deterministic**.
+  `site_display_title` (Milestone 2.6) is shown on the page and in the VideoObject graph
+  instead of `title` when present; it is reserved for videos whose live title is blank or
+  date-only (restrained wording such as "Initial Hardwood Floor Sanding — Project Video",
+  disambiguated by upload date; the owner confirms date-only videos show initial sanding).
+  The live title is always preserved in `title`. The official channel is
+  `https://www.youtube.com/@sandiegohardwoods`.
 - `pages/build_videos.py` — renders the featured section, filterable library grid,
   click-to-activate `youtube-nocookie` modal player, and an accurate `VideoObject`
   structured-data graph generated from the snapshot (the legacy raw-source VideoObject
@@ -238,13 +245,11 @@ reproduce.)
    happened to produce (which is no longer known). Not a content loss, just a specific-layout
    difference worth knowing about.
 
-5. **Google Analytics: the legacy Universal Analytics snippet was removed in Milestone 2.4.**
-   The live site inconsistently carried the obsolete `_gaq`/`ga.js` snippet (account
-   `UA-20793161-1`, dead since GA4 replaced UA) on 10 of 12 pages; since Milestone 2.4 no
-   generated page emits any analytics code at all. **GA4 is blocked pending the owner's
-   confirmed Measurement ID — do not invent or placeholder one.** When the real ID arrives,
-   add the gtag snippet once via the shared head generation (`common/assemble_page.py`,
-   `common/build_page.py`, `pages/assemble_deep_cleaning.py`, `pages/assemble_blog.py`).
+5. **Google Analytics: GA4 via one shared partial (Milestone 2.6).** The legacy Universal
+   Analytics snippet (`UA-20793161-1` / `_gaq` / `ga.js`) was removed in Milestone 2.4; in
+   Milestone 2.6 the owner supplied the GA4 Measurement ID and one shared implementation
+   was added — see the "Analytics" section below. Never add a second gtag loader or
+   hand-edit analytics into a generated page.
 
 6. **`archive/` is not maintained.** It holds abandoned exploratory scripts from early in this
    rebuild (a first attempt at extracting galleries 1/2 that was superseded by
@@ -254,6 +259,27 @@ reproduce.)
 7. **`data/*/*.json` files may contain a `"source"` field with an old absolute path** from
    the machine/session where the extraction was originally run. That's inert historical
    metadata, not something the build scripts read back — safe to ignore.
+
+## Analytics (GA4, Milestone 2.6)
+
+**Everything analytics lives in one file: `build/chrome/analytics.html`.** The build
+injects it into the `<head>` of all 13 pages via the four assembly paths
+(`common/assemble_page.py`, `common/build_page.py`, `pages/assemble_deep_cleaning.py`,
+`pages/assemble_blog.py`). To change the Measurement ID, the production-host list, or the
+event logic: edit that one partial and re-run `build_all.py`. Never hand-edit a generated
+page and never add a per-page loader (the per-page `GA = ""` variables stay empty).
+
+- **Measurement ID:** `G-L9RDVK6H9W` (owner-confirmed, Milestone 2.6).
+- **Production-host gate:** the script exits before loading `gtag.js` unless
+  `location.hostname` is `www.sdhardwoods.com` or `sdhardwoods.com` — localhost, the
+  `redesign.sd-hardwoods.pages.dev` / `sd-hardwoods.pages.dev` previews, and any other
+  host make **zero** Analytics network requests (verified in browser QA both ways).
+- **Conversion events** (sent with `link_url`, `link_text`, `page_slug` only — never
+  message, photo, or visitor-entered contents): `phone_call_click` (tel: links),
+  `text_message_click` (sms: links), `email_click` (mailto: links),
+  `assessment_cta_click` (CTAs whose label names the free assessment),
+  `assessment_page_link_click` (links to `/floor-assessments-inspections`).
+- No Universal Analytics anywhere; the raw-source `_gaq` extraction is ignored.
 
 ## Deployment (Cloudflare Pages via GitHub Actions)
 

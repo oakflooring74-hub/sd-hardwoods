@@ -17,6 +17,8 @@ def read(path):
 
 site_css = read(CHROME + r"\site_css.html")
 darkmode_boot = read(CHROME + r"\darkmode_boot_scripts.html")
+# Milestone 2.6: the one shared GA4 implementation, injected on every page.
+analytics_html = read(CHROME + r"\analytics.html")
 top_html = read(CHROME + r"\top.html")
 footer_html = read(CHROME + r"\footer.html")
 scrollhint_html = read(CHROME + r"\scrollhint_and_toggle.html")
@@ -241,6 +243,7 @@ head_extra = f'''<meta name="DESCRIPTION" id="mDescription" content="{meta_desc}
 	<link href="https://www.sdhardwoods.com/favicon-512.ico" rel="icon" sizes="512x512" type="image/x-icon">
 	<link href="https://www.sdhardwoods.com/LOGO-2025.png" rel="apple-touch-icon" sizes="180x180"><meta name="theme-color" content="#4b2e06"><meta name="msapplication-TileColor" content="#4b2e06"><meta name="msapplication-TileImage" content="https://www.sdhardwoods.com/LOGO-2025.png">
 	<link href="https://www.sdhardwoods.com/LOGO-2025.png" rel="logo" type="image/png">
+{analytics_html}
 '''
 
 full_html = f'''<!DOCTYPE html><html lang="en">

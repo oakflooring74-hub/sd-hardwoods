@@ -145,3 +145,15 @@ Per page × viewport: no JS pageerrors, one H1, header + single footer present, 
 ## Preview verification
 
 Performed after the Milestone 2.5 push — see the milestone final report / NEXT_SESSION for the deployed commit confirmation. Production (`master`, Turbify live site) untouched.
+
+# MILESTONE 2.6 QA (2026-07-18)
+
+Full implementation + QA record: `docs/2026-07-milestone-2.6-report.md`. Summary: double
+build byte-identical (13 pages + sitemap + robots); scripted static gate green (no license
+number, no street address / PostalAddress, no "free estimate(s)", official
+@sandiegohardwoods only, exactly one GA4 loader `G-L9RDVK6H9W` per page, no UA, JSON-LD
+strict-parses, internal links resolve, only the owner-approved Contact title changed vs
+HEAD); media inventory 0 errors / 4 known walnut warnings; browser QA 98/98
+(desktop+mobile, all 13 pages — zero Analytics requests on non-production hosts;
+production-host simulation fired all five conversion events with the expected
+privacy-limited params). Screenshots: `qa-screenshots/m26-*.png`.

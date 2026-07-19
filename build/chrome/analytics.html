@@ -1,0 +1,65 @@
+<!-- Site analytics (Milestone 2.6). ONE shared implementation, injected into the
+     <head> of all 13 pages by the build (assemble_page.py, build_page.py,
+     assemble_deep_cleaning.py, assemble_blog.py). The GA4 Measurement ID and all
+     conversion-event logic are maintained HERE and nowhere else -- never hand-edit
+     generated pages, and never add a second gtag loader.
+
+     Production-host gate: gtag.js is loaded and events are sent ONLY on
+     www.sdhardwoods.com / sdhardwoods.com. On localhost, *.pages.dev previews, or
+     any other hostname the script returns before creating the loader, so no
+     Analytics network request of any kind is made from non-production hosts.
+
+     Conversion events (privacy: only the page's own link URL/label and page slug
+     are sent -- never message, photo, or visitor-entered contents):
+       phone_call_click            visitor activates a tel: link
+       text_message_click          visitor activates an sms: link
+       email_click                 visitor activates a mailto: link
+       assessment_cta_click        visitor activates a Free Phone & Photo
+                                   Assessment CTA (label contains "free" +
+                                   "assessment")
+       assessment_page_link_click  visitor follows a link to
+                                   /floor-assessments-inspections -->
+<script>
+(function () {
+  "use strict";
+  var GA4_ID = "G-L9RDVK6H9W";
+  var PRODUCTION_HOSTS = ["www.sdhardwoods.com", "sdhardwoods.com"];
+  if (PRODUCTION_HOSTS.indexOf(location.hostname) === -1) { return; }
+
+  var loader = document.createElement("script");
+  loader.async = true;
+  loader.src = "https://www.googletagmanager.com/gtag/js?id=" + GA4_ID;
+  document.head.appendChild(loader);
+
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { window.dataLayer.push(arguments); }
+  window.gtag = window.gtag || gtag;
+  gtag("js", new Date());
+  gtag("config", GA4_ID);
+
+  function linkContext(a) {
+    var slug = (location.pathname.split("/").pop() || "index").replace(/\.html?$/i, "");
+    return {
+      link_url: a.getAttribute("href") || "",
+      link_text: (a.textContent || "").replace(/\s+/g, " ").trim().slice(0, 80),
+      page_slug: slug || "index"
+    };
+  }
+  document.addEventListener("click", function (e) {
+    var t = e.target;
+    var a = t && t.closest ? t.closest("a[href]") : null;
+    if (!a) { return; }
+    var href = a.getAttribute("href") || "";
+    var ctx = linkContext(a);
+    if (/^tel:/i.test(href)) { gtag("event", "phone_call_click", ctx); }
+    else if (/^sms:/i.test(href)) { gtag("event", "text_message_click", ctx); }
+    else if (/^mailto:/i.test(href)) { gtag("event", "email_click", ctx); }
+    if (href.indexOf("floor-assessments-inspections") !== -1) {
+      gtag("event", "assessment_page_link_click", ctx);
+    }
+    if (/free/i.test(ctx.link_text) && /assessment/i.test(ctx.link_text)) {
+      gtag("event", "assessment_cta_click", ctx);
+    }
+  }, true);
+})();
+</script>

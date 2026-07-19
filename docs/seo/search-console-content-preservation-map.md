@@ -45,9 +45,10 @@ Anti-cannibalization rules enforced this milestone:
   no project, image placement, or long-form section was removed anywhere.
 - Gallery 5's unusual filename/canonical; Gallery 3's corrected canonical; the full
   canonical map (re-verified byte-level this milestone).
-- Contact's legacy "Free Estimates…" title (Milestone 2.2 decision; retitling would need
-  owner sign-off since it has snippet history — body copy carries the accurate
-  free-*phone*-assessment framing).
+- ~~Contact's legacy "Free Estimates…" title~~ — **superseded in Milestone 2.6**: the owner
+  ruled that "free estimate(s)" may not appear in public output, and approved the concise
+  replacement title "Contact San Diego Hardwoods | Free Phone & Photo Assessment"
+  (the only title change in Milestone 2.6; all other titles/H1s/descriptions preserved).
 - The deep-cleaning meta description: 2.4 flagged a suspected "Countyâ€”" mojibake; byte
   inspection this milestone shows the committed file contains a **correct UTF-8 em dash** —
   the mojibake was a display artifact in the earlier tooling. Nothing to fix.
@@ -74,7 +75,9 @@ Full before/after texts: `docs/seo/2026-07-content-alignment-changes.md`. Summar
    and Contact.
 6. **Videos** — intro adds custom staining + installation to the breadth list; closing links
    to Gallery 1, Deep-Cleaning, and Contact.
-7. **About** — adds the owner-confirmed **California contractor license #1017549**;
+7. **About** — added the owner-confirmed California contractor license number in 2.5
+   (**removed again in Milestone 2.6** — owner decision: the exact license number is not
+   published; generic "CSLB-licensed, bonded and insured" wording remains);
    "100% Dust Containment Sanding" → "Dust-Contained Sanding on Every Project";
    "same-day replies" → "most replies the same day" (claims policy).
 8. **Assessments** — closing section links to the Contact page and to project/video proof.
@@ -91,7 +94,11 @@ Full before/after texts: `docs/seo/2026-07-content-alignment-changes.md`. Summar
   `docs/media-review/`).
 - Assessment-page report excerpts and practical visit/delivery facts
   (`build/data/assessment/*.json`, all fields `awaiting_owner_input`).
-- Official YouTube channel URL (visible `@SANDIEGOHARDWOODS` vs. schema `sameAs` `@SD-1974`
-  on the assessments page), GA4 Measurement ID, public street-address decision.
+- ~~Official YouTube channel URL, GA4 Measurement ID, public street-address decision~~ —
+  all resolved by the owner in Milestone 2.6: official channel
+  `https://www.youtube.com/@sandiegohardwoods` everywhere; GA4 `G-L9RDVK6H9W` via the shared
+  `build/chrome/analytics.html` (production hosts only); service-area business, no published
+  street address, approved wording "Based in Carmel Valley, San Diego 92130".
 - YouTube title cleanups flagged in the video inventory ("Title:" prefix, "Sold Cherry",
-  four duplicate-title pairs) — fixable only on YouTube, then re-snapshot.
+  four duplicate-title pairs) — verified still live on the channel 2026-07-18; fixable only
+  on YouTube, then re-snapshot with `update_youtube_videos.py`.

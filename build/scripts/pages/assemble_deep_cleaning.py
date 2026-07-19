@@ -1,7 +1,9 @@
-import re, json, html
+import re, json, html, sys
 from pathlib import Path
 
 BUILD = Path(__file__).resolve().parent.parent.parent  # -> build/
+sys.path.insert(0, str(BUILD / "scripts" / "common"))
+from public_business_rules import sanitize_public_jsonld
 RAW = str(BUILD / "raw-source" / "deep-cleaning-hardwood-floors-san-diego.html")
 CHROME = str(BUILD / "chrome")
 RECORDS = str(BUILD / "data" / "deep-cleaning-hardwood-floors-san-diego" / "gallery_records.json")
@@ -36,6 +38,10 @@ title = re.search(r"<title>(.*?)</title>", raw, re.DOTALL).group(1).strip()
 meta_desc = re.search(r'<meta name="DESCRIPTION" id="mDescription" content="([^"]*)"', raw).group(1)
 canonical = re.search(r'<link href="([^"]+)" rel="canonical"', raw).group(1)
 jsonld_block = re.search(r'<script type="application/ld\+json">.*?</script>', raw, re.DOTALL).group(0)
+# Milestone 2.6: raw-source schema passes through the shared public-business-rules
+# filter (no PostalAddress/street address, official YouTube channel).
+jsonld_block = sanitize_public_jsonld(jsonld_block)
+analytics_html = read(CHROME + r"\analytics.html")
 vcard_desc = re.search(r'<span class="organization-name">(.*?)</span>', raw, re.DOTALL).group(1).strip()
 
 # ---- prose paragraphs (extracted, not retyped) ----
@@ -223,6 +229,7 @@ head_extra = f'''<meta name="DESCRIPTION" id="mDescription" content="{meta_desc}
 	<link href="https://www.sdhardwoods.com/LOGO-2025.png" rel="apple-touch-icon" sizes="180x180"><meta name="theme-color" content="#4b2e06"><meta name="msapplication-TileColor" content="#4b2e06"><meta name="msapplication-TileImage" content="https://www.sdhardwoods.com/LOGO-2025.png">
 	<link href="https://www.sdhardwoods.com/LOGO-2025.png" rel="logo" type="image/png">
 {jsonld_block}
+{analytics_html}
 '''
 
 full_html = f'''<!DOCTYPE html><html lang="en">

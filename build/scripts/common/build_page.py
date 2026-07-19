@@ -11,6 +11,7 @@ DATA = BUILD / "data"
 
 sys.path.insert(0, str(BUILD / "scripts" / "common"))
 from assemble_page import gallery_progress_html
+from public_business_rules import sanitize_public_jsonld
 
 def rd(path):
     with open(path, encoding="utf-8") as f:
@@ -151,7 +152,10 @@ def build_page(cfg):
     top_html = top_html.replace("__VCARD_DESC__", head["vcard_desc"])
     scrollhint_html = scrollhint_html.replace("__SCROLL_TOPIC__", cfg["scroll_topic"])
 
-    jsonld = "\n".join(head["jsonld_blocks"])
+    # Milestone 2.6: raw-source schema passes through the shared
+    # public-business-rules filter (no PostalAddress, official YouTube channel).
+    jsonld = sanitize_public_jsonld("\n".join(head["jsonld_blocks"]))
+    analytics_html = rd(CHROME + r"\analytics.html")
 
     gallery_html, check = build_gallery_section(
         cfg["gallery_json"], cfg["intro_html"],
@@ -200,8 +204,8 @@ def build_page(cfg):
     # raw source -- gallery 3's live page carries a wrong canonical URL
     # (recent_project_gallery_3.html, a URL that 301s to the real page). The obsolete
     # Universal Analytics snippet (UA-20793161-1 / _gaq / ga.js) extracted from the raw
-    # source is likewise no longer emitted; GA4 is blocked pending the owner's
-    # Measurement ID.
+    # source is likewise no longer emitted; since Milestone 2.6 the one shared GA4
+    # implementation (chrome/analytics.html) is injected instead.
     html = f'''<!DOCTYPE html><html lang="en">
 <head xmlns="">
   <meta charset="utf-8"><base href="https://www.sdhardwoods.com/">
@@ -210,6 +214,7 @@ def build_page(cfg):
 \t{head["css_links"]}{head["yahoo_script"]}
 \t<title>{head["title"]}</title>
 {jsonld}
+{analytics_html}
 {site_css}
 {darkmode_boot}
 </head>
