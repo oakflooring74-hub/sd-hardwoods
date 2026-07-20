@@ -286,8 +286,8 @@ main_html = f'''<main>
 
 head_extra = f'''<meta name="description" content="{meta_desc}">
 	<link href="{canonical}" rel="canonical">
-	<link href="https://s.turbifycdn.com/lm/lib/smb/css/hosting/yss/v2/mc_global.195798.css" id="globalCSS" media="screen" rel="stylesheet" type="text/css">
-	<link href="https://s.turbifycdn.com/lm/themes/yhoo/ga/evident/vanilla_bean/palette1/1.0.1/en-us/theme.css" id="themeCSS" media="screen" rel="stylesheet" type="text/css">
+	<link href="/assets/legacy-css/mc_global.195798.css" id="globalCSS" media="screen" rel="stylesheet" type="text/css">
+	<link href="/assets/legacy-css/theme.css" id="themeCSS" media="screen" rel="stylesheet" type="text/css">
 	<link href="https://s.turbifycdn.com/ln/lib/smb/assets/hosting/yss/extensions/css/turbify_ss_extensions_1675321208.js" id="extensionsCSS" media="screen" rel="stylesheet" type="text/css">
 	<title>{title}</title>
 	<link href="/favicon.ico" rel="icon" type="image/x-icon">

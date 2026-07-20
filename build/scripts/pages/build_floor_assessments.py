@@ -38,8 +38,8 @@ HEAD_META = """<title>Hardwood Floor Assessments &amp; Inspections San Diego | S
 <link href="/LOGO-2025.png" rel="apple-touch-icon" sizes="180x180">
 <meta name="theme-color" content="#4b2e06">
 <link href="/LOGO-2025.png" rel="logo" type="image/png">
-<link href="https://s.turbifycdn.com/lm/lib/smb/css/hosting/yss/v2/mc_global.195798.css" id="globalCSS" media="screen" rel="stylesheet" type="text/css">
-<link href="https://s.turbifycdn.com/lm/themes/yhoo/ga/evident/vanilla_bean/palette1/1.0.1/en-us/theme.css" id="themeCSS" media="screen" rel="stylesheet" type="text/css">"""
+<link href="/assets/legacy-css/mc_global.195798.css" id="globalCSS" media="screen" rel="stylesheet" type="text/css">
+<link href="/assets/legacy-css/theme.css" id="themeCSS" media="screen" rel="stylesheet" type="text/css">"""
 
 # One connected graph: the WebPage and its five visible Service entities, each
 # provided by the business entity the homepage already declares (@id .../#local).

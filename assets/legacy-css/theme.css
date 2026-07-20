@@ -1,0 +1,563 @@
+/************************************
+ Theme: Evident - Derived From: Navarre
+ ************************************/
+ #zWrap{min-height:400px;_height:400px;}
+ #ft{min-height:50px;_height:50px;}
+ #doc{position:relative;width:90%;padding:0 10px;margin:0 auto;max-width:1000px;min-width:780px;}
+ #doc{width:expression(document.documentElement.clientWidth < 780? "780px" : document.documentElement.clientWidth > 1000? "1000px" : "90%");}
+ #hContent{width:100%;padding:20px 0 5px 0;}
+ #hMisc {display:none !important;}
+ #navigation{overflow:hidden;width:100%;margin:10px 0;text-align:center;}
+ ul#mainNav {padding-bottom:15px;}
+ ul#mainNav li{display:inline;}
+ ul#mainNav li a{zoom:1;padding:0 25px 0 13px;line-height:2em;white-space:nowrap;}
+ #pageName{width:100%;margin:0 0 20px 0;}
+ #bd {overflow;hidden;width:100%;padding:15px 0;}
+ #ft{padding-top:30px;}
+ #fContent{width:100%;padding:30px 0 20px 0;}
+ #fMisc {padding:15px 0 30px 0;margin-top:-3px;}
+ #fMisc {overflow:hidden;*overflow:visible;overflow-x:hidden;width:100%;}
+ #fMisc br {float:left;*display:none;}
+ p.vcard .org,p.vcard .adr,p.vcard .tel,p.vcard .mailtoWrapper {position:relative;padding-left:9px;}
+ p.vcard .org,p.vcard .street-address,p.vcard .extended-address,p.vcard .locality,p.vcard .postal-code,p.vcard .country-name,p.vcard .tel {padding-right:5px;}
+ p.vcard .separator {margin-left:-7px;}
+ p.vcard .adr,p.vcard .country-name,p.vcard .tel,p.vcard .mailtoWrapper {white-space:nowrap;}
+ ul#mainNav li{*background-color: transparent !important;}
+ #body #wrapper .sub_dynamic #mainNav li {float:none;} 
+ #body #wrapper .sub_dynamic #mainNav .subNav a {padding:2px 0 2px 10px !important;margin:0;}
+ #body .sub_dynamic #mainNav li {margin:0 5px;}
+ #body .sub_dynamic #mainNav a {padding:0;}
+ 
+ 
+ /************************************
+ Theme: Evident - Derived From: Navarre
+ ************************************/
+ 
+ 
+ 
+ 		#body  {
+ 			font-size: 14px;
+ 			font-family: "Trebuchet MS", Times;
+ 		}
+ 
+ 
+ 		#body h1 {
+ 			font-size: 40px;
+ 			font-weight: bold;
+ 		}
+ 
+ 
+ 		#body h2 {
+ 			font-size: 24px;
+ 			font-weight: bold;
+ 		}
+ 
+ 
+ 		#body h3 {
+ 			font-size: 18px;
+ 			font-family: Arial, serif;
+ 			font-weight: bold;
+ 		}
+ 
+ 
+ 		#body h4 {
+ 			font-weight: bold;
+ 			font-size: 14px;
+ 			margin-bottom: 5px;
+ 		}
+ 
+ 
+ 		#hd {
+ 			text-align: center;
+ 		}
+ 
+ 		#pageName {
+ 			text-align: right;			
+ 		}
+ 
+ 
+ 		#ft {
+ 			text-align: center;
+ 			font-size: 12px;
+ 		}
+ 
+ 
+ 		#body a:link,
+ 		#body a:visited {
+ 			font-weight: bold;
+ 		}
+ 
+ 
+ 		ul#mainNav li a:link,
+ 		ul#mainNav li a:visited {
+ 			font-size: 15px;
+ 			font-weight: normal;			
+ 		}
+ 
+ 
+ 		body {
+ 
+  		}
+ 
+ 		#doc {
+ 
+ 		}
+ 
+ 		#hd {
+ 			background-repeat: no-repeat;
+ 			background-position: 0 100%;
+ 		}
+ 
+ 		#hContent {
+ 			background-repeat: no-repeat;
+ 			background-position: 100% 100%;
+ 		}
+ 
+ 		#navigation {
+ 			background-repeat: no-repeat;
+ 			background-position: 0 100%;
+ 		}
+ 
+ 		#mainNav {
+ 			background-repeat: no-repeat;
+ 			background-position: 100% 100%;
+ 		}
+ 
+ 		#fContent {
+ 			background-repeat: no-repeat;
+ 			background-position: 0 100%;
+ 		}
+ 
+ 		#fMisc {
+ 			background-repeat: no-repeat;
+ 			background-position: 100% 0;
+ 		}
+ 
+         ul#mainNav li a:link,
+         ul#mainNav li a:visited {
+ 			background-repeat: no-repeat;
+ 			background-position: 0 50%;
+ 			font-weight: bold;
+         }
+ 
+ 		p.vcard .org,
+ 		p.vcard .adr,
+ 		p.vcard .tel {
+ 			background-position: 0 50%;
+ 			background-repeat: no-repeat;
+ 		}
+ 		
+ 
+ 		#zB	#mapZone {
+ 			border-width: 1px;
+ 			border-style: solid;
+ 			_border-width: 0;
+ 		}
+ 
+ 		#zB #mapContainer {
+ 			_border-width: 1px;
+ 			_border-style: solid;
+ 		}
+ 
+ 
+ 		#zWrap ul.module_bd_container li {
+ 			border-width: 2px;
+ 			border-style: solid;
+ 		}
+ 		
+ 		#body #zWrap ul.module_bd_container .title {
+ 			font-size: 16px;
+ 			margin: 0;
+ 			padding: 0;
+ 			width: auto;
+ 		}
+ 
+ 		#zWrap ul.module_bd_container .description {
+ 			padding-top: 7px;
+ 			padding-bottom: 10px;
+ 			margin: 0 auto 10px auto;
+ 			width: 98%;
+ 		}
+ 
+ 
+ 		#zWrap ul.module_bd_container li.testimony blockquote {
+ 			margin: 15px auto 10px auto;
+ 			width: 98%;
+ 		}
+ 
+ 
+ 		#body #zWrap ul.module_bd_container ul.paypal {
+ 			padding-right: 10px;
+ 			padding-bottom: 10px;
+ 		}
+ 
+ 
+ 		#zWrap ul.module_bd_container li li {
+ 			padding: 0;
+ 			border-width: 0;
+ 		}
+ 
+ 		#zWrap ul.module_bd_container li.testimony blockquote blockquote {
+ 			margin-top: 0;
+ 			margin-left: 40px;
+ 			width: auto;
+ 		}
+ 
+ 
+ 		#body #zWrap ul.module_bd_container li.beforenafter {
+ 			padding: 0 0 1px 0;
+ 			border-width: 0;
+ 		}
+ 	
+ 		#body #zWrap ul.module_bd_container li.beforenafter h3.title {
+ 			margin: 0 0 28px 0;
+ 			padding-bottom: 5px;
+ 		}
+ 		
+ 		#body #zWrap ul.module_bd_container li.beforenafter div.description {
+ 			width: 93%;
+ 			margin-left: auto;
+ 			margin-right: auto;
+ 		}
+ 
+ 
+ 		#body #zWrap ul.module_bd_container li {
+ 			padding: 5px;	
+ 		}
+ 
+ 		#body #zWrap ul.module_bd_container li.beforenafter li {
+ 			padding: 0;
+ 		}
+ 
+ 
+ 		#zWrap ul.ymp-audioList .description {
+ 			width: 100%;
+ 			float: left;
+ 			margin-top: 5px;
+ 			margin-bottom: 0;
+ 			padding: 0;
+ 		}
+ 
+ 
+ 		/* 
+ 		 * direction and color of the arrow (assuming arrow sprite)
+ 		 */
+ 		#body .toggle img {
+ 			background-position:-36px -12px;
+ 		}
+ 
+ 		/* 
+ 		 * direction and color of the arrow for the "active" item
+ 		 */
+ 		#body .active .toggle img {
+ 			background-position:0px -12px;
+ 		}
+ 			
+ 		/* 
+ 		 * links for BOTH static and dynamic sub menus 
+ 		 * use this rule to group declarations common to the two different types of menus (static/dynamic)
+ 		 */
+ 		#body #mainNav .subNav a,
+ 		#body .nav_hassub #navigation #subNav a {
+ 			font-size:13px;
+ 			font-family:"Trebuchet MS";
+ 			font-weight:normal;
+ 		}
+ 		
+ 		/* 
+ 		 * :hover and selected (active) links for BOTH static and dynamic sub menus
+ 		 * they are both styled the same 
+ 		 */
+ 		/* 
+ 		 * links for dynamic sub menus 
+ 		 */
+ 		#body #wrapper .sub_dynamic #mainNav .subNav a {
+ 			text-align: left;
+ 		}
+ 			
+ 		/* 
+ 		 * sub menus 
+ 		 * displays horizontally below the main nav 
+ 		 */
+ 		/* 
+ 		 * sub menus (dropdown) 
+ 		 */
+ 		#body #mainNav .subNav {
+ 			border-style:solid;
+ 			border-width:1px;
+ 		}
+ 
+ 		/*
+ 		 * to remove the bottom image border 
+ 		 */	
+ 		/*
+ 		 * to remove the bullets from the As in list items 
+ 		 */	
+ 
+ 
+ 
+ /**************************************************************
+ Theme: Evident - Derived From: Navarre
+ Layout: Layout 1 - Derived From: Layout 1 with Title
+ **************************************************************/
+ .lo_layout1 #pageName {display:none;}
+ 
+ 
+ /**************************************************************
+ Theme: Evident - Derived From: Navarre
+ Layout: Layout 1 - Derived From: Layout 1 with Title
+ **************************************************************/
+ 
+ 
+ /**************************************************************
+ Theme: Evident - Derived From: Navarre
+ Layout: Layout 1 with Title - Derived From: Layout 1 with Title
+ **************************************************************/
+ .lo_layout1 #bd, .lo_layout1wt #bd {float:left;}
+ .lo_layout1 #zA, .lo_layout1wt #zA {width:100%;}
+ .lo_layout1 #zB, .lo_layout1wt #zB {float:left;width:47%;}
+ .lo_layout1 #zC, .lo_layout1wt #zC {width:47%;float:right;}
+ .lo_layout1 #zB #mapZone, .lo_layout1wt #zB #mapZone {width:330px;height:250px;}
+ .lo_layout1 #zB #drivingDirectionsLnk, .lo_layout1wt #zB #drivingDirectionsLnk {top:255px;}
+ .lo_layout1 #zC form#contactForm, .lo_layout1wt #zC form#contactForm {width:90%;}
+ 
+ 
+ /**************************************************************
+ Theme: Evident - Derived From: Navarre
+ Layout: Layout 1 with Title - Derived From: Layout 1 with Title
+ **************************************************************/
+ .lo_layout1 #zA, .lo_layout1wt #zA {
+ 
+ 		background-repeat: no-repeat;
+ 
+ 		background-position: 50% 100%;
+ 
+ 		padding-bottom: 20px;
+ 
+ 		margin-bottom: 30px !important;
+ 
+ 	}
+ 
+ 
+ /**************************************************************
+ Theme: Evident - Derived From: Navarre
+ Layout: Layout 2 with Title - Derived From: Layout 2 with Title
+ **************************************************************/
+ .lo_layout2wt #zA {float:left;width:47%;}
+ .lo_layout2wt #zB {float:right;width:47%;}
+ .lo_layout2wt #zC {clear:both;width:100%;}
+ .lo_layout2wt #zB #mapZone {width:330px;height:240px;}
+ .lo_layout2wt #zB #drivingDirectionsLnk {top:245px;}
+ .lo_layout2wt #zC form#contactForm {width:300px;margin-left:20px;}
+ 
+ 
+ /**************************************************************
+ Theme: Evident - Derived From: Navarre
+ Layout: Layout 2 with Title - Derived From: Layout 2 with Title
+ **************************************************************/
+ .lo_layout2wt #zC {
+ 
+ 		background-repeat: no-repeat;
+ 
+ 		background-position: 50% 0;
+ 
+ 		padding-top: 30px;
+ 
+ 	}
+ 
+ 
+ /**************************************************************
+ Theme: Evident - Derived From: Navarre
+ Layout: Layout 3 with Title - Derived From: Layout 3 with Title
+ **************************************************************/
+ .lo_layout3wt #zA, .lo_layout3wt #zB {float:left;width:47%;}
+ .lo_layout3wt #zB {clear:left;}
+ .lo_layout3wt #zC {width:47%;}
+ .lo_layout3wt #zC {margin-left:52.5%;}
+ .lo_layout3wt #zC,x:-moz-any-link {margin-left:6%;}
+ .lo_layout3wt #zC,x:-moz-any-link,x:default {margin-left:52.5%;}
+ .lo_layout3wt #zB #mapZone {width:330px;height:260px;}
+ .lo_layout3wt #zB #drivingDirectionsLnk {top:265px;}
+ .lo_layout3wt #zC form#contactForm {width:90%;}
+ 
+ 
+ /**************************************************************
+ Theme: Evident - Derived From: Navarre
+ Layout: Layout 3 with Title - Derived From: Layout 3 with Title
+ **************************************************************/
+ 
+ 
+ /**************************************************************
+ Theme: Evident - Derived From: Navarre
+ Layout: Layout 4 with Title - Derived From: Layout 4 with Title
+ **************************************************************/
+ .lo_layout4wt #zA, .lo_layout4wt #zB {float:left;}
+ .lo_layout4wt #zA {width:50%;}
+ .lo_layout4wt #zB {width:20%;margin-left:5%;display:inline;}
+ .lo_layout4wt #zC {width:20%;float:right;}
+ .lo_layout4wt #zB #mapZone {width:160px;height:260px;}
+ .lo_layout4wt #zB #drivingDirectionsLnk {top:265px;}
+ .lo_layout4wt #zC form#contactForm {width:90%;}
+ 
+ 
+ /**************************************************************
+ Theme: Evident - Derived From: Navarre
+ Layout: Layout 4 with Title - Derived From: Layout 4 with Title
+ **************************************************************/
+ 
+ #body  {
+ 	color: #999999;
+ }
+ 
+ #body h2 {
+ 	color: #888888;
+ }
+ 
+ #body h4 {
+ 	color: #888888;
+ }
+ 
+ #body a:link,
+ #body a:visited {
+ 	color: #555555;
+ }
+ 
+ #body a:hover,
+ #body a:focus,
+ #body a:active {
+ 	color: #999999;
+ 	text-decoration: none;
+ }
+ 
+ #hd h1 a:link,
+ #hd h1 a:visited {
+ 	color: #999999;
+ 	text-decoration: none;
+ }
+ 		
+ ul#mainNav li a:link,
+ ul#mainNav li a:visited {
+ 	color: #999999;
+ }
+ 
+ ul#mainNav li.active a:link,
+ ul#mainNav li.active a:visited,
+ ul#mainNav li a:hover,
+ ul#mainNav li a:focus,
+ ul#mainNav li a:active {
+ 	color: #000000;
+ }
+ 
+ #hd {
+ 	background-image: url(https://turbifycdn.com/lm/lib/smb/assets/hosting/yss/themes/evident/vanilla_bean/images/en-us/border_left_1.2.jpg);
+ }
+ 
+ #hContent {
+ 	background-image: url(https://turbifycdn.com/lm/lib/smb/assets/hosting/yss/themes/evident/vanilla_bean/images/en-us/border_right_1.2.jpg);
+ }
+ 
+ #navigation {
+ 	background-image: url(https://turbifycdn.com/lm/lib/smb/assets/hosting/yss/themes/evident/vanilla_bean/images/en-us/border_left_1.2.jpg);
+ }
+ 
+ #mainNav {
+ 	background-image: url(https://turbifycdn.com/lm/lib/smb/assets/hosting/yss/themes/evident/vanilla_bean/images/en-us/border_right_1.2.jpg);
+ }
+ 
+ #fContent {
+ 	background-image: url(https://turbifycdn.com/lm/lib/smb/assets/hosting/yss/themes/evident/vanilla_bean/images/en-us/border_left_1.2.jpg);
+ }
+ 
+ #fMisc {
+ 	background-image: url(https://turbifycdn.com/lm/lib/smb/assets/hosting/yss/themes/evident/vanilla_bean/images/en-us/border_right_1.2.jpg);
+ }
+ 
+ ul#mainNav li a:link,
+ ul#mainNav li a:visited {
+ 	background-image: url(https://turbifycdn.com/lm/lib/smb/assets/hosting/yss/themes/evident/vanilla_bean/images/en-us/nav_link_1.2.jpg);
+ }
+ 
+ ul#mainNav li.active a:link,
+ ul#mainNav li.active a:visited,
+ ul#mainNav li a:hover,
+ ul#mainNav li a:focus,
+ ul#mainNav li a:active {
+ 	background-image: url(https://turbifycdn.com/lm/lib/smb/assets/hosting/yss/themes/evident/vanilla_bean/images/en-us/li_active_1.2.jpg);
+ }
+ 
+ p.vcard .org,
+ p.vcard .adr,
+ p.vcard .tel {
+ 	background-image: url(https://turbifycdn.com/lm/lib/smb/assets/hosting/yss/themes/evident/vanilla_bean/images/en-us/bullet_1.2.gif);
+ }
+ 		
+ #zB	#mapZone {
+ 	border-color: #888888;
+ }
+ 
+ #zB #mapContainer {
+ 	_border-color: #888888;
+ }
+ 
+ #zWrap ul.module_bd_container li {
+ 	background-color: #555555;
+ 	color: #ffffff;
+ 	border-color: #555555;
+ }
+ 		
+ #zWrap ul.module_bd_container li a:link,
+ #zWrap ul.module_bd_container li a:visited {
+ 	color: #ffffff;
+ }				
+ 
+ #body #zWrap ul.module_bd_container .title {
+ 	color: #ffffff;	
+ }
+ 
+ #zWrap ul.module_bd_container li li {
+ 	background-image: none;
+ 	background-color: transparent;
+ }
+ 
+ #zWrap ul.module_bd_container li.beforenafter a:link,
+ #zWrap ul.module_bd_container li.beforenafter a:visited {
+ 	color:#ffc;
+ }
+ 
+ #body #mainNav .subNav a,
+ #body .nav_hassub #navigation #subNav a {
+ 	color:#999999;
+ }
+ 		
+ #body #mainNav .subNav a:hover,
+ #body .nav_hassub #navigation #subNav a:hover,
+ #body #wrapper #navigation .active-sub a {
+ 	color:#000000;
+ }
+ 
+ #body #wrapper .sub_dynamic #mainNav .subNav a {
+ 	background-color:#F8F8F8;
+ }
+ 			
+ #body .nav_hassub #navigation #subNav {
+ 	background-color:#FFFFFF;
+ }
+ 
+ #body #mainNav .subNav {
+ 	border-color:#E2E2E2;
+ }
+ 
+ #body .nav_hassub .sub_static #mainNav {
+ 	background-image: none;			background-color: transparent;}
+ 
+ #body .sub_dynamic #mainNav a {
+ 	background-image: none;
+ 	background-color: transparent;
+ }
+ 
+ .lo_layout1 #zA, .lo_layout1wt #zA {
+ 	background-image: url(https://turbifycdn.com/lm/themes/yhoo/ga/evident/vanilla_bean/palette1/1.0.1/en-us/images/dots.gif);
+ }
+ .lo_layout2wt #zC {
+ 	background-image: url(https://turbifycdn.com/lm/themes/yhoo/ga/evident/vanilla_bean/palette1/1.0.1/en-us/images/dots.gif);
+ }

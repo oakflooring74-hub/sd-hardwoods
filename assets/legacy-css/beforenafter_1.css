@@ -1,0 +1,9 @@
+/* without the first declaration (clear) FF2 would not wrap the LIs and without the second declaration (100%) ie6 would make the second float drop - overflow to create NBFC (vs. 100%) and padding bottom to prevent collapsing margin */
+#zWrap ul.module_bd_container li.beforenafter {clear:left;width:100%;overflow:hidden;padding-bottom:1px;margin-left:auto;margin-right:auto;}
+/* to kill "extra" bottom margin on the UL and to shift it to the right for better placement bounding boxes because the nested LIs are only 49.5% width */
+#zWrap ul.module_bd_container li.beforenafter ul {zoom:1;margin-left:1%;}
+#zWrap ul.module_bd_container li.before, #zWrap ul.module_bd_container li.after {margin-left:0;list-style-type:none;width:49.5%;float:left;text-align:center;}
+#zWrap ul.module_bd_container ul.modfieldgrp {margin-left: 0;overflow-x:hidden;overflow-y:hidden;}
+#zWrap ul.module_bd_container img.beforeimage, #zWrap ul.module_bd_container img.afterimage {margin:0 auto 10px auto;width:80%;height:auto;}
+#zWrap ul.module_bd_container p.beforedescription, #zWrap ul.module_bd_container p.afterdescription {text-align:center;width:90%;margin:0 auto 20px auto;}
+#zWrap ul.module_bd_container div.description {clear:both;text-align:left;}

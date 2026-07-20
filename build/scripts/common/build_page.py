@@ -149,14 +149,28 @@ def extract_head_pieces(raw_doc):
     desc_meta = re.sub(r'\s+id="mDescription"', '', desc_meta)
     pieces["desc_meta"] = desc_meta
     pieces["canonical"] = extract_one(r'<link[^>]+rel="canonical"[^>]*/?>', raw_doc)
-    pieces["uacompat"] = extract_one(r'<meta http-equiv="X-UA-Compatible"[^>]*/?>', raw_doc, required=False) or ""
-    pieces["generator"] = extract_one(r'<meta name="Generator"[^>]*/?>', raw_doc, required=False) or ""
     css_links = []
     for cid in ["globalCSS", "themeCSS", "listCSS", "extensionsCSS"]:
         tag = extract_one(r'<link[^>]+id="%s"[^>]*/?>' % cid, raw_doc, required=False)
         if tag:
             css_links.append(tag)
-    pieces["css_links"] = "\n\t".join(css_links)
+    css_links = "\n\t".join(css_links)
+    # Turbify-CSS-localization milestone (2026-07-20): globalCSS/themeCSS/listCSS were live
+    # requests to s.turbifycdn.com on every page load; their exact served content is now
+    # preserved verbatim in assets/legacy-css/ (see docs/2026-07-prelaunch-audit.md). Only
+    # these three -- extractionsCSS is a mislabeled .js file, out of scope, left pointing at
+    # Turbify like the inert YAHOO script below it.
+    css_links = css_links.replace(
+        "https://s.turbifycdn.com/lm/lib/smb/css/hosting/yss/v2/mc_global.195798.css",
+        "/assets/legacy-css/mc_global.195798.css",
+    ).replace(
+        "https://s.turbifycdn.com/lm/themes/yhoo/ga/evident/vanilla_bean/palette1/1.0.1/en-us/theme.css",
+        "/assets/legacy-css/theme.css",
+    ).replace(
+        "https://s.turbifycdn.com/lm/css/hosting/yss/v2/apps/beforenafter_1.css",
+        "/assets/legacy-css/beforenafter_1.css",
+    )
+    pieces["css_links"] = css_links
     pieces["yahoo_script"] = extract_one(
         r'<script type="text/javascript">\s*var \$D.*?</script>', raw_doc, required=False) or ""
     pieces["jsonld_blocks"] = extract_all(r'<script type="application/ld\+json">.*?</script>', raw_doc)
@@ -254,7 +268,7 @@ def build_page(cfg):
     html = f'''<!DOCTYPE html><html lang="en">
 <head xmlns="">
   <meta charset="utf-8">
-\t<meta name="viewport" content="width=device-width, initial-scale=1">{head["uacompat"]}{head["generator"]}{head["desc_meta"]}
+\t<meta name="viewport" content="width=device-width, initial-scale=1">{head["desc_meta"]}
 \t<link href="{cfg["canonical"]}" rel="canonical">
 \t{head["css_links"]}{head["yahoo_script"]}
 \t<title>{head["title"]}</title>

@@ -1,0 +1,7 @@
+# assets/legacy-css/ holds vendor CSS downloaded verbatim from Turbify's CDN (see
+# docs/2026-07-prelaunch-audit.md and the Turbify-CSS-localization milestone). Mark it
+# binary so git never applies line-ending conversion -- the whole point is preserving the
+# exact bytes as served, and this machine's core.autocrlf=true would otherwise silently
+# rewrite LF to CRLF on checkout/commit (same class of issue documented in build/README.md
+# for generated pages).
+assets/legacy-css/*.css -text
