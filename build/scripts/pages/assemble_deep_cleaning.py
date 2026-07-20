@@ -271,7 +271,6 @@ head_extra = f'''<meta name="description" content="{meta_desc}">
 	<link href="{canonical}" rel="canonical">
 	<link href="/assets/legacy-css/mc_global.195798.css" id="globalCSS" media="screen" rel="stylesheet" type="text/css">
 	<link href="/assets/legacy-css/theme.css" id="themeCSS" media="screen" rel="stylesheet" type="text/css">
-	<link href="https://s.turbifycdn.com/ln/lib/smb/assets/hosting/yss/extensions/css/turbify_ss_extensions_1675321208.js" id="extensionsCSS" media="screen" rel="stylesheet" type="text/css">
 	<title>{title}</title>
 	<link href="/favicon.ico" rel="icon" type="image/x-icon">
 	<link href="/favicon-192.ico" rel="icon" sizes="192x192" type="image/x-icon">
