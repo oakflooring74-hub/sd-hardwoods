@@ -63,19 +63,23 @@ JSONLD = build_service_page_jsonld(
     page_name="San Diego Solid & Engineered Wood Floor Installation, Refinishing, Repairs & Dustless Sanding",
     page_description="See solid and unfinished engineered hardwood installations in San Diego, including nail-down, glue-down, sanding and custom finishing.",
     service_name="Solid & Unfinished Engineered Wood Floor Installation",
-    service_description="Installation, sanding, and finishing of real solid wood strip and plank flooring, along with unfinished engineered wood floors glued to concrete, with custom colors, square-edge unfinished engineered wide plank flooring, and dust-contained sanding. Premium mill-direct materials are sourced directly, with careful climate acclimation for San Diego's coastal and inland environments.",
+    service_description="Installation of real solid and engineered wood flooring using nail-down, glue-down (over concrete), floating, and nail-assist methods -- unfinished flooring installed, sanded, and finished on site, or prefinished flooring installed ready-to-use. Includes cork and acoustic underlayment, sound-control assemblies, moisture and subfloor evaluation, custom colors, and true 100% dust-containment sanding. Premium mill-direct materials are sourced directly, with careful climate acclimation for San Diego's coastal and inland environments.",
     service_types=[
         "Solid hardwood floor installation", "Nail-down hardwood installation",
-        "Unfinished engineered hardwood installation", "Glue-down installation over concrete",
+        "Glue-down hardwood installation over concrete", "Floating hardwood floor installation",
+        "Nail-assist hardwood installation",
+        "Unfinished engineered hardwood installation", "Prefinished hardwood installation",
         "Wide-plank engineered flooring installation", "Custom stain and finish application",
-        "Dust-contained sanding", "Mill-direct hardwood flooring material sourcing",
+        "Cork and acoustic underlayment installation", "Subfloor and moisture evaluation",
+        "True 100% dust-containment sanding", "Mill-direct hardwood flooring material sourcing",
     ],
     area_served=["San Diego County"] + PRIORITY_COASTAL_SD,
     offer_catalog_name="Solid & Engineered Wood Floor Installation Services",
     offer_items=[
         ("Solid Wood Strip & Plank Installation", "Installation of real solid wood strip and plank flooring, nailed down and finished on site."),
-        ("Unfinished Engineered Wood Floor Installation", "Unfinished engineered wood floors glued to concrete, including square-edge wide-plank flooring for exceptionally flat surfaces."),
-        ("Custom Color & Finish Application", "Custom stain colors and Bona Traffic HD finishes applied on site after installation."),
+        ("Engineered Wood Floor Installation", "Engineered wood floors installed by glue-down over concrete, floating, or nail-assist depending on subfloor and product, including unfinished square-edge wide-plank flooring finished on site and ready-to-use prefinished flooring."),
+        ("Custom Color & Finish Application", "Custom stain colors and Bona Traffic HD finishes applied on site after installation, with true 100% dust-containment sanding."),
+        ("Cork, Underlayment & Subfloor Evaluation", "Cork and acoustic underlayment, sound-control assemblies, and moisture/subfloor evaluation before installation begins."),
         ("Mill-Direct Material Sourcing", "Premium solid and engineered hardwood flooring sourced directly from trusted mills, with climate acclimation for San Diego's coastal and inland environments."),
     ],
 )
@@ -108,7 +112,7 @@ MAIN = f"""
 <section class="hero">
   <div class="kicker">Est. 1990 &bull; San Diego's Finest Hardwood Flooring Specialist</div>
   <h1>Solid &amp; Engineered Wood Floor Installation, Refinishing, Repairs &amp; Dustless Sanding</h1>
-  <p>Professional hardwood floor installation in San Diego &mdash; custom nail-down and glue-down installation of solid and unfinished engineered wood floors, acclimated, sanded, and finished on site throughout San Diego County, alongside our dust-contained refinishing, repair, and restoration services. Below: four complete installation projects, from staged raw lumber to the finished floor.</p>
+  <p>Professional hardwood floor installation in San Diego &mdash; real solid and engineered wood flooring installed by nail-down, glue-down, floating, or nail-assist methods, acclimated, sanded, and finished on site (or installed prefinished and ready-to-use) throughout San Diego County, alongside our true 100% dust-containment refinishing, repair, and restoration services. Below: four complete installation projects, from staged raw lumber to the finished floor.</p>
   <div class="cta-row">
     <a class="btn btn-call" href="tel:+18586990072">&#9742; Call 858-699-0072</a>
     <a class="btn btn-outline" href="sms:+18586990072">Text Floor Photos</a>
@@ -118,6 +122,28 @@ MAIN = f"""
 <section class="block">
   <h2>{INTRO["heading"]}</h2>
   <p class="lede">{INTRO["body"]}</p>
+</section>
+
+<section class="block">
+  <h2>Installation Methods, Materials &amp; Feasibility</h2>
+  <div class="info-grid">
+    <div class="card">
+      <h3>Nail-Down, Glue-Down, Floating &amp; Nail-Assist</h3>
+      <p>We install real solid wood strip and plank using traditional nail-down methods, and engineered wood floors using glue-down installation over concrete, floating installation, or nail-assist &mdash; the right method depends on subfloor type, plank width, and the specific product.</p>
+    </div>
+    <div class="card">
+      <h3>Unfinished &amp; Prefinished Flooring</h3>
+      <p>Unfinished solid and engineered flooring is installed, sanded, and finished on site for a seamless custom look and true 100% dust-containment sanding; prefinished flooring is installed ready-to-use with no onsite sanding or finishing required.</p>
+    </div>
+    <div class="card">
+      <h3>Cork, Underlayment &amp; Sound Control</h3>
+      <p>Cork and acoustic underlayment, along with sound-control assemblies, are evaluated where relevant &mdash; particularly for condos, multi-story homes, and floating installations over concrete.</p>
+    </div>
+    <div class="card">
+      <h3>Moisture, Subfloor &amp; Installation Feasibility</h3>
+      <p>Before installation begins, we evaluate subfloor condition, moisture levels, transitions, and height limitations. For a full evaluation of installation feasibility on your subfloor, see our <a href="/floor-assessments-inspections" style="color:var(--brass-deep);font-weight:700;">Floor Assessments &amp; Inspections</a>.</p>
+    </div>
+  </div>
 </section>
 
 <section class="block">

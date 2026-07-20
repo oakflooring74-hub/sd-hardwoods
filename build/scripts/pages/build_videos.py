@@ -364,7 +364,7 @@ MAIN = f"""{PAGE_CSS}
 <section class="hero">
   <div class="kicker">Est. 1990 &bull; San Diego's Finest Hardwood Flooring Specialist</div>
   <h1>Real Hardwood Floor Refinishing, Dustless Sanding &amp; Restoration Videos</h1>
-  <p>This page documents <strong>real San Diego Hardwoods projects</strong> &mdash; every public video from our YouTube channel in one place. Watch our equipment at work on actual customer floors: dust-contained sanding with the <strong>Bona DCS 2.0 containment system</strong>, hardwood floor repairs, restoration of vintage and historic floors, custom staining, intensive deep cleaning and recoating, installation, and premium Bona finish work &mdash; the same craftsmanship behind our refinishing, restoration, and installation projects across San Diego County.</p>
+  <p>This page documents <strong>real San Diego Hardwoods projects</strong> &mdash; every public video from our YouTube channel in one place. Watch our equipment at work on actual customer floors: true 100% dust-containment sanding with the <strong>Bona DCS 2.0 sealed system</strong> (dustless hardwood-floor sanding and refinishing), hardwood floor repairs, restoration of vintage and historic floors, custom staining, intensive deep cleaning and recoating, installation, and premium Bona finish work &mdash; the same craftsmanship behind our refinishing, restoration, and installation projects across San Diego County.</p>
   <div class="cta-row">
     <a class="btn btn-call" href="sms:+18586990072">Text Photos for a Free Assessment</a>
     <a class="btn btn-outline" href="tel:+18586990072">&#9742; Call 858-699-0072</a>
@@ -386,7 +386,7 @@ MAIN = f"""{PAGE_CSS}
 <section class="block" id="featured-videos">
   <p class="eyebrow">Start Here</p>
   <h2>Featured Project Videos</h2>
-  <p class="lede">Six representative projects: dust-contained sanding with the Bona DCS 2.0 system, dramatic restorations, hardwood repairs, deep cleaning with visible results, and specialty finish work.</p>
+  <p class="lede">Six representative projects: true 100% dust-containment sanding with the Bona DCS 2.0 system, dramatic restorations, hardwood repairs, deep cleaning with visible results, and specialty finish work.</p>
   <div class="vid-grid vid-grid--featured">
 {featured_cards}
   </div>

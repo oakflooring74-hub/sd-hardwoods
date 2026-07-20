@@ -25,8 +25,8 @@ jsonld_blocks = re.findall(r'<script type="application/ld\+json">.*?</script>', 
 # Milestone 2.4: the homepage is the site's primary full-service flooring page, so its
 # title/description no longer come from the raw source (whose title centered on videos).
 title = "Hardwood Floor Refinishing San Diego | San Diego Hardwoods"
-description = ("Owner-operated since 1990. Hardwood floor refinishing, restoration, repairs, "
-               "installation, deep cleaning and dust-contained sanding throughout San Diego County.")
+description = ("Owner-operated since 1990. Hardwood and bamboo floor refinishing, restoration, "
+               "deep cleaning, repairs and installation with true 100% dust containment throughout San Diego County.")
 
 HEAD_META = f"""<title>{title}</title>
 <meta name="description" content="{description}">
@@ -95,8 +95,8 @@ _homepage_graph = build_webpage_service_graph(
     area_served=["San Diego County"] + PRIORITY_COASTAL_SD,
     offer_catalog_name="Complete Hardwood & Bamboo Flooring Services",
     offer_items=[
-        ("Dust-Contained Refinishing & Sanding",
-         "Bona DCS 2.0 portable dust-containment system with dual HEPA filtration and continuous bagging captures sanding and abrasion dust at the source, for virtually dust-free sanding in most normal project conditions."),
+        ("True 100% Dust-Containment Refinishing & Sanding",
+         "Our sealed Bona DCS 2.0 portable dust-containment system, with dual HEPA filtration and continuous bagging, captures sanding and abrasion dust at the source for true 100% dust containment -- what customers know as dustless hardwood-floor sanding and refinishing."),
         ("Deep Cleaning & Maintenance Recoating",
          "Bona Power Scrubber deep cleaning removes years of embedded dirt, contaminants, and residue before an optional protective low-VOC maintenance recoat; cleaning-only service is offered as its own scope when a new coat of finish isn't needed."),
         ("Solid & Engineered Hardwood Installation",

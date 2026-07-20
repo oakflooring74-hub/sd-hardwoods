@@ -1,6 +1,66 @@
-# Start here — project status as of 2026-07-19
+# Start here — project status as of 2026-07-20
 
 Read this file first when picking this project back up — **together with `docs/PROJECT_OPERATING_MANUAL.md` (the permanent governing document, added 2026-07-18) and `docs/PROJECT_DECISIONS.md` (binding decisions + standing blockers)**. This file links to everything else and tells you what's done, what's approved next, and what to ask the owner before doing anything.
+
+## Milestone 2.11 — Google Search Footprint Preservation & final prelaunch alignment (2026-07-20)
+
+Full requirements record: `docs/2026-07-google-search-footprint-preservation.md` (owner-approved
+evidence from real Google searches + the query-to-page relationships this pass had to preserve).
+One controlled pass across the existing 13-page site — no new pages, no schema restart, no
+image/gallery reorganization.
+
+**Protected page roles reconfirmed/strengthened:**
+- **Homepage** — broad authority for refinishing/restoration/deep cleaning/recoating/
+  installation/hardwood+bamboo/water damage/free assessment. Links out to Deep Cleaning,
+  Installation, galleries/videos, and Assessments (all pre-existing, verified intact).
+- **Deep Cleaning** — owner-locked title/meta/H1 reconfirmed unchanged (byte-match check against
+  the exact owner text). Only a minor internal-link anchor-text tweak.
+- **Solid & Engineered Installation** (`solid_wood_floor_photo_gallery.html`) — no longer reads
+  as gallery-only: added a new "Installation Methods, Materials & Feasibility" section (nail-down/
+  glue-down/floating/nail-assist, unfinished-vs-prefinished, cork/underlayment/sound control,
+  moisture/subfloor evaluation linking to Assessments) + matching schema (`service_types`/
+  `offer_items`). Title/meta/H1 unchanged (already matched the proven search intent).
+- **Floor Assessments & Inspections** — the one page with a real new-visibility opportunity
+  (`pre purchase floor inspection san diego` had zero prior SDH visibility). Title/meta/H1 now
+  name "Bamboo" and "Pre-Purchase" explicitly; added a "Can This Floor Be Refinished?" diagnostic
+  section (solid vs. engineered, wear layer, finish/oil-hard-wax-oil compatibility, textured
+  surfaces, damage/repair matching) and the owner-required "not a substitute for a general home
+  inspection" distinction inside the pre-purchase section. Existing Condition → Probable Cause →
+  Feasibility/Limitations → Recommended Next Step report structure was already in place — left as
+  is.
+- **About / Videos** — dust-containment wording strengthened only (see below); titles/meta/H1
+  otherwise untouched (no owner evidence to justify a rewrite there).
+- **Galleries 1–5, Blog, Contact** — untouched. Their title/meta/description text is the
+  established live/raw-source wording (prelaunch audit confirmed 5 of 13 pages match live
+  exactly); this milestone's evidence didn't call for changes there, and rewriting established,
+  ranking copy without owner evidence is exactly what this milestone's rules prohibit.
+
+**True 100% dust containment restored as the precise claim** (owner-confirmed this session,
+supersedes the prior "dust-contained" claims-policy guess — see `CLAUDE.md` and
+`docs/PROJECT_DECISIONS.md` → "Claims policy enforcement" for the superseding note): homepage
+(title/meta/H1/hero/dedicated dust section), About (two credential bullets), Videos (hero +
+featured-section copy), Solid & Engineered Installation (hero + schema), and one Deep Cleaning
+internal-link anchor. "Dustless hardwood-floor sanding and refinishing" kept everywhere as the
+natural customer phrase alongside the precise claim. Legacy gallery/blog captions extracted
+verbatim from frozen raw-source records still say "dust-free"/"dust-contained" in places —
+deliberately left alone (pre-existing, out of this milestone's scope, same call as Milestone 2.9).
+
+**QA:** double build byte-identical (7 pages changed both runs, same diff both times); all 13
+pages' JSON-LD parses; exactly one full `#local` `LocalBusiness` declaration per page; unique
+titles/meta descriptions across all 13; exactly one `<h1>` per page; zero visible "Orange County"
+text on any page; all 58 YouTube IDs + the server-rendered hero intact on Videos; zero missing
+local image references; zero broken internal links (script-verified against the canonical map);
+`git diff --check` clean. Playwright browser QA (desktop 1440×900 + mobile 390×844) on homepage,
+Deep Cleaning, Solid & Engineered Installation, Gallery 1, Videos, Floor Assessments: single H1,
+zero horizontal overflow, zero console errors, no visible OC text — 12/12 checks passed.
+
+**Files changed:** `CLAUDE.md`, `docs/PROJECT_DECISIONS.md`, `docs/2026-07-google-search-footprint-preservation.md`
+(new), `build/data/index/main_content.html`, `build/scripts/pages/{build_homepage,build_about_us,
+build_videos,build_solidwood,build_floor_assessments,assemble_deep_cleaning}.py`, and the 7
+regenerated root pages (`index.html`, `about_us.html`, `videos_of_refinishing_process.html`,
+`solid_wood_floor_photo_gallery.html`, `floor-assessments-inspections.html`,
+`deep-cleaning-hardwood-floors-san-diego.html`) + `sitemap.xml`/`robots.txt` (regenerated,
+unchanged content). Galleries 1–5, Blog, Contact: confirmed byte-identical, not touched.
 
 ## Milestone 2.10 — Turbify image localization & video-title typo fix (2026-07-19)
 

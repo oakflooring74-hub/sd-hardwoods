@@ -87,9 +87,19 @@ visual redesign without an owner-authorized milestone.
 
 ## Claims policy enforcement (Milestone 2.5)
 
-"Dust-contained" (never "100%"/"dust-free"), no "flawless"/"perfect"/"far exceeds"/"exact
-match", qualified response-time claims. ~~License number is published on About~~ —
-superseded by Milestone 2.6 rule 2 above: the exact number is NOT published anywhere.
+~~"Dust-contained" (never "100%"/"dust-free")~~ — **superseded 2026-07-20** (Google Search
+Footprint Preservation milestone, see `docs/2026-07-google-search-footprint-preservation.md`):
+the owner has confirmed the sanding/refinishing system provides **true 100% dust containment**
+(a sealed commercial system that captures sanding dust at the source). Use "true 100% dust
+containment" / "true 100% dust-containment sanding" as the precise claim on homepage, About,
+Videos, and the Solid & Engineered Installation page; "dustless hardwood-floor sanding and
+refinishing" remains valid as the natural customer phrase alongside it. Do not adopt generic
+95–99% figures from AI-generated summaries. Legacy gallery/blog captions and alt text extracted
+verbatim from frozen raw-source records still say "dust-free" or "dust-contained" in places —
+those remain flagged, not fixed (out of scope; no broad caption rewrite). No "flawless"/
+"perfect"/"far exceeds"/"exact match", qualified response-time claims. ~~License number is
+published on About~~ — superseded by Milestone 2.6 rule 2 above: the exact number is NOT
+published anywhere.
 
 ## Standing blockers (owner input required)
 

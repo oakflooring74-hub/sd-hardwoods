@@ -244,7 +244,7 @@ main_html = f'''<main>
     </div>
     <div class="card">
       <h3>When Cleaning Isn't Enough</h3>
-      <p>Deep cleaning cannot repair a finish that is worn through, deep scratches into raw wood, or gray, water-damaged boards. When a floor has reached that point, it needs full sanding and refinishing &mdash; see our <a href="https://www.sdhardwoods.com/" style="color:var(--brass-deep);font-weight:700;">dust-contained hardwood floor refinishing in San Diego</a>. We'll tell you honestly which service your floor actually needs.</p>
+      <p>Deep cleaning cannot repair a finish that is worn through, deep scratches into raw wood, or gray, water-damaged boards. When a floor has reached that point, it needs full sanding and refinishing &mdash; see our <a href="https://www.sdhardwoods.com/" style="color:var(--brass-deep);font-weight:700;">true 100% dust-containment hardwood floor refinishing in San Diego</a>. We'll tell you honestly which service your floor actually needs.</p>
     </div>
   </div>
 
