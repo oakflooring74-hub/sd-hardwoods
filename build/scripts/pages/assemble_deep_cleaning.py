@@ -6,6 +6,7 @@ sys.path.insert(0, str(BUILD / "scripts" / "common"))
 from public_business_rules import (
     sanitize_public_jsonld, build_service_page_jsonld, PRIORITY_COASTAL_SD,
 )
+from alt_expand import append_sentences, strip_html_tags
 RAW = str(BUILD / "raw-source" / "deep-cleaning-hardwood-floors-san-diego.html")
 CHROME = str(BUILD / "chrome")
 RECORDS = str(BUILD / "data" / "deep-cleaning-hardwood-floors-san-diego" / "gallery_records.json")
@@ -131,13 +132,24 @@ for rec in records:
 def esc(s):
     return s if s else ""
 
-def render_figure(img, desc):
+def render_figure(img, desc, title=None):
     if not img:
         return ""
     href = img["href"] or img["src"]
     cls = img["class"].strip()
     cls_attr = f' class="{cls}"' if cls else ""
-    fig = f'<figure><a href="{href}"><img src="{img["src"]}" alt="{img["alt"]}"{cls_attr} loading="lazy"></a>'
+    # Aggressive alt-text expansion (2026-07-20): this image's own raw-source alt
+    # (already rich, including the page's established COIT/Stanley Steemer/Zerorez
+    # comparison wording where it already existed) is preserved verbatim as the
+    # prefix. Appended: the project's own module title and its own visible
+    # figcaption description -- both already-published text about this exact photo.
+    # Deep Cleaning's gallery_records.json is regenerated from raw-source on every
+    # build (build_deep_cleaning.py), so this expansion is applied here at assemble
+    # time rather than by hand-editing that regenerated JSON.
+    title_sentence = strip_html_tags(title) if title else None
+    alt = append_sentences(img["alt"], title_sentence, desc)
+    alt = alt.replace('"', "&quot;")  # this file doesn't otherwise escape attribute values
+    fig = f'<figure><a href="{href}"><img src="{img["src"]}" alt="{alt}"{cls_attr} loading="lazy"></a>'
     if desc:
         fig += f'<figcaption>{desc}</figcaption>'
     fig += '</figure>'
@@ -150,10 +162,10 @@ for rec in records:
     before = rec["before"]
     after = rec["after"]
     parts = [f'<div class="card">', f'<h3>{card_title}</h3>', '<div class="gallery" style="grid-template-columns:repeat(2,1fr);">']
-    parts.append(render_figure(before["img"], before["desc"]))
+    parts.append(render_figure(before["img"], before["desc"], card_title))
     if before["img"]:
         img_count_in_gallery += 1
-    parts.append(render_figure(after["img"], after["desc"]))
+    parts.append(render_figure(after["img"], after["desc"], card_title))
     if after["img"]:
         img_count_in_gallery += 1
     parts.append('</div>')

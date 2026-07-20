@@ -24,6 +24,7 @@ BUILD = Path(__file__).resolve().parent.parent.parent  # -> build/
 sys.path.insert(0, str(BUILD / "scripts" / "common"))
 from assemble_page import assemble
 from public_business_rules import replace_area_served, FULL_SAN_DIEGO_AREAS, SOUTH_ORANGE_COUNTY
+from alt_expand import append_sentences
 
 HEAD_META = """<title>Hardwood Floor Refinishing &amp; Dustless Sanding Videos | San Diego</title>
 <meta name="description" content="Watch real San Diego hardwood floor refinishing, sanding, repair, staining and restoration videos from actual customer projects.">
@@ -102,6 +103,28 @@ def card_desc(v):
     return d
 
 
+def thumb_alt(v):
+    """Aggressive alt-text expansion (2026-07-20): every thumbnail on this page
+    previously rendered alt="" (confirmed by inventory scan). Built entirely from
+    this video's own already-verified snapshot fields (title, curated display
+    title, category, real site/YouTube description, upload date) -- nothing
+    invented. Title/description redundancy between the thumbnail alt and the
+    adjacent visible <h3>/<p> is an intentional owner decision for this milestone."""
+    title_sentence = display_title(v)
+    desc = v.get("site_description") or ""
+    if not desc:
+        d = re.sub(r"\s+", " ", v.get("description") or "").strip()
+        # first sentence/paragraph only, not the full raw YouTube description body
+        d = d.split("\n\n")[0].strip()
+        if len(d) > 320:
+            d = d[:320].rsplit(" ", 1)[0].rstrip(",.;:") + "..."
+        desc = d
+    kind = "San Diego Hardwoods YouTube Short video thumbnail" if v.get("is_short") else "San Diego Hardwoods YouTube video thumbnail"
+    closing = (f"{kind} showing {v['category_label'].lower()} filmed on a real customer "
+               f"hardwood or bamboo floor project in San Diego County, uploaded {v['publish_date']}.")
+    return append_sentences(title_sentence, desc, closing)
+
+
 def video_card(v, big=False):
     cls = "vid-card vid-card--featured" if big else "vid-card"
     badge = '<span class="vid-flag">Featured</span>' if big else ""
@@ -115,7 +138,7 @@ def video_card(v, big=False):
     t = esc(display_title(v))
     return f'''<article class="{cls}" data-cat="{v["category"]}" data-short="{'1' if v["is_short"] else '0'}">
   <button type="button" class="vid-thumb" data-yt="{v["id"]}" data-vtitle="{t}" aria-label="Play video: {t}">
-    <img src="{esc(v["thumbnail_url"])}" alt="" loading="lazy" width="480" height="360">
+    <img src="{esc(v["thumbnail_url"])}" alt="{esc(thumb_alt(v))}" loading="lazy" width="480" height="360">
     <span class="vid-dur" aria-hidden="true">{esc(v["duration_text"])}</span>
     <span class="vid-play" aria-hidden="true"><svg viewBox="0 0 68 48" width="52" height="37" focusable="false"><path fill="rgba(20,14,7,.82)" d="M66.5 7.7c-.8-2.9-3-5.2-5.9-6C55.4.3 34 .3 34 .3S12.6.3 7.4 1.7c-2.9.8-5.1 3.1-5.9 6C.1 13 .1 24 .1 24s0 11 1.4 16.3c.8 2.9 3 5.2 5.9 6 5.2 1.4 26.6 1.4 26.6 1.4s21.4 0 26.6-1.4c2.9-.8 5.1-3.1 5.9-6C67.9 35 67.9 24 67.9 24s0-11-1.4-16.3z"/><path fill="#fff" d="M27 34.6 44.6 24 27 13.4z"/></svg></span>
   </button>

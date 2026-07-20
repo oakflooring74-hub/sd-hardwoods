@@ -7,6 +7,8 @@ sys.path.insert(0, str(BUILD / "scripts" / "common"))
 from assemble_page import assemble, gallery_progress_html
 from public_business_rules import build_service_page_jsonld
 
+from alt_expand import clean_caption, append_sentences
+
 SCRATCH = str(BUILD)  # unused after this point but kept for reference
 
 with open(BUILD / "data" / "recent_project_photo_gallery_1" / "modules.json", encoding="utf-8") as f:
@@ -77,7 +79,15 @@ def module_html(m, idx):
         href = img["href"] or src
         cls = img["class"] or ""
         cls_attr = f' class="{esc(cls)}"' if cls.strip() else ""
-        alt = f"{title} — {label}"
+        # Aggressive alt-text expansion (2026-07-20): the live alt has always been
+        # exactly "{title} — {label}" -- preserved verbatim below as the prefix.
+        # Appended: this same image's own richer legacy alt text from modules.json
+        # (extracted from the raw source but never actually rendered until now) and
+        # its short project caption, both already-verified per-image data.
+        base_alt = f"{title} — {label}"  # byte-identical to the current live alt text
+        detail = (img.get("alt") or "").strip()
+        cap = clean_caption(img.get("caption"))
+        alt = append_sentences(base_alt, detail, cap)
         return f'<figure><a href="{href}"><img src="{src}" alt="{esc(alt)}"{cls_attr} loading="lazy"></a><figcaption>{label}</figcaption></figure>'
     return f"""
 <div class="card" style="margin-bottom:24px;">

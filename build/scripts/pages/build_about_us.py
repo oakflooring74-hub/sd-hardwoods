@@ -83,7 +83,7 @@ MAIN = """
 
 <section class="block">
   <figure style="max-width:520px;margin:0 auto 30px;border-radius:10px;overflow:hidden;border:1px solid var(--line);">
-    <a href="/LARK56.jpg"><img src="/LARK56.jpg" alt="Hardwood floor refinishing in Encinitas — deep cleaning and prep on wide-plank oak before a durable, dust-contained recoat for a coastal North County home." style="width:100%;display:block;"></a>
+    <a href="/LARK56.jpg"><img src="/LARK56.jpg" alt="Hardwood floor refinishing in Encinitas — deep cleaning and prep on wide-plank oak before a durable, dust-contained recoat for a coastal North County home. This project is representative of the hardwood floor refinishing, restoration, repairs, custom installation and deep-cleaning work San Diego Hardwoods has performed throughout San Diego County since 1990, using true 100% dust-containment sanding and Bona Certified Craftsman finishing systems." style="width:100%;display:block;"></a>
   </figure>
 
   <h2>About San Diego Hardwoods &ndash; 35+ Years of Dustless Refinishing &amp; Installation Expertise</h2>

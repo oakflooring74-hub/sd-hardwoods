@@ -386,7 +386,7 @@ MAIN = """
   <p class="lede">Homeowners planning flooring work, prospective buyers evaluating a property, landlords and tenants, property managers, real-estate professionals, designers and contractors seeking a second opinion, and clients with insurance-related flooring questions &mdash; especially when floors are affected by water, moisture, repair, finish-failure, or damage concerns, or are simply confusing to diagnose.</p>
 
   <figure style="max-width:520px;margin:0 auto 30px;border-radius:10px;overflow:hidden;border:1px solid var(--line);">
-    <a href="/LARK56.jpg"><img src="/LARK56.jpg" alt="Hardwood floor refinishing in Encinitas — deep cleaning and prep on wide-plank oak before a durable, dust-contained recoat for a coastal North County home." style="width:100%;display:block;" loading="lazy"></a>
+    <a href="/LARK56.jpg"><img src="/LARK56.jpg" alt="Hardwood floor refinishing in Encinitas — deep cleaning and prep on wide-plank oak before a durable, dust-contained recoat for a coastal North County home. Deciding whether a hardwood floor needs deep cleaning, maintenance recoating, or full sanding and refinishing — as with this Encinitas wide-plank oak project — is exactly the kind of condition and feasibility evaluation San Diego Hardwoods provides through its free phone and photo assessment and in-home floor evaluations throughout San Diego County." style="width:100%;display:block;" loading="lazy"></a>
   </figure>
 
   <div class="info-grid">

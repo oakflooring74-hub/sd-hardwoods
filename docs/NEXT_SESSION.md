@@ -2,6 +2,81 @@
 
 Read this file first when picking this project back up — **together with `docs/PROJECT_OPERATING_MANUAL.md` (the permanent governing document, added 2026-07-18) and `docs/PROJECT_DECISIONS.md` (binding decisions + standing blockers)**. This file links to everything else and tells you what's done, what's approved next, and what to ask the owner before doing anything.
 
+## Milestone 2.12 — Aggressive, Evidence-Grounded Image Alt-Text Expansion (2026-07-20)
+
+Owner-directed, ranking-first milestone (deliberately unconventional-length alt
+text by owner instruction). Full requirements:
+`docs/SDH_Aggressive_Image_Alt_Expansion_Strategy_July_2026.md`. Full result and
+verification record: `docs/2026-07-aggressive-image-alt-expansion-report.md`.
+
+**What shipped:** every meaningful project image (homepage, Galleries 1–5, Solid
+& Engineered Installation, Deep Cleaning, Blog, About, Floor Assessments) and
+every video thumbnail on the Videos page (previously `alt=""` on all 58) now
+carries dense, multi-sentence alt text built entirely from data already in the
+repository — owner-approved captions, project titles/descriptions already visible
+on the page, per-image alt fields that existed in `modules.json` but were never
+actually rendered (Galleries 1–2), and curated video metadata already stored in
+`youtube_videos.json`. No facts were invented.
+
+- **413 of 465** total `<img>` usages expanded; **2** intentionally left empty
+  (site logo mark, JS-only lightbox placeholder) and documented.
+- **353** existing alt strings preserved **verbatim** as the literal prefix of
+  their final alt — checked programmatically (`final_alt.startswith(current_alt)`),
+  0 failures on the final build.
+- New shared generator helper: `build/scripts/common/alt_expand.py` (verbatim-
+  preserving sentence append, caption cleanup, HTML-entity/quote-attribute safety
+  for the appended text only — never touches the preserved original bytes).
+- New ledger: `build/data/image_alt_expansion_ledger.csv` (415 rows, full
+  before/after record per placement).
+- Two established Deep Cleaning competitor comparisons (Coit/Stanley
+  Steemer/Zerorez) preserved byte-for-byte; **zero new competitor names added**
+  anywhere on the site.
+- **QA:** double build byte-identical; all 13 pages' JSON-LD still parses; exactly
+  one `<h1>` per page; no `<img>` count / `alt=` count mismatch on any page (no
+  malformed attributes); `git diff --check` clean; line-level diff review
+  confirmed every changed line differs *only* in its `alt="..."` value (`src`,
+  `href`, `class`, `data-caption`, dimensions, badge numbers all identical).
+- **Two real defects caught during verification and fixed** (not present in the
+  final build): (1) the first draft of the append helper stripped trailing
+  whitespace from a few source alts before adding punctuation, which would have
+  broken byte-exact verbatim preservation — fixed so the original text is never
+  trimmed or altered; (2) appended prose/titles could contain a literal `"` or a
+  bare `&` (inch-mark measurements, "Repairs & Installation" style headings),
+  which would have produced invalid attribute values in the two overlay
+  assemblers (Deep Cleaning, Blog) that don't otherwise escape — fixed with
+  quote-escaping and entity-aware `&`-escaping applied only to newly appended text.
+
+**Flagged, not fixed (out of this milestone's scope):**
+- Solid Wood Gallery's pre-existing `TRICIA WALNUT27/30/63/76.jpg`
+  filename-vs-white-oak conflict (flagged since Milestone 2.5) — still
+  unresolved; this milestone's appended text repeats only the already-published
+  white-oak wording, takes no new position.
+- One Gallery 1 caption field (`ENCINITAS CHERRY18.jpg`) contains a leftover
+  Yahoo Facebook-Like-button JS fragment instead of real caption text (raw-source
+  extraction artifact) — excluded from appended alt text, not used as a source.
+- `build/scripts/generate_media_inventory.py` is stale (last run 2026-07-18,
+  predates Milestone 2.7's homepage image-30 removal). Regenerating it during
+  this session surfaced one pre-existing orphaned placement
+  (`HOME-IMG-034`) that the validator now flags as an error — unrelated to alt
+  text, so the regeneration was **reverted** rather than absorbed into this
+  milestone (no broad build-system refactor). Worth a few minutes of cleanup in
+  a future media-facts session before the next `generate_media_inventory.py` run.
+
+**Files changed:** `CLAUDE.md` (new durable protected-alt-text rule),
+`build/scripts/common/alt_expand.py` (new), `build/scripts/common/build_page.py`,
+`build/scripts/pages/{build_gallery1,build_gallery2,build_gallery5,build_solidwood,
+build_videos,build_about_us,build_floor_assessments,assemble_deep_cleaning,
+assemble_blog}.py`, `build/data/index/gallery.json`,
+`build/data/index/main_content.html`, all 12 regenerated root pages except
+`contact_us.html` (byte-identical, no images on that page), `build/data/
+image_alt_expansion_ledger.csv` (new), `docs/2026-07-aggressive-image-alt-
+expansion-report.md` (new).
+
+**Git state at end of session:** implemented and verified on `redesign`; see the
+end of this section for the exact commit hash and push/preview status once
+completed (owner instructions for this milestone explicitly specified commit +
+push to `redesign` as in-scope; `master`/production untouched throughout).
+
 ## Milestone 2.11 — Google Search Footprint Preservation & final prelaunch alignment (2026-07-20)
 
 Full requirements record: `docs/2026-07-google-search-footprint-preservation.md` (owner-approved

@@ -24,6 +24,10 @@ footer_html = read(CHROME + r"\footer.html")
 scrollhint_html = read(CHROME + r"\scrollhint_and_toggle.html")
 lightbox_html = read(CHROME + r"\lightbox.html")
 
+import sys as _sys_early
+_sys_early.path.insert(0, str(BUILD / "scripts" / "common"))
+from alt_expand import append_sentences, strip_html_tags
+
 script_strip_re = re.compile(r"<script\b.*?</script>", re.DOTALL)
 tag_strip_re = re.compile(r"<[^>]+>")
 def clean_text(s):
@@ -62,11 +66,21 @@ for rec in records:
         rec["prose"] = [cs3_prose] if cs3_prose else []
         break
 
-def render_figure(img, caption=None):
+def render_figure(img, caption=None, title=None, prose_text=None):
     href = img["href"] or img["src"]
     cls = (img["class"] or "").strip()
     cls_attr = f' class="{cls}"' if cls else ""
-    fig = f'<figure><a href="{href}"><img src="{img["src"]}" alt="{img["alt"]}"{cls_attr} loading="lazy"></a>'
+    # Aggressive alt-text expansion (2026-07-20): this image's own raw-source alt
+    # (already rich where present; some blog photos had none at all) is preserved
+    # verbatim as the prefix. Appended: this case study's own title and prose --
+    # both already visible directly above the photo grid -- plus this image's own
+    # short caption where one exists. case_studies.json is regenerated from
+    # raw-source on every build (build_blog.py), so this is applied here at
+    # assemble time rather than by hand-editing that regenerated JSON.
+    title_sentence = strip_html_tags(title) if title else None
+    alt = append_sentences(img["alt"] or "", title_sentence, prose_text, caption)
+    alt = alt.replace('"', "&quot;")  # appended prose can contain a literal " (e.g. 3/4" measurements)
+    fig = f'<figure><a href="{href}"><img src="{img["src"]}" alt="{alt}"{cls_attr} loading="lazy"></a>'
     if caption:
         fig += f'<figcaption>{caption}</figcaption>'
     fig += '</figure>'
@@ -76,6 +90,7 @@ img_total = 0
 case_study_cards = []
 for rec in records:
     caption_map = {idx: txt for (txt, idx) in rec.get("captions", [])}
+    prose_joined = " ".join(rec["prose"]) if rec["prose"] else None
     parts = ['<div class="card">']
     if rec["title"]:
         parts.append(f'<h3>{rec["title"]}</h3>')
@@ -85,7 +100,7 @@ for rec in records:
         cols = 2 if len(rec["images"]) > 1 else 1
         parts.append(f'<div class="gallery" style="grid-template-columns:repeat({min(cols,3)},1fr);margin-top:14px;">')
         for i, img in enumerate(rec["images"]):
-            parts.append(render_figure(img, caption_map.get(i)))
+            parts.append(render_figure(img, caption_map.get(i), rec["title"], prose_joined))
             img_total += 1
         parts.append('</div>')
     parts.append('</div>')

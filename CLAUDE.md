@@ -100,6 +100,10 @@ Preserve valuable technical explanations, real project details, service distinct
 
 Do not replace expert content with generic marketing copy.
 
+Existing accurate image alt text is a protected ranking asset. Image-alt milestones must
+preserve it verbatim and append owner-approved, evidence-grounded context rather than
+automatically shortening or replacing it.
+
 Use direct, practical contractor language. Avoid unsupported claims such as flawless, invisible repair, guaranteed exact match, or that every floor can be repaired or refinished. **Dust containment (2026-07-20, owner-confirmed, see `docs/2026-07-google-search-footprint-preservation.md`):** the sanding/refinishing system provides owner-confirmed **true 100% dust containment** — a sealed commercial system that captures sanding dust at the source. Use "true 100% dust containment" / "true 100% dust-containment sanding" as the precise claim; "dustless hardwood-floor sanding and refinishing" remains valid as the natural customer phrase alongside it. Do not weaken this to plain "dust-contained" (that was a stale claims-policy guess, since superseded by direct owner confirmation) and do not adopt generic 95–99% figures from AI-generated summaries.
 
 ## Work and review

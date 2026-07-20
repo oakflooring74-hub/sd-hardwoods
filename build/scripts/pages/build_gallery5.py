@@ -19,6 +19,7 @@ BUILD = Path(__file__).resolve().parent.parent.parent  # -> build/
 sys.path.insert(0, str(BUILD / "scripts" / "common"))
 from assemble_page import assemble, gallery_progress_html
 from public_business_rules import replace_area_served, FULL_SAN_DIEGO_AREAS, SOUTH_ORANGE_COUNTY
+from alt_expand import append_sentences
 
 DATA = BUILD / "data" / "recent_project_gallery_5"
 
@@ -58,9 +59,16 @@ def esc(s):
     return (s or "").replace('"', "&quot;")
 
 
-def fig(img, label):
+def fig(img, label, project_title=None, project_desc=None):
+    # Aggressive alt-text expansion (2026-07-20): this image's own per-image alt
+    # (already rich) is preserved verbatim as the prefix. Appended: the project's
+    # own title and description paragraph, both already visible directly above
+    # this before/after pair -- no facts beyond what the page already states.
+    import re as _re
+    title_sentence = _re.sub(r"<[^>]+>", "", project_title or "")
+    alt = append_sentences(img["alt"], title_sentence, project_desc)
     return (f'<figure><a href="{esc(img["src"])}">'
-            f'<img src="{esc(img["src"])}" alt="{esc(img["alt"])}" loading="lazy"></a>'
+            f'<img src="{esc(img["src"])}" alt="{esc(alt)}" loading="lazy"></a>'
             f'<figcaption><strong>{label}</strong> &mdash; {img["caption"]}</figcaption></figure>')
 
 
@@ -69,8 +77,8 @@ def project_card(p):
   <h3 style="text-align:left;">{p["title"]}</h3>
   <p style="color:var(--ink-soft);line-height:1.65;">{p["description"]}</p>
   <div class="gallery" style="grid-template-columns:repeat(auto-fit,minmax(min(340px,100%),1fr));">
-    {fig(p["before"], "Before")}
-    {fig(p["after"], "After")}
+    {fig(p["before"], "Before", p["title"], p["description"])}
+    {fig(p["after"], "After", p["title"], p["description"])}
   </div>
 </div>'''
 

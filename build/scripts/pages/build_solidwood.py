@@ -17,6 +17,7 @@ BUILD = Path(__file__).resolve().parent.parent.parent  # -> build/
 sys.path.insert(0, str(BUILD / "scripts" / "common"))
 from assemble_page import assemble
 from public_business_rules import build_service_page_jsonld, PRIORITY_COASTAL_SD
+from alt_expand import append_sentences, strip_html_tags
 
 DATA = BUILD / "data" / "solid_wood_floor_photo_gallery"
 
@@ -38,6 +39,20 @@ OUTRO = pdata["outro"]
 for p in PROJECTS:
     for src in p["images"]:
         assert src in ALT, f"projects.json references unknown image {src}"
+
+# Aggressive alt-text expansion (2026-07-20): each image's own frozen-extraction alt
+# (already rich) is preserved verbatim as the prefix. Appended: the project's own
+# heading and note paragraph -- both already visible directly above these exact
+# photos, describing species/construction, method, stain/finish, and location.
+# No species/construction claim is changed; the known TRICIA WALNUT27/30/63/76
+# filename-vs-white-oak conflict (flagged in docs/PROJECT_DECISIONS.md, deliberately
+# unresolved) is left exactly as-is -- the appended text repeats only what the
+# project heading/note already say (white oak), asserting nothing new either way.
+for p in PROJECTS:
+    heading_sentence = strip_html_tags(p["heading"])
+    note_text = p["note"]
+    for src in p["images"]:
+        ALT[src] = append_sentences(ALT[src], heading_sentence, note_text)
 
 with open(DATA / "vcard.txt", encoding="utf-8") as f:
     VCARD = f.read().strip()

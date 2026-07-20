@@ -14,6 +14,7 @@ from assemble_page import gallery_progress_html
 from public_business_rules import (
     sanitize_public_jsonld, consolidate_business_jsonld, build_webpage_service_graph,
 )
+from alt_expand import clean_caption, append_sentences, strip_html_tags
 
 
 def _replace_generic_service_array(jsonld_html, new_graph):
@@ -47,10 +48,19 @@ def esc_attr(s):
         return ""
     return s.replace('"', "&quot;")
 
-def figure(img):
+def figure(img, project_title=None):
     cls = f' class="{esc_attr(img["class"])}"' if img.get("class") else ""
     href = img.get("href") or img.get("src")
-    fig = f'<figure><a href="{esc_attr(href)}"><img src="{esc_attr(img["src"])}" alt="{esc_attr(img["alt"])}"{cls} loading="lazy"></a>'
+    # Aggressive alt-text expansion (2026-07-20): this image's own per-image alt
+    # (already rich) is preserved verbatim as the prefix. Appended: the project's
+    # own module heading (already visible directly above as <h3>, describing both
+    # photos and the project as a whole) and this image's own visible caption --
+    # both already-verified, already-published text about this exact project.
+    base_alt = img["alt"]
+    cap = clean_caption(img.get("caption"))
+    title_sentence = strip_html_tags(project_title) if project_title else None
+    alt = append_sentences(base_alt, title_sentence, cap)
+    fig = f'<figure><a href="{esc_attr(href)}"><img src="{esc_attr(img["src"])}" alt="{esc_attr(alt)}"{cls} loading="lazy"></a>'
     if img.get("caption"):
         fig += f'<figcaption>{img["caption"]}</figcaption>'
     fig += '</figure>'
@@ -117,9 +127,9 @@ def build_gallery_section(gallery_json_path, intro_html, top_cta_heading, top_ct
         parts.append('  <div class="card" style="margin:28px 0;">')
         parts.append(f'    <h3 style="text-align:left;">{m["title"]}</h3>')
         parts.append('    <div class="gallery" style="grid-template-columns:1fr 1fr;">')
-        parts.append('      ' + figure(before))
+        parts.append('      ' + figure(before, m["title"]))
         if after:
-            parts.append('      ' + figure(after))
+            parts.append('      ' + figure(after, m["title"]))
         parts.append('    </div>')
         parts.append('  </div>')
 

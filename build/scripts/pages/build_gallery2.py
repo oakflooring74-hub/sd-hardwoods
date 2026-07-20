@@ -7,6 +7,8 @@ sys.path.insert(0, str(BUILD / "scripts" / "common"))
 from assemble_page import assemble, gallery_progress_html
 from public_business_rules import replace_area_served, FULL_SAN_DIEGO_AREAS, SOUTH_ORANGE_COUNTY
 
+from alt_expand import clean_caption, append_sentences
+
 DATA = BUILD / "data" / "recent_project_photo_gallery_2"
 
 with open(DATA / "modules.json", encoding="utf-8") as f:
@@ -67,12 +69,28 @@ def module_html(m, idx):
     # of the same floor) -- label with their own alt text instead of generic "Before"/"After".
     special = (idx == 8)
 
+    # Aggressive alt-text expansion (2026-07-20): the live alt has always been either
+    # this image's own rich per-image alt (the "special" idx==8 pair) or exactly
+    # "{title} — {label}" -- preserved verbatim below as the prefix in both cases.
     def fig(img, label):
         src = img["src"]
         href = img["href"] or src
         cls = img["class"] or ""
         cls_attr = f' class="{esc(cls)}"' if cls.strip() else ""
-        alt = img["alt"] if (special and img["alt"]) else f"{strip_html(title)} — {label}"
+        cap = clean_caption(img.get("caption"))
+        if special and img["alt"]:
+            base_alt = img["alt"]
+            # module 8's per-image alt already correctly identifies which of the two
+            # locations (Bird Rock vs. Rancho Santa Fe) this specific photo shows; the
+            # borrowed module-8 title (from module 7) is a real visible paragraph
+            # describing the pair project-wide -- appended in full as supplementary
+            # project context, same on both photos of the pair (paired-image project
+            # facts are shared; the photo-specific base_alt keeps them distinguished).
+            alt = append_sentences(base_alt, strip_html(title), cap)
+        else:
+            base_alt = f"{strip_html(title)} — {label}"
+            detail = (img.get("alt") or "").strip()
+            alt = append_sentences(base_alt, detail, cap)
         return f'<figure><a href="{href}"><img src="{src}" alt="{esc(alt)}"{cls_attr} loading="lazy"></a><figcaption>{label}</figcaption></figure>'
 
     if special:
