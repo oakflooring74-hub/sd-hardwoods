@@ -238,5 +238,14 @@ review" below — reverted rather than absorbed into this milestone's scope).
 
 ## Commit and deployment status
 
-See `docs/NEXT_SESSION.md` for the final commit hash, push, and preview-deployment
-status as of the end of this session.
+- Committed to `redesign` as `f233a7d` (implementation) and `50ecdbc` (commit-hash
+  record in `docs/NEXT_SESSION.md`).
+- Pushed to `origin/redesign`. GitHub Actions run
+  [`29764815648`](https://github.com/oakflooring74-hub/sd-hardwoods/actions/runs/29764815648):
+  both jobs green — `Build and verify generated output` (the CI regenerate-and-diff
+  gate: regenerating from the committed generator sources produces zero drift
+  from the committed root pages) and `Deploy to Cloudflare Pages`.
+- Cloudflare Pages preview deployed successfully at commit `50ecdbc5eabb05416e6a4546c4b6e68df773ab52`:
+  deployment URL `https://7b7d82b9.sd-hardwoods.pages.dev`, alias
+  `https://redesign.sd-hardwoods.pages.dev`.
+- `master` and production were not touched at any point in this session.
