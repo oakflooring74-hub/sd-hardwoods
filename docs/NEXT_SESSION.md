@@ -72,10 +72,11 @@ assemble_blog}.py`, `build/data/index/gallery.json`,
 image_alt_expansion_ledger.csv` (new), `docs/2026-07-aggressive-image-alt-
 expansion-report.md` (new).
 
-**Git state at end of session:** implemented and verified on `redesign`; see the
-end of this section for the exact commit hash and push/preview status once
-completed (owner instructions for this milestone explicitly specified commit +
-push to `redesign` as in-scope; `master`/production untouched throughout).
+**Git state:** committed to `redesign` as `f233a7d` ("Aggressive, evidence-grounded
+image alt-text expansion (Milestone 2.12)"); owner instructions for this
+milestone explicitly specified commit + push to `redesign` as in-scope.
+`master`/production untouched throughout. See `docs/2026-07-aggressive-image-
+alt-expansion-report.md` for push/preview-deploy confirmation.
 
 ## Milestone 2.11 — Google Search Footprint Preservation & final prelaunch alignment (2026-07-20)
 
