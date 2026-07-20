@@ -32,12 +32,12 @@ _ASSESSMENT_AREA = _json.dumps(["San Diego County"] + PRIORITY_COASTAL_SD)
 HEAD_META = """<title>Hardwood Floor Assessments &amp; Inspections San Diego | San Diego Hardwoods</title>
 <meta name="description" content="Hardwood floor assessments, pre-purchase inspections, written reports, and damage or insurance analysis in San Diego. Start with a free phone and photo review.">
 <link href="https://www.sdhardwoods.com/floor-assessments-inspections" rel="canonical">
-<link href="https://www.sdhardwoods.com/favicon.ico" rel="icon" type="image/x-icon">
-<link href="https://www.sdhardwoods.com/favicon-192.ico" rel="icon" sizes="192x192" type="image/x-icon">
-<link href="https://www.sdhardwoods.com/favicon-512.ico" rel="icon" sizes="512x512" type="image/x-icon">
-<link href="https://www.sdhardwoods.com/LOGO-2025.png" rel="apple-touch-icon" sizes="180x180">
+<link href="/favicon.ico" rel="icon" type="image/x-icon">
+<link href="/favicon-192.ico" rel="icon" sizes="192x192" type="image/x-icon">
+<link href="/favicon-512.ico" rel="icon" sizes="512x512" type="image/x-icon">
+<link href="/LOGO-2025.png" rel="apple-touch-icon" sizes="180x180">
 <meta name="theme-color" content="#4b2e06">
-<link href="https://www.sdhardwoods.com/LOGO-2025.png" rel="logo" type="image/png">
+<link href="/LOGO-2025.png" rel="logo" type="image/png">
 <link href="https://s.turbifycdn.com/lm/lib/smb/css/hosting/yss/v2/mc_global.195798.css" id="globalCSS" media="screen" rel="stylesheet" type="text/css">
 <link href="https://s.turbifycdn.com/lm/themes/yhoo/ga/evident/vanilla_bean/palette1/1.0.1/en-us/theme.css" id="themeCSS" media="screen" rel="stylesheet" type="text/css">"""
 
@@ -56,8 +56,8 @@ JSONLD = """<script type="application/ld+json">
       "url": "https://www.sdhardwoods.com",
       "telephone": "+18586990072",
       "email": "sandiegohardwoods@gmail.com",
-      "image": "https://www.sdhardwoods.com/LOGO-2025.png",
-      "logo": "https://www.sdhardwoods.com/LOGO-2025.png",
+      "image": "/LOGO-2025.png",
+      "logo": "/LOGO-2025.png",
       "priceRange": "$$$",
       "contactPoint": {
         "@type": "ContactPoint",
@@ -70,7 +70,7 @@ JSONLD = """<script type="application/ld+json">
         "@type": "EducationalOccupationalCredential",
         "name": "Bona Certified Craftsman",
         "url": "https://www.bona.com/en-us/homeowner/find-a-contractor/contractor-details/?storeid=83667",
-        "image": "https://www.sdhardwoods.com/bonacc.jpeg",
+        "image": "/bonacc.jpeg",
         "issuer": {"@type": "Organization", "name": "Bona"}
       },
       "sameAs": ["https://www.youtube.com/@sandiegohardwoods", "https://maps.app.goo.gl/hbNaSo2guARgrZTa8"],

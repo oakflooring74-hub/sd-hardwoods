@@ -125,7 +125,7 @@
       "belongs_on_other_pages": [],
       "cannibalization_risks": "Keeps video intent; homepage keeps the broad refinishing intent (its Milestone 2.4 title change moved video terms here deliberately).",
       "internal_link_targets": ["per-video gallery cross-links (gallery_href)", "recent_project_photo_gallery_1.html", "deep-cleaning-hardwood-floors-san-diego.html", "contact_us.html", "official YouTube channel"],
-      "factual_limitations": "Never invent video dates, durations, locations, or species; snapshot (build/data/youtube_videos.json) is the source of truth. Known metadata flags (duplicate titles, 'Title:' prefix, 'Sold Cherry') are owner-review items - the YouTube titles themselves are the source and are not editable here.",
+      "factual_limitations": "Never invent video dates, durations, locations, or species; snapshot (build/data/youtube_videos.json) is the source of truth. Known metadata flags (duplicate titles, 'Title:' prefix) are owner-review items - the YouTube titles themselves are the source and are not editable here. The 'Sold Cherry' typo (video AFiDErGMYdo) is corrected site-wide via that record's `site_display_title` (2026-07-19 owner-directed fix); the raw `title` field still holds the live, uncorrected YouTube title on purpose -- fix on YouTube first if the owner wants the live title itself to change.",
       "owner_review_required": ["Confirm official channel URL (visible links use @SANDIEGOHARDWOODS; assessment-page schema sameAs uses @SD-1974)", "Fix flagged titles on YouTube if desired, then refresh the snapshot"]
     },
     {

@@ -191,6 +191,12 @@ def build_page(cfg):
     # so YouTube-handle normalization happens before the sameAs dedupe.
     jsonld = sanitize_public_jsonld("\n".join(head["jsonld_blocks"]))
     jsonld = consolidate_business_jsonld(jsonld)
+    # Image-localization milestone (2026-07-19): the raw-source VideoObject block
+    # kept above (see the "do NOT duplicate video_jsonld" note below) still carries
+    # its thumbnailUrl as an absolute Turbify URL; `cfg["video_thumb"]` already
+    # holds the correct local path for this same file, so reuse it as the target.
+    jsonld = jsonld.replace(
+        "https://www.sdhardwoods.com" + cfg["video_thumb"], cfg["video_thumb"])
     if "service_content" in cfg:
         new_graph = build_webpage_service_graph(page_url=cfg["canonical"], **cfg["service_content"])
         jsonld = _replace_generic_service_array(jsonld, new_graph)
@@ -247,7 +253,7 @@ def build_page(cfg):
     # implementation (chrome/analytics.html) is injected instead.
     html = f'''<!DOCTYPE html><html lang="en">
 <head xmlns="">
-  <meta charset="utf-8"><base href="https://www.sdhardwoods.com/">
+  <meta charset="utf-8">
 \t<meta name="viewport" content="width=device-width, initial-scale=1">{head["uacompat"]}{head["generator"]}{head["desc_meta"]}
 \t<link href="{cfg["canonical"]}" rel="canonical">
 \t{head["css_links"]}{head["yahoo_script"]}
@@ -332,7 +338,7 @@ CONFIGS = [
         "yt_params": "rel=0&modestbranding=1&playsinline=1&autoplay=0&mute=1&controls=1&loop=1&playlist=hq0rLWe1C8o&start=14&enablejsapi=1",
         "video_name": "Hardwood Floor Refinishing Process in San Diego",
         "video_desc": "See the professional hardwood floor refinishing process in San Diego. Expert craftsmanship for beautiful, durable floors.",
-        "video_thumb": "https://www.sdhardwoods.com/images/thumbnails/Refinish_wood_floors_san_diego.png",
+        "video_thumb": "/images/thumbnails/Refinish_wood_floors_san_diego.png",
         "intro_html": '''    <h2>Real San Diego Hardwood Floor Projects: #41&ndash;#50</h2>
     <p class="lede">Before-and-after results from homes across Solana Beach, La Jolla, Rancho Santa Fe, Del Mar, Encinitas, Pacific Beach, and throughout San Diego County &mdash; including rare solid yellow birch restored in Del Mar, wide-plank French oak installed over concrete in a La Jolla estate, and dust-contained refinishing with custom stain and finish work.</p>''',
         "top_cta_heading": "Think Your Hardwood Floors Need Sanding?",
@@ -372,7 +378,7 @@ CONFIGS = [
         "yt_params": "rel=0&modestbranding=1&playsinline=1&autoplay=0&mute=1&controls=1&loop=1&playlist=7mhqGYozb1o&enablejsapi=1",
         "video_name": "Engineered Maple Floor Refinishing in San Diego",
         "video_desc": "Expert refinishing for engineered maple hardwood floors in San Diego. Restore your floors with our professional dust-free process.",
-        "video_thumb": "https://www.sdhardwoods.com/images/thumbnails/engineered_maple_floor_refinishing_san_diego.png",
+        "video_thumb": "/images/thumbnails/engineered_maple_floor_refinishing_san_diego.png",
         "intro_html": '''    <h2>San Diego Hardwood Flooring Gallery: Projects #61&ndash;#80</h2>
     <p class="lede">Before-and-after results from homes across Del Mar, Rancho Santa Fe, Carmel Valley, Golden Hill, Encinitas, Coronado, Pacific Beach, and throughout San Diego County &mdash; including solid hickory refinished with matching butcher-block countertops in Rancho Santa Fe, a major termite-damage repair blended into vintage oak near La Jolla Shores, and sun-faded engineered oak restored in Santa Luz.</p>''',
         "top_cta_heading": "Not Every Hardwood Floor Needs Refinishing",

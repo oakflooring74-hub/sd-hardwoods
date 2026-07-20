@@ -69,7 +69,7 @@ def assemble(head_meta_html, jsonld_html, ga_html, vcard_desc, scroll_topic, mai
 
     doc = f"""<!DOCTYPE html><html lang="en">
 <head xmlns="">
-<meta charset="utf-8"><base href="https://www.sdhardwoods.com/">
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 {head_meta_html}
 {jsonld_html}

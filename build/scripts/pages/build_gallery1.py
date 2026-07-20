@@ -18,12 +18,12 @@ with open(BUILD / "data" / "recent_project_photo_gallery_1" / "vcard.txt", encod
 HEAD_META = """<title>Hardwood Floor Refinishing Gallery | San Diego Before &amp; After Photos</title>
 <meta name="description" content="View before and after hardwood floor refinishing projects completed throughout San Diego County. See dustless sanding, hardwood floor repairs, engineered hardwood refinishing, color changes, floor restoration, deep cleaning, and oiled floor upgrades completed in La Jolla, Del Mar, Mission Hills, Rancho Santa Fe, Encinitas, Carmel Valley, and nearby communities. Call or text 858-699-0072 for a professional phone consultation and expert floor evaluation.">
 <link href="https://www.sdhardwoods.com/recent_project_photo_gallery_1.html" rel="canonical">
-<link href="https://www.sdhardwoods.com/favicon.ico" rel="icon" type="image/x-icon">
-<link href="https://www.sdhardwoods.com/favicon-192.ico" rel="icon" sizes="192x192" type="image/x-icon">
-<link href="https://www.sdhardwoods.com/favicon-512.ico" rel="icon" sizes="512x512" type="image/x-icon">
-<link href="https://www.sdhardwoods.com/LOGO-2025.png" rel="apple-touch-icon" sizes="180x180">
+<link href="/favicon.ico" rel="icon" type="image/x-icon">
+<link href="/favicon-192.ico" rel="icon" sizes="192x192" type="image/x-icon">
+<link href="/favicon-512.ico" rel="icon" sizes="512x512" type="image/x-icon">
+<link href="/LOGO-2025.png" rel="apple-touch-icon" sizes="180x180">
 <meta name="theme-color" content="#4b2e06">
-<link href="https://www.sdhardwoods.com/LOGO-2025.png" rel="logo" type="image/png">
+<link href="/LOGO-2025.png" rel="logo" type="image/png">
 <link href="https://s.turbifycdn.com/lm/lib/smb/css/hosting/yss/v2/mc_global.195798.css" id="globalCSS" media="screen" rel="stylesheet" type="text/css">
 <link href="https://s.turbifycdn.com/lm/themes/yhoo/ga/evident/vanilla_bean/palette1/1.0.1/en-us/theme.css" id="themeCSS" media="screen" rel="stylesheet" type="text/css">"""
 

@@ -290,18 +290,18 @@ head_extra = f'''<meta name="description" content="{meta_desc}">
 	<link href="https://s.turbifycdn.com/lm/themes/yhoo/ga/evident/vanilla_bean/palette1/1.0.1/en-us/theme.css" id="themeCSS" media="screen" rel="stylesheet" type="text/css">
 	<link href="https://s.turbifycdn.com/ln/lib/smb/assets/hosting/yss/extensions/css/turbify_ss_extensions_1675321208.js" id="extensionsCSS" media="screen" rel="stylesheet" type="text/css">
 	<title>{title}</title>
-	<link href="https://www.sdhardwoods.com/favicon.ico" rel="icon" type="image/x-icon">
-	<link href="https://www.sdhardwoods.com/favicon-192.ico" rel="icon" sizes="192x192" type="image/x-icon">
-	<link href="https://www.sdhardwoods.com/favicon-512.ico" rel="icon" sizes="512x512" type="image/x-icon">
-	<link href="https://www.sdhardwoods.com/LOGO-2025.png" rel="apple-touch-icon" sizes="180x180"><meta name="theme-color" content="#4b2e06"><meta name="msapplication-TileColor" content="#4b2e06"><meta name="msapplication-TileImage" content="https://www.sdhardwoods.com/LOGO-2025.png">
-	<link href="https://www.sdhardwoods.com/LOGO-2025.png" rel="logo" type="image/png">
+	<link href="/favicon.ico" rel="icon" type="image/x-icon">
+	<link href="/favicon-192.ico" rel="icon" sizes="192x192" type="image/x-icon">
+	<link href="/favicon-512.ico" rel="icon" sizes="512x512" type="image/x-icon">
+	<link href="/LOGO-2025.png" rel="apple-touch-icon" sizes="180x180"><meta name="theme-color" content="#4b2e06"><meta name="msapplication-TileColor" content="#4b2e06"><meta name="msapplication-TileImage" content="/LOGO-2025.png">
+	<link href="/LOGO-2025.png" rel="logo" type="image/png">
 {jsonld_block}
 {analytics_html}
 '''
 
 full_html = f'''<!DOCTYPE html><html lang="en">
 <head xmlns="">
-  <meta charset="utf-8"><base href="https://www.sdhardwoods.com/">
+  <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 {head_extra}
 {site_css}

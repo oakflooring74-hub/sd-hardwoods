@@ -120,8 +120,8 @@ CANONICAL_LOCAL_STUB = {
     "url": "https://www.sdhardwoods.com",
     "telephone": "+18586990072",
     "email": "sandiegohardwoods@gmail.com",
-    "image": "https://www.sdhardwoods.com/LOGO-2025.png",
-    "logo": "https://www.sdhardwoods.com/LOGO-2025.png",
+    "image": "/LOGO-2025.png",
+    "logo": "/LOGO-2025.png",
     "priceRange": "$$$",
     "contactPoint": {
         "@type": "ContactPoint",
@@ -134,7 +134,7 @@ CANONICAL_LOCAL_STUB = {
         "@type": "EducationalOccupationalCredential",
         "name": "Bona Certified Craftsman",
         "url": "https://www.bona.com/en-us/homeowner/find-a-contractor/contractor-details/?storeid=83667",
-        "image": "https://www.sdhardwoods.com/bonacc.jpeg",
+        "image": "/bonacc.jpeg",
         "issuer": {"@type": "Organization", "name": "Bona"},
     },
     "sameAs": [

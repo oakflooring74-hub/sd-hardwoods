@@ -31,12 +31,12 @@ description = ("Owner-operated since 1990. Hardwood floor refinishing, restorati
 HEAD_META = f"""<title>{title}</title>
 <meta name="description" content="{description}">
 <link href="{canonical}" rel="canonical">
-<link href="https://www.sdhardwoods.com/favicon.ico" rel="icon" type="image/x-icon">
-<link href="https://www.sdhardwoods.com/favicon-192.ico" rel="icon" sizes="192x192" type="image/x-icon">
-<link href="https://www.sdhardwoods.com/favicon-512.ico" rel="icon" sizes="512x512" type="image/x-icon">
-<link href="https://www.sdhardwoods.com/LOGO-2025.png" rel="apple-touch-icon" sizes="180x180">
+<link href="/favicon.ico" rel="icon" type="image/x-icon">
+<link href="/favicon-192.ico" rel="icon" sizes="192x192" type="image/x-icon">
+<link href="/favicon-512.ico" rel="icon" sizes="512x512" type="image/x-icon">
+<link href="/LOGO-2025.png" rel="apple-touch-icon" sizes="180x180">
 <meta name="theme-color" content="#4b2e06">
-<link href="https://www.sdhardwoods.com/LOGO-2025.png" rel="logo" type="image/png">
+<link href="/LOGO-2025.png" rel="logo" type="image/png">
 <link href="https://s.turbifycdn.com/lm/lib/smb/css/hosting/yss/v2/mc_global.195798.css" id="globalCSS" media="screen" rel="stylesheet" type="text/css">
 <link href="https://s.turbifycdn.com/lm/themes/yhoo/ga/evident/vanilla_bean/palette1/1.0.1/en-us/theme.css" id="themeCSS" media="screen" rel="stylesheet" type="text/css">"""
 
@@ -54,6 +54,21 @@ JSONLD = augment_local_entity(JSONLD)
 # appends list fields, which would leave the old array in place alongside the new
 # one instead of correcting it.
 JSONLD = replace_area_served(JSONLD, FULL_SAN_DIEGO_AREAS + SOUTH_ORANGE_COUNTY)
+
+# Image-localization milestone (2026-07-19): the homepage's raw-source #org
+# node (a second, still-linked Organization declaration that consolidate/
+# augment leave alone -- see build/README.md quirk #1) carries its own
+# "logo"/"image" pointing at the old absolute Turbify URL. The shared
+# CANONICAL_LOCAL_STUB in public_business_rules.py already uses the local
+# path; mirror that here since this one node is homepage-only raw content.
+JSONLD = JSONLD.replace(
+    "https://www.sdhardwoods.com/LOGO-2025.png", "/LOGO-2025.png")
+# Same raw-source quirk: the homepage's own raw-extracted VideoObject block
+# (separate from the hero VideoObject in main_content.html, which was already
+# authored with a local path) still carries the old absolute thumbnail URL.
+JSONLD = JSONLD.replace(
+    "https://www.sdhardwoods.com/images/thumbnails/dust-free-hardwood-refinishing-san-diego.png",
+    "/images/thumbnails/dust-free-hardwood-refinishing-san-diego.png")
 
 # Schema milestone (2026-07-19): add a WebPage + Service (+ OfferCatalog)
 # graph naming the site's real core service categories, built from the

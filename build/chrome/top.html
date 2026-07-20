@@ -263,10 +263,9 @@ html.sdh-lock,html.sdh-lock body{overflow:hidden;}
   var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   /* --- brand images: committed static files under assets/branding/web/, resolved against
-     the page's own origin at runtime. A literal root-relative src would be rebased onto
-     sdhardwoods.com by the <base href> Turbify bridge and 404 on the Cloudflare preview;
-     building the URL from location.origin loads the repo-deployed copy on whichever host
-     serves the page, and the browser caches the file normally. --- */
+     the page's own origin at runtime (predates the removal of the <base href> Turbify
+     bridge in the image-localization milestone; kept as-is since it still works
+     identically on every host and the browser caches the file normally). --- */
   function resolveBrandImages(){
     if (!location.origin || location.origin.indexOf("http") !== 0) return;
     d.querySelectorAll("img[data-brand-src]").forEach(function(img){

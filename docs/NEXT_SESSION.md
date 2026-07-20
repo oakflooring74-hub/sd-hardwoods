@@ -2,6 +2,56 @@
 
 Read this file first when picking this project back up — **together with `docs/PROJECT_OPERATING_MANUAL.md` (the permanent governing document, added 2026-07-18) and `docs/PROJECT_DECISIONS.md` (binding decisions + standing blockers)**. This file links to everything else and tells you what's done, what's approved next, and what to ask the owner before doing anything.
 
+## Milestone 2.10 — Turbify image localization & video-title typo fix (2026-07-19)
+
+**All site-required images copied into the repo; `<base href>` Turbify bridge removed.**
+Owner supplied a local archive of the highest-resolution recovered Turbify images
+(`assets/ALL_IMAGES/`, untracked local source, left untouched) at
+`C:\Users\oakfl\Desktop\SAN DIEGO HARDWOODS WEBSITE REMAKE JULY 2026\assets\ALL_IMAGES`.
+
+- **351 unique images** matched by exact filename (350) plus one Python-level fixed
+  string (the homepage's duplicate raw-source thumbnail) and copied byte-for-byte into
+  tracked production paths, mirroring each image's existing site-relative path exactly
+  (no renames): repo root (238 files — the legacy `/FILENAME.jpg` and bare-relative
+  refs), `assets/images/` (108 files), `images/thumbnails/` (5 files, new folder
+  mirroring the exact `images/thumbnails/...` path the schema already used).
+- **`<base href="https://www.sdhardwoods.com/">` removed** from all 4 head templates
+  (`assemble_page.py`, `build_page.py`, `assemble_blog.py`, `assemble_deep_cleaning.py`)
+  — this was the actual mechanism sending every relative image request to Turbify
+  regardless of path form; removing it (not just copying files) is what makes the
+  local copies actually load. All 13 pages rebuild byte-identical on a second run
+  (verified). `top.html`'s stale JS comment about the bridge updated to match.
+- **Absolute Turbify URLs converted to local site-relative paths**, everywhere found:
+  favicon.ico/-192/-512, `LOGO-2025.png`, `bonacc.jpeg` (13 build scripts, all had their
+  own copy-pasted head block), the shared `CANONICAL_LOCAL_STUB` schema image/logo
+  (`public_business_rules.py`), and 5 of 6 VideoObject `thumbnailUrl` schema fields
+  (`about_us`/`gallery5`/`gallery2` frozen `jsonld.html` fragments, plus
+  `build_homepage.py` and `common/build_page.py` for two raw-source-derived
+  VideoObject blocks that a naive file-only sed pass would have missed).
+- **One genuinely missing image, left unfixed on purpose:** the about_us page's
+  VideoObject thumbnail `french_oak_and_wire_brushed_wood_floor_refinishing_san_diego.png`
+  is not in the recovered archive (never successfully downloaded from Turbify) —
+  `about_us/jsonld.html` still points at the live Turbify URL for this one field only.
+  Flagged for owner review; not substituted, not upscaled, not invented.
+- **"Sold Cherry" → "Solid Cherry" typo fixed** (video `AFiDErGMYdo`, Videos page) via
+  the existing `site_display_title` curated-override field in
+  `build/data/youtube_videos.json` — the raw `title` field (the actual live YouTube
+  title) is intentionally left saying "Sold Cherry" per the site's existing policy of
+  never silently editing the snapshot's source-of-truth field; fix the real YouTube
+  title first if the owner wants that to change too, then re-run
+  `update_youtube_videos.py`.
+- **38 archive files intentionally not copied**: the legacy nav-button graphics already
+  excluded from generated output since Milestone 2.1 (`HOME BUTTON 2025.png` etc.) plus
+  a handful of alternate-resolution originals/unused crawl artifacts that no page
+  currently references. `assets/ALL_IMAGES/` and its `image-manifest.csv` untouched,
+  untracked, not part of this commit.
+- **QA:** double build byte-identical; `git diff --check` clean; all 449 local image
+  references across all 13 pages resolve to a file that exists on disk; zero remaining
+  `sdhardwoods.com` image/favicon/logo/thumbnail URLs except the one flagged miss above;
+  diff reviewed page-by-page — only head metadata/schema image URLs, the JS comment,
+  and the one video title changed; gallery order, alt text, captions, and layout
+  byte-identical everywhere else.
+
 ## Milestone 2.9 — prelaunch SEO & structured-data pass (2026-07-19)
 
 Full record of the durable rules: `docs/PROJECT_DECISIONS.md` → "Service-area & metadata rules

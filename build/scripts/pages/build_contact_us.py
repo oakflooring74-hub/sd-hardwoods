@@ -9,12 +9,12 @@ from public_business_rules import replace_area_served, FULL_SAN_DIEGO_AREAS, SOU
 HEAD_META = """<title>Contact San Diego Hardwoods | Free Phone &amp; Photo Assessment</title>
 <meta name="description" content="Call, text floor photos or email San Diego Hardwoods for a free preliminary phone and photo assessment of flooring service needs.">
 <link href="https://www.sdhardwoods.com/contact_us.html" rel="canonical">
-<link href="https://www.sdhardwoods.com/favicon.ico" rel="icon" type="image/x-icon">
-<link href="https://www.sdhardwoods.com/favicon-192.ico" rel="icon" sizes="192x192" type="image/x-icon">
-<link href="https://www.sdhardwoods.com/favicon-512.ico" rel="icon" sizes="512x512" type="image/x-icon">
-<link href="https://www.sdhardwoods.com/LOGO-2025.png" rel="apple-touch-icon" sizes="180x180">
+<link href="/favicon.ico" rel="icon" type="image/x-icon">
+<link href="/favicon-192.ico" rel="icon" sizes="192x192" type="image/x-icon">
+<link href="/favicon-512.ico" rel="icon" sizes="512x512" type="image/x-icon">
+<link href="/LOGO-2025.png" rel="apple-touch-icon" sizes="180x180">
 <meta name="theme-color" content="#4b2e06">
-<link href="https://www.sdhardwoods.com/LOGO-2025.png" rel="logo" type="image/png">
+<link href="/LOGO-2025.png" rel="logo" type="image/png">
 <link href="https://s.turbifycdn.com/lm/lib/smb/css/hosting/yss/v2/mc_global.195798.css" id="globalCSS" media="screen" rel="stylesheet" type="text/css">
 <link href="https://s.turbifycdn.com/lm/themes/yhoo/ga/evident/vanilla_bean/palette1/1.0.1/en-us/theme.css" id="themeCSS" media="screen" rel="stylesheet" type="text/css">"""
 
