@@ -69,9 +69,6 @@ def module_html(m, idx):
     # of the same floor) -- label with their own alt text instead of generic "Before"/"After".
     special = (idx == 8)
 
-    # Aggressive alt-text expansion (2026-07-20): the live alt has always been either
-    # this image's own rich per-image alt (the "special" idx==8 pair) or exactly
-    # "{title} — {label}" -- preserved verbatim below as the prefix in both cases.
     def fig(img, label):
         src = img["src"]
         href = img["href"] or src
@@ -79,18 +76,21 @@ def module_html(m, idx):
         cls_attr = f' class="{esc(cls)}"' if cls.strip() else ""
         cap = clean_caption(img.get("caption"))
         if special and img["alt"]:
-            base_alt = img["alt"]
             # module 8's per-image alt already correctly identifies which of the two
             # locations (Bird Rock vs. Rancho Santa Fe) this specific photo shows; the
             # borrowed module-8 title (from module 7) is a real visible paragraph
             # describing the pair project-wide -- appended in full as supplementary
             # project context, same on both photos of the pair (paired-image project
             # facts are shared; the photo-specific base_alt keeps them distinguished).
-            alt = append_sentences(base_alt, strip_html(title), cap)
+            alt = append_sentences(img["alt"], strip_html(title), cap)
         else:
-            base_alt = f"{strip_html(title)} — {label}"
-            detail = (img.get("alt") or "").strip()
-            alt = append_sentences(base_alt, detail, cap)
+            # Alt-text recomposition (Milestone 2.13): modules.json's per-image "alt"
+            # field is now the complete, ready-to-render alt -- image-specific detail
+            # (Before/After + project number + visible condition/process/result) leads,
+            # with shared project context merged in naturally and deduplicated by hand.
+            # Used as-is, not reassembled from title/label/caption at build time (see
+            # docs/2026-07-image-alt-recomposition-report.md for the full rationale).
+            alt = (img.get("alt") or "").strip()
         return f'<figure><a href="{href}"><img src="{src}" alt="{esc(alt)}"{cls_attr} loading="lazy"></a><figcaption>{label}</figcaption></figure>'
 
     if special:

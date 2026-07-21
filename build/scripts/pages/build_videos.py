@@ -103,26 +103,59 @@ def card_desc(v):
     return d
 
 
+# Alt-text recomposition (Milestone 2.13): a curated, hand-composed alt for a
+# representative sample of thumbnails across all three categories (see
+# docs/2026-07-image-alt-recomposition-report.md). Every other thumbnail uses the
+# general rule below.
+_ALT_OVERRIDE = {
+    "Jv1KsJndmww": "White Oak Floor Flattening Part 8, Edge Sanding: San Diego Hardwoods connects the Bona DCS 2.0 portable dust-containment system for true 100% dust-containment sanding along the floor's perimeter — dual HEPA filtration and continuous bagging capture dust at the source during this edge-sanding phase of a real San Diego white oak flattening project.",
+    "DsGl1rajDys": "White Oak Floor Restoration & Flattening: Hallway & Entryway Professional Sanding — San Diego Hardwoods performs dust-contained belt sanding to restore and flatten a high-traffic white oak floor through the hallway and entryway of a real San Diego home.",
+    "IbGVK9cFs8w": "Complete Hardwood Floor Deep Cleaning: Wire-Brushed Oak Flooring — San Diego Hardwoods shows a full Bona Power Scrubber deep clean start to finish on wire-brushed oak flooring, reaching embedded dirt that mopping can't remove and often the right scope before a maintenance recoat.",
+    "ARfEQTQFbBo": "100-Year-Old Douglas Fir Floor Restoration in Golden Hill, San Diego — San Diego Hardwoods uses dust-contained sanding to restore a century-old softwood floor's character, removing decades of paint, drywall dust, carpet-pad residue, construction debris, and surface wear.",
+    "rMtQ0TfEkwc": "White Oak Hardwood Refinish in North Park: Flat Sanding + Plug Repairs — San Diego Hardwoods levels the floor with professional belt sanding while blending precision white oak plug repairs into the surrounding wood, completed with Bona Power Drive planetary sanding and a premium Bona Traffic HD water-based finish.",
+    "McBbfiMpqPg": "Teak Flooring Sanded and Refinished in Solana Beach with Bona Power Drive and 100% Dustless Sanding — San Diego Hardwoods performs specialty teak species sanding and refinishing, finished for durability and a natural look.",
+    "xvvUg2DLULg": "White Oak Floor Restoration Part 6: Kitchen Floor Sanding, Removing Heavy Wear — San Diego Hardwoods moves into the kitchen area of a 3/4-inch, 2 1/4-inch-wide solid select-grade white oak restoration project, continuing the dust-contained sanding and flattening process.",
+    "nrnYa3a2tto": "White Oak Floor Restoration Part 8: Nook & Living Area, Final Field Flattening — San Diego Hardwoods completes the initial flattening phase for the primary field areas of a vacant coastal Encinitas white oak restoration project.",
+    "efH6RStlD-E": "White Oak Flooring Refinish in Carlsbad: Removing Waves, Professional Belt Sanding — San Diego Hardwoods uses precision dustless belt sanding to eliminate deep waves and surface damage in a coastal Carlsbad solid white oak floor.",
+    "OoiXb_NERCg": "White Oak Floor Flattening Part 3: 2 1/4-Inch Strip Oak Restoration in Encinitas/Carlsbad — San Diego Hardwoods performs cross-grain sanding to remove waves and level this 2 1/4-inch select-grade white oak floor.",
+}
+
+
 def thumb_alt(v):
-    """Aggressive alt-text expansion (2026-07-20): every thumbnail on this page
-    previously rendered alt="" (confirmed by inventory scan). Built entirely from
-    this video's own already-verified snapshot fields (title, curated display
-    title, category, real site/YouTube description, upload date) -- nothing
-    invented. Title/description redundancy between the thumbnail alt and the
-    adjacent visible <h3>/<p> is an intentional owner decision for this milestone."""
+    """Alt-text recomposition (Milestone 2.13): leads with this video's own title
+    (curated display title where one exists) followed by its own real site/YouTube
+    description -- nothing invented, nothing repeated from a canned template. The
+    2026-07-20 milestone appended a closing sentence ("San Diego Hardwoods YouTube
+    video thumbnail showing {category} ... uploaded {date}") that was identical
+    across every video in the same category (up to 38 videos) and is removed here;
+    category, "San Diego Hardwoods," and location context are already established
+    site-wide on this page (hero, category filters, card text) and don't need
+    restating in every one of 58 thumbnails to remain accessible and keyword-rich --
+    the title and description alone are already video-specific."""
+    if v["id"] in _ALT_OVERRIDE:
+        return _ALT_OVERRIDE[v["id"]]
     title_sentence = display_title(v)
     desc = v.get("site_description") or ""
     if not desc:
-        d = re.sub(r"\s+", " ", v.get("description") or "").strip()
-        # first sentence/paragraph only, not the full raw YouTube description body
-        d = d.split("\n\n")[0].strip()
+        # Alt-text recomposition (Milestone 2.13): every raw YouTube description opens
+        # with the same 3-paragraph contact/link boilerplate ("Fast answers: 858-699-
+        # 0072...", "See before/after...", "Licensed Flooring Contractor... bona.com...")
+        # before the real, video-specific paragraph. Splitting on blank lines must happen
+        # before whitespace is collapsed (collapsing first, as the previous version did,
+        # destroys the "\n\n" markers and silently defeats the paragraph split), and the
+        # boilerplate paragraphs are skipped so the fallback actually surfaces this
+        # video's own unique content instead of the repeated contact-info opener.
+        paras = [p.strip() for p in (v.get("description") or "").split("\n\n") if p.strip()]
+        real = next((p for p in paras if not (
+            "858-699-0072" in p or "sandiegohardwoods@gmail.com" in p
+            or "Licensed Flooring Contractor" in p or "bona.com/en-us/homeowner" in p
+            or "sdhardwoods.com" in p
+        )), "")
+        d = re.sub(r"\s+", " ", real).strip()
         if len(d) > 320:
             d = d[:320].rsplit(" ", 1)[0].rstrip(",.;:") + "..."
         desc = d
-    kind = "San Diego Hardwoods YouTube Short video thumbnail" if v.get("is_short") else "San Diego Hardwoods YouTube video thumbnail"
-    closing = (f"{kind} showing {v['category_label'].lower()} filmed on a real customer "
-               f"hardwood or bamboo floor project in San Diego County, uploaded {v['publish_date']}.")
-    return append_sentences(title_sentence, desc, closing)
+    return append_sentences(title_sentence, desc)
 
 
 def video_card(v, big=False):

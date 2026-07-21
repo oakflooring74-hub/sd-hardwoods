@@ -129,6 +129,60 @@ for rec in records:
         rec["after"]["desc"] = None
         rec["note_text"] = None
 
+# Alt-text recomposition (Milestone 2.13): gallery_records.json is regenerated from
+# raw-source on every build (build_deep_cleaning.py), so per-image alt overrides live
+# here rather than in that regenerated JSON. Pairs #1-9 are this page's own real
+# deep-cleaning projects, recomposed to lead with the visible process stage (not a
+# forced Before/After label -- see docs/2026-07-image-alt-recomposition-report.md for
+# why: at least one pair's "before"/"after" CSS roles don't reliably match a
+# damaged-state/completed-result reading). Pairs #10-20 use the exact same source
+# photos as Gallery 1 Projects #10-20 (a pre-existing raw-source duplication across
+# both pages, not something this milestone restructures) -- their alt text reuses the
+# already-recomposed Gallery 1 wording verbatim for the same real facts.
+ALT_OVERRIDE = {
+    "DEEP CLEAN HARDWOOD FLOORS SAN DIEGO WIRE BRUSH CLEANING.jpg": "Deep cleaning #1, dual-brush stage: a Bona Power Scrubber performing specialized hardwood-floor deep cleaning on wire-brushed floors in a San Diego home, its dual white brushes scrubbing and extracting years of dirt, polish residue, and buildup without sanding — the same process San Diego Hardwoods uses in La Jolla, Del Mar, Encinitas, and Rancho Santa Fe homes, safe for wire-brushed, textured, and smooth wood floors, and distinct from the general carpet and surface-floor cleaning associated with companies such as Coit or Stanley Steemer.",
+    "DEEP CLEAN WIRE BRUSHED FLOORING SAN DIEGO.jpg": "Deep cleaning #1, rotary pre-scrub stage: a rotary buffer loosening old polish, residue, and grime on this same wire-brushed hardwood floor ahead of the Bona Power Scrubber step, part of San Diego Hardwoods' specialized hardwood-floor deep-cleaning process for wire-brushed, textured, and smooth wood floors across San Diego, La Jolla, Del Mar, and Encinitas.",
+    "DEEP CLEANING OF WOOD FLOORING SAN DIEGO POLISH REMOVAL AND MAINTENANCE.jpg": "Deep cleaning #2, in-progress: a technician performing precision Bona Power Scrubber deep cleaning and re-coating preparation on hardwood floors in a San Diego living room, part of San Diego Hardwoods' Bona-approved, specialized hardwood-floor process that safely revives hardwood in this North County home, leaving it clean, even, and ready for a protective finish.",
+    "ENCINITAS DEEP CLEANING OF WOOD FLOORING POLISH REMOVAL SAN DIEGO.jpg": "Deep cleaning #2, completed result: the same San Diego living room's hardwood floor after Bona Power Scrubber deep cleaning and re-coating, its satin finish and natural wood clarity and warmth fully restored by San Diego Hardwoods — restored without sanding and without sanding dust.",
+    "DEEP CLEAN WOOD FLOORS BAMBOO CLEANING POLISH 81.png": "Deep cleaning #3, in-progress: a rotary scrubber and neutral Bona cleaner removing years of buildup from hardwood flooring in a San Diego kitchen, part of San Diego Hardwoods' specialized hardwood-floor deep-cleaning service that safely revives dull or sticky wood, bamboo, or engineered floors without sanding, mess, or damage.",
+    "DEEP CLEAN WOOD FLOORS BAMBOO CLEANING POLISH 79.png": "Deep cleaning #3, completed result: the same San Diego kitchen floor after Bona PowerScrubber deep cleaning removed dirt and residue and restored its natural satin finish using water-based cleaners, without sanding — a safe, fast, eco-friendly refresh that revives dark hardwood floors in just hours.",
+    "DEEP CLEAN WOOD FLOORS BAMBOO CLEANING POLISH 129.png": "Deep cleaning & recoating prep #4, wet-scrub stage: a distressed engineered wood floor in a San Diego home wet-scrubbed with a rotary scrubber to dissolve old polish and wax buildup, part of San Diego Hardwoods' deep-cleaning and recoating-prep process that reveals clean wood ahead of a smooth new protective coating.",
+    "DEEP CLEAN WOOD FLOORS BAMBOO CLEANING POLISH 131.png": "Deep cleaning & recoating prep #4, prepped result: the same engineered floor deep-scrubbed clear of polish and wax residue by San Diego Hardwoods, its natural color restored and surface ready for a durable new recoat finish.",
+    "DEEP CLEAN WOOD FLOORS BAMBOO CLEANING POLISH 43.png": "Deep cleaning #5, in-progress: a Bona PowerScrubber performing specialized hardwood-floor deep cleaning on the deep grain of a wire-brushed oak floor in a San Diego home ahead of re-coating, reaching embedded dirt through a hardwood-specific process distinct from the general carpet and surface-floor cleaning associated with companies such as Stanley Steemer or Zerorez, without sanding.",
+    "DEEP CLEAN WOOD FLOORS BAMBOO CLEANING POLISH 41.png": "Deep cleaning #5, completed result: the same wire-brushed oak floor after specialized Bona PowerScrubber hardwood-floor deep cleaning lifted dirt from its textured wood grain, ready for protective recoating — San Diego Hardwoods' hardwood-specific alternative to the general carpet and surface-floor cleaning offered by companies such as Stanley Steemer or Zerorez.",
+    "DEEP CLEAN WOOD FLOORS BAMBOO CLEANING POLISH 10.png": "Deep cleaning #6, before: this heavily grimy engineered white oak restaurant floor in Del Mar, packed with dirt and traffic residue from daily use, shown ahead of San Diego Hardwoods' Bona-based deep-cleaning process that dissolves buildup without sanding or disruption.",
+    "DEEP CLEAN WOOD FLOORS BAMBOO CLEANING POLISH 142.png": "Deep cleaning #6, after: the same Del Mar restaurant's engineered white oak floor after one Bona PowerScrubber session lifted the embedded grime, its natural color and cleanliness restored and ready for recoating.",
+    "DEEP CLEAN WOOD FLOORS BAMBOO CLEANING POLISH 154.png": "Deep cleaning & recoating prep #7: this Del Mar restaurant's engineered white oak floor prepared with Bona PowerScrubber equipment to remove grease, dirt, and polish buildup ahead of recoating.",
+    "DEEP CLEAN WOOD FLOORS BAMBOO CLEANING POLISH 141.png": "Deep cleaning & recoating prep #7, completed: the same Del Mar restaurant floor after professional deep cleaning and recoating, its clarity, sheen, and protection restored with Bona commercial-grade finishes overnight.",
+    "DEEP CLEAN WOOD FLOORS BAMBOO CLEANING POLISH 100.png": "Deep cleaning, re-staining & recoating #8: an engineered distressed floor in this Carlsbad home after wax buildup was scrubbed and abraded away, re-stained in a modern, even tone by San Diego Hardwoods to restore rich color and grain without full replacement.",
+    "DEEP CLEAN WOOD FLOORS BAMBOO CLEANING POLISH 105.png": "Deep cleaning, re-staining & recoating #8, completed: the same Carlsbad kitchen's engineered floor freshly re-coated over its new dark stain, its sheen and protection restored with a satin finish once cured.",
+    "DEEP CLEAN WOOD FLOORS BAMBOO CLEANING POLISH 84.png": "Deep cleaning, wax removal & re-staining #9: this completely worn engineered hardwood floor in a Carlsbad home, covered in old polish buildup, shown as San Diego Hardwoods' Bona PowerScrubber deep cleans and abrades the surface to remove wax and residue ahead of re-staining.",
+    "DEEP CLEAN WOOD FLOORS BAMBOO CLEANING POLISH 104.png": "Deep cleaning, wax removal & re-staining #9, completed: the same Carlsbad floor fully restored after deep cleaning, re-staining, and recoating, its rich color and satin sheen renewed with a fresh protective coat.",
+    "/DOUGLAS FIR REFINISHING1.jpg": "Before #10 in Golden Hill: another late-1800s historic apartment's vintage Douglas Fir flooring shown mid-process, being stripped of paint and years of wear with an industrial belt sander connected to a Bona portable dust-containment system.",
+    "/DOUGLAS FIR REFINISHING16.jpg": "After #10 in Golden Hill near South Park and Bankers Hill: the same Douglas Fir floor fully restored, stained in a rich Jacobian color and sealed with a satin commercial-grade finish, leaving a spotless, durable restoration that proves the effectiveness of true dust-free sanding.",
+    "/BENG CHERRY.jpg": "Before #11 in 4S Ranch: engineered Brazilian cherry flooring in this North County San Diego home near Rancho Santa Fe and Carmel Mountain Ranch, sun-faded and worn with its aluminum-oxide factory finish still intact, shown ahead of dust-contained sanding to remove that coating.",
+    "/BENG CHERRY 2.jpg": "After #11 in 4S Ranch: the same engineered Brazilian cherry floor with its aluminum-oxide coating removed through dust-contained sanding, sealed with a traditional oil-based sealer to deepen the rich cherry color and finished with a matte-sheen residential water-based coat, restoring decades of worn wood and highlighting the floor's custom cherry corner round detail.",
+    "/FRENCH OAK INSTALL21.jpg": "Before #12 in this Baker's Hill commercial space near South Park and Mission Valley: wide-plank, seven-inch random-length engineered French oak shown raw, installed but not yet sanded, ahead of professional dust-free sanding and site finishing.",
+    "/FRENCH OAK INSTALL60.jpg": "After #12 in this Baker's Hill commercial space near South Park and Mission Valley: the same wide-plank engineered French oak floor sanded flat and finished on site with the same durable commercial finish and natural tone used in the first phase, creating a smooth, modern wide-plank floor built to withstand heavy restaurant use.",
+    "assets/images/hickory.356121752_sq_thumb_m.jpg": "Before #13 in Rancho Santa Fe: engineered hickory flooring in this North County estate, originally distressed and badly sun-faded, shown ahead of dust-contained sanding to remove the wear and texture.",
+    "assets/images/hickory_1.356121807_sq_thumb_m.jpg": "After #13 in Rancho Santa Fe: the same engineered hickory floor sanded flat with dust containment, custom-mixed to the perfect stain tone and sealed with Bona Traffic HD for a satin, durable finish, restoring the floor's elegance in this North County estate.",
+    "/HICKORY SANDING17.jpg": "Before #14 in Carmel Valley near Del Mar: wide-plank solid hickory flooring in this home, extremely sun-faded and worn with its natural color lost after years of exposure, shown ahead of professional dust-free sanding and restoration.",
+    "/HICKORY SANDING78.jpg": "After #14 in Carmel Valley near Del Mar: the same solid hickory floor dust-contained sanded to raw wood and sealed with a natural color sealer that highlights the rich grain and beauty of the wide planks, bringing the floor back to life with a timeless, durable finish.",
+    "assets/images/rsf_1.356121907_sq_thumb_m.jpg": "Before #15 near Solana Beach and Del Mar, Rancho Santa Fe: hardwood floors in this North County home coated in layers of old wax that left the surface dull and uneven, shown ahead of professional deep cleaning and wax removal.",
+    "assets/images/rsf_5.356121924_sq_thumb_m.jpg": "After #15 near Solana Beach and Del Mar, Rancho Santa Fe: the same floors after a full professional cleaning and wax removal and a fresh commercial-grade recoat, restoring the floors' natural beauty and durability without a full sanding.",
+    "assets/images/01-12-10_0210.313133752_sq_thumb_m.jpg": "Before #16 in the Gaslamp District, downtown San Diego: solid pine flooring inside this Hooters restaurant location, worn and damaged from years of heavy foot traffic, shown ahead of professional dust-contained sanding and repair.",
+    "assets/images/hooters-after.39225501_sq_thumb_m.jpg": "After #16 in the Gaslamp District, downtown San Diego: the same solid pine floor sanded clean and finished with Bona Traffic HD, a two-part commercial polyurethane system in satin sheen, delivering maximum durability and bringing back the pine's warm natural character for this busy commercial space.",
+    "assets/images/20200525_135341.15483527_sq_thumb_m.jpg": "Before #17 in Point Loma: solid plank Brazilian cherry flooring in this coastal San Diego home, worn, sun-faded, and discolored from years of use, shown ahead of dust-free sanding and deep cleaning.",
+    "assets/images/20200531_104412.15483832_sq_thumb_m.jpg": "After #17 in Point Loma: the same solid cherry floor restored with dust-free sanding, sealed clear to highlight the deep, rich red tones, and finished with Bona Traffic HD, a two-part commercial polyurethane system, demonstrating how Brazilian cherry can be refinished rather than replaced.",
+    "/RECOAT OAK6.jpg": "Before #18 in Scripps Ranch: engineered white oak flooring in this home, dulled and worn from years of use, shown prepared for professional repair, deep cleaning, and dust-free sanding to ensure proper adhesion before a new protective finish.",
+    "/RECOAT OAK8.jpg": "After #18 in Scripps Ranch: the same engineered white oak floor restored with professional preparation, dustless sanding, and a commercial-grade Bona polyurethane finish in an extra-matte sheen, durable recoating that extends the life of quality hardwood floors without a full sanding.",
+    "/RECOAT OAK10.jpg": "Before #19 in Carmel Valley: solid walnut flooring in this home, sun-faded and surface-worn from years of daily use, shown ahead of professional dust-free sanding, color restoration, and protective recoating.",
+    "/RECOAT OAK19.jpg": "After #19 in Carmel Valley: the same solid walnut floor restored with dustless sanding, a fresh custom color application to even out tone, and a durable commercial-grade Bona Traffic HD polyurethane finish, restoring the deep natural walnut look with protection designed to handle years of use, refreshed without a full sanding.",
+    "assets/images/walnutafter.356114726_sq_thumb_m.jpg": "Before #20 in the Gaslamp District at this Omni Hotel condo: engineered walnut flooring worn and faded from heavy use, shown ahead of professional dust-free sanding equipment being applied to restore the floor.",
+    "assets/images/walnutafter2.356114805_sq_thumb_m.jpg": "After #20 in the Gaslamp District at this Omni Hotel condo overlooking the Coronado Bay Bridge: the same engineered walnut floor sanded back to raw wood with dust containment and finished with Bona Traffic HD for a durable, modern, flawless restoration in this high-rise setting.",
+}
+
+
 def esc(s):
     return s if s else ""
 
@@ -138,16 +192,9 @@ def render_figure(img, desc, title=None):
     href = img["href"] or img["src"]
     cls = img["class"].strip()
     cls_attr = f' class="{cls}"' if cls else ""
-    # Aggressive alt-text expansion (2026-07-20): this image's own raw-source alt
-    # (already rich, including the page's established COIT/Stanley Steemer/Zerorez
-    # comparison wording where it already existed) is preserved verbatim as the
-    # prefix. Appended: the project's own module title and its own visible
-    # figcaption description -- both already-published text about this exact photo.
-    # Deep Cleaning's gallery_records.json is regenerated from raw-source on every
-    # build (build_deep_cleaning.py), so this expansion is applied here at assemble
-    # time rather than by hand-editing that regenerated JSON.
-    title_sentence = strip_html_tags(title) if title else None
-    alt = append_sentences(img["alt"], title_sentence, desc)
+    override = ALT_OVERRIDE.get(img["src"])
+    alt = override if override is not None else append_sentences(
+        img["alt"], strip_html_tags(title) if title else None, desc)
     alt = alt.replace('"', "&quot;")  # this file doesn't otherwise escape attribute values
     fig = f'<figure><a href="{href}"><img src="{img["src"]}" alt="{alt}"{cls_attr} loading="lazy"></a>'
     if desc:

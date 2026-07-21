@@ -40,18 +40,23 @@ for p in PROJECTS:
     for src in p["images"]:
         assert src in ALT, f"projects.json references unknown image {src}"
 
-# Aggressive alt-text expansion (2026-07-20): each image's own frozen-extraction alt
-# (already rich) is preserved verbatim as the prefix. Appended: the project's own
-# heading and note paragraph -- both already visible directly above these exact
-# photos, describing species/construction, method, stain/finish, and location.
-# No species/construction claim is changed; the known TRICIA WALNUT27/30/63/76
-# filename-vs-white-oak conflict (flagged in docs/PROJECT_DECISIONS.md, deliberately
-# unresolved) is left exactly as-is -- the appended text repeats only what the
-# project heading/note already say (white oak), asserting nothing new either way.
+# Alt-text recomposition (Milestone 2.13): Project 1's four TRICIA WALNUT27/30/63/76
+# images already carry a complete, ready-to-render alt in images.json (staging /
+# laying-out / nailed-raw / completed-result stages, deduplicated against the shared
+# project heading+note) and are used as-is below. The known TRICIA WALNUT filename-
+# vs-white-oak conflict (flagged in docs/PROJECT_DECISIONS.md, deliberately unresolved)
+# is left exactly as-is -- the alt repeats only what was already published (white oak),
+# asserting nothing new either way. For every other project, each image's own
+# frozen-extraction alt (already rich and image-specific) is preserved verbatim as the
+# prefix, with the project's own heading and note paragraph -- already visible directly
+# above these exact photos -- appended as shared context.
+_ALREADY_COMPLETE = {"/TRICIA WALNUT27.jpg", "/TRICIA WALNUT30.jpg", "/TRICIA WALNUT63.jpg", "/TRICIA WALNUT76.jpg"}
 for p in PROJECTS:
     heading_sentence = strip_html_tags(p["heading"])
     note_text = p["note"]
     for src in p["images"]:
+        if src in _ALREADY_COMPLETE:
+            continue
         ALT[src] = append_sentences(ALT[src], heading_sentence, note_text)
 
 with open(DATA / "vcard.txt", encoding="utf-8") as f:

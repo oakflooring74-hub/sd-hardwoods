@@ -66,19 +66,48 @@ for rec in records:
         rec["prose"] = [cs3_prose] if cs3_prose else []
         break
 
+# Alt-text recomposition (Milestone 2.13): two case-#8 photos' legacy alt is pure
+# ALL-CAPS keyword spam with zero image-specific content (a raw-source extraction
+# artifact); each one's own visible figcaption already had the real fact (sanding
+# stage; confirmed red-oak species, stated once on the after photo) and now leads
+# instead. case_studies.json is regenerated from raw-source on every build
+# (build_blog.py), so this override lives here rather than in that regenerated JSON.
+ALT_OVERRIDE = {
+    "assets/images/20160831_115551.86110818_std.jpg": "Before sanding (case study #8): this red oak floor in a San Diego home, shown with the worn, dirty, grey finish wear typical of aging solid oak floors before a full refinish.",
+    "assets/images/20160906_174306.86110918_std.jpg": "After complete refinishing of this solid red oak floor (case study #8) in San Diego: finish and surface wear fully removed, the wood sealed to bring out its natural red oak color and protected with a new polyurethane finish by a licensed San Diego flooring contractor.",
+}
+
+# A handful of other blog photos carry the same kind of ALL-CAPS keyword-spam legacy
+# alt with no image-specific content, appended by whoever wrote the original
+# raw-source markup rather than describing that specific photo. Stripping it (rather
+# than leading with it) lets each photo's own real content -- or, if none remains,
+# the case study's own title/prose -- lead instead; this is a structural cleanup
+# applied uniformly, not a per-image rewrite.
+_SPAM_MARKER = "HARDWOOD SAN DIEGO. HARDWOOD FLOOR REFINISHING SAN DIEGO."
+
+def _strip_spam(alt):
+    if not alt:
+        return alt
+    idx = alt.upper().find(_SPAM_MARKER)
+    if idx == -1:
+        return alt
+    return alt[:idx].strip()
+
 def render_figure(img, caption=None, title=None, prose_text=None):
     href = img["href"] or img["src"]
     cls = (img["class"] or "").strip()
     cls_attr = f' class="{cls}"' if cls else ""
-    # Aggressive alt-text expansion (2026-07-20): this image's own raw-source alt
-    # (already rich where present; some blog photos had none at all) is preserved
-    # verbatim as the prefix. Appended: this case study's own title and prose --
-    # both already visible directly above the photo grid -- plus this image's own
-    # short caption where one exists. case_studies.json is regenerated from
-    # raw-source on every build (build_blog.py), so this is applied here at
-    # assemble time rather than by hand-editing that regenerated JSON.
     title_sentence = strip_html_tags(title) if title else None
-    alt = append_sentences(img["alt"] or "", title_sentence, prose_text, caption)
+    override = ALT_OVERRIDE.get(img["src"])
+    if override is not None:
+        alt = override
+    else:
+        # this image's own raw-source alt (already rich where present; some blog
+        # photos had none at all, and a few carry only keyword-spam boilerplate,
+        # stripped above) is preserved verbatim as the prefix. Appended: this case
+        # study's own title and prose -- both already visible directly above the
+        # photo grid -- plus this image's own short caption where one exists.
+        alt = append_sentences(_strip_spam(img["alt"]) or "", title_sentence, prose_text, caption)
     alt = alt.replace('"', "&quot;")  # appended prose can contain a literal " (e.g. 3/4" measurements)
     fig = f'<figure><a href="{href}"><img src="{img["src"]}" alt="{alt}"{cls_attr} loading="lazy"></a>'
     if caption:

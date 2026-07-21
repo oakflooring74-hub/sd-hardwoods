@@ -2,6 +2,49 @@
 
 Read this file first when picking this project back up — **together with `docs/PROJECT_OPERATING_MANUAL.md` (the permanent governing document, added 2026-07-18) and `docs/PROJECT_DECISIONS.md` (binding decisions + standing blockers)**. This file links to everything else and tells you what's done, what's approved next, and what to ask the owner before doing anything.
 
+## Milestone 2.13 — Image Alt-Text Recomposition (2026-07-20)
+
+Fixed a real defect in Milestone 2.12's approach: preserving the existing alt "verbatim
+as the prefix" meant Gallery 1 and Gallery 2's paired before/after images shared a
+250+-character identical shared-project-title prefix, with the genuinely image-specific
+detail buried after it. Full requirements/history: this session's owner brief (3 rounds
+of sample-review correction) — `docs/2026-07-image-alt-recomposition-sample-review.md`
+(Phase A) and `docs/2026-07-image-alt-recomposition-report.md` (Phase B, full result).
+
+**What shipped:** recomposed alt text on 9 of 13 pages so image-specific content leads
+(Gallery 1 all 20 projects, Gallery 2 all 21 pairs — the confirmed systemic bug; Gallery
+3/4 only the 3 confirmed byte-identical pairs; Homepage all 89 images, merging redundant
+base+caption restatement; Solid & Engineered's 4 flagged-filename images; Deep Cleaning
+all 20 pairs, stage-based framing + fixed competitor wording; Blog's 2 keyword-spam
+images + a general spam-stripping rule; Videos' 58 thumbnails, dropped the repeated
+canned closing template and fixed a real fallback-description bug that was surfacing the
+channel's own contact-info boilerplate instead of each video's real content). Gallery 5,
+About Us, Floor Assessments, Contact Us audited and confirmed already compliant/untouched.
+
+- **New ledger:** `build/data/image_alt_recomposition_ledger.csv` (465 rows, recalculated
+  fresh) + `build/data/image_alt_recomposition_similarity.md` (exact-prefix + semantic
+  similarity audit) via new `build/scripts/generate_alt_recomposition_ledger.py`.
+- **9 owner-review items flagged, not guessed:** Jacobian/Jacobean spelling, Baker's
+  Hill/Bankers Hill, Project #18's sanding-vs-recoating contradiction, 2 identical
+  videos, Blog Case Studies #11/#12's indistinguishable images, Graf/Graff Brothers
+  brand spelling (new this session), Gallery 4 Project #61 (no before-state exists in
+  the data for either photo — new finding this session).
+- **Mechanical fixes:** `wat-based`→`water-based`, `urable Recoating`→`Durable
+  Recoating`, "San Elijo Hills" removed from Gallery 1 Project #5 (owner-instructed).
+- **QA:** double build byte-identical; every changed line across all 9 regenerated pages
+  verified (scripted diff scan) to differ *only* in `alt="..."` — no src/href/class/
+  captions/badges/order/titles/headings/canonicals/JSON-LD changed; all 13 pages' JSON-LD
+  parses; all 13 pages parse cleanly with `html.parser`, `<img>` count == `alt` count on
+  every page (465 total, matches ledger); competitor names (Coit/Stanley Steemer/Zerorez)
+  preserved, no new competitor added; `git diff --check` clean.
+- **Not run this session:** interactive Playwright/browser QA (visual + lightbox +
+  console-error check). Change is alt-attribute-only and touches no CSS/JS/layout, so
+  risk is low, but this is a real gap against the milestone's own checklist — worth a
+  follow-up visual pass before considering this fully closed.
+
+**Git state:** see the final report for the exact commit hash and push/CI/preview status
+at the time this milestone was completed.
+
 ## Milestone 2.12 — Aggressive, Evidence-Grounded Image Alt-Text Expansion (2026-07-20)
 
 Owner-directed, ranking-first milestone (deliberately unconventional-length alt
