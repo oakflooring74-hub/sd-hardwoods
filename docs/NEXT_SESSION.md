@@ -1,6 +1,50 @@
-# Start here — project status as of 2026-07-23
+# Start here — project status as of 2026-07-24
 
 Read this file first when picking this project back up — **together with `docs/PROJECT_OPERATING_MANUAL.md` (the permanent governing document, added 2026-07-18) and `docs/PROJECT_DECISIONS.md` (binding decisions + standing blockers)**. This file links to everything else and tells you what's done, what's approved next, and what to ask the owner before doing anything.
+
+## Milestone 3.0 — Deployment architecture: Cloudflare Pages → Workers Static Assets (2026-07-24)
+
+Owner-directed and owner-approved at each step. Root cause: Cloudflare Pages force-308s
+every `.html` URL to its extensionless form (not disableable), contradicting the site's
+`.html` canonical strategy — every canonical/sitemap/internal-link/schema URL would have
+redirected away from itself at launch. The owner's 16-month GSC export (analyzed this
+session) independently showed the live Turbify site serving both URL forms as 200
+duplicates with badly split ranking signals. Decision (owner, after options review): keep
+`.html` canonicals, move hosting to **Workers Static Assets** with `html_handling: "none"`.
+
+- **New root files:** `wrangler.jsonc` (worker `sd-hardwoods-preview`, assets dir `.`,
+  html_handling `none`); `_redirects` (12 pages × extensionless + trailing-slash → `.html`
+  301, `/index.html → /` 301, `/ → /index.html` 200 proxy); `_headers` (`X-Robots-Tag:
+  noindex` scoped to the exact `sd-hardwoods-preview.sandiegohardwoods.workers.dev` host —
+  can never affect production); `.assetsignore` (**mandatory** — excludes `.git`,
+  `.github`, `.claude`, `.wrangler`, `build/`, `docs/`, `qa-screenshots/`, `CLAUDE.md`,
+  owner YAML, and `node_modules` — the wrangler CI action installs node_modules *into the
+  workspace*, which exceeded the 25 MiB asset limit until excluded).
+- **Workflow** (`deploy-cloudflare-pages.yml`, name now "Build and Deploy (Cloudflare
+  Workers)"): build-determinism gate unchanged; `redesign` pushes deploy the preview
+  Worker; `master` pushes **fail loudly** via a production-guard job until cutover;
+  PRs still build-verify only. Temporary test workflow deleted after use.
+- **Proven before merge (owner requirement): 89/89 automated URL-matrix checks passed**
+  against the deployed Worker — every `.html` page 200 direct, every extensionless/
+  trailing-slash duplicate 301 to canonical, `/` 200 via proxy, query strings preserved,
+  assets 200, all non-public repo files 404, canonicals/sitemap/JSON-LD/internal links
+  verified served, noindex present.
+- **CI token** `github-actions-sd-hardwoods-pages-deploy` gained **Workers Scripts: Edit**
+  (owner, via dashboard; value unchanged so the GitHub secret needed no update).
+- **CRITICAL standing warning:** never deploy this repo to Cloudflare Pages again — the
+  committed `_redirects` + Pages' own `.html` normalization = infinite redirect loop. The
+  dormant `sd-hardwoods` Pages project is rollback-only. The old
+  `redesign.sd-hardwoods.pages.dev` preview is frozen at Milestone 2.15 content.
+- **Next (not done): production cutover** — add production Worker config (separate
+  name/env in `wrangler.jsonc`), replace the guard job with the production deploy,
+  attach `www.sdhardwoods.com` to the production Worker, flip DNS from Turbify;
+  post-launch: GSC sitemap resubmit + indexing requests. Also pending from this session's
+  GSC/live-site analysis: title/meta/H1 reconciliation decisions (keep-vs-revert table
+  drafted; live pull archived), then the launch QA gate (Playwright pass, BreadcrumbList,
+  FlooringContractor @type validation).
+
+**Git state:** merged to `redesign` and pushed (deploys the preview Worker via the new
+pipeline). `master` and production untouched.
 
 ## Milestone 2.15 — Gallery photo schema port (ItemList/CreativeWork/ImageObject) + Tricia Walnut/Bird Rock flag closure (2026-07-23)
 

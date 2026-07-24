@@ -1,8 +1,24 @@
-name: Deploy Cloudflare Pages
+name: Build and Deploy (Cloudflare Workers)
 
-# redesign / master pushes deploy automatically; pull requests only build+verify
-# (never deploy); workflow_dispatch allows a controlled manual rerun against
-# whatever branch/ref is selected in the Actions UI.
+# redesign pushes deploy automatically to the sd-hardwoods-preview Worker
+# (Workers Static Assets); pull requests only build+verify (never deploy);
+# workflow_dispatch allows a controlled manual rerun against whatever
+# branch/ref is selected in the Actions UI.
+#
+# DEPLOYMENT ARCHITECTURE (2026-07-24): the site deploys to Cloudflare
+# Workers Static Assets (wrangler.jsonc, html_handling "none"), NOT Cloudflare
+# Pages. Pages force-308s every .html URL to its extensionless form, which
+# contradicts the site's .html canonical strategy; Workers with
+# html_handling "none" serves every .html URL as a direct 200 and _redirects
+# 301s the extensionless/trailing-slash duplicates to the .html canonicals.
+# The old sd-hardwoods Pages project is dormant and kept as a rollback
+# target only -- do not resume deploying to it: the _redirects file now in
+# this repo combines with Pages' own .html normalization to produce a
+# redirect loop on any Pages deployment of this content.
+#
+# Production (master -> custom domain www.sdhardwoods.com) is intentionally
+# NOT configured yet; the production-guard job below fails master pushes
+# loudly until the production cutover sets up the production Worker.
 on:
   push:
     branches:
@@ -68,48 +84,48 @@ jobs:
           echo "Generated output matches committed output -- safe to deploy."
 
   deploy:
-    name: Deploy to Cloudflare Pages
+    name: Deploy redesign preview to Cloudflare Workers
     needs: build
     # Pull requests only ever run the build/verify job above -- never deploy.
-    if: github.event_name != 'pull_request'
+    # Only redesign is deployable from this workflow; master is blocked by the
+    # production-guard job below until the production Worker is configured at
+    # cutover.
+    if: github.event_name != 'pull_request' && github.ref_name == 'redesign'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
 
-      - name: Get commit SHA and message
-        id: meta
-        run: |
-          echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
-          echo "message=$(git log -1 --format=%s)" >> "$GITHUB_OUTPUT"
-
-      # Deploys the committed repo root as-is (same source the manual
-      # `wrangler pages deploy .` command has always used) to the existing
-      # sd-hardwoods Pages project. --branch is the pushed branch name;
-      # Cloudflare classifies it Preview or Production based on the project's
-      # already-configured production branch (master) -- no separate flag needed.
-      - name: Deploy to Cloudflare Pages
+      # Deploys the committed repo root (assets directory "." in wrangler.jsonc,
+      # filtered by .assetsignore) to the sd-hardwoods-preview Worker at
+      # https://sd-hardwoods-preview.sandiegohardwoods.workers.dev. The _headers
+      # file pins X-Robots-Tag noindex to exactly that hostname, so the preview
+      # can never be indexed and the rule can never leak onto the production
+      # domain.
+      - name: Deploy to Cloudflare Workers Static Assets
         id: deploy
         uses: cloudflare/wrangler-action@ebbaa1584979971c8614a24965b4405ff95890e0 # v4.0.0
-        env:
-          DEPLOY_COMMIT_MESSAGE: ${{ steps.meta.outputs.message }}
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: >-
-            pages deploy . --project-name=sd-hardwoods
-            --branch=${{ github.ref_name }}
-            --commit-hash=${{ steps.meta.outputs.sha }}
-            --commit-message="$DEPLOY_COMMIT_MESSAGE"
+          command: deploy
 
       - name: Summarize deployment
         run: |
           {
-            echo "### Cloudflare Pages deployment"
+            echo "### Cloudflare Workers deployment (redesign preview)"
             echo "- Branch: \`${{ github.ref_name }}\`"
-            echo "- Environment: ${{ steps.deploy.outputs.pages-environment }}"
-            echo "- Commit: \`${{ steps.meta.outputs.sha }}\`"
+            echo "- Worker: sd-hardwoods-preview"
             echo "- Deployment URL: ${{ steps.deploy.outputs.deployment-url }}"
-            echo "- Alias URL: ${{ steps.deploy.outputs.pages-deployment-alias-url }}"
-            echo "- Deployment ID: ${{ steps.deploy.outputs.pages-deployment-id }}"
           } >> "$GITHUB_STEP_SUMMARY"
+
+  production-guard:
+    name: Block master deploys until Workers production cutover
+    needs: build
+    if: github.event_name != 'pull_request' && github.ref_name == 'master'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fail with cutover instructions
+        run: |
+          echo "::error::The Workers production deployment (master -> www.sdhardwoods.com) is not configured yet. Deploying master to the preview Worker or to the dormant Pages project would be wrong. Complete the production cutover first: add a production Worker configuration (separate name/env in wrangler.jsonc), attach the custom domain, then replace this guard job with the production deploy step."
+          exit 1
