@@ -39,9 +39,12 @@ duplicates with badly split ranking signals. Decision (owner, after options revi
   name/env in `wrangler.jsonc`), replace the guard job with the production deploy,
   attach `www.sdhardwoods.com` to the production Worker, flip DNS from Turbify;
   post-launch: GSC sitemap resubmit + indexing requests. Also pending from this session's
-  GSC/live-site analysis: title/meta/H1 reconciliation decisions (keep-vs-revert table
-  drafted; live pull archived), then the launch QA gate (Playwright pass, BreadcrumbList,
-  FlooringContractor @type validation).
+  GSC/live-site analysis: title/meta/H1 reconciliation decisions -- **full record in
+  `docs/2026-07-title-h1-reconciliation-plan.md`** (GSC findings, complete live-site
+  pull, keep-vs-revert table awaiting owner ratification) -- then the launch QA gate
+  (Playwright pass, BreadcrumbList, FlooringContractor @type validation). The URL-matrix
+  verifier is committed as `build/scripts/verify_url_matrix.py` (re-run against
+  production at cutover).
 
 **Git state:** merged to `redesign` and pushed (deploys the preview Worker via the new
 pipeline). `master` and production untouched.
