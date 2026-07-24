@@ -1,0 +1,12 @@
+.git
+.gitattributes
+.gitignore
+.github
+.wrangler
+.assetsignore
+wrangler.jsonc
+CLAUDE.md
+build
+docs
+qa-screenshots
+homepage_image_owner_facts_5-90.yaml

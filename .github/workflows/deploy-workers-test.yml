@@ -1,0 +1,52 @@
+name: Deploy Workers Static Assets (TEST)
+
+# TEMPORARY deployment-architecture test workflow -- proves the site can be
+# served from Cloudflare Workers Static Assets with html_handling "none"
+# (every .html URL returns 200 directly; extensionless duplicates 301 to the
+# .html canonical via _redirects). Runs ONLY on the throwaway
+# workers-deploy-test branch and deploys ONLY the sd-hardwoods-preview worker.
+# The existing Cloudflare Pages workflow and project are untouched; delete
+# this file when the test branch is retired.
+#
+# The Pages workflow's build-determinism gate is intentionally not duplicated
+# here: this branch's generated pages are byte-identical to redesign's already
+# gated output, and this workflow exists solely to prove the deployment
+# architecture.
+
+on:
+  push:
+    branches:
+      - workers-deploy-test
+  workflow_dispatch: {}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    name: Deploy to Cloudflare Workers (preview worker only)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+
+      - name: Deploy to Cloudflare Workers Static Assets
+        id: deploy
+        uses: cloudflare/wrangler-action@ebbaa1584979971c8614a24965b4405ff95890e0 # v4.0.0
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: deploy
+
+      - name: Summarize deployment
+        run: |
+          {
+            echo "### Cloudflare Workers TEST deployment"
+            echo "- Branch: \`${{ github.ref_name }}\`"
+            echo "- Worker: sd-hardwoods-preview"
+            echo "- Deployment URL: ${{ steps.deploy.outputs.deployment-url }}"
+          } >> "$GITHUB_STEP_SUMMARY"
