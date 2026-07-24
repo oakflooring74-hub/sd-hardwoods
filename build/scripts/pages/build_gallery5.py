@@ -18,8 +18,11 @@ from pathlib import Path
 BUILD = Path(__file__).resolve().parent.parent.parent  # -> build/
 sys.path.insert(0, str(BUILD / "scripts" / "common"))
 from assemble_page import assemble, gallery_progress_html
-from public_business_rules import replace_area_served, FULL_SAN_DIEGO_AREAS, SOUTH_ORANGE_COUNTY
-from alt_expand import append_sentences
+from public_business_rules import (
+    replace_area_served, FULL_SAN_DIEGO_AREAS, SOUTH_ORANGE_COUNTY,
+    build_gallery_media_graph, wrap_jsonld_graph,
+)
+from alt_expand import append_sentences, strip_html_tags
 
 DATA = BUILD / "data" / "recent_project_gallery_5"
 
@@ -37,6 +40,25 @@ with open(DATA / "jsonld.html", encoding="utf-8") as f:
 # declared on, not just the homepage. This page's own Service.areaServed
 # (including "El Cajon", a real target area per owner direction) is untouched.
 JSONLD = replace_area_served(JSONLD, FULL_SAN_DIEGO_AREAS + SOUTH_ORANGE_COUNTY)
+
+# Gallery-media schema milestone (2026-07-23): document each of the 5 real
+# before/after projects as CreativeWork + paired ImageObject, wrapped in an
+# ItemList -- same pattern as Gallery 1/2/3/4/Solid Wood. This page's data
+# already separates title/description/before/after cleanly, so no filtering
+# or title-splitting is needed.
+_PAGE_URL = "https://www.sdhardwoods.com/recent_project_gallery_5.html"
+_media_projects = [
+    {
+        "name": strip_html_tags(p["title"]),
+        "description": strip_html_tags(p["description"]),
+        "images": [
+            {"url": p["before"]["src"], "name": p["before"].get("alt") or "", "caption": p["before"].get("caption")},
+            {"url": p["after"]["src"], "name": p["after"].get("alt") or "", "caption": p["after"].get("caption")},
+        ],
+    }
+    for p in PROJECTS
+]
+JSONLD = JSONLD + "\n" + wrap_jsonld_graph(build_gallery_media_graph(_PAGE_URL, _media_projects))
 
 HEAD_META = """<title>San Diego Hardwood Flooring Project Gallery | Expert Restoration, Repairs, Custom Installation &amp; Specialty Finishes</title>
 <meta name="description" content="View real San Diego hardwood floor refinishing, repair, restoration and installation projects with photographs and detailed project information.">

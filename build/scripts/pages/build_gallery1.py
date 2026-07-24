@@ -5,7 +5,7 @@ from pathlib import Path
 BUILD = Path(__file__).resolve().parent.parent.parent  # -> build/
 sys.path.insert(0, str(BUILD / "scripts" / "common"))
 from assemble_page import assemble, gallery_progress_html
-from public_business_rules import build_service_page_jsonld
+from public_business_rules import build_service_page_jsonld, build_gallery_media_graph, split_title_desc
 
 SCRATCH = str(BUILD)  # unused after this point but kept for reference
 
@@ -27,11 +27,34 @@ HEAD_META = """<title>Hardwood Floor Refinishing Gallery | San Diego Before &amp
 <link href="/assets/legacy-css/mc_global.195798.css" id="globalCSS" media="screen" rel="stylesheet" type="text/css">
 <link href="/assets/legacy-css/theme.css" id="themeCSS" media="screen" rel="stylesheet" type="text/css">"""
 
+# Gallery-media schema milestone (2026-07-23): document each real before/after
+# project as CreativeWork + paired ImageObject, wrapped in an ItemList -- the
+# schema.org pattern already proven working on the live production site's
+# Gallery 1 page, ported here. Mirrors module_html()'s own filtering exactly
+# (same CTA-image exclusion, same "< 2 images" skip) so the schema always
+# matches what's actually rendered, never more or less.
+_PAGE_URL = "https://www.sdhardwoods.com/recent_project_photo_gallery_1.html"
+_media_projects = []
+for m in data["modules"]:
+    imgs = [i for i in m["images"] if "ultra%20clean" not in (i["src"] or "") and "BUTTON" not in (i["src"] or "").upper()]
+    if len(imgs) < 2:
+        continue
+    before, after = imgs[0], imgs[1]
+    name, desc = split_title_desc(m["title"])
+    _media_projects.append({
+        "name": name,
+        "description": desc,
+        "images": [
+            {"url": before["src"], "name": before.get("alt") or "", "caption": before.get("caption")},
+            {"url": after["src"], "name": after.get("alt") or "", "caption": after.get("caption")},
+        ],
+    })
+
 # Schema milestone (2026-07-19): original page had no JSON-LD block at all
 # (confirmed via inventory scan) -- built from this page's own real, already
 # -approved meta description and project-heading locations, not invented.
 JSONLD = build_service_page_jsonld(
-    page_url="https://www.sdhardwoods.com/recent_project_photo_gallery_1.html",
+    page_url=_PAGE_URL,
     page_id_slug="service",
     page_name="Hardwood Floor Refinishing Gallery | San Diego Before & After Photos",
     page_description="View before and after hardwood floor refinishing projects completed throughout San Diego County. See dustless sanding, hardwood floor repairs, engineered hardwood refinishing, color changes, floor restoration, deep cleaning, and oiled floor upgrades completed in La Jolla, Del Mar, Mission Hills, Rancho Santa Fe, Encinitas, Carmel Valley, and nearby communities.",
@@ -57,6 +80,7 @@ JSONLD = build_service_page_jsonld(
         ("Floor Restoration & Deep Cleaning", "Restoration and deep-cleaning projects shown alongside full refinishing work."),
         ("Oiled Floor Upgrades", "Upgrades and conversions of oil-finished hardwood floors."),
     ],
+    extra_entities=build_gallery_media_graph(_PAGE_URL, _media_projects),
 )
 
 # Milestone 2.4: obsolete Universal Analytics (UA-20793161-1 / _gaq / ga.js) removed

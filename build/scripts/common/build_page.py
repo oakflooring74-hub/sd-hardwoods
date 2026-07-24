@@ -13,6 +13,7 @@ sys.path.insert(0, str(BUILD / "scripts" / "common"))
 from assemble_page import gallery_progress_html
 from public_business_rules import (
     sanitize_public_jsonld, consolidate_business_jsonld, build_webpage_service_graph,
+    build_gallery_media_graph, split_title_desc, wrap_jsonld_graph,
 )
 from alt_expand import clean_caption, append_sentences, strip_html_tags
 from pacific_time import to_pacific_iso
@@ -236,6 +237,31 @@ def build_page(cfg):
     if "service_content" in cfg:
         new_graph = build_webpage_service_graph(page_url=cfg["canonical"], **cfg["service_content"])
         jsonld = _replace_generic_service_array(jsonld, new_graph)
+    # Gallery-media schema milestone (2026-07-23): document each real before/after
+    # project as CreativeWork + paired ImageObject, wrapped in an ItemList -- same
+    # pattern as Gallery 1/5/Solid Wood. Mirrors build_gallery_section()'s own
+    # filtering exactly (same "has a title" / "at least 1 image" rules) so the
+    # schema always matches what's actually rendered below.
+    with open(cfg["gallery_json"], encoding="utf-8") as _f:
+        _gallery_data = json.load(_f)
+    _media_projects = []
+    for m in _gallery_data["modules"]:
+        if not m["title"]:
+            continue
+        imgs = m["images"][:2]
+        if not imgs:
+            continue
+        name, desc = split_title_desc(m["title"])
+        _media_projects.append({
+            "name": name,
+            "description": desc,
+            "images": [
+                {"url": im["src"], "name": im.get("alt") or "", "caption": im.get("caption")}
+                for im in imgs
+            ],
+        })
+    jsonld = jsonld + "\n" + wrap_jsonld_graph(
+        build_gallery_media_graph(cfg["canonical"], _media_projects))
     analytics_html = rd(CHROME + r"\analytics.html")
 
     gallery_html, check = build_gallery_section(

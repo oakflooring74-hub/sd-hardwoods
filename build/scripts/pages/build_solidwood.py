@@ -16,7 +16,7 @@ from pathlib import Path
 BUILD = Path(__file__).resolve().parent.parent.parent  # -> build/
 sys.path.insert(0, str(BUILD / "scripts" / "common"))
 from assemble_page import assemble
-from public_business_rules import build_service_page_jsonld, PRIORITY_COASTAL_SD
+from public_business_rules import build_service_page_jsonld, PRIORITY_COASTAL_SD, build_gallery_media_graph
 from alt_expand import append_sentences, strip_html_tags
 
 DATA = BUILD / "data" / "solid_wood_floor_photo_gallery"
@@ -74,11 +74,27 @@ HEAD_META = """<title>San Diego Solid &amp; Engineered Wood Floor Installation, 
 <link href="/assets/legacy-css/mc_global.195798.css" id="globalCSS" media="screen" rel="stylesheet" type="text/css">
 <link href="/assets/legacy-css/theme.css" id="themeCSS" media="screen" rel="stylesheet" type="text/css">"""
 
+# Gallery-media schema milestone (2026-07-23): document each of the 4
+# installation projects as a CreativeWork with its full ordered photo
+# sequence as linked ImageObjects, wrapped in an ItemList -- same pattern as
+# Galleries 1-5, generalized here since these projects are staged sequences
+# (4-9 images), not simple before/after pairs. Uses the same final ALT text
+# each image already renders with (post heading/note-append above).
+_PAGE_URL = "https://www.sdhardwoods.com/solid_wood_floor_photo_gallery.html"
+_media_projects = [
+    {
+        "name": strip_html_tags(p["heading"]),
+        "description": p["note"],
+        "images": [{"url": src, "name": ALT[src], "caption": None} for src in p["images"]],
+    }
+    for p in PROJECTS
+]
+
 # Schema milestone (2026-07-19): the original page had no JSON-LD block at
 # all (confirmed) -- this adds one, built entirely from this page's own real
 # content (INTRO/SOURCING/OUTRO above, project headings), not invented.
 JSONLD = build_service_page_jsonld(
-    page_url="https://www.sdhardwoods.com/solid_wood_floor_photo_gallery.html",
+    page_url=_PAGE_URL,
     page_id_slug="service",
     page_name="San Diego Solid & Engineered Wood Floor Installation, Refinishing, Repairs & Dustless Sanding",
     page_description="See solid and unfinished engineered hardwood installations in San Diego, including nail-down, glue-down, sanding and custom finishing.",
@@ -102,6 +118,7 @@ JSONLD = build_service_page_jsonld(
         ("Cork, Underlayment & Subfloor Evaluation", "Cork and acoustic underlayment, sound-control assemblies, and moisture/subfloor evaluation before installation begins."),
         ("Mill-Direct Material Sourcing", "Premium solid and engineered hardwood flooring sourced directly from trusted mills, with climate acclimation for San Diego's coastal and inland environments."),
     ],
+    extra_entities=build_gallery_media_graph(_PAGE_URL, _media_projects),
 )
 GA = ""      # original page has no _gaq Google Analytics script either (confirmed) -- leave out
 

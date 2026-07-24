@@ -5,7 +5,10 @@ from pathlib import Path
 BUILD = Path(__file__).resolve().parent.parent.parent  # -> build/
 sys.path.insert(0, str(BUILD / "scripts" / "common"))
 from assemble_page import assemble, gallery_progress_html
-from public_business_rules import replace_area_served, FULL_SAN_DIEGO_AREAS, SOUTH_ORANGE_COUNTY
+from public_business_rules import (
+    replace_area_served, FULL_SAN_DIEGO_AREAS, SOUTH_ORANGE_COUNTY,
+    build_gallery_media_graph, split_title_desc, wrap_jsonld_graph,
+)
 
 from alt_expand import clean_caption, append_sentences
 
@@ -119,6 +122,31 @@ SKIP_INDICES = {7, 9, 10}  # empty/duplicate fragments from the broken source re
 modules_html = "\n".join(
     module_html(m, i) for i, m in enumerate(modules) if i not in SKIP_INDICES
 )
+
+# Gallery-media schema milestone (2026-07-23): document each real project as
+# CreativeWork + paired ImageObject, wrapped in an ItemList -- same pattern as
+# Gallery 1/5/Solid Wood. Mirrors module_html()'s own filtering exactly (same
+# CTA-image exclusion, same skip-indices, same "< 2 images" skip, same
+# borrowed title for module 8) so the schema always matches what's rendered.
+_PAGE_URL = "https://www.sdhardwoods.com/recent_project_photo_gallery_2.html"
+_media_projects = []
+for i, m in enumerate(modules):
+    if i in SKIP_INDICES:
+        continue
+    imgs = [im for im in m["images"] if not is_cta(im)]
+    if len(imgs) < 2:
+        continue
+    a, b = imgs[0], imgs[1]
+    name, desc = split_title_desc(m["title"])
+    _media_projects.append({
+        "name": name,
+        "description": desc,
+        "images": [
+            {"url": a["src"], "name": a.get("alt") or "", "caption": a.get("caption")},
+            {"url": b["src"], "name": b.get("alt") or "", "caption": b.get("caption")},
+        ],
+    })
+JSONLD = JSONLD + "\n" + wrap_jsonld_graph(build_gallery_media_graph(_PAGE_URL, _media_projects))
 
 MAIN = f"""
 <section class="hero">

@@ -2,6 +2,61 @@
 
 Read this file first when picking this project back up — **together with `docs/PROJECT_OPERATING_MANUAL.md` (the permanent governing document, added 2026-07-18) and `docs/PROJECT_DECISIONS.md` (binding decisions + standing blockers)**. This file links to everything else and tells you what's done, what's approved next, and what to ask the owner before doing anything.
 
+## Milestone 2.15 — Gallery photo schema port (ItemList/CreativeWork/ImageObject) + Tricia Walnut/Bird Rock flag closure (2026-07-23)
+
+Direct follow-on to the schema audit at the end of Milestone 2.14's session (same day, separate
+commit). Full plan: `C:\Users\oakfl\.claude\plans\sparkling-puzzling-sketch.md` (superseded by
+this entry as the durable record once committed).
+
+- **Tricia Walnut / Bird Rock-Bankers Hill flags resolved:** owner confirmed the
+  `TRICIA WALNUT27/30/63/76.jpg` white-oak description (Solid Wood Gallery) is correct as
+  published — the filename is a leftover naming artifact, not a species claim — and that "Bird
+  Rock" and "Bankers Hill" are simply two distinct, correctly-used San Diego neighborhoods in
+  separate projects, not a mixup. No content changed; see `PROJECT_DECISIONS.md` → "Media-fact
+  policy" for the resolution record. Milestone 2.5's original flag is closed.
+- **Gallery photo schema ported to all 6 gallery-shaped pages** (Galleries 1–5, Solid & Engineered
+  Installation) — the clearest schema gap identified in the 2.14-session audit: live Gallery 1
+  already had a well-built `ItemList` → `CreativeWork` (one per documented project) → paired
+  `ImageObject` structure that every other gallery page, live and redesign, was missing entirely.
+  New shared generator in `build/scripts/common/public_business_rules.py`:
+  `build_gallery_media_graph()` (the core builder, HTML-unescapes source text since it's
+  extracted-HTML data and would otherwise leave literal `&mdash;`/`&amp;` in the JSON-LD),
+  `split_title_desc()` (splits a module heading into name/description on the first literal
+  `&mdash;`), `wrap_jsonld_graph()` (wraps a standalone extra `<script>` block for pages whose
+  existing JSON-LD is a frozen fragment rather than a Python list), and a new `extra_entities`
+  parameter on the existing `build_service_page_jsonld()`. Each of the 6 pages needed its own
+  small normalization step (real data shapes differ: Galleries 1–4 read `modules.json`
+  before/after pairs; Gallery 5's `projects.json` already separates title/description/before/
+  after cleanly; Solid Wood's `projects.json` is 4 variable-length staged-image sequences, not
+  before/after pairs, and needed the image-count-based `-image-N` vs `-before-image`/
+  `-after-image` `@id` suffix branch) — each glue step mirrors its page's own existing HTML
+  rendering filter exactly (same CTA-image exclusion, same skip-indices, same borrowed title for
+  Gallery 2's module 8, same "≥2 images" gate) so the new schema always matches what's actually
+  rendered, never more or less.
+- **`contentLocation` deliberately omitted from every project** — checked
+  `build/data/media/owner_facts_confirmed.json` and every `build/data/media/placements/*.json`;
+  real per-project location confirmations exist for only 4 unrelated homepage images, everything
+  else is `null`/`needs_owner_review`. The only place a location appears for these ~84 gallery
+  projects is inside free-text titles/descriptions (and some titles name two different locations
+  for two different photos in the same project) — parsing that out programmatically would mean
+  asserting a factual `Place` claim this project's own rules prohibit inferring from nearby text.
+  Left out rather than guessed; `contentLocation` is optional in schema.org, the rest of the
+  structure is fully valid without it. Worth a dedicated owner-assisted pass later if wanted.
+- **QA:** scripted validation confirmed, for every one of the 6 pages, `ItemList.numberOfItems`
+  matches the real rendered project count exactly (Gallery 1=20, Gallery 2=21, Gallery 3=10,
+  Gallery 4=20, Gallery 5=5, Solid Wood=4 projects/28 images), every `CreativeWork.image`
+  reference resolves to an `ImageObject` present on the same page, every `ImageObject.contentUrl`
+  resolves to a real on-disk file (all zero errors), and all `@id`s are unique per page. All 13
+  pages' JSON-LD still parses; `<img>` count == `alt` count everywhere; two full rebuilds
+  byte-identical by content hash; `git diff --check` clean. One pre-existing, unrelated finding
+  surfaced by this pass's entity-scan (not a regression, not touched): `blog.html`'s JSON-LD
+  already contained a literal `&amp;` before this session started — flagged for a future pass,
+  out of scope here (blog wasn't one of the 6 target pages).
+- **Not done this milestone (explicitly deferred, see the plan file):** `BreadcrumbList`
+  site-wide (separate, smaller, cheap win); validating the `"FlooringContractor"` `@type` against
+  Google's Rich Results Test (recommend the owner spot-check a couple of these 6 pages there
+  post-deploy, alongside the other 4 pages that already carry Service/Offer schema).
+
 ## Milestone 2.14 — Owner-confirmed corrections, video schema timezone, assessment-page URL, review-count schema removal (2026-07-23)
 
 Owner-directed session picking up from Milestone 2.13's flagged items.
@@ -74,9 +129,8 @@ Owner-directed session picking up from Milestone 2.13's flagged items.
   checked from the repo at all: Cloudflare Pages dashboard config (production-branch setting,
   domain/alias attachment), DNS for `www.sdhardwoods.com`, and GitHub Actions secret
   validity/freshness. Also still open, from `PROJECT_DECISIONS.md`'s standing-blockers list:
-  the Tricia Walnut filename conflict and other image/video owner facts, assessment
-  visit-duration/report-delivery facts, anonymized report excerpts, and the YouTube
-  title cleanups ("Sold Cherry" etc., fix on YouTube first).
+  other image/video owner facts, assessment visit-duration/report-delivery facts, anonymized
+  report excerpts, and the YouTube title cleanups ("Sold Cherry" etc., fix on YouTube first).
 - **Live incognito-search review (owner-supplied screenshots, ~12 real queries, 2026-07-2x):**
   confirmed the site already wins the top organic result on several high-intent, ready-to-hire
   queries (water damage repair, nail-down oak install, wire-brushed cleaning, sand-and-refinish,

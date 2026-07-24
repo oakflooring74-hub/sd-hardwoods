@@ -85,8 +85,13 @@ visual redesign without an owner-authorized milestone.
 - Confirmed 2026-07-18: `TRICIA WALNUT102/110/54/23.jpg` = one walnut refinishing project at
   Bing Crosby Ranch, San Diego (stage/angle per photo still unconfirmed). False homepage
   identities removed.
-- Flagged, unresolved: `TRICIA WALNUT27/30/63/76.jpg` filename vs. white-oak installation
-  description on the Solid Wood Gallery.
+- **Resolved 2026-07-23** (previously flagged since Milestone 2.5): `TRICIA WALNUT27/30/63/76.jpg`
+  filename vs. white-oak installation description on the Solid Wood Gallery — owner-confirmed the
+  published white-oak description is correct as-is; the "TRICIA WALNUT" filename is a leftover
+  naming artifact from the original upload, not a species claim. No content change; not a real
+  conflict. Same owner confirmation covers the separate "Bird Rock" vs. "Bankers Hill" location
+  references elsewhere in the site's project data — these are two distinct, unrelated San Diego
+  neighborhoods that each appear correctly in their own separate projects, not a naming mixup.
 
 ## Claims policy enforcement (Milestone 2.5)
 
@@ -111,8 +116,8 @@ published anywhere.
    business; "Based in Carmel Valley, San Diego 92130").
 3. ~~Official YouTube channel URL~~ — resolved Milestone 2.6
    (`https://www.youtube.com/@sandiegohardwoods`).
-4. Image/video owner facts (media-review workflow) — including the unresolved
-   `TRICIA WALNUT27/30/63/76` filename-vs-white-oak conflict (deliberately unchanged).
+4. Image/video owner facts (media-review workflow) — the `TRICIA WALNUT27/30/63/76`
+   filename-vs-white-oak question is resolved (see Media-fact policy above, 2026-07-23).
 5. Assessment visit durations, report-delivery ranges, preparation/access expectations
    (`build/data/assessment/practical_service_facts.json`).
 6. Anonymized report excerpts (`build/data/assessment/report_examples.json`) — the
