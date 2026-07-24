@@ -83,10 +83,9 @@ Preserve established search intent, useful technical content, and historically v
 
 Do not make broad SEO rewrites from generic best practices alone. Use Search Console evidence and the documented page-intent strategy before materially changing titles, meta descriptions, headings, body content, internal links, canonicals, schema, or image metadata.
 
-The 12 legacy pages keep their established `.html` canonical URLs.
-
-The new assessment page uses:
-`https://www.sdhardwoods.com/floor-assessments-inspections`
+All 13 pages keep `.html` canonical URLs -- the 12 legacy pages, and (owner
+instruction, 2026-07-23) the assessment page too:
+`https://www.sdhardwoods.com/floor-assessments-inspections.html`
 
 Do not globally convert legacy URLs to extensionless form, rename established URLs for aesthetics, or create redirects without an approved milestone.
 

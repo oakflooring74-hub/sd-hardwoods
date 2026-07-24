@@ -7,8 +7,11 @@ Record binding decisions here; do not rewrite the operating manual itself.
 
 The 13-page map in `docs/2026-07-milestone-2.4-technical-seo.md` and
 `build/scripts/common/build_sitemap.py` (`CANONICAL_URLS`) is binding. Highlights:
-12 legacy pages keep `.html` canonicals; the new assessments page is intentionally
-extensionless (`https://www.sdhardwoods.com/floor-assessments-inspections`); Gallery 5 keeps
+all 13 pages -- the 12 legacy pages plus the assessments page -- keep `.html`
+canonicals (owner instruction, 2026-07-23: the assessments page's canonical changed from
+extensionless to `https://www.sdhardwoods.com/floor-assessments-inspections.html` to match
+the legacy pages' format; the physical output file was already `floor-assessments-inspections.html`,
+so this was a metadata/internal-link change only, not a URL-routing change); Gallery 5 keeps
 its unusual `recent_project_gallery_5.html` filename; Gallery 3's canonical is the corrected
 `recent_project_photo_gallery_3.html`. Milestone 2.4 final commit: `1ecff4e63e0c5395c4f0382e22f72fbb6addf743`.
 

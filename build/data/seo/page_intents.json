@@ -12,7 +12,7 @@
       "must_remain_visible": ["hardwood floor refinishing", "wood floor refinishing", "hardwood and bamboo refinishing", "restoration", "repairs", "installation", "deep cleaning", "maintenance recoating", "dust-contained sanding", "San Diego County", "owner-operated since 1990", "real project proof (90-photo gallery)"],
       "belongs_on_other_pages": ["assessment/inspection pricing detail (assessment page)", "cleaning-vs-recoat-vs-refinish depth (deep-cleaning page)", "installation technical depth (solid wood page)"],
       "cannibalization_risks": "Assessment page must not become the destination for generic refinishing/repair searches; homepage keeps a short assessment intro only. Galleries support, not compete with, the homepage for refinishing terms.",
-      "internal_link_targets": ["deep-cleaning-hardwood-floors-san-diego.html", "solid_wood_floor_photo_gallery.html", "recent_project_photo_gallery_1.html through recent_project_gallery_5.html", "videos_of_refinishing_process.html", "/floor-assessments-inspections", "about_us.html", "contact_us.html"],
+      "internal_link_targets": ["deep-cleaning-hardwood-floors-san-diego.html", "solid_wood_floor_photo_gallery.html", "recent_project_photo_gallery_1.html through recent_project_gallery_5.html", "videos_of_refinishing_process.html", "https://www.sdhardwoods.com/floor-assessments-inspections.html", "about_us.html", "contact_us.html"],
       "factual_limitations": "No GA4 ID, no street address, no invented review/rating/hours claims. 'Dust-contained', never 'dust-free'/'100%'.",
       "owner_review_required": ["Stage/angle of each of the four confirmed TRICIA WALNUT homepage photos", "Project identities of the remaining ~86 homepage gallery photos", "Whether the 'Carmel Valley Richard Marshall Walnut Floors' text card describes the Bing Crosby Ranch project"]
     },
@@ -166,13 +166,13 @@
       "must_remain_visible": ["call action", "Text Floor Photos action", "email action", "free phone & photo assessment as the starting point", "referral to the assessments page", "same-day response wording (qualified with 'typically')"],
       "belongs_on_other_pages": ["full assessment pricing architecture (assessment page only)"],
       "cannibalization_risks": "Must not duplicate the assessment pricing table. Title retitled in Milestone 2.6 by owner decision to 'Contact San Diego Hardwoods | Free Phone & Photo Assessment' ('free estimate(s)' is banned from public output); body copy carries the Text -> Call -> Email hierarchy.",
-      "internal_link_targets": ["/floor-assessments-inspections", "deep-cleaning-hardwood-floors-san-diego.html"],
+      "internal_link_targets": ["https://www.sdhardwoods.com/floor-assessments-inspections.html", "deep-cleaning-hardwood-floors-san-diego.html"],
       "factual_limitations": "Never imply every in-home visit is free; never imply any inquiry requires a paid visit.",
       "owner_review_required": []
     },
     {
       "page_file": "floor-assessments-inspections.html",
-      "canonical_url": "https://www.sdhardwoods.com/floor-assessments-inspections",
+      "canonical_url": "https://www.sdhardwoods.com/floor-assessments-inspections.html",
       "page_role": "Professional paid assessments, inspections, consultations, written documentation (new page, no GSC history).",
       "primary_search_intent": "Hardwood floor assessment / inspection San Diego; pre-purchase floor inspection; written floor-condition report.",
       "secondary_search_topics": ["hardwood floor damage assessment", "moisture-damage floor assessment", "insurance floor-damage documentation", "floor repairability evaluation", "refinishing feasibility", "professional floor-condition analysis"],

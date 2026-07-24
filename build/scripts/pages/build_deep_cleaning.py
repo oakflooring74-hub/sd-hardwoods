@@ -10,6 +10,13 @@ LOG = str(BUILD / "data" / "deep-cleaning-hardwood-floors-san-diego" / "build_lo
 with open(RAW, encoding="utf-8") as f:
     raw = f.read()
 
+# Owner-confirmed spelling corrections (2026-07-23): the frozen raw-source legacy
+# HTML carries two spelling errors that flow through into this page's generated
+# titles/alt/captions. Patched here (not in raw-source itself) per the established
+# convention of correcting raw-source quirks in the build script.
+raw = raw.replace("Jacobian", "Jacobean")
+raw = raw.replace("Baker&rsquo;s Hill", "Bankers Hill")
+
 log = []
 def L(x):
     log.append(str(x))

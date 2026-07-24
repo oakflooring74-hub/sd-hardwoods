@@ -25,6 +25,7 @@ sys.path.insert(0, str(BUILD / "scripts" / "common"))
 from assemble_page import assemble
 from public_business_rules import replace_area_served, FULL_SAN_DIEGO_AREAS, SOUTH_ORANGE_COUNTY
 from alt_expand import append_sentences
+from pacific_time import to_pacific_iso
 
 HEAD_META = """<title>Hardwood Floor Refinishing &amp; Dustless Sanding Videos | San Diego</title>
 <meta name="description" content="Watch real San Diego hardwood floor refinishing, sanding, repair, staining and restoration videos from actual customer projects.">
@@ -239,7 +240,7 @@ for v in VIDEOS:
         "@type": "VideoObject",
         "name": display_title(v),
         "thumbnailUrl": v["thumbnail_url"],
-        "uploadDate": v["publish_date"],
+        "uploadDate": to_pacific_iso(v["publish_date"]),
         "duration": v["duration_iso8601"],
         "contentUrl": v["watch_url"],
         "embedUrl": v["embed_url"],

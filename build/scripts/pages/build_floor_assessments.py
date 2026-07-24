@@ -31,7 +31,7 @@ _ASSESSMENT_AREA = _json.dumps(["San Diego County"] + PRIORITY_COASTAL_SD)
 
 HEAD_META = """<title>Hardwood &amp; Bamboo Floor Assessments, Inspections &amp; Pre-Purchase Reports | San Diego</title>
 <meta name="description" content="Pre-purchase hardwood and bamboo floor inspections, condition assessments, and written specialist findings throughout San Diego. Start with a free phone and photo review.">
-<link href="https://www.sdhardwoods.com/floor-assessments-inspections" rel="canonical">
+<link href="https://www.sdhardwoods.com/floor-assessments-inspections.html" rel="canonical">
 <link href="/favicon.ico" rel="icon" type="image/x-icon">
 <link href="/favicon-192.ico" rel="icon" sizes="192x192" type="image/x-icon">
 <link href="/favicon-512.ico" rel="icon" sizes="512x512" type="image/x-icon">
@@ -73,17 +73,12 @@ JSONLD = """<script type="application/ld+json">
         "image": "/bonacc.jpeg",
         "issuer": {"@type": "Organization", "name": "Bona"}
       },
-      "sameAs": ["https://www.youtube.com/@sandiegohardwoods", "https://maps.app.goo.gl/hbNaSo2guARgrZTa8"],
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "5.0",
-        "reviewCount": "16"
-      }
+      "sameAs": ["https://www.youtube.com/@sandiegohardwoods", "https://maps.app.goo.gl/hbNaSo2guARgrZTa8"]
     },
     {
       "@type": "WebPage",
-      "@id": "https://www.sdhardwoods.com/floor-assessments-inspections#webpage",
-      "url": "https://www.sdhardwoods.com/floor-assessments-inspections",
+      "@id": "https://www.sdhardwoods.com/floor-assessments-inspections.html#webpage",
+      "url": "https://www.sdhardwoods.com/floor-assessments-inspections.html",
       "name": "Hardwood & Bamboo Floor Assessments, Inspections & Pre-Purchase Reports | San Diego",
       "description": "Pre-purchase hardwood and bamboo floor inspections, condition assessments, and written specialist findings throughout San Diego. Start with a free phone and photo review.",
       "inLanguage": "en",
@@ -91,55 +86,55 @@ JSONLD = """<script type="application/ld+json">
     },
     {
       "@type": "Service",
-      "@id": "https://www.sdhardwoods.com/floor-assessments-inspections#free-phone-photo-assessment",
+      "@id": "https://www.sdhardwoods.com/floor-assessments-inspections.html#free-phone-photo-assessment",
       "name": "Free Phone & Photo Assessment",
       "serviceType": "Hardwood floor assessment",
       "description": "A free phone conversation and review of customer-supplied photos, video, or a public real-estate listing to share preliminary guidance, discuss likely flooring options, and determine the appropriate next step.",
-      "url": "https://www.sdhardwoods.com/floor-assessments-inspections",
+      "url": "https://www.sdhardwoods.com/floor-assessments-inspections.html",
       "areaServed": {"@type": "Place", "name": "San Diego County"},
       "provider": {"@id": "https://www.sdhardwoods.com/#local"},
       "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}
     },
     {
       "@type": "Service",
-      "@id": "https://www.sdhardwoods.com/floor-assessments-inspections#in-home-project-assessment",
+      "@id": "https://www.sdhardwoods.com/floor-assessments-inspections.html#in-home-project-assessment",
       "name": "In-Home Project Assessment",
       "serviceType": "Hardwood floor assessment",
       "description": "An on-site visit for owners considering San Diego Hardwoods for flooring work: visual assessment of the proposed project, basic floor and finish identification, project-planning measurements, discussion of realistic options, and a proposal when the work is a suitable fit.",
-      "url": "https://www.sdhardwoods.com/floor-assessments-inspections",
+      "url": "https://www.sdhardwoods.com/floor-assessments-inspections.html",
       "areaServed": {"@type": "Place", "name": "San Diego County"},
       "provider": {"@id": "https://www.sdhardwoods.com/#local"},
       "offers": {"@type": "Offer", "price": "95", "priceCurrency": "USD"}
     },
     {
       "@type": "Service",
-      "@id": "https://www.sdhardwoods.com/floor-assessments-inspections#pre-purchase-inspection-verbal",
+      "@id": "https://www.sdhardwoods.com/floor-assessments-inspections.html#pre-purchase-inspection-verbal",
       "name": "Pre-Purchase Floor Inspection — Verbal Assessment",
       "serviceType": "Hardwood floor inspection",
       "description": "An on-site floor inspection of a property being evaluated before purchase: apparent identification of flooring type, construction, and finish, evaluation of visible condition and wear, and a verbal explanation of realistic cleaning, repair, restoration, refinishing, or replacement options.",
-      "url": "https://www.sdhardwoods.com/floor-assessments-inspections",
+      "url": "https://www.sdhardwoods.com/floor-assessments-inspections.html",
       "areaServed": {"@type": "Place", "name": "San Diego County"},
       "provider": {"@id": "https://www.sdhardwoods.com/#local"},
       "offers": {"@type": "Offer", "price": "350", "priceCurrency": "USD"}
     },
     {
       "@type": "Service",
-      "@id": "https://www.sdhardwoods.com/floor-assessments-inspections#pre-purchase-inspection-written",
+      "@id": "https://www.sdhardwoods.com/floor-assessments-inspections.html#pre-purchase-inspection-written",
       "name": "Pre-Purchase Inspection with Written Documentation",
       "serviceType": "Hardwood floor inspection",
       "description": "The full on-site pre-purchase inspection plus two professional PDF documents: a Floor Identification & Condition Report and a Recommended Scope & Estimate for servicing the flooring after the buyer takes ownership.",
-      "url": "https://www.sdhardwoods.com/floor-assessments-inspections",
+      "url": "https://www.sdhardwoods.com/floor-assessments-inspections.html",
       "areaServed": {"@type": "Place", "name": "San Diego County"},
       "provider": {"@id": "https://www.sdhardwoods.com/#local"},
       "offers": {"@type": "Offer", "price": "750", "priceCurrency": "USD"}
     },
     {
       "@type": "Service",
-      "@id": "https://www.sdhardwoods.com/floor-assessments-inspections#complex-damage-dispute-insurance-analysis",
+      "@id": "https://www.sdhardwoods.com/floor-assessments-inspections.html#complex-damage-dispute-insurance-analysis",
       "name": "Complex Damage, Dispute & Insurance Analysis",
       "serviceType": "Hardwood floor damage analysis",
       "description": "A customizable professional service for insurance claims, water or moisture damage, landlord-tenant and security-deposit disputes, conflicting condition opinions, and complex repairability questions, with scope, deliverables, and third-party communication agreed in writing before work begins.",
-      "url": "https://www.sdhardwoods.com/floor-assessments-inspections",
+      "url": "https://www.sdhardwoods.com/floor-assessments-inspections.html",
       "areaServed": {"@type": "Place", "name": "San Diego County"},
       "provider": {"@id": "https://www.sdhardwoods.com/#local"},
       "offers": {
@@ -150,7 +145,7 @@ JSONLD = """<script type="application/ld+json">
     },
     {
       "@type": "FAQPage",
-      "@id": "https://www.sdhardwoods.com/floor-assessments-inspections#faq",
+      "@id": "https://www.sdhardwoods.com/floor-assessments-inspections.html#faq",
       "mainEntity": [
         {
           "@type": "Question",

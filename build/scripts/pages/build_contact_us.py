@@ -75,7 +75,7 @@ MAIN = """
     </div>
   </div>
 
-  <p class="lede" style="margin-top:30px;">Need an in-home project assessment, a pre-purchase floor inspection, or written floor-condition documentation? See our <a href="/floor-assessments-inspections" style="color:var(--brass-deep);font-weight:700;">Floor Assessments &amp; Inspections</a> services.</p>
+  <p class="lede" style="margin-top:30px;">Need an in-home project assessment, a pre-purchase floor inspection, or written floor-condition documentation? See our <a href="https://www.sdhardwoods.com/floor-assessments-inspections.html" style="color:var(--brass-deep);font-weight:700;">Floor Assessments &amp; Inspections</a> services.</p>
 </section>
 """
 

@@ -15,6 +15,7 @@ from public_business_rules import (
     sanitize_public_jsonld, consolidate_business_jsonld, build_webpage_service_graph,
 )
 from alt_expand import clean_caption, append_sentences, strip_html_tags
+from pacific_time import to_pacific_iso
 
 
 def _replace_generic_service_array(jsonld_html, new_graph):
@@ -226,6 +227,12 @@ def build_page(cfg):
     # holds the correct local path for this same file, so reuse it as the target.
     jsonld = jsonld.replace(
         "https://www.sdhardwoods.com" + cfg["video_thumb"], cfg["video_thumb"])
+    # Timezone milestone (2026-07-23): the raw-source VideoObject's uploadDate was
+    # date-only ("2026-07-04") with no UTC offset -- Google's video structured-data
+    # guidance expects one. Give it a real Pacific-Time offset (DST-aware, see
+    # pacific_time.py) rather than an invented one.
+    jsonld = jsonld.replace(
+        '"uploadDate": "2026-07-04"', '"uploadDate": "' + to_pacific_iso("2026-07-04") + '"')
     if "service_content" in cfg:
         new_graph = build_webpage_service_graph(page_url=cfg["canonical"], **cfg["service_content"])
         jsonld = _replace_generic_service_array(jsonld, new_graph)

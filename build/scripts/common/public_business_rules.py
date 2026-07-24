@@ -141,11 +141,6 @@ CANONICAL_LOCAL_STUB = {
         "https://www.youtube.com/@sandiegohardwoods",
         "https://maps.app.goo.gl/hbNaSo2guARgrZTa8",
     ],
-    "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "5.0",
-        "reviewCount": "16",
-    },
 }
 # `areaServed` is attached below, once FULL_SAN_DIEGO_AREAS/SOUTH_ORANGE_COUNTY are built
 # (Milestone 2.9), so CANONICAL_LOCAL_STUB carries the complete location footprint -- the
@@ -162,7 +157,6 @@ CANONICAL_LOCAL_EXTRAS = {
     "contactPoint": CANONICAL_LOCAL_STUB["contactPoint"],
     "hasCredential": CANONICAL_LOCAL_STUB["hasCredential"],
     "sameAs": CANONICAL_LOCAL_STUB["sameAs"],
-    "aggregateRating": CANONICAL_LOCAL_STUB["aggregateRating"],
 }
 
 _BUSINESS_TYPES = {"LocalBusiness", "HomeAndConstructionBusiness", "FlooringContractor", "Organization"}

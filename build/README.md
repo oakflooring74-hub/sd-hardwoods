@@ -127,7 +127,7 @@ at once.** That's the entire point of this refactor versus the original site.
 | `index` (home) | `raw-source/index.html` | `data/index/` (`gallery.json`, `main_content.html`) | `pages/build_homepage.py` | See quirk #1 below |
 | `about_us` | `raw-source/about_us.html` | `data/about_us/` | `pages/build_about_us.py` | |
 | `contact_us` | `raw-source/contact_us.html` | `data/contact_us/` | `pages/build_contact_us.py` | No contact form on this site — call/text/email only |
-| `floor-assessments-inspections` | *(none — new page, Milestone 2.3)* | *(none — content authored in the script)* | `pages/build_floor_assessments.py` | Public URL `/floor-assessments-inspections`. Head metadata, JSON-LD graph (reuses the homepage's `#local`/`#org` business `@id`s), and body are all in the build script |
+| `floor-assessments-inspections` | *(none — new page, Milestone 2.3)* | *(none — content authored in the script)* | `pages/build_floor_assessments.py` | Public URL `/floor-assessments-inspections.html` (2026-07-23: canonical changed from extensionless to `.html` to match the legacy pages' format; output filename was always `.html`). Head metadata, JSON-LD graph (reuses the homepage's `#local`/`#org` business `@id`s), and body are all in the build script |
 | `videos_of_refinishing_process` | `raw-source/videos_of_refinishing_process.html` | `data/videos_of_refinishing_process/` + `data/youtube_videos.json` | `pages/build_videos.py` | See quirk #2 (broken JSON-LD, fixed) and "YouTube video snapshot" below |
 | `recent_project_photo_gallery_1` | `raw-source/recent_project_photo_gallery_1.html` | `data/recent_project_photo_gallery_1/` (`modules.json`) | `pages/build_gallery1.py` | Before/after module pairs |
 | `recent_project_photo_gallery_2` | `raw-source/recent_project_photo_gallery_2.html` | `data/recent_project_photo_gallery_2/` | `pages/build_gallery2.py` | See quirk #3 (split project fragment, fixed) |
@@ -278,7 +278,7 @@ page and never add a per-page loader (the per-page `GA = ""` variables stay empt
   message, photo, or visitor-entered contents): `phone_call_click` (tel: links),
   `text_message_click` (sms: links), `email_click` (mailto: links),
   `assessment_cta_click` (CTAs whose label names the free assessment),
-  `assessment_page_link_click` (links to `/floor-assessments-inspections`).
+  `assessment_page_link_click` (links to `/floor-assessments-inspections.html`).
 - No Universal Analytics anywhere; the raw-source `_gaq` extraction is ignored.
 
 ## Deployment (Cloudflare Pages via GitHub Actions)

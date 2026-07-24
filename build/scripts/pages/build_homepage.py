@@ -9,6 +9,7 @@ from public_business_rules import (
     build_webpage_service_graph, PRIORITY_COASTAL_SD, FULL_SAN_DIEGO_AREAS,
     SOUTH_ORANGE_COUNTY,
 )
+from pacific_time import to_pacific_iso
 
 BUILD = Path(__file__).resolve().parent.parent.parent  # -> build/
 RAW = BUILD / "raw-source" / "index.html"
@@ -69,6 +70,10 @@ JSONLD = JSONLD.replace(
 JSONLD = JSONLD.replace(
     "https://www.sdhardwoods.com/images/thumbnails/dust-free-hardwood-refinishing-san-diego.png",
     "/images/thumbnails/dust-free-hardwood-refinishing-san-diego.png")
+# Timezone milestone (2026-07-23): same date-only uploadDate quirk as the
+# frozen jsonld.html fragments -- add a real Pacific-Time offset (DST-aware).
+JSONLD = JSONLD.replace(
+    '"uploadDate": "2026-07-04"', '"uploadDate": "' + to_pacific_iso("2026-07-04") + '"')
 
 # Schema milestone (2026-07-19): add a WebPage + Service (+ OfferCatalog)
 # graph naming the site's real core service categories, built from the

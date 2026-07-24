@@ -1,6 +1,135 @@
-# Start here — project status as of 2026-07-20
+# Start here — project status as of 2026-07-23
 
 Read this file first when picking this project back up — **together with `docs/PROJECT_OPERATING_MANUAL.md` (the permanent governing document, added 2026-07-18) and `docs/PROJECT_DECISIONS.md` (binding decisions + standing blockers)**. This file links to everything else and tells you what's done, what's approved next, and what to ask the owner before doing anything.
+
+## Milestone 2.14 — Owner-confirmed corrections, video schema timezone, assessment-page URL, review-count schema removal (2026-07-23)
+
+Owner-directed session picking up from Milestone 2.13's flagged items.
+
+- **3 of the 9 Milestone 2.13 owner-review spellings resolved and fixed**: "Jacobian" →
+  "Jacobean" (Gallery 1 Projects #8/#10, and Deep Cleaning's reuse of the same projects —
+  found in three separate places: `build/data/recent_project_photo_gallery_1/modules.json`,
+  a raw-source quirk patched in `build_deep_cleaning.py`, and a hand-authored alt override in
+  `assemble_deep_cleaning.py`); "Baker's Hill" → "Bankers Hill" (Gallery 1 Project #12, same
+  three-places pattern, including one instance stored as the HTML entity `Baker&rsquo;s Hill`
+  that a straight-apostrophe string match initially missed); "Graf Brothers" → "Graff Brothers"
+  (`build/data/index/gallery.json`, homepage). **Project #18's sanding/recoating wording is
+  owner-confirmed accurate as published** — no text change (title's "without a full sanding"
+  and the images' "dust-free/dustless sanding" prep both correct; not a real contradiction).
+  Two remaining 2.13 items are owner-deferred, not fixed: the two identical videos
+  (`ixqPScnbnLE`/`HF1pRJYTgZk`, "ok for now") and Blog Case Study #11/#12's indistinguishable
+  images (not raised this session). Gallery 4 Project #61's missing before-photo was also not
+  raised this session and remains open.
+- **Video schema `uploadDate` now carries a real Pacific-Time UTC offset** (Google's video
+  structured-data guidance expects one; previously date-only, e.g. `"2026-06-30"`). New
+  stdlib-only helper `build/scripts/common/pacific_time.py` computes the correct DST-aware
+  offset per date (2nd-Sunday-March–1st-Sunday-November US rule, in effect since 2007) rather
+  than hardcoding a single offset — deliberately **not** a literal `-08:00` on every date as
+  the owner's example showed, since several video dates (including the July placeholder date
+  used on About/Gallery 2/Gallery 5/homepage) fall in Pacific Daylight Time (`-07:00`), not
+  Pacific Standard Time; flagging this deviation for owner awareness. Wired into all uploadDate
+  emission points: the 58-video library in `build_videos.py`, the shared raw-source-extraction
+  pipeline in `build_page.py` (covers Gallery 1/3/4), `build_homepage.py`'s own raw-extracted
+  duplicate VideoObject, and the four frozen `jsonld.html`/`main_content.html` fragments
+  (About, Gallery 2, Gallery 5, homepage). No tzdata package added — pure stdlib, keeps the
+  build pipeline's stdlib-only guarantee (and the Windows CI runner) unaffected.
+- **Assessment page canonical changed from extensionless to `.html`** (owner instruction: match
+  the 12 legacy pages' URL format exactly). The physical output file was already
+  `floor-assessments-inspections.html` — Cloudflare Pages was already serving both the clean
+  and `.html` URL for it — so this was a metadata/internal-link change, not a URL-routing
+  change, and needed no redirect (page has never been live; production untouched). Also caught
+  and fixed a second, pre-existing inconsistency while doing this: every other page's internal
+  links use the site's established **absolute-URL** convention
+  (`https://www.sdhardwoods.com/PAGE.html`), but the assessment page's internal links were
+  root-relative (`/floor-assessments-inspections`) — now matches the absolute-URL convention
+  everywhere too (nav dropdown + mobile drawer in `top.html`, footer, homepage's 3 CTAs,
+  Contact Us, Solid & Engineered Installation, the page's own canonical + all 6 JSON-LD
+  `@id`/`url` fields, `sitemap.xml`). `docs/seo/page_intents.json`, `CLAUDE.md`, and
+  `docs/PROJECT_DECISIONS.md`'s canonical URL map updated to match. GA4's
+  `assessment_page_link_click` substring-match event tracking (`analytics.html`) needed no
+  change — `.indexOf("floor-assessments-inspections")` matches either URL form.
+- **QA:** double build byte-identical (verified by content hash, not just git-status file
+  list — the file-list method used in earlier sessions can give a false "identical" reading
+  when a file's tracked-modified status doesn't change between runs but its content does; worth
+  remembering for future determinism checks); all 13 pages' JSON-LD parses; `<img>` count ==
+  `alt` count on every page; zero remaining stale spellings or non-`.html` internal links to the
+  assessment page (site-wide scripted scan); `git diff --check` clean (only CRLF-on-touch
+  warnings, this machine's own `core.autocrlf`, not a real issue — same benign signal noted in
+  the Milestone 1 deployment-automation entry below).
+- **Live-site gap analysis requested by the owner this session** — answered from the existing
+  `docs/2026-07-prelaunch-audit.md` (2026-07-19/20) plus a fresh recheck rather than a full
+  re-audit: both of that audit's **launch blockers are already resolved** (commits `0e1ae63` and
+  `838f03a`, both 2026-07-20, right after the audit — sitewide Turbify CSS localized, stale
+  `X-UA-Compatible`/`Generator: Site Solution - lunarlander` meta tags removed from Gallery
+  3/4; reconfirmed zero `turbifycdn.com`/`X-UA-Compatible`/`lunarlander` references in the
+  current build). **Still open**, confirmed still current: (1) 8 of 13 pages have
+  title/meta-description/H1 wording that differs from the live site with no recorded owner
+  decision (About Us, Contact Us, Gallery 2, Gallery 5, Solid Wood, Videos meta descriptions;
+  Gallery 2/5 and Solid Wood H1s) — needs an owner call per page: intentional or realign; (2) no
+  gallery page (1–5, or Solid Wood) has `ImageObject`/`ItemList` schema for its actual photos
+  (reconfirmed zero this session) — the Rich-Results gap `docs/PROJECT_QUALITY_BAR.md` names,
+  Videos page excepted (that one was closed in Milestone 2.9, but the quality-bar doc's "Known
+  gaps" section hasn't been refreshed to reflect it or the gallery-1/solid-wood/blog structured-
+  data items the prelaunch audit already found resolved); (3) non-repo items that can't be
+  checked from the repo at all: Cloudflare Pages dashboard config (production-branch setting,
+  domain/alias attachment), DNS for `www.sdhardwoods.com`, and GitHub Actions secret
+  validity/freshness. Also still open, from `PROJECT_DECISIONS.md`'s standing-blockers list:
+  the Tricia Walnut filename conflict and other image/video owner facts, assessment
+  visit-duration/report-delivery facts, anonymized report excerpts, and the YouTube
+  title cleanups ("Sold Cherry" etc., fix on YouTube first).
+- **Live incognito-search review (owner-supplied screenshots, ~12 real queries, 2026-07-2x):**
+  confirmed the site already wins the top organic result on several high-intent, ready-to-hire
+  queries (water damage repair, nail-down oak install, wire-brushed cleaning, sand-and-refinish,
+  vintage-floor restoration); image search is dominated by "San Diego Hardwoods"-watermarked
+  photos on multiple queries; Google's AI Overview/AI Mode names the business by name and cites
+  specific numbered gallery projects, and gave an accurate business summary when asked directly
+  — validates that the detailed gallery content and recent alt-text work are being read and used,
+  not just published. **Real gap found: the Google Business Profile Map Pack**, not page
+  copy — the listing places 2nd/3rd (or absent from the visible 3-pack) on several queries,
+  correlated with review count (~16) vs. the competitor beating it (~163). **Owner call: not
+  pursuing review volume as a lever right now** (deliberate small-scale positioning, not an
+  oversight) — see the schema-removal decision below.
+- **Schema audit (owner-supplied, live JSON-LD pulled and compared against the redesign):** live
+  Gallery 1 already has a well-built `ItemList` → `CreativeWork` (per project, with real
+  `contentLocation`) → paired before/after `ImageObject` structure that the redesign is
+  currently missing on every gallery page — the clearest, evidence-backed next schema milestone
+  (not implemented yet). The redesign's `Service`/`OfferCatalog` pattern was confirmed as the
+  more textbook-correct structure vs. live's flatter array — no change needed there. Flagged,
+  not resolved: the shared business `@type` array includes `"FlooringContractor"`, which does
+  not appear to be a real schema.org type (not one of the named `HomeAndConstructionBusiness`
+  subtypes) — recommend verifying with Google's Rich Results Test before further schema work,
+  low risk either way since it sits alongside two valid types in the same array.
+- **`aggregateRating` (5.0 / 16 reviews) removed from all 13 pages' schema** (owner decision,
+  following the Map Pack finding above: not a priority to spotlight, and a duplicate
+  hand-maintained source of truth alongside the real Google Business Profile that would go
+  stale unnoticed). Was not single-sourced — existed as **7 independent copies**: the shared
+  `CANONICAL_LOCAL_STUB`/`CANONICAL_LOCAL_EXTRAS` in `public_business_rules.py`; a fully
+  independent hard-coded copy in `build_floor_assessments.py` (which also fixed that file's
+  docstring, which already claimed "do not add... ratings... here" while the code did exactly
+  that); and 5 separate static `jsonld.html`/`jsonld_fixed.html` fragments (about_us,
+  contact_us, gallery_2, gallery_5, videos) read verbatim at build time, each requiring the
+  trailing comma preceding the removed block to be fixed by hand. Found via a dedicated Explore
+  agent sweep (grepped all of `build/raw-source/`, `build/data/`, `build/scripts/`, and all 13
+  root pages) rather than assuming the shared constant was the only source — the same
+  "looks central, isn't" pattern that bit the Jacobean/Bankers Hill/uploadDate fixes above.
+  Planned via formal Plan Mode given the multi-file scope; plan approved before any edits.
+- **Not done this session, next up:** porting the proven live-Gallery-1 `ItemList`/
+  `CreativeWork`/`ImageObject` pattern to the redesign across all gallery-shaped pages
+  (Galleries 1–5, Solid Wood) — the clearest evidence-backed schema milestone identified this
+  session, not started; validating the `"FlooringContractor"` `@type` question via Google's
+  Rich Results Test; adding `BreadcrumbList` site-wide (currently absent from the redesign
+  entirely, cheap and safe); interactive Playwright/browser QA (still an open gap carried over
+  from Milestone 2.13 — this session's changes are schema/URL/text-only, same low-risk profile).
+  `docs/PROJECT_QUALITY_BAR.md`'s "Known gaps as of 2026-07-19" section is stale (two of its
+  three structured-data gaps are already closed) and would benefit from a refresh in a future
+  session. Also still pending from the title/meta/H1 discussion: reconciling the 8 pages whose
+  wording differs from live (owner is actively editing live pages; no blanket "always take
+  live" or "always take redesign" rule applies — needs a page-by-page pass), and the mechanical
+  automation pass (H1 masthead-structure fix, length trims) discussed but not yet started.
+
+**Git state:** committed to `redesign` and pushed to `origin/redesign` (auto-deploys to the
+Cloudflare preview) — see `git log` on `redesign` for the exact commit hash. `master`/production
+untouched throughout.
 
 ## Milestone 2.13 — Image Alt-Text Recomposition (2026-07-20)
 

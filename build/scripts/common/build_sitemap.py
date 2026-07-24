@@ -2,8 +2,10 @@
 """Generates the repo-root sitemap.xml and robots.txt (Milestone 2.4).
 
 sitemap.xml lists exactly the 13 approved canonical page URLs -- the 12 legacy
-pages at their established .html filenames plus the new extensionless
-/floor-assessments-inspections page. No lastmod is emitted: the repo has no
+pages plus the new floor-assessments-inspections.html page, all at their
+established .html filenames (2026-07-23: assessment page's canonical
+changed from extensionless to .html to match the legacy pages' format).
+No lastmod is emitted: the repo has no
 reliable per-page content-modification source (git history tracks regeneration,
 not content change), and an invented date would be worse than none.
 changefreq/priority are deliberately omitted (ignored by Google, noise otherwise).
@@ -29,7 +31,7 @@ CANONICAL_URLS = [
     "https://www.sdhardwoods.com/about_us.html",
     "https://www.sdhardwoods.com/blog.html",
     "https://www.sdhardwoods.com/contact_us.html",
-    "https://www.sdhardwoods.com/floor-assessments-inspections",
+    "https://www.sdhardwoods.com/floor-assessments-inspections.html",
 ]
 
 ROBOTS_TXT = """User-agent: *

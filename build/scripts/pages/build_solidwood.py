@@ -161,7 +161,7 @@ MAIN = f"""
     </div>
     <div class="card">
       <h3>Moisture, Subfloor &amp; Installation Feasibility</h3>
-      <p>Before installation begins, we evaluate subfloor condition, moisture levels, transitions, and height limitations. For a full evaluation of installation feasibility on your subfloor, see our <a href="/floor-assessments-inspections" style="color:var(--brass-deep);font-weight:700;">Floor Assessments &amp; Inspections</a>.</p>
+      <p>Before installation begins, we evaluate subfloor condition, moisture levels, transitions, and height limitations. For a full evaluation of installation feasibility on your subfloor, see our <a href="https://www.sdhardwoods.com/floor-assessments-inspections.html" style="color:var(--brass-deep);font-weight:700;">Floor Assessments &amp; Inspections</a>.</p>
     </div>
   </div>
 </section>
