@@ -1,0 +1,15 @@
+// Cloudflare Workers Static Assets configuration -- deployment-architecture test.
+// Purpose: serve the committed site with html_handling "none" so every established
+// .html URL returns HTTP 200 directly (Cloudflare Pages force-308s .html URLs to
+// extensionless, which contradicts the site's .html canonical strategy).
+// Extensionless/trailing-slash duplicates are 301'd to their .html canonicals via
+// the _redirects file. Non-public repo files are excluded via .assetsignore.
+{
+  "name": "sd-hardwoods-preview",
+  "compatibility_date": "2026-07-01",
+  "assets": {
+    "directory": ".",
+    "html_handling": "none",
+    "not_found_handling": "none"
+  }
+}

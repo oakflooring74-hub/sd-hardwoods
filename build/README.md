@@ -281,44 +281,53 @@ page and never add a per-page loader (the per-page `GA = ""` variables stay empt
   `assessment_page_link_click` (links to `/floor-assessments-inspections.html`).
 - No Universal Analytics anywhere; the raw-source `_gaq` extraction is ignored.
 
-## Deployment (Cloudflare Pages via GitHub Actions)
+## Deployment (Cloudflare Workers Static Assets via GitHub Actions)
 
-Deploys are automated by `.github/workflows/deploy-cloudflare-pages.yml`. Manual `wrangler`
-deploys are no longer required for normal work — pushing is enough.
+**Architecture decision (2026-07-24):** the site deploys to **Cloudflare Workers Static
+Assets**, not Cloudflare Pages. Pages force-308s every `.html` URL to its extensionless
+form and that behavior cannot be disabled — the opposite of this site's `.html` canonical
+strategy (owner decision, GSC-validated). Workers with `html_handling: "none"`
+(`wrangler.jsonc`) serves every established `.html` URL as a direct 200; the root
+`_redirects` file 301s the extensionless and trailing-slash duplicates to their `.html`
+canonicals and 200-proxies `/` to `index.html`. The full serving contract was proven by an
+89-check URL-matrix test before adoption (homepage proxy, all pages, redirects,
+query-string preservation, assets, non-public-file 404s, canonicals, sitemap, JSON-LD,
+internal links, noindex header).
 
-- **Push to `redesign`** → automatically deploys to the **Preview** environment of the
-  existing `sd-hardwoods` Cloudflare Pages project, served at
-  `https://redesign.sd-hardwoods.pages.dev`.
-- **Push to `master`** → automatically deploys to **Production**
-  (`https://sd-hardwoods.pages.dev`). Treat pushes to `master` as a real production release.
-- **Pull requests** targeting `redesign` or `master` run the build-and-verify job only
-  (regenerates all 12 pages and fails if that produces any diff against the committed output)
-  — they never deploy, to either environment.
-- The workflow deploys the **committed** repo root exactly as `python
-  build/scripts/build_all.py` produced it — it does not deploy freshly-regenerated-but-uncommitted
-  output. If regenerating locally would change any committed page, the workflow fails loudly
-  instead of deploying a stale site; commit the regenerated pages first.
+Deploys are automated by `.github/workflows/deploy-cloudflare-pages.yml`.
+
+- **Push to `redesign`** → build-verify gate, then deploy to the `sd-hardwoods-preview`
+  Worker at `https://sd-hardwoods-preview.sandiegohardwoods.workers.dev`. The root
+  `_headers` file pins `X-Robots-Tag: noindex` to exactly that hostname, so the preview
+  can never be indexed and the rule cannot apply to the production domain.
+- **Push to `master`** → **fails loudly by design** (production-guard job). The production
+  Worker + custom-domain attachment are configured at the production cutover; until then
+  there is deliberately no way to deploy master.
+- **Pull requests** run the build-and-verify job only — never deploy.
+- The workflow deploys the **committed** repo root (filtered by `.assetsignore` — build
+  source, docs, QA screenshots, git/CI files, owner inputs and `node_modules` are excluded
+  from upload and verified to return 404). If regenerating locally would change any
+  committed page, the workflow fails loudly instead of deploying a stale site.
+
+**The old `sd-hardwoods` Cloudflare Pages project is dormant, kept only as a rollback
+target. Never resume deploying this repo to Pages:** the `_redirects` file combines with
+Pages' own `.html` normalization to produce an infinite redirect loop on every page.
 
 **Required GitHub Actions secrets** (repo → Settings → Secrets and variables → Actions):
-- `CLOUDFLARE_API_TOKEN` — a dedicated, least-privilege token (Cloudflare Pages: Edit,
-  scoped to this one account) created specifically for this workflow — not the local
-  Wrangler OAuth login.
+- `CLOUDFLARE_API_TOKEN` — dedicated token, scoped to this account, with
+  **Cloudflare Pages: Edit** and **Workers Scripts: Edit** (the latter added 2026-07-24).
 - `CLOUDFLARE_ACCOUNT_ID` — the Cloudflare account ID (`wrangler whoami` shows this).
 
 **Normal workflow:** commit your change (including regenerated pages if `build/` changed),
 push to `redesign`, and Actions handles the rest. No local Wrangler invocation needed.
 
-**Manual emergency deployment** (if Actions is down or you need to deploy without waiting on
-CI), from the repo root with Wrangler installed and authenticated:
+**Manual emergency deployment** (if Actions is down), from the repo root with Wrangler
+installed and authenticated:
 ```
-npx wrangler pages deploy . --project-name=sd-hardwoods --branch=redesign
+npx wrangler deploy
 ```
-Replace `--branch=redesign` with `--branch=master` only if you specifically intend a
-production deploy — **never do this without the owner's explicit go-ahead.**
-
-**Production safety rule:** nothing should ever reach `https://sd-hardwoods.pages.dev`
-except a deliberate, approved push (or manual deploy) to `master`. `redesign` pushes only
-ever reach the preview URL.
+This deploys the preview Worker defined in `wrangler.jsonc`. There is no manual production
+deploy path until the cutover configuration exists — **never improvise one.**
 
 **Finding deployment logs:** GitHub repo → **Actions** tab → **Deploy Cloudflare Pages**
 workflow → select the run. The `deploy` job's "Summarize deployment" step and the run's
