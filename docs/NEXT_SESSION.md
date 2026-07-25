@@ -2,6 +2,35 @@
 
 Read this file first when picking this project back up — **together with `docs/PROJECT_OPERATING_MANUAL.md` (the permanent governing document, added 2026-07-18) and `docs/PROJECT_DECISIONS.md` (binding decisions + standing blockers)**. This file links to everything else and tells you what's done, what's approved next, and what to ask the owner before doing anything.
 
+## Milestone 3.3 — Production cutover: master push + production Worker verified (2026-07-24, fourth session)
+
+Owner-authorized production push executed. Status of the Milestone-3.1 cutover sequence:
+
+- **(1) DONE — `redesign` → `master` pushed** (`c3e8e0c..5540432`, clean fast-forward, no
+  merge commit). Note for this machine: plain `git push` fails non-interactively
+  ("terminal prompts disabled" — Git Credential Manager has no cached github.com
+  credential); the working form is
+  `git -c credential.helper= -c "credential.helper=!gh auth git-credential" push origin redesign:master`.
+  CI run 30139783661 fully green: build-determinism gate passed, `deploy-production`
+  deployed the **`sd-hardwoods`** Worker in 35s, preview job correctly skipped on master.
+- **(2) DONE — production Worker verified**: `verify_url_matrix.py
+  https://sd-hardwoods.sandiegohardwoods.workers.dev` → **88/88 PASSED** (all 13 pages 200
+  direct, all extensionless/trailing-slash duplicates 301, query strings preserved, repo
+  files 404, canonicals/JSON-LD/sitemap/internal links clean, `X-Robots-Tag: noindex`
+  present as EXPECTED on the workers.dev host). Also spot-checked `/sitemap-videos.xml`
+  → 200 `application/xml` (not covered by the verifier).
+- **(3) NEXT — owner dashboard steps** (cannot be done from the repo): attach
+  `www.sdhardwoods.com` to the `sd-hardwoods` Worker (Workers & Pages → sd-hardwoods →
+  Settings → Domains & Routes), then flip DNS away from Turbify.
+- **(4) then** `python build/scripts/verify_url_matrix.py https://www.sdhardwoods.com`
+  (noindex must be ABSENT); **(5) then** GSC: resubmit `sitemap.xml` (+
+  `sitemap-videos.xml`), request indexing on homepage + top pages; **(6)** the 4–6-week
+  title/meta/H1 freeze begins (`PROJECT_DECISIONS.md`).
+
+**Git state:** `master` == `redesign` == `5540432`; production Worker live on its
+workers.dev host (noindex'd); no public traffic until the owner's DNS flip. This
+NEXT_SESSION.md entry was left uncommitted (no commit authorization given this session).
+
 ## Milestone 3.2 — Final pre-launch SEO: owner's verbatim title/meta set + image & video sitemaps (2026-07-24, third session)
 
 Owner-directed, pre-launch (Google has never seen the redesign wording, so these are
