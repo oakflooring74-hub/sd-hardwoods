@@ -16,9 +16,12 @@ name: Build and Deploy (Cloudflare Workers)
 # this repo combines with Pages' own .html normalization to produce a
 # redirect loop on any Pages deployment of this content.
 #
-# Production (master -> custom domain www.sdhardwoods.com) is intentionally
-# NOT configured yet; the production-guard job below fails master pushes
-# loudly until the production cutover sets up the production Worker.
+# Production cutover (2026-07-24, owner-authorized): master pushes deploy the
+# `sd-hardwoods` production Worker (wrangler deploy --env production). The
+# owner attaches the www.sdhardwoods.com custom domain to that Worker in the
+# Cloudflare dashboard and flips DNS away from Turbify; until then the
+# production Worker is reachable only on its noindex'd *.workers.dev host and
+# serves no public traffic.
 on:
   push:
     branches:
@@ -87,9 +90,8 @@ jobs:
     name: Deploy redesign preview to Cloudflare Workers
     needs: build
     # Pull requests only ever run the build/verify job above -- never deploy.
-    # Only redesign is deployable from this workflow; master is blocked by the
-    # production-guard job below until the production Worker is configured at
-    # cutover.
+    # redesign deploys the preview Worker here; master deploys the production
+    # Worker in the deploy-production job below.
     if: github.event_name != 'pull_request' && github.ref_name == 'redesign'
     runs-on: ubuntu-latest
     steps:
@@ -119,13 +121,34 @@ jobs:
             echo "- Deployment URL: ${{ steps.deploy.outputs.deployment-url }}"
           } >> "$GITHUB_STEP_SUMMARY"
 
-  production-guard:
-    name: Block master deploys until Workers production cutover
+  deploy-production:
+    name: Deploy production to Cloudflare Workers
     needs: build
+    # Replaces the pre-cutover production-guard job (owner-authorized cutover,
+    # 2026-07-24). Deploys the committed repo root to the `sd-hardwoods`
+    # production Worker (wrangler.jsonc env.production). The _headers file pins
+    # X-Robots-Tag noindex to both *.workers.dev hostnames only -- the
+    # www.sdhardwoods.com custom domain (attached by the owner in the
+    # Cloudflare dashboard) serves no noindex header.
     if: github.event_name != 'pull_request' && github.ref_name == 'master'
     runs-on: ubuntu-latest
     steps:
-      - name: Fail with cutover instructions
+      - name: Checkout
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+
+      - name: Deploy to Cloudflare Workers Static Assets (production)
+        id: deploy
+        uses: cloudflare/wrangler-action@ebbaa1584979971c8614a24965b4405ff95890e0 # v4.0.0
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: deploy --env production
+
+      - name: Summarize deployment
         run: |
-          echo "::error::The Workers production deployment (master -> www.sdhardwoods.com) is not configured yet. Deploying master to the preview Worker or to the dormant Pages project would be wrong. Complete the production cutover first: add a production Worker configuration (separate name/env in wrangler.jsonc), attach the custom domain, then replace this guard job with the production deploy step."
-          exit 1
+          {
+            echo "### Cloudflare Workers deployment (PRODUCTION)"
+            echo "- Branch: \`${{ github.ref_name }}\`"
+            echo "- Worker: sd-hardwoods"
+            echo "- Deployment URL: ${{ steps.deploy.outputs.deployment-url }}"
+          } >> "$GITHUB_STEP_SUMMARY"

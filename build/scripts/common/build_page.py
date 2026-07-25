@@ -14,6 +14,7 @@ from assemble_page import gallery_progress_html
 from public_business_rules import (
     sanitize_public_jsonld, consolidate_business_jsonld, build_webpage_service_graph,
     build_gallery_media_graph, split_title_desc, wrap_jsonld_graph,
+    build_breadcrumb_jsonld,
 )
 from alt_expand import clean_caption, append_sentences, strip_html_tags
 from pacific_time import to_pacific_iso
@@ -262,6 +263,8 @@ def build_page(cfg):
         })
     jsonld = jsonld + "\n" + wrap_jsonld_graph(
         build_gallery_media_graph(cfg["canonical"], _media_projects))
+    # Launch QA gate (2026-07-24): site-wide BreadcrumbList, one block per page.
+    jsonld = jsonld + "\n" + build_breadcrumb_jsonld(cfg["canonical"])
     analytics_html = rd(CHROME + r"\analytics.html")
 
     gallery_html, check = build_gallery_section(

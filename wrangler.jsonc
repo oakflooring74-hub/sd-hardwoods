@@ -1,9 +1,20 @@
-// Cloudflare Workers Static Assets configuration -- deployment-architecture test.
+// Cloudflare Workers Static Assets configuration.
 // Purpose: serve the committed site with html_handling "none" so every established
 // .html URL returns HTTP 200 directly (Cloudflare Pages force-308s .html URLs to
 // extensionless, which contradicts the site's .html canonical strategy).
 // Extensionless/trailing-slash duplicates are 301'd to their .html canonicals via
 // the _redirects file. Non-public repo files are excluded via .assetsignore.
+//
+// Two Workers, one config (production cutover, 2026-07-24):
+//   - default (redesign pushes):  sd-hardwoods-preview  -- noindex'd preview host
+//   - --env production (master):  sd-hardwoods          -- the live site; the owner
+//     attaches the www.sdhardwoods.com custom domain to this Worker in the
+//     Cloudflare dashboard (Workers & Pages -> sd-hardwoods -> Settings -> Domains
+//     & Routes), then flips DNS away from Turbify. Both Workers' *.workers.dev
+//     hosts carry X-Robots-Tag noindex via host-scoped _headers rules; the custom
+//     domain matches no rule and is the only indexable host.
+// The "assets" block is repeated under env.production because Wrangler treats
+// "assets" as non-inheritable per-environment configuration.
 {
   "name": "sd-hardwoods-preview",
   "compatibility_date": "2026-07-01",
@@ -11,5 +22,15 @@
     "directory": ".",
     "html_handling": "none",
     "not_found_handling": "none"
+  },
+  "env": {
+    "production": {
+      "name": "sd-hardwoods",
+      "assets": {
+        "directory": ".",
+        "html_handling": "none",
+        "not_found_handling": "none"
+      }
+    }
   }
 }

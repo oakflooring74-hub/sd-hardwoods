@@ -148,6 +148,7 @@ import sys as _sys
 _sys.path.insert(0, str(BUILD / "scripts" / "common"))
 from public_business_rules import (
     CANONICAL_LOCAL_STUB, CANONICAL_LOCAL_ID, sanitize_public_jsonld,
+    build_breadcrumb_jsonld,
 )
 
 _blog_posts = []
@@ -188,6 +189,8 @@ jsonld_block = sanitize_public_jsonld(
     + json.dumps(_blog_graph, indent=1, ensure_ascii=False)
     + '\n</script>'
 )
+# Launch QA gate (2026-07-24): site-wide BreadcrumbList, one block per page.
+jsonld_block = jsonld_block + "\n" + build_breadcrumb_jsonld(canonical)
 
 # ---- vcard swap / scroll topic ----
 body_top = top_html.replace("__VCARD_DESC__", vcard_desc)

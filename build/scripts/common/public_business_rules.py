@@ -58,10 +58,26 @@ _JSONLD_BLOCK_RE_BODY = re.compile(
 _FORBIDDEN_NUMBER = "101" + "7549"
 
 
+def _fix_business_type(v):
+    """Launch QA gate (2026-07-24): "FlooringContractor" is not a schema.org
+    type (https://schema.org/FlooringContractor is a 404; it is not among the
+    named HomeAndConstructionBusiness subtypes). It rode along in the legacy
+    site's @type array next to two valid types. Google ignores unknown types,
+    but validators flag them -- drop it everywhere, falling back to the valid
+    parent type if it was ever the only type on a node."""
+    if v == "FlooringContractor":
+        return "HomeAndConstructionBusiness"
+    if isinstance(v, list):
+        out = [x for x in v if x != "FlooringContractor"]
+        return out if out else ["HomeAndConstructionBusiness"]
+    return v
+
+
 def _clean(node):
     if isinstance(node, dict):
         return {
-            k: _clean(v) for k, v in node.items() if k not in _ADDRESS_KEYS
+            k: _clean(_fix_business_type(v) if k == "@type" else v)
+            for k, v in node.items() if k not in _ADDRESS_KEYS
         }
     if isinstance(node, list):
         return [_clean(v) for v in node]
@@ -115,7 +131,7 @@ CANONICAL_LOCAL_ID = "https://www.sdhardwoods.com/#local"
 
 CANONICAL_LOCAL_STUB = {
     "@context": "https://schema.org",
-    "@type": ["LocalBusiness", "HomeAndConstructionBusiness", "FlooringContractor"],
+    "@type": ["LocalBusiness", "HomeAndConstructionBusiness"],
     "@id": CANONICAL_LOCAL_ID,
     "name": "San Diego Hardwoods",
     "alternateName": "San Diego Hardwoods Dustless Hardwood and Bamboo Floor Refinishing Installation Repairs and Deep Cleaning",
@@ -471,6 +487,67 @@ def wrap_jsonld_graph(entities):
     """
     body = json.dumps({"@context": "https://schema.org", "@graph": entities}, indent=1, ensure_ascii=False)
     return f'<script type="application/ld+json">\n{body}\n</script>'
+
+
+# Site-wide BreadcrumbList (launch QA gate, 2026-07-24). One short display name
+# per canonical URL, taken verbatim from the site's own navigation labels in
+# build/chrome/top.html so the schema trail always matches what a visitor sees
+# in the nav -- nothing invented. The homepage is deliberately absent: a
+# breadcrumb trail of one item carries no hierarchy information and Google's
+# breadcrumb guidance treats it as not useful, so the homepage emits no
+# BreadcrumbList (documented in docs/NEXT_SESSION.md, launch QA gate entry).
+BREADCRUMB_HOME_URL = "https://www.sdhardwoods.com/"
+BREADCRUMB_NAMES = {
+    "https://www.sdhardwoods.com/deep-cleaning-hardwood-floors-san-diego.html": "Deep Cleaning Hardwood Floors",
+    "https://www.sdhardwoods.com/recent_project_photo_gallery_1.html": "Recent Project Gallery 1",
+    "https://www.sdhardwoods.com/recent_project_photo_gallery_2.html": "Recent Project Gallery 2",
+    "https://www.sdhardwoods.com/recent_project_photo_gallery_3.html": "Recent Project Gallery 3",
+    "https://www.sdhardwoods.com/recent_project_photo_gallery_4.html": "Recent Project Gallery 4",
+    "https://www.sdhardwoods.com/recent_project_gallery_5.html": "Recent Project Gallery 5",
+    "https://www.sdhardwoods.com/solid_wood_floor_photo_gallery.html": "Solid Wood Floor Gallery",
+    "https://www.sdhardwoods.com/videos_of_refinishing_process.html": "Refinishing Process Videos",
+    "https://www.sdhardwoods.com/about_us.html": "About",
+    "https://www.sdhardwoods.com/blog.html": "Blog",
+    "https://www.sdhardwoods.com/contact_us.html": "Contact",
+    "https://www.sdhardwoods.com/floor-assessments-inspections.html": "Floor Assessments & Inspections",
+}
+
+_CANONICAL_LINK_RE = re.compile(
+    r'<link[^>]+(?:href="([^"]+)"[^>]*rel="canonical"|rel="canonical"[^>]*href="([^"]+)")'
+)
+
+
+def build_breadcrumb_jsonld(canonical_url):
+    """Standalone BreadcrumbList `<script>` block for one page (Home -> page),
+    or "" for the homepage (see BREADCRUMB_NAMES note). Any canonical URL not
+    in the 13-page map is a hard error -- a new page must be added to the map
+    deliberately, never silently skipped (docs/PROJECT_QUALITY_BAR.md).
+    The final ListItem omits `item` per Google's breadcrumb structured-data
+    guidance (required for all items except the last)."""
+    if canonical_url == BREADCRUMB_HOME_URL:
+        return ""
+    if canonical_url not in BREADCRUMB_NAMES:
+        raise AssertionError(f"build_breadcrumb_jsonld: unknown canonical URL {canonical_url!r}")
+    entity = {
+        "@type": "BreadcrumbList",
+        "@id": f"{canonical_url}#breadcrumb",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": BREADCRUMB_HOME_URL},
+            {"@type": "ListItem", "position": 2, "name": BREADCRUMB_NAMES[canonical_url]},
+        ],
+    }
+    return wrap_jsonld_graph([entity])
+
+
+def breadcrumb_jsonld_from_head(head_meta_html):
+    """Breadcrumb block for assemblers that receive a finished head-meta
+    fragment rather than an explicit page URL: reads the page's own
+    `rel="canonical"` link (every page has exactly one) and delegates to
+    `build_breadcrumb_jsonld()`. Missing canonical is a hard error."""
+    m = _CANONICAL_LINK_RE.search(head_meta_html)
+    if not m:
+        raise AssertionError("breadcrumb_jsonld_from_head: no rel=\"canonical\" link found")
+    return build_breadcrumb_jsonld(m.group(1) or m.group(2))
 
 
 def split_title_desc(title, sep=" &mdash; "):

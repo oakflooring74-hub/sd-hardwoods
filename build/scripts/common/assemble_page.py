@@ -1,7 +1,7 @@
 import sys
 from pathlib import Path
 
-from public_business_rules import sanitize_public_jsonld
+from public_business_rules import sanitize_public_jsonld, breadcrumb_jsonld_from_head
 
 # build/scripts/common/assemble_page.py -> build/chrome
 CHROME = str(Path(__file__).resolve().parent.parent.parent / "chrome")
@@ -59,6 +59,12 @@ def assemble(head_meta_html, jsonld_html, ga_html, vcard_desc, scroll_topic, mai
     # (chrome/analytics.html) is injected here. Per-page ga_html stays empty --
     # never add a second analytics loader to an individual page.
     jsonld_html = sanitize_public_jsonld(jsonld_html)
+    # Launch QA gate (2026-07-24): every page appends its BreadcrumbList as a
+    # standalone block, keyed off the page's own canonical link; the homepage
+    # gets none (single-item trail, see public_business_rules.BREADCRUMB_NAMES).
+    breadcrumb = breadcrumb_jsonld_from_head(head_meta_html)
+    if breadcrumb:
+        jsonld_html = jsonld_html + "\n" + breadcrumb
     analytics = read(CHROME + r"\analytics.html")
     site_css = read(CHROME + r"\site_css.html")
     dm_scripts = read(CHROME + r"\darkmode_boot_scripts.html")

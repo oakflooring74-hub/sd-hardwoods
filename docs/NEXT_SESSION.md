@@ -2,6 +2,57 @@
 
 Read this file first when picking this project back up — **together with `docs/PROJECT_OPERATING_MANUAL.md` (the permanent governing document, added 2026-07-18) and `docs/PROJECT_DECISIONS.md` (binding decisions + standing blockers)**. This file links to everything else and tells you what's done, what's approved next, and what to ask the owner before doing anything.
 
+## Milestone 3.1 — Ratification, launch QA gate, production cutover config (2026-07-24, second session)
+
+Owner-directed: "ratify the keep-vs-revert table; launch QA gate; production cutover."
+
+- **Keep-vs-revert table RATIFIED** (owner): ship the redesign's committed title/meta/H1 on
+  all 13 pages, no attachment to live variants, and a binding **4–6-week post-launch
+  title/meta/H1 freeze** (watch GSC weekly, let Google settle). Recorded in
+  `docs/2026-07-title-h1-reconciliation-plan.md` (status + §3) and `docs/PROJECT_DECISIONS.md`.
+  Zero page-content changes were required — the redesign as committed IS the reconciliation.
+- **Site-wide `BreadcrumbList` added** (the deferred cheap win from Milestone 2.15): new
+  `BREADCRUMB_NAMES` map + `build_breadcrumb_jsonld()` / `breadcrumb_jsonld_from_head()` in
+  `public_business_rules.py`; wired into all 4 assembly funnels (`assemble_page.py` — 9 pages,
+  `build_page.py` — galleries 3/4, `assemble_blog.py`, `assemble_deep_cleaning.py`). Each of
+  the 12 subpages emits one standalone 2-item trail (Home → nav label, names taken verbatim
+  from `top.html`'s nav; last item omits `item` per Google's guidance; `@id` =
+  `<canonical>#breadcrumb`). The **homepage deliberately emits none** (a single-item trail
+  conveys no hierarchy; Google treats it as not useful) — that is the named-and-deferred
+  13th page, not a silent skip. Unknown canonical URL = hard build error.
+- **`FlooringContractor` @type RESOLVED — removed site-wide**: verified
+  `https://schema.org/FlooringContractor` is a 404 (not a schema.org type; not among the
+  `HomeAndConstructionBusiness` subtypes). Central fix in `sanitize_public_jsonld()`
+  (`_fix_business_type()`: drops it from any `@type` array, maps a bare string occurrence to
+  `HomeAndConstructionBusiness`), so raw-extracted legacy schema is covered too; the two
+  authored copies (`CANONICAL_LOCAL_STUB`, `build_floor_assessments.py`) updated to match.
+  Every page's `#local` is now `["LocalBusiness", "HomeAndConstructionBusiness"]` — both
+  valid; Google ignores unknown types so this is risk-free, and validators stop warning.
+- **QA gate PASSED**: two full builds byte-identical (content-hash comparison); all 13
+  pages' JSON-LD parses; exactly one correct BreadcrumbList on each of 12 subpages + none on
+  homepage (scripted structural check of items/positions/@ids); zero `FlooringContractor` in
+  output; exactly one full `#local` per page; one `<h1>` per page; `<img>` count == `alt`
+  count; `git diff --check` clean; diff review confirmed generated pages changed ONLY by the
+  breadcrumb block + the @type line. **Playwright browser pass: 182/182 checks** (13 pages ×
+  desktop 1440×900 + mobile 390×844 × 7 checks: single h1, no horizontal overflow, page
+  renders, masthead nav present, zero JS pageerrors, zero console errors, zero local 404s;
+  pages served via Playwright request routing, external hosts blocked).
+- **Production cutover configured** (owner-authorized): `wrangler.jsonc` gains
+  `env.production` → Worker **`sd-hardwoods`** (assets block repeated — non-inheritable);
+  `_headers` adds a host-scoped noindex for `sd-hardwoods.sandiegohardwoods.workers.dev` (so
+  BOTH workers.dev hosts are noindex'd forever; the custom domain matches no rule and is the
+  only indexable host); the workflow's production-guard job is REPLACED by
+  `deploy-production` (`wrangler deploy --env production` on `master` pushes).
+- **Remaining, in order:** (1) merge `redesign` → `master`, push (deploys the production
+  Worker — no public traffic until DNS flips); (2) re-run
+  `build/scripts/verify_url_matrix.py https://sd-hardwoods.sandiegohardwoods.workers.dev`
+  (noindex EXPECTED there); (3) **owner dashboard steps**: attach `www.sdhardwoods.com` to
+  the `sd-hardwoods` Worker (Workers & Pages → sd-hardwoods → Settings → Domains & Routes),
+  then flip DNS away from Turbify; (4) verify
+  `python build/scripts/verify_url_matrix.py https://www.sdhardwoods.com` (noindex must be
+  ABSENT); (5) GSC: resubmit `sitemap.xml`, request indexing on homepage + top pages;
+  (6) the 4–6-week title freeze begins (PROJECT_DECISIONS.md).
+
 ## Milestone 3.0 — Deployment architecture: Cloudflare Pages → Workers Static Assets (2026-07-24)
 
 Owner-directed and owner-approved at each step. Root cause: Cloudflare Pages force-308s

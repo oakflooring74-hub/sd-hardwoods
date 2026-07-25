@@ -49,7 +49,7 @@ JSONLD = """<script type="application/ld+json">
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": ["LocalBusiness","HomeAndConstructionBusiness","FlooringContractor"],
+      "@type": ["LocalBusiness","HomeAndConstructionBusiness"],
       "@id": "https://www.sdhardwoods.com/#local",
       "name": "San Diego Hardwoods",
       "alternateName": "San Diego Hardwoods Dustless Hardwood and Bamboo Floor Refinishing Installation Repairs and Deep Cleaning",

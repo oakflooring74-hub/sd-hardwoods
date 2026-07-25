@@ -167,8 +167,21 @@ published anywhere.
    `name="description"` (content unchanged) on blog, gallery 1/2/3, and deep-cleaning, matching
    the other 8 pages. Applies going forward to any newly-onboarded legacy page too.
 
+## Title/meta/H1 reconciliation — RATIFIED (owner, 2026-07-24)
+
+The keep-vs-revert table in `docs/2026-07-title-h1-reconciliation-plan.md` §3 is ratified as
+written: **ship the redesign's committed title/meta/H1 on all 13 pages** (including the
+homepage row and the new assessment page); no attachment to any live Turbify title variant.
+Binding post-launch policy: **title/meta/H1 freeze for 4–6 weeks after launch** — no edits to
+titles, meta descriptions, or H1s during that window (the live-site churn was itself part of
+the ranking problem); monitor GSC weekly and let Google settle on the new wording before any
+further metadata change is even proposed.
+
 ## Deployment / launch
 
 Push to `redesign` auto-deploys the Cloudflare **preview** only. `master` = production; never
 merge or push without explicit owner instruction. Production Turbify site untouched until the
-owner-controlled launch milestone.
+owner-controlled launch milestone. Owner authorized the production cutover sequence
+2026-07-24: production Worker config/deploy → owner attaches `www.sdhardwoods.com` to the
+production Worker + flips DNS away from Turbify → GSC sitemap resubmit + indexing requests →
+title freeze (above) takes effect.

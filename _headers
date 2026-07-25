@@ -1,2 +1,5 @@
 https://sd-hardwoods-preview.sandiegohardwoods.workers.dev/*
   X-Robots-Tag: noindex
+
+https://sd-hardwoods.sandiegohardwoods.workers.dev/*
+  X-Robots-Tag: noindex

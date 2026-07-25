@@ -1,6 +1,10 @@
 # Title / meta / H1 reconciliation plan + GSC findings (2026-07-24)
 
-**Status: DRAFT — analysis complete, no page content changed yet.** This document
+**Status: RATIFIED by the owner 2026-07-24 (same-day follow-up session) — the §3
+keep-vs-revert table is approved as written, including the homepage row (ship the
+redesign's title/meta/H1 on every page, plus the new assessment page) and the §3
+post-launch title freeze (no title/meta/H1 edits for 4–6 weeks after launch; watch GSC
+weekly and let Google re-settle).** This document
 preserves the 2026-07-24 session's live-site pull, the owner's 16-month Google Search
 Console export analysis, and the resulting keep-vs-revert recommendation table, so the
 work can resume in a later session without re-pulling or re-deriving anything.
@@ -82,7 +86,7 @@ Live-site technical defects observed (all already fixed in the redesign):
   estimate"; Contact title says "Free assessments" — all violate owner decisions
   (claims policy / Milestone 2.6) and appear to be un-reverted live churn.
 
-## 3. Keep-vs-revert recommendation table (drafted 2026-07-24, NOT yet owner-ratified)
+## 3. Keep-vs-revert recommendation table (drafted 2026-07-24; RATIFIED by owner 2026-07-24)
 
 Key insight: nearly every "revert" already exists in the redesign — most rows require
 **zero code changes**; launching the redesign as-committed IS the reconciliation.
@@ -99,10 +103,12 @@ Key insight: nearly every "revert" already exists in the redesign — most rows 
 | 12 | Contact | Ship redesign ("Free Phone & Photo Assessment" title) | Owner's own Milestone 2.6 retitle; live still has pre-2.6 wording. |
 | 13 | Assessments (new page) | Ship as committed | No live counterpart, no GSC history. |
 
-**Open owner decisions before this is final:** (a) ratify the homepage call — it is the
-only high-stakes row; (b) confirm no attachment to Gallery 3/4/5's live title variants;
-(c) after launch, do NOT touch titles for 4–6 weeks — the churn itself was part of the
-problem; let Google re-settle, watch GSC weekly.
+**Owner decisions — RESOLVED 2026-07-24 (ratification):** (a) homepage call ratified —
+ship the redesign's title/meta/H1; (b) no attachment to Gallery 3/4/5's live title
+variants — ship the redesign; (c) post-launch title freeze adopted as policy: do NOT
+touch titles/meta/H1 for 4–6 weeks after launch — the churn itself was part of the
+problem; let Google re-settle on the new wording, watch GSC weekly. No code changes
+required by this ratification: the redesign as committed IS the reconciliation.
 
 ## 4. Remaining pre-launch sequence (as of 2026-07-24)
 

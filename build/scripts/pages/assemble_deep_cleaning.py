@@ -4,7 +4,8 @@ from pathlib import Path
 BUILD = Path(__file__).resolve().parent.parent.parent  # -> build/
 sys.path.insert(0, str(BUILD / "scripts" / "common"))
 from public_business_rules import (
-    sanitize_public_jsonld, build_service_page_jsonld, PRIORITY_COASTAL_SD,
+    sanitize_public_jsonld, build_service_page_jsonld, build_breadcrumb_jsonld,
+    PRIORITY_COASTAL_SD,
 )
 from alt_expand import append_sentences, strip_html_tags
 RAW = str(BUILD / "raw-source" / "deep-cleaning-hardwood-floors-san-diego.html")
@@ -89,6 +90,8 @@ jsonld_block = build_service_page_jsonld(
 # YouTube channel) -- harmless here since nothing above introduces that
 # data, but keeps the same safety net every page's schema goes through.
 jsonld_block = sanitize_public_jsonld(jsonld_block)
+# Launch QA gate (2026-07-24): site-wide BreadcrumbList, one block per page.
+jsonld_block = jsonld_block + "\n" + build_breadcrumb_jsonld(canonical)
 analytics_html = read(CHROME + r"\analytics.html")
 vcard_desc = re.search(r'<span class="organization-name">(.*?)</span>', raw, re.DOTALL).group(1).strip()
 
