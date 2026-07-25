@@ -28,8 +28,8 @@ with open(DATA / "jsonld.html", encoding="utf-8") as f:
 # declared on, not just the homepage.
 JSONLD = replace_area_served(JSONLD, FULL_SAN_DIEGO_AREAS + SOUTH_ORANGE_COUNTY)
 
-HEAD_META = """<title>Recent Hardwood Flooring Projects | Refinishing, Installation &amp; Repair | San Diego</title>
-<meta name="description" content="Browse recent San Diego hardwood floor refinishing, installation, repair, and restoration projects featuring dust containment sanding, deep cleaning, wire-brushed and oil-finished floors, custom stains, bamboo, and engineered hardwood. Explore our craftsmanship and discuss your project with an expert.">
+HEAD_META = """<title>Recent Hardwood Flooring Projects | San Diego</title>
+<meta name="description" content="Browse recent San Diego hardwood flooring projects featuring refinishing, installation, repairs, deep cleaning, custom stains, bamboo and engineered wood.">
 <link href="https://www.sdhardwoods.com/recent_project_photo_gallery_2.html" rel="canonical">
 <link href="/favicon.ico" rel="icon" type="image/x-icon">
 <link href="/favicon-192.ico" rel="icon" sizes="192x192" type="image/x-icon">

@@ -62,7 +62,7 @@ for p in PROJECTS:
 with open(DATA / "vcard.txt", encoding="utf-8") as f:
     VCARD = f.read().strip()
 
-HEAD_META = """<title>San Diego Solid &amp; Engineered Wood Floor Installation, Refinishing, Repairs &amp; Dustless Sanding</title>
+HEAD_META = """<title>Solid &amp; Engineered Wood Floor Installation | San Diego</title>
 <meta name="description" content="See solid and unfinished engineered hardwood installations in San Diego, including nail-down, glue-down, sanding and custom finishing.">
 <link href="https://www.sdhardwoods.com/solid_wood_floor_photo_gallery.html" rel="canonical">
 <link href="/favicon.ico" rel="icon" type="image/x-icon">

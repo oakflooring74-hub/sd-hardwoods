@@ -2,6 +2,51 @@
 
 Read this file first when picking this project back up — **together with `docs/PROJECT_OPERATING_MANUAL.md` (the permanent governing document, added 2026-07-18) and `docs/PROJECT_DECISIONS.md` (binding decisions + standing blockers)**. This file links to everything else and tells you what's done, what's approved next, and what to ask the owner before doing anything.
 
+## Milestone 3.2 — Final pre-launch SEO: owner's verbatim title/meta set + image & video sitemaps (2026-07-24, third session)
+
+Owner-directed, pre-launch (Google has never seen the redesign wording, so these are
+zero-churn: the only transition Google will observe is live-Turbify → this final set).
+**No launch, no master push, no URL/redirect/canonical/body/schema-type/H1 changes.**
+
+- **Owner-specified verbatim titles/metas applied** (10 pages; every H1 byte-unchanged;
+  Homepage title, Deep Cleaning, Videos, Contact untouched): Homepage meta (158); Gallery 1
+  title+meta; Gallery 2 title+meta; Gallery 3 title+meta; Gallery 4 title+meta; Gallery 5
+  title; Solid Wood title; About title; Blog title+meta; Assessments title+meta. All ≤70-char
+  titles, ≤160-char metas. Sources edited (authoritative generators/data only):
+  `build_homepage.py`, `build_gallery1.py`, `build_gallery2.py`, `build_gallery5.py`,
+  `build_solidwood.py`, `build_floor_assessments.py`, `build/data/about_us/head_meta.html`
+  (title-only fragment), `assemble_blog.py` (title/meta now authored constants, no longer
+  raw-source-extracted), `build_page.py` (new cfg `title`/`meta_description` overrides for
+  galleries 3/4 — raw source stays frozen; only the content attribute is swapped in the
+  extracted meta tag). Blog's WebPage schema name/description follow automatically (same
+  single-source constants — intended).
+- **Image sitemap**: `sitemap.xml` now carries `<image:image>/<image:loc>` children —
+  **352 images across the 13 canonical URLs**, read from the just-generated pages (build
+  order guarantees sync), rules: local `<img>` with non-empty alt only (empty-alt =
+  decorative per the 2.12 convention), external images excluded (YouTube thumbnails belong
+  to the video sitemap), chrome files excluded (`LOGO-2025.png`, `bonacc.jpeg`, favicons),
+  per-page dedupe, every file asserted to exist on disk, ≤1000/page asserted, only
+  `image:loc` emitted (caption/title deprecated by Google 2022).
+- **Video sitemap**: new `sitemap-videos.xml`, generated inside `build_videos.py` from the
+  exact same `video_objects` the page's VideoObject schema publishes — same names
+  (site_display_title respected), same truncated descriptions, same thumbnail/player URLs,
+  and byte-identical `publication_date` == schema `uploadDate`. **53 videos included; 5
+  excluded** (`rJRDhgI80-Y`, `uI3-5QxtZ2w`, `xzrZDpw-Wro`, `cZz63IPHBV0`, `Z89SWVjErx0`) —
+  they have no description in the snapshot, `video:description` is required, and nothing is
+  invented. **Date precision note:** `youtube_videos.json` stores `publish_date` date-only —
+  no clock time exists in the snapshot, so both schema and sitemap carry the established
+  Milestone-2.14 midnight-Pacific ISO-8601 form (no time invented). If true
+  second-precision `publishedAt` is ever wanted, extend `update_youtube_videos.py` to
+  capture it from YouTube first, then both emitters pick it up.
+- **robots.txt** now lists both sitemaps (production URLs only).
+- **Validation (all passed):** two full builds byte-identical (13 pages + both sitemaps +
+  robots.txt, content-hash); all 13 titles/metas byte-exact vs the owner's spec; all 13 H1s
+  unchanged; 13 canonicals preserved (.html, production host); all 352 sitemap images exist
+  on disk AND appear on their mapped page; all 53 video entries field-complete with ISO-8601
+  dates equal to schema; no preview URLs in any URL attribute/JSON-LD/robots; XML parses;
+  JSON-LD parses everywhere; Milestone-3.1 schema gate re-passed (breadcrumbs intact);
+  Playwright re-passed 182/182.
+
 ## Milestone 3.1 — Ratification, launch QA gate, production cutover config (2026-07-24, second session)
 
 Owner-directed: "ratify the keep-vs-revert table; launch QA gate; production cutover."

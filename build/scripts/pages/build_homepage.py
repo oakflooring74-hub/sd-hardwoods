@@ -26,8 +26,10 @@ jsonld_blocks = re.findall(r'<script type="application/ld\+json">.*?</script>', 
 # Milestone 2.4: the homepage is the site's primary full-service flooring page, so its
 # title/description no longer come from the raw source (whose title centered on videos).
 title = "Hardwood Floor Refinishing San Diego | San Diego Hardwoods"
-description = ("Owner-operated since 1990. Hardwood and bamboo floor refinishing, restoration, "
-               "deep cleaning, repairs and installation with true 100% dust containment throughout San Diego County.")
+# Final pre-launch SEO milestone (2026-07-24, owner-specified verbatim): meta
+# trimmed to display fully in SERPs; title and H1 unchanged (evidence-backed).
+description = ("Owner-operated since 1990. Hardwood and bamboo floor refinishing, deep cleaning, "
+               "repairs and installation with true 100% dust containment in San Diego County.")
 
 HEAD_META = f"""<title>{title}</title>
 <meta name="description" content="{description}">

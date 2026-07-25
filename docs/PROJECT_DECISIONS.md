@@ -172,6 +172,13 @@ published anywhere.
 The keep-vs-revert table in `docs/2026-07-title-h1-reconciliation-plan.md` §3 is ratified as
 written: **ship the redesign's committed title/meta/H1 on all 13 pages** (including the
 homepage row and the new assessment page); no attachment to any live Turbify title variant.
+**Superseded in part the same day (final pre-launch SEO milestone):** before launch — i.e.
+before Google ever saw the redesign wording, so at zero churn cost — the owner specified a
+final, verbatim CTR-focused title/meta set for 10 pages (shorter, full-display titles; metas
+≤ ~160 chars). The owner-specified values are recorded as the EXPECT matrix in that
+milestone's validation and in the generator sources; **every H1, and the titles/metas of
+Homepage (title), Deep Cleaning, Videos, and Contact, are unchanged.** The launch wording is
+this final set; the post-launch freeze below applies to it.
 Binding post-launch policy: **title/meta/H1 freeze for 4–6 weeks after launch** — no edits to
 titles, meta descriptions, or H1s during that window (the live-site churn was itself part of
 the ranking problem); monitor GSC weekly and let Google settle on the new wording before any

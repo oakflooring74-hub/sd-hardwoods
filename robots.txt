@@ -2,3 +2,4 @@ User-agent: *
 Allow: /
 
 Sitemap: https://www.sdhardwoods.com/sitemap.xml
+Sitemap: https://www.sdhardwoods.com/sitemap-videos.xml

@@ -38,8 +38,12 @@ def clean_text(s):
     return s
 
 # ---- head bits ----
-title = re.search(r"<title>(.*?)</title>", raw, re.DOTALL).group(1).strip()
-meta_desc = re.search(r'content="([^"]*)" id="mDescription"', raw).group(1)
+# Final pre-launch SEO milestone (2026-07-24, owner-specified verbatim): title and
+# meta description are authored here, no longer extracted from the raw source
+# (whose stuffed 98/290-char values truncated in SERPs). H1 and body unchanged.
+title = "San Diego Hardwood Flooring Blog | Expert Floor-Care Advice"
+meta_desc = ("Expert advice on hardwood floor refinishing, restoration, repairs, deep cleaning "
+             "and floor care in San Diego, from 35+ years of real projects.")
 canonical = re.search(r'<link href="([^"]+)" rel="canonical"', raw).group(1)
 vcard_desc = re.search(r'<span class="organization-name">(.*?)</span>', raw, re.DOTALL).group(1).strip()
 

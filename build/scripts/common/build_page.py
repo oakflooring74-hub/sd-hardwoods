@@ -204,6 +204,18 @@ def extract_head_pieces(raw_doc):
 def build_page(cfg):
     raw = rd(cfg["raw_path"])
     head = extract_head_pieces(raw)
+    # Final pre-launch SEO milestone (2026-07-24, owner-specified verbatim):
+    # cfg-level title/meta overrides replace the raw-source values (whose
+    # stuffed 92-101-char titles truncated in SERPs). The raw source stays
+    # frozen; the override lives here in the authoritative config. Only the
+    # content attribute is swapped inside the extracted meta tag so the tag's
+    # shape (and its position in the head) is byte-stable.
+    if "title" in cfg:
+        head["title"] = cfg["title"]
+    if "meta_description" in cfg:
+        head["desc_meta"] = re.sub(
+            r'content="[^"]*"', 'content="' + cfg["meta_description"] + '"',
+            head["desc_meta"], count=1)
 
     site_css = rd(CHROME + r"\site_css.html")
     darkmode_boot = rd(CHROME + r"\darkmode_boot_scripts.html")
@@ -375,6 +387,8 @@ CONFIGS = [
         "name": "gallery3",
         "gallery_index": 2,
         "canonical": "https://www.sdhardwoods.com/recent_project_photo_gallery_3.html",
+        "title": "Hardwood Refinishing &amp; Restoration Projects | San Diego",
+        "meta_description": "Explore San Diego hardwood flooring projects focused on refinishing, restoration, repairs, dust containment sanding and custom installation.",
         "service_content": {
             "page_id_slug": "service",
             "page_name": "Recent San Diego Hardwood Flooring Projects Featuring Expert Refinishing, Restoration, Dust Containment Sanding & Custom Installation",
@@ -415,6 +429,8 @@ CONFIGS = [
         "name": "gallery4",
         "gallery_index": 3,
         "canonical": "https://www.sdhardwoods.com/recent_project_photo_gallery_4.html",
+        "title": "Hardwood Restoration &amp; Specialty Finishes | San Diego",
+        "meta_description": "See San Diego hardwood restoration projects featuring specialty finishes, deep cleaning, repairs, dust containment sanding and custom installation.",
         "service_content": {
             "page_id_slug": "service",
             "page_name": "Recent San Diego Hardwood Flooring Projects Featuring Expert Restoration, Deep Cleaning, Dust Containment Sanding, Repairs & Custom Installation",

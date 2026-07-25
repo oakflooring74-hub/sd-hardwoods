@@ -60,7 +60,7 @@ _media_projects = [
 ]
 JSONLD = JSONLD + "\n" + wrap_jsonld_graph(build_gallery_media_graph(_PAGE_URL, _media_projects))
 
-HEAD_META = """<title>San Diego Hardwood Flooring Project Gallery | Expert Restoration, Repairs, Custom Installation &amp; Specialty Finishes</title>
+HEAD_META = """<title>Hardwood Flooring Project Gallery | San Diego</title>
 <meta name="description" content="View real San Diego hardwood floor refinishing, repair, restoration and installation projects with photographs and detailed project information.">
 <link href="https://www.sdhardwoods.com/recent_project_gallery_5.html" rel="canonical">
 <link href="/favicon.ico" rel="icon" type="image/x-icon">

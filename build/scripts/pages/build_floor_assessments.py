@@ -29,8 +29,8 @@ import json as _json
 # per owner direction it appears only in the shared #local schema entity.
 _ASSESSMENT_AREA = _json.dumps(["San Diego County"] + PRIORITY_COASTAL_SD)
 
-HEAD_META = """<title>Hardwood &amp; Bamboo Floor Assessments, Inspections &amp; Pre-Purchase Reports | San Diego</title>
-<meta name="description" content="Pre-purchase hardwood and bamboo floor inspections, condition assessments, and written specialist findings throughout San Diego. Start with a free phone and photo review.">
+HEAD_META = """<title>Hardwood &amp; Bamboo Floor Inspections | San Diego</title>
+<meta name="description" content="Pre-purchase hardwood and bamboo floor inspections, condition assessments and written findings in San Diego County. Start with a free phone and photo review.">
 <link href="https://www.sdhardwoods.com/floor-assessments-inspections.html" rel="canonical">
 <link href="/favicon.ico" rel="icon" type="image/x-icon">
 <link href="/favicon-192.ico" rel="icon" sizes="192x192" type="image/x-icon">

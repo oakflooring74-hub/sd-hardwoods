@@ -255,6 +255,59 @@ for v in VIDEOS:
         obj["description"] = desc[:300]
     video_objects.append(obj)
 
+# ---------------- video sitemap (final pre-launch SEO milestone, 2026-07-24) ----
+# sitemap-videos.xml is generated HERE, from the exact same `video_objects` the
+# page's VideoObject schema publishes, so the two can never disagree: same
+# verified name (site_display_title override respected), same description
+# truncation, same thumbnail/player URLs, and the byte-identical
+# uploadDate/publication_date value. The snapshot stores publish_date with
+# date-only precision (no clock time exists in youtube_videos.json), so both
+# schema and sitemap carry the established midnight-Pacific ISO-8601 form from
+# Milestone 2.14 -- no time is invented here. Videos with no description are
+# EXCLUDED (video:description is required; the schema likewise omits empty
+# descriptions rather than inventing them) and counted in the build output.
+
+
+def _x(s):
+    """XML text-node escape."""
+    return s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+
+
+_dur_by_id = {v["id"]: v["duration_seconds"] for v in VIDEOS}
+_id_by_embed = {v["embed_url"]: v["id"] for v in VIDEOS}
+_sitemap_entries = []
+_skipped_no_desc = 0
+for obj in video_objects:
+    if "description" not in obj:
+        _skipped_no_desc += 1
+        continue
+    _sitemap_entries.append(
+        "    <video:video>\n"
+        f"      <video:thumbnail_loc>{_x(obj['thumbnailUrl'])}</video:thumbnail_loc>\n"
+        f"      <video:title>{_x(obj['name'])}</video:title>\n"
+        f"      <video:description>{_x(obj['description'])}</video:description>\n"
+        f"      <video:player_loc>{_x(obj['embedUrl'])}</video:player_loc>\n"
+        f"      <video:duration>{_dur_by_id[_id_by_embed[obj['embedUrl']]]}</video:duration>\n"
+        f"      <video:publication_date>{obj['uploadDate']}</video:publication_date>\n"
+        "    </video:video>"
+    )
+
+VIDEO_SITEMAP = (
+    '<?xml version="1.0" encoding="UTF-8"?>\n'
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"\n'
+    '        xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">\n'
+    "  <url>\n"
+    "    <loc>https://www.sdhardwoods.com/videos_of_refinishing_process.html</loc>\n"
+    + "\n".join(_sitemap_entries) + "\n"
+    "  </url>\n"
+    "</urlset>\n"
+)
+_video_sitemap_path = BUILD.parent / "sitemap-videos.xml"
+with open(_video_sitemap_path, "w", encoding="utf-8", newline="\n") as _f:
+    _f.write(VIDEO_SITEMAP)
+print(f"Wrote {_video_sitemap_path} ({len(_sitemap_entries)} videos; "
+      f"{_skipped_no_desc} excluded for empty description)")
+
 # Rich Results milestone (2026-07-19): wrap the 58 real VideoObjects in a
 # proper ItemList (position-ordered) instead of leaving them as flat @graph
 # siblings, and give it the stable @id the page's CollectionPage.mainEntity
