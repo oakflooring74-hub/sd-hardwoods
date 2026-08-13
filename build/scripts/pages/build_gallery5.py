@@ -67,10 +67,8 @@ HEAD_META = """<title>Hardwood Flooring Project Gallery | San Diego</title>
 <link href="/favicon-192.ico" rel="icon" sizes="192x192" type="image/x-icon">
 <link href="/favicon-512.ico" rel="icon" sizes="512x512" type="image/x-icon">
 <link href="/LOGO-2025.png" rel="apple-touch-icon" sizes="180x180">
-<meta name="theme-color" content="#4b2e06">
-<link href="/LOGO-2025.png" rel="logo" type="image/png">
-<link href="/assets/legacy-css/mc_global.195798.css" id="globalCSS" media="screen" rel="stylesheet" type="text/css">
-<link href="/assets/legacy-css/theme.css" id="themeCSS" media="screen" rel="stylesheet" type="text/css">"""
+<meta name="theme-color" content="#f8f4ec">
+<link href="/LOGO-2025.png" rel="logo" type="image/png">"""
 
 # Milestone 2.4: obsolete Universal Analytics (UA-20793161-1 / _gaq / ga.js) removed
 # site-wide. GA4 is blocked pending the owner's confirmed Measurement ID.
@@ -114,7 +112,7 @@ MAIN = f"""
   <p>Five recent projects, each shown before and after: solid white oak refinishing and a matching staircase in Mission Hills, sun-faded Brazilian cherry restored in El Cajon, engineered maple renewed in a Del Mar beachfront condo, and a failed DIY red oak refinish rescued with a modern gray stain in La Jolla &mdash; real restoration, repairs, and specialty finishes from homes across San Diego County.</p>
   <div class="cta-row">
     <a class="btn btn-call" href="tel:+18586990072">&#9742; Call 858-699-0072</a>
-    <a class="btn btn-outline" href="sms:+18586990072">Text Floor Photos</a>
+    <a class="btn btn-call" href="sms:+18586990072">Text Floor Photos</a>
   </div>
 </section>
 
@@ -137,7 +135,7 @@ MAIN = f"""
     <a class="btn btn-outline" href="https://www.sdhardwoods.com/">Hardwood Floor Refinishing in San Diego &mdash; Home &rarr;</a>
     <a class="btn btn-outline" href="https://www.sdhardwoods.com/solid_wood_floor_photo_gallery.html">Solid &amp; Engineered Wood Floor Installation &rarr;</a>
     <a class="btn btn-call" href="tel:+18586990072">Call 858-699-0072</a>
-    <a class="btn btn-outline" href="sms:+18586990072">Text Floor Photos</a>
+    <a class="btn btn-call" href="sms:+18586990072">Text Floor Photos</a>
   </div>
 </section>
 """

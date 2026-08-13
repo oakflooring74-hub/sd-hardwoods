@@ -13,10 +13,8 @@ HEAD_META = """<title>Contact San Diego Hardwoods | Free Phone &amp; Photo Asses
 <link href="/favicon-192.ico" rel="icon" sizes="192x192" type="image/x-icon">
 <link href="/favicon-512.ico" rel="icon" sizes="512x512" type="image/x-icon">
 <link href="/LOGO-2025.png" rel="apple-touch-icon" sizes="180x180">
-<meta name="theme-color" content="#4b2e06">
-<link href="/LOGO-2025.png" rel="logo" type="image/png">
-<link href="/assets/legacy-css/mc_global.195798.css" id="globalCSS" media="screen" rel="stylesheet" type="text/css">
-<link href="/assets/legacy-css/theme.css" id="themeCSS" media="screen" rel="stylesheet" type="text/css">"""
+<meta name="theme-color" content="#f8f4ec">
+<link href="/LOGO-2025.png" rel="logo" type="image/png">"""
 
 with open(BUILD / "data" / "contact_us" / "jsonld.html", encoding="utf-8") as f:
     JSONLD = f.read()
@@ -37,8 +35,8 @@ MAIN = """
   <div class="kicker">Est. 1990 &bull; San Diego's Finest Hardwood Flooring Specialist</div>
   <h1>Contact San Diego Hardwoods &mdash; Hardwood Floor Refinishing, Installation, Deep Cleaning, Repairs &amp; Restoration in San Diego</h1>
   <div class="cta-row">
+    <a class="btn btn-call" href="tel:+18586990072">&#9742; Call 858-699-0072</a>
     <a class="btn btn-call" href="sms:+18586990072">Text Photos for a Free Assessment</a>
-    <a class="btn btn-outline" href="tel:+18586990072">&#9742; Call 858-699-0072</a>
   </div>
 </section>
 
@@ -58,7 +56,7 @@ MAIN = """
     </div>
     <div class="card">
       <h3>3. Email Photos</h3>
-      <p style="font-size:18px;"><a href="mailto:sandiegohardwoods@gmail.com" style="color:var(--cta-red);font-weight:700;">sandiegohardwoods@gmail.com</a></p>
+      <p style="font-size:18px;"><a href="mailto:sandiegohardwoods@gmail.com" style="font-weight:700;">sandiegohardwoods@gmail.com</a></p>
       <p>When texting is not practical, email your photos or questions instead.</p>
     </div>
     <div class="card">

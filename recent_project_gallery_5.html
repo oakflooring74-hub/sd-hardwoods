@@ -9,10 +9,8 @@
 <link href="/favicon-192.ico" rel="icon" sizes="192x192" type="image/x-icon">
 <link href="/favicon-512.ico" rel="icon" sizes="512x512" type="image/x-icon">
 <link href="/LOGO-2025.png" rel="apple-touch-icon" sizes="180x180">
-<meta name="theme-color" content="#4b2e06">
+<meta name="theme-color" content="#f8f4ec">
 <link href="/LOGO-2025.png" rel="logo" type="image/png">
-<link href="/assets/legacy-css/mc_global.195798.css" id="globalCSS" media="screen" rel="stylesheet" type="text/css">
-<link href="/assets/legacy-css/theme.css" id="themeCSS" media="screen" rel="stylesheet" type="text/css">
 <script type="application/ld+json">
 {
  "@context": "https://schema.org",
@@ -1004,7 +1002,7 @@
 })();
 </script>
 
-<style id="sdh-darkmode-css" type="text/css">
+<style id="sdh-site-tokens" type="text/css">
 :root{
   --canvas:#f8f4ec; --canvas-alt:#f1e9da; --ink:#2a2118; --ink-soft:#5c4f42;
   --walnut:#4b2e06; --brass:#b8863f; --brass-soft:#caa56a; --brass-deep:#8c6420;
@@ -1014,19 +1012,10 @@
   --font-serif:'Palatino Linotype','Book Antiqua',Palatino,Cambria,Georgia,serif;
   --font-sans:'Segoe UI',system-ui,-apple-system,'Helvetica Neue',Arial,sans-serif;
 }
-/* html.sdh-dark carries the same variable overrides as body.darkmode. The boot
-   script sets it synchronously in <head> (before <body> exists), so the dark canvas
-   paints from the very first frame -- body.darkmode then lands on DOMContentLoaded
-   for every component rule that keys off it. Keep the two blocks identical. */
-html.sdh-dark, body.darkmode{
-  --canvas:#1b1712; --canvas-alt:#221d16; --ink:#f2ece0; --ink-soft:#cdbfa8;
-  --walnut:#d9b374; --brass:#d9b374; --brass-soft:#e7c98d; --brass-deep:#d9b374;
-  --cta-red:#ff5147; --cta-red-dark:#ff8078; --line:#3a2f22; --card-bg:#241f18;
-  --util-bg:#0d0a06; --util-ink:#cbb98d;
-  --nav-bg:#14100a; --nav-ink:#d9c49a; --nav-ink-strong:#f6ecd8; --nav-hover:rgba(217,179,116,.1); --nav-line:#2c2214;
-}
-/* The floating light/dark toggle (#sdh-toggle) was removed in Milestone 2.1 --
-   theme control now lives inside the menu drawer (.sdh-theme-btn in top.html). */
+/* Direction 1 "Workshop Billboard" (2026-08-13 visual-proof checkpoint): the site is
+   light-only. The dark-default boot script, the html.sdh-dark/body.darkmode variable
+   overrides, and the drawer theme toggle were removed; --cta-red is reserved
+   exclusively for direct-contact controls (Call / Text Floor Photos). */
 </style>
 <style id="sdh-site-css" type="text/css">
 *{box-sizing:border-box;}
@@ -1036,11 +1025,10 @@ a{color:inherit;}
 [id]{scroll-margin-top:84px;}
 .sdh-wrap{max-width:1180px;margin:0 auto;padding:0 24px;}
 
-.btn{display:inline-block;font-weight:700;text-decoration:none;padding:14px 28px;border-radius:8px;font-size:17px;font-family:var(--font-sans);transition:transform .15s ease, box-shadow .15s ease;}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;font-weight:700;text-decoration:none;padding:14px 28px;border-radius:8px;font-size:17px;font-family:var(--font-sans);transition:transform .15s ease, box-shadow .15s ease;}
 .btn:hover{transform:translateY(-1px);}
 .btn-call{background:var(--cta-red);color:#fff !important;box-shadow:0 6px 18px rgba(179,38,30,.35);}
 .btn-outline{background:transparent;color:var(--walnut) !important;border:2px solid var(--walnut);}
-body.darkmode .btn-outline{color:var(--brass) !important;border-color:var(--brass);}
 .btn-yt{display:inline-flex;align-items:center;gap:10px;padding:11px 20px;min-height:44px;border:1px solid var(--line);border-radius:26px;background:var(--card-bg);color:var(--ink);font-family:var(--font-sans);font-weight:700;font-size:14.5px;text-decoration:none;box-shadow:0 3px 12px rgba(20,12,3,.08);transition:border-color .15s ease, transform .15s ease;}
 .btn-yt:hover{border-color:var(--brass);transform:translateY(-1px);}
 .btn-yt .yt-ico{display:inline-flex;align-items:center;}
@@ -1049,28 +1037,60 @@ body.darkmode .btn-outline{color:var(--brass) !important;border-color:var(--bras
 
 .hero{text-align:center;padding:52px 24px 40px;}
 .hero .kicker{font-family:var(--font-serif);font-style:italic;color:var(--brass-deep);font-size:19px;letter-spacing:1.2px;margin-bottom:10px;}
+/* Owner revision (2026-08-13): on phones the kicker duplicates the masthead tagline and
+   wastes first-viewport space -- hidden on small screens only; still in the DOM,
+   crawlable, and fully visible on desktop. */
+@media(max-width:1020px){.hero .kicker{display:none;}}
 .hero h1{font-family:var(--font-serif);font-size:40px;line-height:1.16;margin:0 0 18px;color:var(--ink);letter-spacing:.2px;}
 .hero p{font-size:18px;line-height:1.65;color:var(--ink-soft);max-width:820px;margin:0 auto 16px;}
 .hero .cta-row{margin-top:24px;display:flex;gap:16px;justify-content:center;flex-wrap:wrap;}
 
-/* homepage hero: brand-led copy + controlled-proportion video, side by side on desktop */
+/* homepage hero: brand-led copy + a single strong project photo, side by side on desktop.
+   Direction 1: no video in the first viewport -- the hero embed moved into the
+   dust-containment proof section below. */
 .hero-home{max-width:1180px;margin:0 auto;padding:44px 24px 26px;text-align:left;}
-.hero-grid{display:grid;grid-template-columns:minmax(0,1.06fr) minmax(0,.94fr);gap:44px;align-items:center;}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1.06fr) minmax(0,.94fr);gap:44px;align-items:start;}
 .hero-home .kicker{margin-bottom:8px;}
 .hero-home h1{font-size:37px;}
 .hero-home p{margin:0 0 14px;max-width:none;font-size:17.5px;}
 .hero-home .cta-row{justify-content:flex-start;margin-top:20px;}
 .hero-note{font-size:14px;color:var(--ink-soft);opacity:.9;margin-top:14px !important;}
 .hero-media{min-width:0;}
-.hero-media .video-frame{margin:0;}
-.hero-media-foot{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-top:14px;}
-.hero-media-caption{font-size:14px;color:var(--ink-soft);line-height:1.5;margin:0;}
-.hero-media-caption strong{color:var(--cta-red);}
+.hero-photo{position:relative;margin:0;border-radius:14px;overflow:hidden;border:1px solid var(--line);box-shadow:0 14px 38px rgba(43,26,5,.18);background:var(--canvas-alt);}
+/* Owner revision 2 (2026-08-13): no cropping -- the photo renders at its natural
+   aspect ratio, top-aligned with the hero copy, so the wide-angle shot keeps its
+   full impact and simply takes its natural length. */
+.hero-photo img{width:100%;height:auto;display:block;}
+.dust-badge{position:absolute;left:14px;bottom:14px;display:inline-flex;align-items:center;gap:8px;background:rgba(248,244,236,.96);border:1.5px solid var(--brass);color:var(--walnut);font-family:var(--font-sans);font-weight:800;font-size:13.5px;letter-spacing:.4px;padding:9px 14px;border-radius:10px;box-shadow:0 6px 18px rgba(20,12,3,.22);}
 @media(max-width:920px){
   .hero-grid{grid-template-columns:1fr;gap:28px;}
   .hero-home{padding:30px 20px 20px;}
   .hero-home h1{font-size:29px;}
-  .hero-home .cta-row .btn{width:100%;text-align:center;}
+  .hero-home .cta-row .btn{width:100%;}
+  /* Owner correction (2026-08-13): natural-length rendering is DESKTOP ONLY.
+     On mobile the photo is cropped to a fixed height so it doesn't run stupid long. */
+  .hero-photo img{height:420px;object-fit:cover;}
+}
+
+/* numbered project-index strip directly below the homepage hero (Direction 1 point 9):
+   neutral walnut, never red -- exploration subordinate to contact. Reuses the existing
+   approved gallery names; no new wording beyond the numerals. */
+.proj-index{max-width:1180px;margin:0 auto;padding:6px 24px 10px;}
+.proj-index ol{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(170px,100%),1fr));gap:10px;}
+.proj-index a{display:flex;align-items:center;gap:10px;min-height:48px;padding:8px 12px;background:var(--card-bg);border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);font-family:var(--font-sans);font-size:14px;font-weight:600;line-height:1.3;box-shadow:0 4px 14px rgba(20,12,3,.05);}
+.proj-index a:hover{border-color:var(--brass);}
+.proj-index .pi-num{font-family:var(--font-serif);font-weight:700;font-size:19px;color:var(--brass-deep);flex:0 0 auto;}
+
+/* repeated neutral contact band (Direction 1 points 10-11): twin red peer actions +
+   the number as plain live text. Existing approved wording only. */
+.contact-band{max-width:1180px;margin:10px auto;padding:26px 24px;display:flex;align-items:center;justify-content:center;gap:18px;flex-wrap:wrap;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--canvas-alt);}
+.contact-band .cb-num{font-family:var(--font-serif);font-weight:700;font-size:clamp(24px,4.5vw,32px);color:var(--ink);text-decoration:none;letter-spacing:1px;white-space:nowrap;}
+.contact-band .cb-num:hover{color:var(--cta-red);}
+.contact-band .cb-actions{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;}
+.contact-band .cb-actions .btn{padding:12px 24px;font-size:16px;}
+@media(max-width:640px){
+  .contact-band .cb-actions{width:100%;}
+  .contact-band .cb-actions .btn{flex:1 1 100%;}
 }
 
 section.block{padding:44px 24px;max-width:1180px;margin:0 auto;}
@@ -1087,9 +1107,8 @@ section.block .lede{text-align:center;color:var(--ink-soft);font-size:18px;max-w
 .cta-card .cta-media{flex:0 0 220px;text-align:center;}
 .cta-card .cta-media img{width:100%;max-width:220px;border-radius:10px;}
 
-.info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;margin-top:8px;}
+.info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:24px;margin-top:8px;}
 .info-grid .card h3{font-family:var(--font-serif);font-size:22px;margin:0 0 10px;color:var(--walnut);}
-body.darkmode .info-grid .card h3{color:var(--brass);}
 .info-grid .card p{color:var(--ink-soft);font-size:16px;line-height:1.6;margin:0 0 8px;}
 .info-grid ul{margin:0;padding-left:20px;color:var(--ink-soft);font-size:16px;line-height:1.8;}
 
@@ -1098,12 +1117,13 @@ body.darkmode .info-grid .card h3{color:var(--brass);}
 #heroVideoMount{position:relative;height:0;padding-top:56.25%;overflow:hidden;}
 .video-cta{text-align:center;margin-top:22px;}
 .video-cta p{font-size:17px;color:var(--ink-soft);margin:0 0 14px;}
+.video-proof{margin-top:30px;}
+.video-proof .video-proof-caption{text-align:center;font-size:14px;color:var(--ink-soft);margin:12px 0 0;}
 
 /* Bona Certified Craftsman credential band */
 .bona-band{display:flex;align-items:center;gap:34px;flex-wrap:wrap;border-top:3px solid var(--brass);}
 .bona-band .bona-seal{flex:0 0 148px;text-align:center;}
 .bona-band .bona-seal img{width:100%;max-width:148px;height:auto;display:block;margin:0 auto;}
-body.darkmode .bona-band .bona-seal img{background:#f4f1ea;border-radius:50%;padding:6px;}
 .bona-band .bona-copy{flex:1 1 420px;}
 .bona-band h2{text-align:left;margin:0 0 10px;}
 .bona-band p{font-size:16.5px;line-height:1.65;color:var(--ink-soft);margin:0 0 10px;}
@@ -1140,48 +1160,57 @@ body.darkmode .bona-band .bona-seal img{background:#f4f1ea;border-radius:50%;pad
 .gnav-links .gl-sep{opacity:.45;margin:0 10px;}
 
 .gallery-intro{text-align:center;margin-bottom:26px;}
-.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;}
+/* Direction 1: noticeably larger tiles; cards keep object-fit:contain so every photo is
+   shown whole -- on the light canvas the matted area reads as intentional, not broken
+   (audit S7 cosmetic fix). */
+.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(320px,100%),1fr));gap:18px;}
 .gallery figure{position:relative;margin:0;border-radius:10px;overflow:hidden;background:var(--card-bg);border:1px solid var(--line);}
 .gallery figure a{display:block;background:var(--canvas-alt);}
-.gallery img{width:100%;height:420px;object-fit:contain;background:var(--canvas-alt);display:block;transition:transform .35s ease;}
+.gallery img{width:100%;height:460px;object-fit:contain;background:var(--canvas-alt);display:block;transition:transform .35s ease;}
 .gallery figure:hover img{transform:scale(1.05);}
 .gallery figcaption{padding:10px 12px;font-size:13px;color:var(--ink-soft);line-height:1.4;}
 .gallery-badge{position:absolute;top:8px;left:8px;background:var(--walnut);color:#fff;font-weight:700;font-size:13px;line-height:1;padding:6px 10px;border-radius:20px;box-shadow:0 2px 8px rgba(0,0,0,.25);z-index:2;pointer-events:none;}
-body.darkmode .gallery-badge{background:var(--brass);color:#1b1712;}
+/* Direction 1: gallery 1-4 before/after module grids -- fixed two-column pairs on
+   desktop; single column on phones so the tiles stay large (mobile composition is
+   decided separately from desktop per the owner's standing rule). */
+.gallery.g-modules{grid-template-columns:repeat(2,1fr);}
+@media(max-width:640px){.gallery.g-modules{grid-template-columns:1fr;}}
 
 .gallery-progress{display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;margin:0 0 28px;padding:14px 20px;background:var(--card-bg);border:1px solid var(--line);border-radius:12px;}
 .gallery-progress .gp-dots{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;}
 .gallery-progress .gp-dots a{display:flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:var(--canvas-alt);color:var(--ink-soft);font-weight:700;font-size:14px;text-decoration:none;border:1px solid var(--line);}
 .gallery-progress .gp-dots a.active{background:var(--walnut);color:#fff;border-color:var(--walnut);}
-body.darkmode .gallery-progress .gp-dots a.active{background:var(--brass);color:#1b1712;}
 .gallery-progress .gp-label{font-weight:700;color:var(--ink);font-size:14px;white-space:nowrap;}
 .gallery-progress a.gp-prev, .gallery-progress a.gp-next{font-weight:700;color:var(--walnut);text-decoration:none;font-size:14px;padding:10px 4px;min-height:44px;display:flex;align-items:center;}
 .gallery-progress .gp-disabled{color:var(--ink-soft);opacity:.4;font-weight:700;font-size:14px;padding:10px 4px;min-height:44px;display:flex;align-items:center;}
-body.darkmode .gallery-progress a.gp-prev, body.darkmode .gallery-progress a.gp-next{color:var(--brass);}
 @media(max-width:640px){.gallery-progress{gap:10px;padding:12px;} .gallery-progress .gp-dots a{width:30px;height:30px;font-size:13px;}}
 
 .service-list{columns:2;column-gap:50px;padding-left:20px;font-size:16px;line-height:1.9;color:var(--ink-soft);}
 @media(max-width:640px){.service-list{columns:1;}}
 
-.blog-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:24px;}
+.blog-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr));gap:24px;}
 .blog-list .card h3{font-family:var(--font-serif);font-size:21px;margin:0 0 10px;}
 .blog-list .card img{width:100%;height:190px;object-fit:cover;border-radius:8px;margin-bottom:14px;}
 
 footer.sdh-footer{background:var(--canvas-alt);border-top:1px solid var(--line);padding:48px 24px 28px;text-align:center;margin-top:40px;}
 footer.sdh-footer .f-name{font-family:var(--font-serif);font-size:26px;font-weight:700;color:var(--ink);}
 footer.sdh-footer p{color:var(--ink-soft);font-size:15px;max-width:760px;margin:8px auto;line-height:1.6;}
-footer.sdh-footer .f-call{font-size:22px;font-weight:700;margin:16px 0;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:6px 14px;max-width:100%;}
-footer.sdh-footer .f-call a{color:var(--cta-red);text-decoration:none;word-break:break-word;overflow-wrap:anywhere;}
-footer.sdh-footer .f-call .f-call-sep{opacity:.5;}
+/* Direction 1: the number as plain large live text + twin red peer actions; email quiet. */
+footer.sdh-footer .f-num{display:block;font-family:var(--font-serif);font-size:clamp(28px,5vw,38px);font-weight:700;color:var(--ink);text-decoration:none;letter-spacing:1px;margin:14px 0 4px;}
+footer.sdh-footer .f-num:hover{color:var(--cta-red);}
+footer.sdh-footer .f-ctas{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:12px;margin:12px 0 6px;}
+footer.sdh-footer .f-ctas .btn{padding:12px 26px;font-size:16px;}
+footer.sdh-footer .f-email{font-size:14px;color:var(--ink-soft);text-decoration:none;}
+footer.sdh-footer .f-email:hover{text-decoration:underline;color:var(--ink);}
 footer.sdh-footer .f-links a{color:var(--walnut);text-decoration:underline;font-weight:600;}
-body.darkmode footer.sdh-footer .f-links a{color:var(--brass);}
 footer.sdh-footer .copyright{font-size:13px;opacity:.6;margin-top:22px;}
+@media(max-width:640px){footer.sdh-footer .f-ctas .btn{flex:1 1 100%;}}
 
 @media(max-width:760px){
   .hero h1{font-size:30px;}
   section.block h1{font-size:28px;}
   section.block h2{font-size:26px;}
-  .gallery img{height:240px;}
+  .gallery img{height:280px;}
 }
 
 @media (prefers-reduced-motion: reduce){
@@ -1189,52 +1218,6 @@ footer.sdh-footer .copyright{font-size:13px;opacity:.6;margin-top:22px;}
   *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;}
 }
 </style>
-
-<script id="sdh-darkmode-boot">
-(function(){
-  /* Milestone 2.3: dark is the site default. A stored explicit choice (made via the
-     theme control) always wins; with no stored choice the site opens dark regardless
-     of the OS color-scheme preference. The html-level class is applied synchronously,
-     before first paint, so the dark canvas variables (html.sdh-dark in site_css) take
-     effect immediately and there is no light-mode flash; the body class that the rest
-     of the dark styling keys off is added as soon as the body exists. */
-  var pref = null;
-  try { pref = localStorage.getItem('sdh-theme'); } catch(e){}
-  if (pref !== 'light') {
-    document.documentElement.classList.add('sdh-dark');
-    document.addEventListener('DOMContentLoaded', function(){ document.body.classList.add('darkmode'); });
-  }
-})();
-</script>
-<script id="sdh-darkmode-logic">
-(function() {
-  document.addEventListener('DOMContentLoaded', function() {
-    var btns = Array.prototype.slice.call(document.querySelectorAll('.sdh-theme-btn'));
-    if (!btns.length) return;
-
-    function sync() {
-      var isDark = document.body.classList.contains('darkmode');
-      btns.forEach(function(btn){
-        var label = btn.querySelector('.theme-label');
-        var ico = btn.querySelector('.theme-ico');
-        if (label) label.textContent = isDark ? 'Use Light Appearance' : 'Use Dark Appearance';
-        if (ico) ico.innerHTML = isDark ? '&#9788;' : '&#9790;';
-        btn.setAttribute('aria-pressed', isDark ? 'true' : 'false');
-      });
-    }
-    btns.forEach(function(btn){
-      btn.addEventListener('click', function() {
-        document.body.classList.toggle('darkmode');
-        var isDark = document.body.classList.contains('darkmode');
-        document.documentElement.classList.toggle('sdh-dark', isDark);
-        try { localStorage.setItem('sdh-theme', isDark ? 'dark' : 'light'); } catch(e){}
-        sync();
-      });
-    });
-    sync();
-  });
-})();
-</script>
 
 </head>
 <body class="lo_layout2wt" dir="ltr" spellcheck="false">
@@ -1255,27 +1238,39 @@ footer.sdh-footer .copyright{font-size:13px;opacity:.6;margin-top:22px;}
 header#sdhHeader{background:var(--canvas);}
 
 /* --- brand masthead --- */
+/* --- brand masthead (Direction 1 billboard) ---
+   Full lockup (logo + name + exact tagline) left; contact block right: the number as
+   large live text, twin solid red Call / Text peer buttons, email as a quiet link. */
 #sdhMasthead{max-width:1180px;margin:0 auto;padding:18px 24px 16px;display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;}
 #sdhBrand{display:flex;align-items:center;gap:18px;text-decoration:none;min-width:0;}
-#sdhBrand .brand-logo{width:84px;height:84px;flex:0 0 84px;display:block;filter:drop-shadow(0 2px 6px rgba(43,26,5,.28));}
+#sdhBrand .brand-logo{width:96px;height:96px;flex:0 0 96px;display:block;filter:drop-shadow(0 2px 6px rgba(43,26,5,.28));}
 #sdhBrand .brand-text{display:flex;flex-direction:column;min-width:0;}
-#sdhBrand .brand-name{font-family:var(--font-serif);font-weight:700;font-size:31px;line-height:1.08;color:var(--ink);letter-spacing:.4px;}
-#sdhBrand .brand-tag{font-family:var(--font-serif);font-style:italic;font-size:14.5px;color:var(--brass-deep);margin-top:5px;letter-spacing:.2px;}
-.mast-actions{display:flex;align-items:center;gap:22px;flex-wrap:wrap;}
-.mast-contact{display:flex;flex-direction:column;align-items:flex-end;gap:2px;}
-.mast-phone{display:block;text-decoration:none;font-family:var(--font-sans);text-align:right;}
-.mast-phone .mast-phone-label{display:block;font-size:12px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:var(--brass-deep);}
-.mast-phone .mast-phone-num{display:block;font-size:27px;font-weight:800;color:var(--ink);letter-spacing:.5px;line-height:1.15;}
+#sdhBrand .brand-name{font-family:var(--font-serif);font-weight:700;font-size:40px;line-height:1.08;color:var(--ink);letter-spacing:.4px;}
+#sdhBrand .brand-tag{font-family:var(--font-serif);font-style:italic;font-size:17px;color:var(--brass-deep);margin-top:6px;letter-spacing:.2px;}
+.mast-actions{display:flex;flex-direction:column;align-items:flex-end;gap:6px;}
+.mast-phone{display:block;text-decoration:none;text-align:right;line-height:1.05;}
+.mast-phone .mast-phone-num{display:block;font-family:var(--font-serif);font-size:46px;font-weight:700;color:var(--ink);letter-spacing:1.5px;}
 .mast-phone:hover .mast-phone-num{color:var(--cta-red);}
+.mast-ctas{display:flex;gap:10px;}
+.mast-ctas .btn{padding:11px 22px;font-size:15.5px;white-space:nowrap;}
 .mast-email{font-size:13px;color:var(--ink-soft);text-decoration:none;}
 .mast-email:hover{text-decoration:underline;color:var(--ink);}
-.mast-cta{white-space:nowrap;}
 @media(max-width:1020px){
-  #sdhMasthead{padding:14px 16px 12px;justify-content:center;text-align:left;}
+  /* Mobile billboard: full lockup, then the number, then twin full-width stacked
+     peer buttons -- nothing hidden, nothing clipped at 360px. */
+  #sdhMasthead{padding:14px 16px 12px;flex-direction:column;align-items:stretch;text-align:center;gap:14px;}
+  #sdhBrand{justify-content:center;text-align:left;}
   #sdhBrand .brand-logo{width:64px;height:64px;flex-basis:64px;}
-  #sdhBrand .brand-name{font-size:22px;}
-  #sdhBrand .brand-tag{font-size:12px;}
-  .mast-actions{display:none;}
+  #sdhBrand .brand-name{font-size:24px;}
+  #sdhBrand .brand-tag{font-size:13px;}
+  .mast-actions{align-items:stretch;gap:10px;}
+  .mast-phone{text-align:center;}
+  .mast-phone .mast-phone-num{font-size:35px;}
+  .mast-ctas{flex-direction:column;}
+  .mast-ctas .btn{width:100%;padding:13px 22px;font-size:16.5px;}
+  /* Owner revision (2026-08-13): email in the mobile masthead is clutter -- it remains
+     in the drawer, footer and contact page. */
+  .mast-email{display:none;}
 }
 
 /* --- primary nav band --- */
@@ -1295,35 +1290,45 @@ header#sdhHeader{background:var(--canvas);}
 #sdhNav .nav-drop a:hover{background:var(--canvas-alt);}
 #sdhNav .nav-drop a[aria-current="page"]{color:var(--brass-deep);font-weight:700;}
 #sdhNav .nav-drop .drop-note{padding:4px 20px 8px;font-size:12px;color:var(--ink-soft);font-style:italic;}
-.nav-youtube{display:flex;align-items:center;gap:8px;margin-left:14px;padding:7px 14px;min-height:44px;border:1px solid var(--nav-line);border-radius:24px;font-size:13.5px;font-weight:700;color:var(--nav-ink);text-decoration:none;white-space:nowrap;}
-.nav-youtube:hover{background:var(--nav-hover);color:var(--nav-ink-strong);}
-.yt-ico{display:inline-flex;align-items:center;}
+/* Direction 1: the outbound YouTube pill is removed from the nav (video demoted to
+   supporting proof); nav is plain text items only. */
 #sdhMenuBtn{display:none;}
 @media(max-width:1020px){
-  #sdhNav .nav-inner{justify-content:stretch;padding:8px 12px;gap:10px;}
-  #sdhNav ul.nav-list,#sdhNav .nav-youtube{display:none;}
-  #sdhMenuBtn{display:flex;align-items:center;justify-content:center;gap:9px;flex:1 1 50%;min-height:48px;background:none;border:1px solid var(--nav-line);border-radius:10px;color:var(--nav-ink);font-family:var(--font-sans);font-size:15.5px;font-weight:700;letter-spacing:.4px;cursor:pointer;}
-  #sdhNavCall{display:flex;align-items:center;justify-content:center;gap:8px;flex:1 1 50%;min-height:48px;border-radius:10px;background:var(--cta-red);color:#fff;font-size:15.5px;font-weight:700;text-decoration:none;box-shadow:0 4px 14px rgba(179,38,30,.3);}
+  #sdhNav .nav-inner{justify-content:stretch;padding:8px 12px;}
+  #sdhNav ul.nav-list{display:none;}
+  #sdhMenuBtn{display:flex;align-items:center;justify-content:center;gap:9px;flex:1 1 auto;min-height:48px;background:none;border:1px solid var(--nav-line);border-radius:10px;color:var(--nav-ink);font-family:var(--font-sans);font-size:15.5px;font-weight:700;letter-spacing:.4px;cursor:pointer;}
 }
-@media(min-width:1021px){#sdhNavCall{display:none;}}
+/* Direction 1: the separate mobile red nav-band Call button is retired -- the mobile
+   masthead and the sticky mini-header now carry the twin Call/Text peer actions. */
+#sdhNavCall{display:none;}
 
-/* --- compact sticky mini-header (appears only after masthead scrolls away) --- */
+/* --- compact sticky mini-header (appears only after masthead scrolls away) ---
+   Direction 1: identity + readable number text + twin red Call / Text peer buttons,
+   identical hierarchy on desktop and mobile; slim, non-obstructive. */
 #sdhMiniHeader{position:fixed;top:0;left:0;right:0;z-index:999900;display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:56px;padding:6px 14px;background:var(--canvas);border-bottom:1px solid var(--line);box-shadow:0 6px 22px rgba(20,12,3,.16);transform:translateY(-104%);visibility:hidden;transition:transform .26s ease,visibility .26s;}
 #sdhMiniHeader.show{transform:none;visibility:visible;}
 .mini-brand{display:flex;align-items:center;gap:10px;text-decoration:none;min-width:0;}
-.mini-brand img{width:38px;height:38px;display:block;}
-.mini-brand .mini-name{font-family:var(--font-serif);font-weight:700;font-size:17px;color:var(--ink);letter-spacing:.3px;white-space:nowrap;}
-.mini-actions{display:flex;align-items:center;gap:9px;}
+.mini-brand img{width:44px;height:44px;display:block;}
+.mini-brand .mini-name{font-family:var(--font-serif);font-weight:700;font-size:19px;color:var(--ink);letter-spacing:.3px;white-space:nowrap;}
+.mini-actions{display:flex;align-items:center;gap:10px;flex:1;justify-content:flex-end;}
 .mini-menu{display:flex;align-items:center;gap:7px;min-height:44px;padding:6px 14px;background:none;border:1px solid var(--line);border-radius:9px;color:var(--ink);font-family:var(--font-sans);font-size:14px;font-weight:700;cursor:pointer;}
 .mini-menu:hover{background:var(--canvas-alt);}
-.mini-phone{display:flex;align-items:center;gap:6px;min-height:44px;padding:6px 10px;color:var(--ink);text-decoration:none;font-weight:800;font-size:15.5px;letter-spacing:.4px;white-space:nowrap;}
+/* Owner revision (2026-08-13): the number is the sticky bar's centerpiece -- wide,
+   centered, same Palatino display treatment as the masthead number. */
+.mini-phone{display:flex;align-items:center;justify-content:center;gap:7px;flex:1;min-height:44px;padding:6px 4px;color:var(--ink);text-decoration:none;font-family:var(--font-serif);font-weight:700;font-size:23px;letter-spacing:1px;white-space:nowrap;}
 .mini-phone:hover{color:var(--cta-red);}
-.mini-cta{display:flex;align-items:center;min-height:44px;padding:6px 16px;border-radius:9px;background:var(--cta-red);color:#fff !important;font-weight:700;font-size:14px;text-decoration:none;white-space:nowrap;box-shadow:0 4px 14px rgba(179,38,30,.3);}
-.mini-sms{display:flex;align-items:center;min-height:44px;padding:6px 14px;border-radius:9px;border:1.5px solid var(--walnut);color:var(--walnut);font-weight:700;font-size:14px;text-decoration:none;white-space:nowrap;}
-body.darkmode .mini-sms{border-color:var(--brass);color:var(--brass);}
-@media(max-width:900px){.mini-sms{display:none;}}
-@media(max-width:700px){.mini-phone .mini-phone-num{display:none;}.mini-phone{font-size:19px;}}
-@media(max-width:480px){.mini-brand .mini-name{display:none;}.mini-cta{font-size:13px;padding:6px 12px;}}
+.mini-cta,.mini-sms{display:flex;align-items:center;justify-content:center;min-height:44px;min-width:92px;padding:6px 24px;border-radius:9px;background:var(--cta-red);color:#fff !important;font-weight:700;font-size:15.5px;text-decoration:none;white-space:nowrap;box-shadow:0 4px 14px rgba(179,38,30,.3);}
+@media(max-width:700px){.mini-phone{font-size:20px;}}
+@media(max-width:560px){
+  #sdhMiniHeader{gap:6px;padding:6px 8px;}
+  .mini-brand img{width:36px;height:36px;}
+  .mini-brand .mini-name{display:none;}
+  .mini-menu{padding:6px 10px;}
+  .mini-menu .mini-menu-label{display:none;}
+  .mini-phone{font-size:0;gap:0;padding:6px 2px;}
+  .mini-phone .mini-phone-num{font-size:18px;}
+  .mini-cta,.mini-sms{min-width:0;padding:6px 15px;font-size:14px;}
+}
 
 /* --- mobile / all-pages menu drawer --- */
 #sdhDrawerScrim{position:fixed;inset:0;z-index:1000004;background:rgba(15,10,4,.55);opacity:0;transition:opacity .22s ease;}
@@ -1338,9 +1343,7 @@ body.darkmode .mini-sms{border-color:var(--brass);color:var(--brass);}
 .drawer-close:hover{background:var(--canvas-alt);}
 .drawer-ctas{display:flex;gap:10px;padding:14px 16px;border-bottom:1px solid var(--line);}
 .drawer-ctas a{flex:1;display:flex;align-items:center;justify-content:center;min-height:48px;border-radius:10px;font-family:var(--font-sans);font-size:14.5px;font-weight:700;text-decoration:none;text-align:center;padding:6px 10px;}
-.drawer-ctas .d-call{background:var(--cta-red);color:#fff;box-shadow:0 4px 14px rgba(179,38,30,.3);}
-.drawer-ctas .d-sms{border:1.5px solid var(--walnut);color:var(--walnut);}
-body.darkmode .drawer-ctas .d-sms{border-color:var(--brass);color:var(--brass);}
+.drawer-ctas .d-call,.drawer-ctas .d-sms{background:var(--cta-red);color:#fff;box-shadow:0 4px 14px rgba(179,38,30,.3);}
 .drawer-note{padding:10px 18px 2px;font-size:12.5px;line-height:1.5;color:var(--ink-soft);}
 #sdhDrawer nav{padding:8px 8px 20px;}
 #sdhDrawer nav>a,#sdhDrawer summary{display:flex;align-items:center;min-height:48px;padding:8px 14px;border-radius:9px;font-family:var(--font-sans);font-size:16px;font-weight:600;color:var(--ink);text-decoration:none;cursor:pointer;}
@@ -1356,10 +1359,6 @@ body.darkmode .drawer-ctas .d-sms{border-color:var(--brass);color:var(--brass);}
 #sdhDrawer details a:hover{background:var(--canvas-alt);color:var(--ink);}
 #sdhDrawer details a[aria-current="page"]{color:var(--brass-deep);font-weight:700;}
 .drawer-foot{margin-top:auto;padding:14px 18px 22px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:12px;}
-.drawer-theme{display:flex;align-items:center;gap:10px;min-height:48px;padding:8px 14px;border:1px solid var(--line);border-radius:10px;background:var(--canvas-alt);color:var(--ink);font-family:var(--font-sans);font-size:15px;font-weight:700;cursor:pointer;text-align:left;}
-.drawer-theme:hover{border-color:var(--brass);}
-.drawer-theme .theme-ico{font-size:17px;line-height:1;}
-.drawer-foot .d-youtube{display:flex;align-items:center;gap:9px;font-size:15px;font-weight:700;color:var(--ink);text-decoration:none;min-height:44px;}
 .drawer-foot .d-email{font-size:14px;color:var(--ink-soft);text-decoration:none;word-break:break-all;min-height:44px;display:flex;align-items:center;}
 .drawer-foot a:hover{color:var(--brass-deep);}
 html.sdh-lock,html.sdh-lock body{overflow:hidden;}
@@ -1378,15 +1377,14 @@ html.sdh-lock,html.sdh-lock body{overflow:hidden;}
     </span>
   </a>
   <div class="mast-actions">
-    <div class="mast-contact">
-      <a class="mast-phone" href="tel:+18586990072">
-        <span class="mast-phone-label">Call</span>
-        <span class="mast-phone-num">858-699-0072</span>
-      </a>
-      <a class="mast-email" href="sms:+18586990072">Text Floor Photos</a>
-      <a class="mast-email" href="mailto:sandiegohardwoods@gmail.com">sandiegohardwoods@gmail.com</a>
+    <a class="mast-phone" href="tel:+18586990072" aria-label="Call 858-699-0072">
+      <span class="mast-phone-num">858-699-0072</span>
+    </a>
+    <div class="mast-ctas">
+      <a class="btn btn-call" href="tel:+18586990072">Call &mdash; Free Assessment</a>
+      <a class="btn btn-call" href="sms:+18586990072">Text Floor Photos</a>
     </div>
-    <a class="btn btn-call mast-cta" href="sms:+18586990072">Text Photos &mdash; Free Assessment</a>
+    <a class="mast-email" href="mailto:sandiegohardwoods@gmail.com">sandiegohardwoods@gmail.com</a>
   </div>
 </div>
 
@@ -1418,16 +1416,13 @@ html.sdh-lock,html.sdh-lock body{overflow:hidden;}
         <button type="button" class="nav-drop-btn" aria-expanded="false" aria-controls="sdhMenuVideos">Videos <span class="chev" aria-hidden="true">&#9662;</span></button>
         <ul class="nav-drop" id="sdhMenuVideos">
           <li><a data-nav="videos_of_refinishing_process" href="https://www.sdhardwoods.com/videos_of_refinishing_process.html">Refinishing Process Videos</a></li>
-          <li><a href="https://www.youtube.com/@sandiegohardwoods" target="_blank" rel="noopener">Watch Our Work on YouTube &#8599;</a></li>
         </ul>
       </li>
       <li><a data-nav="about_us" href="https://www.sdhardwoods.com/about_us.html">About</a></li>
       <li><a data-nav="blog" href="https://www.sdhardwoods.com/blog.html">Blog</a></li>
       <li><a data-nav="contact_us" href="https://www.sdhardwoods.com/contact_us.html">Contact</a></li>
     </ul>
-    <a class="nav-youtube" href="https://www.youtube.com/@sandiegohardwoods" target="_blank" rel="noopener" title="San Diego Hardwoods on YouTube (opens in a new tab)"><span class="yt-ico" aria-hidden="true"><svg viewBox="0 0 28 20" width="21" height="15" focusable="false"><path fill="#FF0000" d="M27.4 3.1A3.5 3.5 0 0 0 25 .6C22.9 0 14 0 14 0S5.1 0 3 .6A3.5 3.5 0 0 0 .6 3.1 36.6 36.6 0 0 0 0 10a36.6 36.6 0 0 0 .6 6.9A3.5 3.5 0 0 0 3 19.4c2.1.6 11 .6 11 .6s8.9 0 11-.6a3.5 3.5 0 0 0 2.4-2.5A36.6 36.6 0 0 0 28 10a36.6 36.6 0 0 0-.6-6.9z"/><path fill="#fff" d="M11.2 14.3 18.5 10l-7.3-4.3z"/></svg></span>Watch on YouTube</a>
     <button id="sdhMenuBtn" type="button" aria-expanded="false" aria-controls="sdhDrawer"><span aria-hidden="true">&#9776;</span> Menu</button>
-    <a id="sdhNavCall" href="tel:+18586990072"><span aria-hidden="true">&#9742;</span> Call 858-699-0072</a>
   </div>
 </nav>
 </header>
@@ -1438,10 +1433,10 @@ html.sdh-lock,html.sdh-lock body{overflow:hidden;}
     <span class="mini-name">San Diego Hardwoods</span>
   </a>
   <div class="mini-actions">
-    <button type="button" class="mini-menu" aria-expanded="false" aria-controls="sdhDrawer"><span aria-hidden="true">&#9776;</span> Menu</button>
+    <button type="button" class="mini-menu" aria-expanded="false" aria-controls="sdhDrawer"><span aria-hidden="true">&#9776;</span><span class="mini-menu-label"> Menu</span></button>
     <a class="mini-phone" href="tel:+18586990072"><span aria-hidden="true">&#9742;</span><span class="mini-phone-num">858-699-0072</span></a>
-    <a class="mini-sms" href="sms:+18586990072">Text Floor Photos</a>
-    <a class="mini-cta" href="tel:+18586990072">Call &mdash; Free Assessment</a>
+    <a class="mini-cta" href="tel:+18586990072" aria-label="Call &mdash; Free Assessment">Call</a>
+    <a class="mini-sms" href="sms:+18586990072" aria-label="Text Floor Photos">Text</a>
   </div>
 </div>
 
@@ -1476,15 +1471,12 @@ html.sdh-lock,html.sdh-lock body{overflow:hidden;}
     <details open>
       <summary>Videos</summary>
       <a data-nav="videos_of_refinishing_process" href="https://www.sdhardwoods.com/videos_of_refinishing_process.html">Refinishing Process Videos</a>
-      <a href="https://www.youtube.com/@sandiegohardwoods" target="_blank" rel="noopener">Watch Our Work on YouTube &#8599;</a>
     </details>
     <a data-nav="about_us" href="https://www.sdhardwoods.com/about_us.html">About</a>
     <a data-nav="blog" href="https://www.sdhardwoods.com/blog.html">Blog</a>
     <a data-nav="contact_us" href="https://www.sdhardwoods.com/contact_us.html">Contact</a>
   </nav>
   <div class="drawer-foot">
-    <button type="button" class="drawer-theme sdh-theme-btn" aria-pressed="false"><span class="theme-ico" aria-hidden="true">&#9790;</span><span class="theme-label">Use Dark Appearance</span></button>
-    <a class="d-youtube" href="https://www.youtube.com/@sandiegohardwoods" target="_blank" rel="noopener"><span class="yt-ico" aria-hidden="true"><svg viewBox="0 0 28 20" width="22" height="16" focusable="false"><path fill="#FF0000" d="M27.4 3.1A3.5 3.5 0 0 0 25 .6C22.9 0 14 0 14 0S5.1 0 3 .6A3.5 3.5 0 0 0 .6 3.1 36.6 36.6 0 0 0 0 10a36.6 36.6 0 0 0 .6 6.9A3.5 3.5 0 0 0 3 19.4c2.1.6 11 .6 11 .6s8.9 0 11-.6a3.5 3.5 0 0 0 2.4-2.5A36.6 36.6 0 0 0 28 10a36.6 36.6 0 0 0-.6-6.9z"/><path fill="#fff" d="M11.2 14.3 18.5 10l-7.3-4.3z"/></svg></span>Watch Our Work on YouTube</a>
     <a class="d-email" href="mailto:sandiegohardwoods@gmail.com">sandiegohardwoods@gmail.com</a>
   </div>
 </aside>
@@ -1629,7 +1621,7 @@ html.sdh-lock,html.sdh-lock body{overflow:hidden;}
   <p>Five recent projects, each shown before and after: solid white oak refinishing and a matching staircase in Mission Hills, sun-faded Brazilian cherry restored in El Cajon, engineered maple renewed in a Del Mar beachfront condo, and a failed DIY red oak refinish rescued with a modern gray stain in La Jolla &mdash; real restoration, repairs, and specialty finishes from homes across San Diego County.</p>
   <div class="cta-row">
     <a class="btn btn-call" href="tel:+18586990072">&#9742; Call 858-699-0072</a>
-    <a class="btn btn-outline" href="sms:+18586990072">Text Floor Photos</a>
+    <a class="btn btn-call" href="sms:+18586990072">Text Floor Photos</a>
   </div>
 </section>
 
@@ -1698,7 +1690,7 @@ html.sdh-lock,html.sdh-lock body{overflow:hidden;}
     <a class="btn btn-outline" href="https://www.sdhardwoods.com/">Hardwood Floor Refinishing in San Diego &mdash; Home &rarr;</a>
     <a class="btn btn-outline" href="https://www.sdhardwoods.com/solid_wood_floor_photo_gallery.html">Solid &amp; Engineered Wood Floor Installation &rarr;</a>
     <a class="btn btn-call" href="tel:+18586990072">Call 858-699-0072</a>
-    <a class="btn btn-outline" href="sms:+18586990072">Text Floor Photos</a>
+    <a class="btn btn-call" href="sms:+18586990072">Text Floor Photos</a>
   </div>
 </section>
 
@@ -1707,130 +1699,13 @@ html.sdh-lock,html.sdh-lock body{overflow:hidden;}
   <div class="f-name">San Diego Hardwoods</div>
   <p>Owner Operated Since 1990 &bull; 35+ Years of Hardwood Flooring Craftsmanship<br>Licensed, Bonded &amp; Insured California Flooring Contractor &bull; Bona Certified Craftsman</p>
   <p>Specializing in Dust Containment Sanding, Hardwood Floor Refinishing, Repairs, Deep Cleaning, Custom Installation, Wire-Brushed &amp; Oil-Finished Hardwood Floors throughout San Diego County. Proudly serving La Jolla, Del Mar, Rancho Santa Fe, Encinitas, Solana Beach, Carmel Valley, Carlsbad, Oceanside, Poway, Rancho Bernardo and all of San Diego County.</p>
-  <div class="f-call"><a href="sms:+18586990072">Text Photos for a Free Assessment</a><span class="f-call-sep" aria-hidden="true">|</span><a href="tel:+18586990072">Call 858-699-0072</a><span class="f-call-sep" aria-hidden="true">|</span><a href="mailto:sandiegohardwoods@gmail.com" style="color:var(--cta-red);">sandiegohardwoods@gmail.com</a></div>
+  <a class="f-num" href="tel:+18586990072">858-699-0072</a>
+  <div class="f-ctas"><a class="btn btn-call" href="tel:+18586990072">Call &mdash; Free Assessment</a><a class="btn btn-call" href="sms:+18586990072">Text Floor Photos</a></div>
+  <p><a class="f-email" href="mailto:sandiegohardwoods@gmail.com">sandiegohardwoods@gmail.com</a></p>
   <p>Based in Carmel Valley, San Diego 92130 &bull; CSLB-Licensed California Flooring Contractor</p>
   <p class="f-links"><a href="https://www.sdhardwoods.com/floor-assessments-inspections.html">Floor Assessments &amp; Inspections</a> &bull; <a href="https://www.bona.com/en-us/homeowner/find-a-contractor/contractor-details/?storeid=83667" target="_blank" rel="noopener nofollow">Verify Our Bona Certified Craftsman Status</a></p>
   <div class="copyright">&copy; 2026 San Diego Hardwoods. All Rights Reserved.</div>
 </footer>
-
-<!-- SDH explore bar (Milestone 2.1 redesign): a refined translucent bar that invites
-     visitors to the site's real project destinations. Behavior contract:
-     - NEVER visible over the initial hero: it appears only after the visitor has
-       scrolled far enough that the hero (and its CTA buttons) is fully above the
-       bar's own strip of the viewport, and it hides again while the footer is on
-       screen so it never sits on top of footer links.
-     - Fixed near the bottom center once shown; respects mobile safe areas.
-     - Dismissable (persists for the browser session via sessionStorage).
-     - Rotating destination messages pause on hover and keyboard focus.
-     - prefers-reduced-motion: no glow pulse, no float, no message rotation.
-     The old floating "Toggle Light Mode" button that lived in this partial was removed;
-     theme control now lives in the menu drawer (see top.html + darkmode_boot_scripts.html). -->
-<style>
-#sdhExplore{position:fixed;left:50%;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:999899;display:flex;align-items:center;gap:12px;width:min(680px,94vw);padding:9px 10px 9px 18px;border-radius:18px;color:#dbe7f3;background:rgba(15,21,31,.82);-webkit-backdrop-filter:blur(10px) saturate(1.15);backdrop-filter:blur(10px) saturate(1.15);border:1px solid rgba(108,176,230,.5);box-shadow:0 0 0 1px rgba(56,120,180,.14),0 12px 32px rgba(4,9,17,.5),0 0 16px rgba(72,142,205,.2);opacity:0;visibility:hidden;transform:translate(-50%,16px);pointer-events:none;transition:opacity .35s ease,transform .35s ease,visibility .35s;}
-#sdhExplore.show{opacity:1;visibility:visible;transform:translate(-50%,0);pointer-events:auto;animation:sdhExplorePulse 7s ease-in-out infinite,sdhExploreFloat 9s ease-in-out infinite;}
-#sdhExplore:hover,#sdhExplore:focus-within{animation-play-state:paused,paused;}
-@keyframes sdhExplorePulse{
-  0%,100%{box-shadow:0 0 0 1px rgba(56,120,180,.14),0 12px 32px rgba(4,9,17,.5),0 0 16px rgba(72,142,205,.2);border-color:rgba(108,176,230,.5);}
-  50%{box-shadow:0 0 0 1px rgba(76,150,210,.24),0 12px 32px rgba(4,9,17,.5),0 0 26px rgba(92,168,235,.38);border-color:rgba(132,196,245,.72);}
-}
-@keyframes sdhExploreFloat{0%,100%{transform:translate(-50%,0);}50%{transform:translate(-50%,-3px);}}
-#sdhExplore .xp-eyebrow{flex:0 0 auto;font:700 10.5px/1.3 var(--font-sans);letter-spacing:2.1px;text-transform:uppercase;color:#8fc4ee;padding-right:14px;border-right:1px solid rgba(120,180,230,.3);}
-#sdhExplore .xp-link{flex:1 1 auto;display:flex;align-items:center;justify-content:center;gap:9px;min-height:44px;padding:4px 6px;font-family:var(--font-serif);font-size:15.5px;line-height:1.35;color:#f0f6fc;text-decoration:none;text-align:center;border-radius:10px;}
-#sdhExplore .xp-link:hover{color:#aed7f8;}
-#sdhExplore .xp-link:focus-visible,#sdhExplore .xp-close:focus-visible{outline:2px solid #8fc9f6;outline-offset:2px;}
-#sdhExplore .xp-link .xp-arrow{font-size:13px;color:#8fc4ee;flex:0 0 auto;}
-#sdhExplore .xp-text{transition:opacity .2s ease;}
-#sdhExplore .xp-close{flex:0 0 auto;display:flex;align-items:center;justify-content:center;width:44px;height:44px;border:none;background:none;color:#b7c9da;font-size:15px;cursor:pointer;opacity:.75;border-radius:12px;}
-#sdhExplore .xp-close:hover{opacity:1;background:rgba(255,255,255,.09);color:#fff;}
-@media(max-width:560px){#sdhExplore .xp-eyebrow{display:none;}#sdhExplore{padding-left:10px;gap:6px;}#sdhExplore .xp-link{font-size:13.5px;}}
-@media (prefers-reduced-motion: reduce){
-  #sdhExplore,#sdhExplore.show{transition:none;animation:none;}
-  #sdhExplore .xp-text{transition:none;}
-}
-</style>
-<div id="sdhExplore" role="complementary" aria-label="Explore real San Diego Hardwoods projects">
-  <span class="xp-eyebrow" aria-hidden="true">Explore Real Projects</span>
-  <a class="xp-link" id="sdhExploreLink" href="https://www.sdhardwoods.com/recent_project_photo_gallery_1.html"><span class="xp-arrow" aria-hidden="true">&rarr;</span><span class="xp-text" id="sdhExploreText">See Before-and-After Hardwood Floor Transformations</span></a>
-  <button type="button" class="xp-close" aria-label="Dismiss explore bar">&#10005;</button>
-</div>
-<script>
-(function(){
-  var bar = document.getElementById("sdhExplore");
-  if (!bar) return;
-  try { if (sessionStorage.getItem("sdhScrollClosed")) { bar.remove(); return; } } catch(e){}
-
-  var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  var link = document.getElementById("sdhExploreLink");
-  var txt = document.getElementById("sdhExploreText");
-
-  /* Real, useful site destinations -- every message is a working link. */
-  var messages = [
-    { text: "See Before-and-After Hardwood Floor Transformations", href: "https://www.sdhardwoods.com/recent_project_photo_gallery_1.html" },
-    { text: "Watch Dust-Contained Refinishing on Real Projects", href: "https://www.sdhardwoods.com/videos_of_refinishing_process.html" },
-    { text: "Repairs and Restoration — Real Project Results", href: "https://www.sdhardwoods.com/recent_project_photo_gallery_4.html" },
-    { text: "Deep Cleaning and Recoating — When Sanding Isn’t Needed", href: "https://www.sdhardwoods.com/deep-cleaning-hardwood-floors-san-diego.html" },
-    { text: "Solid Hardwood Installation Projects", href: "https://www.sdhardwoods.com/solid_wood_floor_photo_gallery.html" },
-    { text: "Browse Five Detailed Project Galleries", href: "https://www.sdhardwoods.com/recent_project_photo_gallery_2.html" },
-    { text: "Watch Our Refinishing Videos", href: "https://www.sdhardwoods.com/videos_of_refinishing_process.html" }
-  ];
-  var i = 0, paused = false, timer = null;
-
-  function apply(idx){
-    var m = messages[idx];
-    txt.textContent = m.text;
-    link.setAttribute("href", m.href);
-  }
-  apply(0);
-
-  function rotate(){
-    if (paused || document.hidden || !bar.classList.contains("show")) return;
-    i = (i + 1) % messages.length;
-    txt.style.opacity = 0;
-    setTimeout(function(){ apply(i); txt.style.opacity = 1; }, 200);
-  }
-  if (!reduceMotion) {
-    timer = setInterval(rotate, 6000);
-    bar.addEventListener("mouseenter", function(){ paused = true; });
-    bar.addEventListener("mouseleave", function(){ paused = false; });
-    bar.addEventListener("focusin", function(){ paused = true; });
-    bar.addEventListener("focusout", function(){ paused = false; });
-  }
-
-  /* Visibility: shown only once the hero (and its CTA buttons) sits fully above the
-     bar's strip of the viewport, and hidden again while the footer is on screen. */
-  var hero = document.querySelector(".hero");
-  var footerVisible = false;
-  var CLEARANCE = 130; /* px of viewport bottom the bar occupies, incl. margin */
-
-  function heroCleared(){
-    if (!hero) return true;
-    var r = hero.getBoundingClientRect();
-    return r.bottom < window.innerHeight - CLEARANCE;
-  }
-  function update(){
-    /* require real scrolling too, so the bar never appears on initial load even on
-       pages whose hero is short enough to clear the bar's strip at scroll 0 */
-    bar.classList.toggle("show", window.scrollY > 250 && heroCleared() && !footerVisible);
-  }
-  window.addEventListener("scroll", update, { passive: true });
-  window.addEventListener("resize", update, { passive: true });
-  update();
-
-  var footer = document.querySelector("footer.sdh-footer");
-  if (footer && "IntersectionObserver" in window) {
-    new IntersectionObserver(function(entries){
-      footerVisible = entries[0].isIntersecting;
-      update();
-    }, { threshold: 0 }).observe(footer);
-  }
-
-  bar.querySelector(".xp-close").addEventListener("click", function(){
-    bar.remove();
-    if (timer) clearInterval(timer);
-    try { sessionStorage.setItem("sdhScrollClosed", "1"); } catch(e){}
-  });
-})();
-</script>
 
 <!-- SDH in-page photo lightbox. Intercepts clicks on gallery photos (any <a> inside .gallery
      whose href points to an image file) and shows them in a full-screen JS overlay with
@@ -1839,24 +1714,31 @@ html.sdh-lock,html.sdh-lock body{overflow:hidden;}
      (e.g. the "Home"/"Contact"/"Next Page" nav-button widgets that also use the .gallery
      class on the blog and deep-cleaning pages) are left alone and navigate normally. -->
 <style>
-#sdhLightbox{position:fixed;inset:0;z-index:1000000;background:rgba(10,8,5,.92);display:none;align-items:center;justify-content:center;padding:24px;}
+#sdhLightbox{position:fixed;inset:0;z-index:1000000;background:rgba(10,8,5,.92);display:none;align-items:center;justify-content:center;padding:12px;}
 #sdhLightbox.open{display:flex;}
-#sdhLightbox .sdh-lb-frame{position:relative;max-width:min(1200px,94vw);max-height:90vh;display:flex;flex-direction:column;align-items:center;}
-#sdhLightbox img{max-width:100%;max-height:78vh;object-fit:contain;border-radius:8px;box-shadow:0 20px 60px rgba(0,0,0,.5);background:#111;}
-#sdhLightbox .sdh-lb-caption{color:#f3ead9;font-family:var(--font-sans);font-size:14px;margin-top:14px;text-align:center;max-width:80vw;}
+#sdhLightbox .sdh-lb-frame{position:relative;max-width:min(1400px,96vw);max-height:94vh;display:flex;flex-direction:column;align-items:center;}
+#sdhLightbox img{max-width:100%;max-height:84vh;object-fit:contain;border-radius:8px;box-shadow:0 20px 60px rgba(0,0,0,.5);background:#111;}
+#sdhLightbox img:fullscreen{max-height:100vh;border-radius:0;}
+#sdhLightbox .sdh-lb-caption{color:#f3ead9;font-family:var(--font-sans);font-size:14px;margin-top:12px;text-align:center;max-width:80vw;}
 #sdhLightbox .sdh-lb-counter{color:#cbb98d;font-size:12px;margin-top:6px;}
 #sdhLightbox button{position:fixed;background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.35);border-radius:50%;width:48px;height:48px;min-height:44px;font-size:22px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;}
 #sdhLightbox button:hover{background:rgba(255,255,255,.24);}
 #sdhLightbox .sdh-lb-close{top:20px;right:20px;}
+#sdhLightbox .sdh-lb-full{top:20px;right:80px;font-size:18px;}
 #sdhLightbox .sdh-lb-prev{left:12px;top:50%;transform:translateY(-50%);}
 #sdhLightbox .sdh-lb-next{right:12px;top:50%;transform:translateY(-50%);}
 @media(max-width:640px){
+  /* Owner spec: near-fullscreen on phones */
+  #sdhLightbox{padding:4px;}
+  #sdhLightbox img{max-height:80vh;}
   #sdhLightbox button{width:40px;height:40px;font-size:18px;}
   #sdhLightbox .sdh-lb-close{top:10px;right:10px;}
+  #sdhLightbox .sdh-lb-full{top:10px;right:60px;}
 }
 </style>
 <div id="sdhLightbox" role="dialog" aria-modal="true" aria-label="Photo viewer">
   <button type="button" class="sdh-lb-close" aria-label="Close photo viewer">&#10005;</button>
+  <button type="button" class="sdh-lb-full" aria-label="View photo fullscreen">&#9974;</button>
   <button type="button" class="sdh-lb-prev" aria-label="Previous photo">&#8249;</button>
   <button type="button" class="sdh-lb-next" aria-label="Next photo">&#8250;</button>
   <div class="sdh-lb-frame">
@@ -1875,7 +1757,10 @@ html.sdh-lock,html.sdh-lock body{overflow:hidden;}
     if(!IMG_RE.test(href)) return;
     var img = a.querySelector("img");
     var alt = img ? (img.getAttribute("alt") || "") : "";
-    items.push({ href: href, alt: alt, caption: a.getAttribute("data-caption") || alt, link: a });
+    /* existing photo numbering: the figure's .gallery-badge (#N) when present */
+    var badge = a.closest("figure") ? a.closest("figure").querySelector(".gallery-badge") : null;
+    var num = badge ? badge.textContent.trim() : "";
+    items.push({ href: href, alt: alt, caption: a.getAttribute("data-caption") || alt, num: num, link: a });
   });
   if(!items.length) return;
 
@@ -1884,6 +1769,7 @@ html.sdh-lock,html.sdh-lock body{overflow:hidden;}
   var lbCaption = document.getElementById("sdhLightboxCaption");
   var lbCounter = document.getElementById("sdhLightboxCounter");
   var closeBtn = lb.querySelector(".sdh-lb-close");
+  var fullBtn = lb.querySelector(".sdh-lb-full");
   var prevBtn = lb.querySelector(".sdh-lb-prev");
   var nextBtn = lb.querySelector(".sdh-lb-next");
   var current = 0;
@@ -1895,7 +1781,7 @@ html.sdh-lock,html.sdh-lock body{overflow:hidden;}
     lbImg.src = item.href;
     lbImg.alt = item.alt;
     lbCaption.textContent = item.caption;
-    lbCounter.textContent = (current + 1) + " / " + items.length;
+    lbCounter.textContent = (item.num ? item.num + " \u00B7 " : "") + (current + 1) + " / " + items.length;
   }
   function open(i){
     lastFocused = document.activeElement;
@@ -1908,6 +1794,7 @@ html.sdh-lock,html.sdh-lock body{overflow:hidden;}
     lb.classList.remove("open");
     document.body.style.overflow = "";
     lbImg.src = "";
+    if(document.fullscreenElement && document.exitFullscreen) document.exitFullscreen();
     if(lastFocused && lastFocused.focus) lastFocused.focus();
   }
 
@@ -1919,6 +1806,13 @@ html.sdh-lock,html.sdh-lock body{overflow:hidden;}
   });
 
   closeBtn.addEventListener("click", close);
+  fullBtn.addEventListener("click", function(){
+    if(document.fullscreenElement){
+      if(document.exitFullscreen) document.exitFullscreen();
+    } else if(lbImg.requestFullscreen){
+      lbImg.requestFullscreen();
+    }
+  });
   prevBtn.addEventListener("click", function(){ show(current - 1); });
   nextBtn.addEventListener("click", function(){ show(current + 1); });
   lb.addEventListener("click", function(e){ if(e.target === lb) close(); });

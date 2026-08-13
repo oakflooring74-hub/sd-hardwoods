@@ -1,4 +1,4 @@
-<style id="sdh-darkmode-css" type="text/css">
+<style id="sdh-site-tokens" type="text/css">
 :root{
   --canvas:#f8f4ec; --canvas-alt:#f1e9da; --ink:#2a2118; --ink-soft:#5c4f42;
   --walnut:#4b2e06; --brass:#b8863f; --brass-soft:#caa56a; --brass-deep:#8c6420;
@@ -8,19 +8,10 @@
   --font-serif:'Palatino Linotype','Book Antiqua',Palatino,Cambria,Georgia,serif;
   --font-sans:'Segoe UI',system-ui,-apple-system,'Helvetica Neue',Arial,sans-serif;
 }
-/* html.sdh-dark carries the same variable overrides as body.darkmode. The boot
-   script sets it synchronously in <head> (before <body> exists), so the dark canvas
-   paints from the very first frame -- body.darkmode then lands on DOMContentLoaded
-   for every component rule that keys off it. Keep the two blocks identical. */
-html.sdh-dark, body.darkmode{
-  --canvas:#1b1712; --canvas-alt:#221d16; --ink:#f2ece0; --ink-soft:#cdbfa8;
-  --walnut:#d9b374; --brass:#d9b374; --brass-soft:#e7c98d; --brass-deep:#d9b374;
-  --cta-red:#ff5147; --cta-red-dark:#ff8078; --line:#3a2f22; --card-bg:#241f18;
-  --util-bg:#0d0a06; --util-ink:#cbb98d;
-  --nav-bg:#14100a; --nav-ink:#d9c49a; --nav-ink-strong:#f6ecd8; --nav-hover:rgba(217,179,116,.1); --nav-line:#2c2214;
-}
-/* The floating light/dark toggle (#sdh-toggle) was removed in Milestone 2.1 --
-   theme control now lives inside the menu drawer (.sdh-theme-btn in top.html). */
+/* Direction 1 "Workshop Billboard" (2026-08-13 visual-proof checkpoint): the site is
+   light-only. The dark-default boot script, the html.sdh-dark/body.darkmode variable
+   overrides, and the drawer theme toggle were removed; --cta-red is reserved
+   exclusively for direct-contact controls (Call / Text Floor Photos). */
 </style>
 <style id="sdh-site-css" type="text/css">
 *{box-sizing:border-box;}
@@ -30,11 +21,10 @@ a{color:inherit;}
 [id]{scroll-margin-top:84px;}
 .sdh-wrap{max-width:1180px;margin:0 auto;padding:0 24px;}
 
-.btn{display:inline-block;font-weight:700;text-decoration:none;padding:14px 28px;border-radius:8px;font-size:17px;font-family:var(--font-sans);transition:transform .15s ease, box-shadow .15s ease;}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;font-weight:700;text-decoration:none;padding:14px 28px;border-radius:8px;font-size:17px;font-family:var(--font-sans);transition:transform .15s ease, box-shadow .15s ease;}
 .btn:hover{transform:translateY(-1px);}
 .btn-call{background:var(--cta-red);color:#fff !important;box-shadow:0 6px 18px rgba(179,38,30,.35);}
 .btn-outline{background:transparent;color:var(--walnut) !important;border:2px solid var(--walnut);}
-body.darkmode .btn-outline{color:var(--brass) !important;border-color:var(--brass);}
 .btn-yt{display:inline-flex;align-items:center;gap:10px;padding:11px 20px;min-height:44px;border:1px solid var(--line);border-radius:26px;background:var(--card-bg);color:var(--ink);font-family:var(--font-sans);font-weight:700;font-size:14.5px;text-decoration:none;box-shadow:0 3px 12px rgba(20,12,3,.08);transition:border-color .15s ease, transform .15s ease;}
 .btn-yt:hover{border-color:var(--brass);transform:translateY(-1px);}
 .btn-yt .yt-ico{display:inline-flex;align-items:center;}
@@ -43,28 +33,60 @@ body.darkmode .btn-outline{color:var(--brass) !important;border-color:var(--bras
 
 .hero{text-align:center;padding:52px 24px 40px;}
 .hero .kicker{font-family:var(--font-serif);font-style:italic;color:var(--brass-deep);font-size:19px;letter-spacing:1.2px;margin-bottom:10px;}
+/* Owner revision (2026-08-13): on phones the kicker duplicates the masthead tagline and
+   wastes first-viewport space -- hidden on small screens only; still in the DOM,
+   crawlable, and fully visible on desktop. */
+@media(max-width:1020px){.hero .kicker{display:none;}}
 .hero h1{font-family:var(--font-serif);font-size:40px;line-height:1.16;margin:0 0 18px;color:var(--ink);letter-spacing:.2px;}
 .hero p{font-size:18px;line-height:1.65;color:var(--ink-soft);max-width:820px;margin:0 auto 16px;}
 .hero .cta-row{margin-top:24px;display:flex;gap:16px;justify-content:center;flex-wrap:wrap;}
 
-/* homepage hero: brand-led copy + controlled-proportion video, side by side on desktop */
+/* homepage hero: brand-led copy + a single strong project photo, side by side on desktop.
+   Direction 1: no video in the first viewport -- the hero embed moved into the
+   dust-containment proof section below. */
 .hero-home{max-width:1180px;margin:0 auto;padding:44px 24px 26px;text-align:left;}
-.hero-grid{display:grid;grid-template-columns:minmax(0,1.06fr) minmax(0,.94fr);gap:44px;align-items:center;}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1.06fr) minmax(0,.94fr);gap:44px;align-items:start;}
 .hero-home .kicker{margin-bottom:8px;}
 .hero-home h1{font-size:37px;}
 .hero-home p{margin:0 0 14px;max-width:none;font-size:17.5px;}
 .hero-home .cta-row{justify-content:flex-start;margin-top:20px;}
 .hero-note{font-size:14px;color:var(--ink-soft);opacity:.9;margin-top:14px !important;}
 .hero-media{min-width:0;}
-.hero-media .video-frame{margin:0;}
-.hero-media-foot{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-top:14px;}
-.hero-media-caption{font-size:14px;color:var(--ink-soft);line-height:1.5;margin:0;}
-.hero-media-caption strong{color:var(--cta-red);}
+.hero-photo{position:relative;margin:0;border-radius:14px;overflow:hidden;border:1px solid var(--line);box-shadow:0 14px 38px rgba(43,26,5,.18);background:var(--canvas-alt);}
+/* Owner revision 2 (2026-08-13): no cropping -- the photo renders at its natural
+   aspect ratio, top-aligned with the hero copy, so the wide-angle shot keeps its
+   full impact and simply takes its natural length. */
+.hero-photo img{width:100%;height:auto;display:block;}
+.dust-badge{position:absolute;left:14px;bottom:14px;display:inline-flex;align-items:center;gap:8px;background:rgba(248,244,236,.96);border:1.5px solid var(--brass);color:var(--walnut);font-family:var(--font-sans);font-weight:800;font-size:13.5px;letter-spacing:.4px;padding:9px 14px;border-radius:10px;box-shadow:0 6px 18px rgba(20,12,3,.22);}
 @media(max-width:920px){
   .hero-grid{grid-template-columns:1fr;gap:28px;}
   .hero-home{padding:30px 20px 20px;}
   .hero-home h1{font-size:29px;}
-  .hero-home .cta-row .btn{width:100%;text-align:center;}
+  .hero-home .cta-row .btn{width:100%;}
+  /* Owner correction (2026-08-13): natural-length rendering is DESKTOP ONLY.
+     On mobile the photo is cropped to a fixed height so it doesn't run stupid long. */
+  .hero-photo img{height:420px;object-fit:cover;}
+}
+
+/* numbered project-index strip directly below the homepage hero (Direction 1 point 9):
+   neutral walnut, never red -- exploration subordinate to contact. Reuses the existing
+   approved gallery names; no new wording beyond the numerals. */
+.proj-index{max-width:1180px;margin:0 auto;padding:6px 24px 10px;}
+.proj-index ol{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(170px,100%),1fr));gap:10px;}
+.proj-index a{display:flex;align-items:center;gap:10px;min-height:48px;padding:8px 12px;background:var(--card-bg);border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);font-family:var(--font-sans);font-size:14px;font-weight:600;line-height:1.3;box-shadow:0 4px 14px rgba(20,12,3,.05);}
+.proj-index a:hover{border-color:var(--brass);}
+.proj-index .pi-num{font-family:var(--font-serif);font-weight:700;font-size:19px;color:var(--brass-deep);flex:0 0 auto;}
+
+/* repeated neutral contact band (Direction 1 points 10-11): twin red peer actions +
+   the number as plain live text. Existing approved wording only. */
+.contact-band{max-width:1180px;margin:10px auto;padding:26px 24px;display:flex;align-items:center;justify-content:center;gap:18px;flex-wrap:wrap;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--canvas-alt);}
+.contact-band .cb-num{font-family:var(--font-serif);font-weight:700;font-size:clamp(24px,4.5vw,32px);color:var(--ink);text-decoration:none;letter-spacing:1px;white-space:nowrap;}
+.contact-band .cb-num:hover{color:var(--cta-red);}
+.contact-band .cb-actions{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;}
+.contact-band .cb-actions .btn{padding:12px 24px;font-size:16px;}
+@media(max-width:640px){
+  .contact-band .cb-actions{width:100%;}
+  .contact-band .cb-actions .btn{flex:1 1 100%;}
 }
 
 section.block{padding:44px 24px;max-width:1180px;margin:0 auto;}
@@ -81,9 +103,8 @@ section.block .lede{text-align:center;color:var(--ink-soft);font-size:18px;max-w
 .cta-card .cta-media{flex:0 0 220px;text-align:center;}
 .cta-card .cta-media img{width:100%;max-width:220px;border-radius:10px;}
 
-.info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;margin-top:8px;}
+.info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:24px;margin-top:8px;}
 .info-grid .card h3{font-family:var(--font-serif);font-size:22px;margin:0 0 10px;color:var(--walnut);}
-body.darkmode .info-grid .card h3{color:var(--brass);}
 .info-grid .card p{color:var(--ink-soft);font-size:16px;line-height:1.6;margin:0 0 8px;}
 .info-grid ul{margin:0;padding-left:20px;color:var(--ink-soft);font-size:16px;line-height:1.8;}
 
@@ -92,12 +113,13 @@ body.darkmode .info-grid .card h3{color:var(--brass);}
 #heroVideoMount{position:relative;height:0;padding-top:56.25%;overflow:hidden;}
 .video-cta{text-align:center;margin-top:22px;}
 .video-cta p{font-size:17px;color:var(--ink-soft);margin:0 0 14px;}
+.video-proof{margin-top:30px;}
+.video-proof .video-proof-caption{text-align:center;font-size:14px;color:var(--ink-soft);margin:12px 0 0;}
 
 /* Bona Certified Craftsman credential band */
 .bona-band{display:flex;align-items:center;gap:34px;flex-wrap:wrap;border-top:3px solid var(--brass);}
 .bona-band .bona-seal{flex:0 0 148px;text-align:center;}
 .bona-band .bona-seal img{width:100%;max-width:148px;height:auto;display:block;margin:0 auto;}
-body.darkmode .bona-band .bona-seal img{background:#f4f1ea;border-radius:50%;padding:6px;}
 .bona-band .bona-copy{flex:1 1 420px;}
 .bona-band h2{text-align:left;margin:0 0 10px;}
 .bona-band p{font-size:16.5px;line-height:1.65;color:var(--ink-soft);margin:0 0 10px;}
@@ -134,48 +156,57 @@ body.darkmode .bona-band .bona-seal img{background:#f4f1ea;border-radius:50%;pad
 .gnav-links .gl-sep{opacity:.45;margin:0 10px;}
 
 .gallery-intro{text-align:center;margin-bottom:26px;}
-.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;}
+/* Direction 1: noticeably larger tiles; cards keep object-fit:contain so every photo is
+   shown whole -- on the light canvas the matted area reads as intentional, not broken
+   (audit S7 cosmetic fix). */
+.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(320px,100%),1fr));gap:18px;}
 .gallery figure{position:relative;margin:0;border-radius:10px;overflow:hidden;background:var(--card-bg);border:1px solid var(--line);}
 .gallery figure a{display:block;background:var(--canvas-alt);}
-.gallery img{width:100%;height:420px;object-fit:contain;background:var(--canvas-alt);display:block;transition:transform .35s ease;}
+.gallery img{width:100%;height:460px;object-fit:contain;background:var(--canvas-alt);display:block;transition:transform .35s ease;}
 .gallery figure:hover img{transform:scale(1.05);}
 .gallery figcaption{padding:10px 12px;font-size:13px;color:var(--ink-soft);line-height:1.4;}
 .gallery-badge{position:absolute;top:8px;left:8px;background:var(--walnut);color:#fff;font-weight:700;font-size:13px;line-height:1;padding:6px 10px;border-radius:20px;box-shadow:0 2px 8px rgba(0,0,0,.25);z-index:2;pointer-events:none;}
-body.darkmode .gallery-badge{background:var(--brass);color:#1b1712;}
+/* Direction 1: gallery 1-4 before/after module grids -- fixed two-column pairs on
+   desktop; single column on phones so the tiles stay large (mobile composition is
+   decided separately from desktop per the owner's standing rule). */
+.gallery.g-modules{grid-template-columns:repeat(2,1fr);}
+@media(max-width:640px){.gallery.g-modules{grid-template-columns:1fr;}}
 
 .gallery-progress{display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;margin:0 0 28px;padding:14px 20px;background:var(--card-bg);border:1px solid var(--line);border-radius:12px;}
 .gallery-progress .gp-dots{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;}
 .gallery-progress .gp-dots a{display:flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:var(--canvas-alt);color:var(--ink-soft);font-weight:700;font-size:14px;text-decoration:none;border:1px solid var(--line);}
 .gallery-progress .gp-dots a.active{background:var(--walnut);color:#fff;border-color:var(--walnut);}
-body.darkmode .gallery-progress .gp-dots a.active{background:var(--brass);color:#1b1712;}
 .gallery-progress .gp-label{font-weight:700;color:var(--ink);font-size:14px;white-space:nowrap;}
 .gallery-progress a.gp-prev, .gallery-progress a.gp-next{font-weight:700;color:var(--walnut);text-decoration:none;font-size:14px;padding:10px 4px;min-height:44px;display:flex;align-items:center;}
 .gallery-progress .gp-disabled{color:var(--ink-soft);opacity:.4;font-weight:700;font-size:14px;padding:10px 4px;min-height:44px;display:flex;align-items:center;}
-body.darkmode .gallery-progress a.gp-prev, body.darkmode .gallery-progress a.gp-next{color:var(--brass);}
 @media(max-width:640px){.gallery-progress{gap:10px;padding:12px;} .gallery-progress .gp-dots a{width:30px;height:30px;font-size:13px;}}
 
 .service-list{columns:2;column-gap:50px;padding-left:20px;font-size:16px;line-height:1.9;color:var(--ink-soft);}
 @media(max-width:640px){.service-list{columns:1;}}
 
-.blog-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:24px;}
+.blog-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr));gap:24px;}
 .blog-list .card h3{font-family:var(--font-serif);font-size:21px;margin:0 0 10px;}
 .blog-list .card img{width:100%;height:190px;object-fit:cover;border-radius:8px;margin-bottom:14px;}
 
 footer.sdh-footer{background:var(--canvas-alt);border-top:1px solid var(--line);padding:48px 24px 28px;text-align:center;margin-top:40px;}
 footer.sdh-footer .f-name{font-family:var(--font-serif);font-size:26px;font-weight:700;color:var(--ink);}
 footer.sdh-footer p{color:var(--ink-soft);font-size:15px;max-width:760px;margin:8px auto;line-height:1.6;}
-footer.sdh-footer .f-call{font-size:22px;font-weight:700;margin:16px 0;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:6px 14px;max-width:100%;}
-footer.sdh-footer .f-call a{color:var(--cta-red);text-decoration:none;word-break:break-word;overflow-wrap:anywhere;}
-footer.sdh-footer .f-call .f-call-sep{opacity:.5;}
+/* Direction 1: the number as plain large live text + twin red peer actions; email quiet. */
+footer.sdh-footer .f-num{display:block;font-family:var(--font-serif);font-size:clamp(28px,5vw,38px);font-weight:700;color:var(--ink);text-decoration:none;letter-spacing:1px;margin:14px 0 4px;}
+footer.sdh-footer .f-num:hover{color:var(--cta-red);}
+footer.sdh-footer .f-ctas{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:12px;margin:12px 0 6px;}
+footer.sdh-footer .f-ctas .btn{padding:12px 26px;font-size:16px;}
+footer.sdh-footer .f-email{font-size:14px;color:var(--ink-soft);text-decoration:none;}
+footer.sdh-footer .f-email:hover{text-decoration:underline;color:var(--ink);}
 footer.sdh-footer .f-links a{color:var(--walnut);text-decoration:underline;font-weight:600;}
-body.darkmode footer.sdh-footer .f-links a{color:var(--brass);}
 footer.sdh-footer .copyright{font-size:13px;opacity:.6;margin-top:22px;}
+@media(max-width:640px){footer.sdh-footer .f-ctas .btn{flex:1 1 100%;}}
 
 @media(max-width:760px){
   .hero h1{font-size:30px;}
   section.block h1{font-size:28px;}
   section.block h2{font-size:26px;}
-  .gallery img{height:240px;}
+  .gallery img{height:280px;}
 }
 
 @media (prefers-reduced-motion: reduce){

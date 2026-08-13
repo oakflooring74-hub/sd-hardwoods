@@ -4,7 +4,7 @@ from pathlib import Path
 
 BUILD = Path(__file__).resolve().parent.parent.parent  # -> build/
 sys.path.insert(0, str(BUILD / "scripts" / "common"))
-from assemble_page import assemble, gallery_progress_html
+from assemble_page import assemble, gallery_progress_html, interleave_contact_bands
 from public_business_rules import build_service_page_jsonld, build_gallery_media_graph, split_title_desc
 
 SCRATCH = str(BUILD)  # unused after this point but kept for reference
@@ -22,10 +22,8 @@ HEAD_META = """<title>Hardwood Floor Refinishing Before &amp; After | San Diego<
 <link href="/favicon-192.ico" rel="icon" sizes="192x192" type="image/x-icon">
 <link href="/favicon-512.ico" rel="icon" sizes="512x512" type="image/x-icon">
 <link href="/LOGO-2025.png" rel="apple-touch-icon" sizes="180x180">
-<meta name="theme-color" content="#4b2e06">
-<link href="/LOGO-2025.png" rel="logo" type="image/png">
-<link href="/assets/legacy-css/mc_global.195798.css" id="globalCSS" media="screen" rel="stylesheet" type="text/css">
-<link href="/assets/legacy-css/theme.css" id="themeCSS" media="screen" rel="stylesheet" type="text/css">"""
+<meta name="theme-color" content="#f8f4ec">
+<link href="/LOGO-2025.png" rel="logo" type="image/png">"""
 
 # Gallery-media schema milestone (2026-07-23): document each real before/after
 # project as CreativeWork + paired ImageObject, wrapped in an ItemList -- the
@@ -112,13 +110,17 @@ def module_html(m, idx):
     return f"""
 <div class="card" style="margin-bottom:24px;">
   <h3>{title}</h3>
-  <div class="gallery" style="grid-template-columns:repeat(2,1fr);">
+  <div class="gallery g-modules">
     {fig(before, "Before")}
     {fig(after, "After")}
   </div>
 </div>"""
 
-modules_html = "\n".join(module_html(m, i) for i, m in enumerate(data["modules"]))
+# Direction 1: deep-scroll contact access -- neutral band after every 4th project
+# card and at the end of the module list (existing approved wording).
+modules_html = interleave_contact_bands(
+    [h for h in (module_html(m, i) for i, m in enumerate(data["modules"])) if h]
+)
 
 MAIN = f"""
 <section class="hero">
@@ -127,7 +129,7 @@ MAIN = f"""
   <p>Explore real San Diego hardwood floor refinishing projects featuring dust-contained floor sanding, hardwood floor repairs, deep cleaning, restoration, color changes, custom stain work, and dramatic before-and-after transformations completed by San Diego Hardwoods throughout San Diego County.</p>
   <div class="cta-row">
     <a class="btn btn-call" href="tel:+18586990072">&#9742; Call 858-699-0072</a>
-    <a class="btn btn-outline" href="sms:+18586990072">Text Floor Photos</a>
+    <a class="btn btn-call" href="sms:+18586990072">Text Floor Photos</a>
   </div>
 </section>
 
@@ -151,7 +153,7 @@ MAIN = f"""
   <div class="cta-row" style="justify-content:center;flex-wrap:wrap;gap:16px;margin-top:20px;">
     <a class="btn btn-outline" href="https://www.sdhardwoods.com/recent_project_photo_gallery_2.html">Next Page: Project Gallery 2 &rarr;</a>
     <a class="btn btn-call" href="tel:+18586990072">Call 858-699-0072</a>
-    <a class="btn btn-outline" href="sms:+18586990072">Text Floor Photos</a>
+    <a class="btn btn-call" href="sms:+18586990072">Text Floor Photos</a>
   </div>
 </section>
 

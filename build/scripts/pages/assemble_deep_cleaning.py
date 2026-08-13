@@ -22,11 +22,11 @@ def read(path):
         return f.read()
 
 site_css = read(CHROME + r"\site_css.html")
-darkmode_boot = read(CHROME + r"\darkmode_boot_scripts.html")
 top_html = read(CHROME + r"\top.html")
 footer_html = read(CHROME + r"\footer.html")
-scrollhint_html = read(CHROME + r"\scrollhint_and_toggle.html")
 lightbox_html = read(CHROME + r"\lightbox.html")
+# Direction 1 (2026-08-13): dark-mode boot scripts and the explore-bar partial are
+# retired site-wide -- light-only design, no scroll-hint bar.
 
 script_strip_re = re.compile(r"<script\b.*?</script>", re.DOTALL)
 tag_strip_re = re.compile(r"<[^>]+>")
@@ -239,7 +239,6 @@ gallery_html = "\n".join(gallery_cards)
 
 # ---- vcard swap ----
 body_top = top_html.replace("__VCARD_DESC__", vcard_desc)
-scrollhint = scrollhint_html.replace("__SCROLL_TOPIC__", "Our Deep Cleaning Process")
 
 # ---- video embed script (page's own YouTube Shorts ID) ----
 video_script = '''<script type="text/javascript">
@@ -273,7 +272,7 @@ main_html = f'''<main>
   <p>Professional hardwood floor cleaning without the cost, dust, or disruption of full sanding. Our Bona PowerScrubber wood floor deep cleaning system removes embedded dirt, wax and polish buildup, and prepares hardwood floors for a durable maintenance recoat or premium finish upgrade&mdash;often completed in just one day. Call <a href="tel:+18586990072">858-699-0072</a>, <a href="sms:+18586990072">text floor photos</a> or email <a href="mailto:sandiegohardwoods@gmail.com">sandiegohardwoods@gmail.com</a></p>
   <div class="cta-row">
     <a class="btn btn-call" href="tel:+18586990072">&#9742; Call 858-699-0072</a>
-    <a class="btn btn-outline" href="sms:+18586990072">Text Floor Photos</a>
+    <a class="btn btn-call" href="sms:+18586990072">Text Floor Photos</a>
   </div>
 </section>
 
@@ -312,7 +311,7 @@ main_html = f'''<main>
 
   <div class="cta-row" style="justify-content:center;margin-top:34px;">
     <a class="btn btn-call" href="tel:+18586990072">&#9742; Call 858-699-0072</a>
-    <a class="btn btn-outline" href="sms:+18586990072">Text Floor Photos</a>
+    <a class="btn btn-call" href="sms:+18586990072">Text Floor Photos</a>
   </div>
 </section>
 
@@ -331,13 +330,13 @@ main_html = f'''<main>
 
 head_extra = f'''<meta name="description" content="{meta_desc}">
 	<link href="{canonical}" rel="canonical">
-	<link href="/assets/legacy-css/mc_global.195798.css" id="globalCSS" media="screen" rel="stylesheet" type="text/css">
-	<link href="/assets/legacy-css/theme.css" id="themeCSS" media="screen" rel="stylesheet" type="text/css">
+	
+	
 	<title>{title}</title>
 	<link href="/favicon.ico" rel="icon" type="image/x-icon">
 	<link href="/favicon-192.ico" rel="icon" sizes="192x192" type="image/x-icon">
 	<link href="/favicon-512.ico" rel="icon" sizes="512x512" type="image/x-icon">
-	<link href="/LOGO-2025.png" rel="apple-touch-icon" sizes="180x180"><meta name="theme-color" content="#4b2e06"><meta name="msapplication-TileColor" content="#4b2e06"><meta name="msapplication-TileImage" content="/LOGO-2025.png">
+	<link href="/LOGO-2025.png" rel="apple-touch-icon" sizes="180x180"><meta name="theme-color" content="#f8f4ec"><meta name="msapplication-TileColor" content="#4b2e06"><meta name="msapplication-TileImage" content="/LOGO-2025.png">
 	<link href="/LOGO-2025.png" rel="logo" type="image/png">
 {jsonld_block}
 {analytics_html}
@@ -349,13 +348,11 @@ full_html = f'''<!DOCTYPE html><html lang="en">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 {head_extra}
 {site_css}
-{darkmode_boot}
 </head>
 <body class="lo_layout2wt" dir="ltr" spellcheck="false">
 {body_top}
 {main_html}
 {footer_html}
-{scrollhint}
 {lightbox_html}
 </body>
 </html>

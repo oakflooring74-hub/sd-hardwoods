@@ -10,7 +10,7 @@ RAW = BUILD / "raw-source"
 DATA = BUILD / "data"
 
 sys.path.insert(0, str(BUILD / "scripts" / "common"))
-from assemble_page import gallery_progress_html
+from assemble_page import gallery_progress_html, interleave_contact_bands
 from public_business_rules import (
     sanitize_public_jsonld, consolidate_business_jsonld, build_webpage_service_graph,
     build_gallery_media_graph, split_title_desc, wrap_jsonld_graph,
@@ -124,17 +124,24 @@ def build_gallery_section(gallery_json_path, intro_html, top_cta_heading, top_ct
 
     parts.append(deepclean_cta(top_cta_heading, top_cta_body))
 
+    module_blocks = []
     for m in real_modules:
         before = m["images"][0]
         after = m["images"][1] if len(m["images"]) > 1 else None
-        parts.append('  <div class="card" style="margin:28px 0;">')
-        parts.append(f'    <h3 style="text-align:left;">{m["title"]}</h3>')
-        parts.append('    <div class="gallery" style="grid-template-columns:1fr 1fr;">')
-        parts.append('      ' + figure(before, m["title"]))
+        block = []
+        block.append('  <div class="card" style="margin:28px 0;">')
+        block.append(f'    <h3 style="text-align:left;">{m["title"]}</h3>')
+        block.append('    <div class="gallery g-modules">')
+        block.append('      ' + figure(before, m["title"]))
         if after:
-            parts.append('      ' + figure(after, m["title"]))
-        parts.append('    </div>')
-        parts.append('  </div>')
+            block.append('      ' + figure(after, m["title"]))
+        block.append('    </div>')
+        block.append('  </div>')
+        module_blocks.append("\n".join(block))
+
+    # Direction 1: deep-scroll contact access -- neutral band after every 4th
+    # project card and at the end of the module list (existing approved wording).
+    parts.append(interleave_contact_bands(module_blocks))
 
     parts.append(deepclean_cta(bottom_cta_heading, bottom_cta_body))
 
@@ -184,7 +191,12 @@ def extract_head_pieces(raw_doc):
         "https://s.turbifycdn.com/lm/css/hosting/yss/v2/apps/beforenafter_1.css",
         "/assets/legacy-css/beforenafter_1.css",
     )
-    pieces["css_links"] = css_links
+    # Direction 1 (2026-08-13, owner-approved): the legacy Turbify stylesheet links
+    # (mc_global / theme / beforenafter) are no longer emitted. They are
+    # presentation-only -- no content, links or structured data -- so removal carries
+    # no SEO/ranking impact; visual regression is checked by before/after captures.
+    # The raw-source extraction above is kept for provenance but the tags go unused.
+    pieces["css_links"] = ""
     # Turbify/Yahoo-remnants-removal milestone (2026-07-20): the raw source's inline
     # `var $D = YAHOO.util.Dom; ...` block (previously extracted here as "yahoo_script" and
     # emitted verbatim) referenced a `window.YAHOO` global that no script on this page ever
@@ -218,14 +230,13 @@ def build_page(cfg):
             head["desc_meta"], count=1)
 
     site_css = rd(CHROME + r"\site_css.html")
-    darkmode_boot = rd(CHROME + r"\darkmode_boot_scripts.html")
     top_html = rd(CHROME + r"\top.html")
     footer_html = rd(CHROME + r"\footer.html")
-    scrollhint_html = rd(CHROME + r"\scrollhint_and_toggle.html")
     lightbox_html = rd(CHROME + r"\lightbox.html")
+    # Direction 1 (2026-08-13): dark-mode boot scripts and the explore-bar partial are
+    # retired site-wide -- light-only design, no scroll-hint bar.
 
     top_html = top_html.replace("__VCARD_DESC__", head["vcard_desc"])
-    scrollhint_html = scrollhint_html.replace("__SCROLL_TOPIC__", cfg["scroll_topic"])
 
     # Milestone 2.6: raw-source schema passes through the shared
     # public-business-rules filter (no PostalAddress, official YouTube channel).
@@ -338,7 +349,6 @@ def build_page(cfg):
 {jsonld}
 {analytics_html}
 {site_css}
-{darkmode_boot}
 </head>
 <body class="lo_layout2wt" dir="ltr" spellcheck="false">
 {top_html}
@@ -351,7 +361,7 @@ def build_page(cfg):
   <p>{cfg['hero_p2']}</p>
   <div class="cta-row">
     <a class="btn btn-call" href="tel:+18586990072">&#9742; Call 858-699-0072</a>
-    <a class="btn btn-outline" href="{cfg['sms_href']}">Text Floor Photos</a>
+    <a class="btn btn-call" href="{cfg['sms_href']}">Text Floor Photos</a>
   </div>
 </section>
 
@@ -360,8 +370,11 @@ def build_page(cfg):
     <div id="heroVideoMount"></div>
   </div>
   <div class="video-cta">
-    <p><strong style="color:var(--cta-red);">{cfg['video_cta_strong']}</strong> Text photos of your project to start your professional assessment.</p>
-    <a class="btn btn-call" href="{cfg['sms_href']}">Text Floor Photos</a>
+    <p><strong>{cfg['video_cta_strong']}</strong> Text photos of your project to start your professional assessment.</p>
+    <div class="cta-row">
+      <a class="btn btn-call" href="tel:+18586990072">&#9742; Call 858-699-0072</a>
+      <a class="btn btn-call" href="{cfg['sms_href']}">Text Floor Photos</a>
+    </div>
   </div>
 </section>
 {video_script}
@@ -370,7 +383,6 @@ def build_page(cfg):
 
 </main>
 {footer_html}
-{scrollhint_html}
 {lightbox_html}
 </body>
 </html>

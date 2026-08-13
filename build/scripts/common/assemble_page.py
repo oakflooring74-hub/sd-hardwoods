@@ -52,6 +52,30 @@ def gallery_progress_html(current_index):
   {next_html}
 </nav>'''
 
+# Direction 1 (2026-08-13): shared deep-scroll contact band for the long gallery
+# pages -- the same neutral band the homepage carries around its gallery wall,
+# reusing only existing approved wording. Inserted between project modules at a
+# fixed cadence and once at the end of the module list so no scroll depth strands
+# the visitor without a contact action.
+CONTACT_BAND = '''<div class="contact-band">
+  <a class="cb-num" href="tel:+18586990072">858-699-0072</a>
+  <div class="cb-actions">
+    <a class="btn btn-call" href="tel:+18586990072">Call &mdash; Free Assessment</a>
+    <a class="btn btn-call" href="sms:+18586990072">Text Floor Photos</a>
+  </div>
+</div>'''
+
+def interleave_contact_bands(module_html_list, cadence=4):
+    """Insert CONTACT_BAND after every `cadence` rendered modules and once at the
+    end of the module list (exactly one band after the final module either way)."""
+    parts = []
+    for i, h in enumerate(module_html_list, 1):
+        parts.append(h)
+        if i % cadence == 0 and i < len(module_html_list):
+            parts.append(CONTACT_BAND)
+    parts.append(CONTACT_BAND)
+    return "\n".join(parts)
+
 def assemble(head_meta_html, jsonld_html, ga_html, vcard_desc, scroll_topic, main_html, out_path):
     # Milestone 2.6: every page's schema passes through the shared
     # public-business-rules filter (no PostalAddress/street address, official
@@ -67,11 +91,11 @@ def assemble(head_meta_html, jsonld_html, ga_html, vcard_desc, scroll_topic, mai
         jsonld_html = jsonld_html + "\n" + breadcrumb
     analytics = read(CHROME + r"\analytics.html")
     site_css = read(CHROME + r"\site_css.html")
-    dm_scripts = read(CHROME + r"\darkmode_boot_scripts.html")
     top = read(CHROME + r"\top.html").replace("__VCARD_DESC__", vcard_desc)
     footer = read(CHROME + r"\footer.html")
-    scrollhint = read(CHROME + r"\scrollhint_and_toggle.html").replace("__SCROLL_TOPIC__", scroll_topic)
     lightbox = read(CHROME + r"\lightbox.html")
+    # Direction 1 (2026-08-13): dark-mode boot scripts and the explore-bar partial are
+    # retired site-wide -- light-only design, no scroll-hint bar.
 
     doc = f"""<!DOCTYPE html><html lang="en">
 <head xmlns="">
@@ -81,7 +105,6 @@ def assemble(head_meta_html, jsonld_html, ga_html, vcard_desc, scroll_topic, mai
 {jsonld_html}
 {ga_html}{analytics}
 {site_css}
-{dm_scripts}
 </head>
 <body class="lo_layout2wt" dir="ltr" spellcheck="false">
 {top}
@@ -89,7 +112,6 @@ def assemble(head_meta_html, jsonld_html, ga_html, vcard_desc, scroll_topic, mai
 {main_html}
 </main>
 {footer}
-{scrollhint}
 {lightbox}
 </body>
 </html>

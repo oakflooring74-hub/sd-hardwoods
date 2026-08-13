@@ -69,10 +69,8 @@ HEAD_META = """<title>Solid &amp; Engineered Wood Floor Installation | San Diego
 <link href="/favicon-192.ico" rel="icon" sizes="192x192" type="image/x-icon">
 <link href="/favicon-512.ico" rel="icon" sizes="512x512" type="image/x-icon">
 <link href="/LOGO-2025.png" rel="apple-touch-icon" sizes="180x180">
-<meta name="theme-color" content="#4b2e06">
-<link href="/LOGO-2025.png" rel="logo" type="image/png">
-<link href="/assets/legacy-css/mc_global.195798.css" id="globalCSS" media="screen" rel="stylesheet" type="text/css">
-<link href="/assets/legacy-css/theme.css" id="themeCSS" media="screen" rel="stylesheet" type="text/css">"""
+<meta name="theme-color" content="#f8f4ec">
+<link href="/LOGO-2025.png" rel="logo" type="image/png">"""
 
 # Gallery-media schema milestone (2026-07-23): document each of the 4
 # installation projects as a CreativeWork with its full ordered photo
@@ -152,7 +150,7 @@ MAIN = f"""
   <p>Professional hardwood floor installation in San Diego &mdash; real solid and engineered wood flooring installed by nail-down, glue-down, floating, or nail-assist methods, acclimated, sanded, and finished on site (or installed prefinished and ready-to-use) throughout San Diego County, alongside our true 100% dust-containment refinishing, repair, and restoration services. Below: four complete installation projects, from staged raw lumber to the finished floor.</p>
   <div class="cta-row">
     <a class="btn btn-call" href="tel:+18586990072">&#9742; Call 858-699-0072</a>
-    <a class="btn btn-outline" href="sms:+18586990072">Text Floor Photos</a>
+    <a class="btn btn-call" href="sms:+18586990072">Text Floor Photos</a>
   </div>
 </section>
 
@@ -201,7 +199,7 @@ MAIN = f"""
 
   <div class="cta-row" style="justify-content:center;margin-top:20px;">
     <a class="btn btn-call" href="tel:+18586990072">Call 858-699-0072 &mdash; Discuss Your Installation Project</a>
-    <a class="btn btn-outline" href="sms:+18586990072">Text Floor Photos</a>
+    <a class="btn btn-call" href="sms:+18586990072">Text Floor Photos</a>
   </div>
 
   <p style="text-align:center;margin:26px auto 0;font-size:15.5px;">
