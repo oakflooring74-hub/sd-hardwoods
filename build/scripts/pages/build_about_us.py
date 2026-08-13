@@ -19,10 +19,8 @@ HEAD_META = read(SCRATCH + r"\head_meta.html") + """
 <link href="/favicon-192.ico" rel="icon" sizes="192x192" type="image/x-icon">
 <link href="/favicon-512.ico" rel="icon" sizes="512x512" type="image/x-icon">
 <link href="/LOGO-2025.png" rel="apple-touch-icon" sizes="180x180">
-<meta name="theme-color" content="#4b2e06">
+<meta name="theme-color" content="#f8f4ec">
 <link href="/LOGO-2025.png" rel="logo" type="image/png">
-<link href="/assets/legacy-css/mc_global.195798.css" id="globalCSS" media="screen" rel="stylesheet" type="text/css">
-<link href="/assets/legacy-css/theme.css" id="themeCSS" media="screen" rel="stylesheet" type="text/css">
 """
 
 JSONLD = read(SCRATCH + r"\jsonld.html")
@@ -45,15 +43,18 @@ MAIN = """
   <p><strong>Text photos for a fast, expert assessment &mdash; most replies the same day.</strong></p>
   <div class="cta-row">
     <a class="btn btn-call" href="tel:+18586990072">&#9742; Call 858-699-0072</a>
-    <a class="btn btn-outline" href="sms:+18586990072">Text Floor Photos</a>
+    <a class="btn btn-call" href="sms:+18586990072">Text Floor Photos</a>
   </div>
 </section>
 
 <section class="block">
   <div class="video-frame"><div id="heroVideoMount"></div></div>
   <div class="video-cta">
-    <p><strong style="color:var(--cta-red);">Expert French Oak &amp; Wire-Brushed Refinishing.</strong> Text photos of your project to start your professional assessment.</p>
-    <a class="btn btn-call" href="sms:+18586990072">Text Floor Photos</a>
+    <p><strong>Expert French Oak &amp; Wire-Brushed Refinishing.</strong> Text photos of your project to start your professional assessment.</p>
+    <div class="cta-row">
+      <a class="btn btn-call" href="tel:+18586990072">&#9742; Call 858-699-0072</a>
+      <a class="btn btn-call" href="sms:+18586990072">Text Floor Photos</a>
+    </div>
   </div>
 </section>
 <script type="text/javascript">
@@ -131,8 +132,8 @@ MAIN = """
   </div>
 
   <div class="cta-row" style="justify-content:center;margin-top:30px;">
+    <a class="btn btn-call" href="tel:+18586990072">Call to Discuss Your Floor</a>
     <a class="btn btn-call" href="sms:+18586990072">Text Photos for a Free Assessment</a>
-    <a class="btn btn-outline" href="tel:+18586990072">Call to Discuss Your Floor</a>
   </div>
 </section>
 """

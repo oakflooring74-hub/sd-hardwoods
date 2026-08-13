@@ -100,22 +100,18 @@ work the same way conceptually; the table below says which is which.
 `chrome/` holds the one shared copy of:
 - `site_css.html` — every CSS custom property (colors, type) and component class (`.btn`,
   `.card`, `.gallery`, `.hero`, etc.) used across all 12 pages.
-- `darkmode_boot_scripts.html` — theme boot logic (Milestone 2.3: a stored explicit
-  choice always wins; with no stored choice the site opens **dark regardless of the OS
-  color scheme**, applied to `<html>` synchronously so there is no light flash) + the
-  handler for the `.sdh-theme-btn` theme control that lives in the menu drawer since
-  Milestone 2.1.
-- `top.html` — the brand masthead, nav band, mini-header, and menu drawer (which contains
-  the theme control). The old slim utility bar and tiny SEO strip were removed in
-  Milestone 2.1 (see docs/milestone-2.1-seo-content-map.md); build scripts still pass a
-  vcard string to `assemble()`, but the `__VCARD_DESC__` placeholder no longer exists so
-  the replace is a harmless no-op.
+- `top.html` — the brand masthead, nav band, mini-header, and menu drawer. The old slim
+  utility bar and tiny SEO strip were removed in Milestone 2.1 (see
+  docs/milestone-2.1-seo-content-map.md); build scripts still pass a vcard string to
+  `assemble()`, but the `__VCARD_DESC__` placeholder no longer exists so the replace is a
+  harmless no-op.
 - `footer.html` — the single unified footer (now also carries the address/ZIP + CSLB line
   that used to live in the removed utility bar).
-- `scrollhint_and_toggle.html` — the Milestone 2.1 explore bar (translucent, rotating
-  linked destinations, appears only after the hero is scrolled clear, hides at the footer,
-  session-dismissable, reduced-motion aware). The floating light/dark toggle button that
-  used to live here was removed — theme control is in the drawer now.
+
+Retired (Direction 1, 2026-08-13 — site is now light-only): `darkmode_boot_scripts.html`
+(theme boot + drawer theme control) and `scrollhint_and_toggle.html` (the Milestone 2.1
+explore bar) were deleted, and their injections were removed from
+`scripts/common/assemble_page.py` and `scripts/common/build_page.py`.
 
 **Change something in `chrome/`, then re-run `build_all.py`, and it applies to all 13 pages
 at once.** That's the entire point of this refactor versus the original site.

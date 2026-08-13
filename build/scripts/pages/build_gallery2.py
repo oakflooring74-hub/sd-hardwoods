@@ -4,7 +4,7 @@ from pathlib import Path
 
 BUILD = Path(__file__).resolve().parent.parent.parent  # -> build/
 sys.path.insert(0, str(BUILD / "scripts" / "common"))
-from assemble_page import assemble, gallery_progress_html
+from assemble_page import assemble, gallery_progress_html, interleave_contact_bands
 from public_business_rules import (
     replace_area_served, FULL_SAN_DIEGO_AREAS, SOUTH_ORANGE_COUNTY,
     build_gallery_media_graph, split_title_desc, wrap_jsonld_graph,
@@ -35,10 +35,8 @@ HEAD_META = """<title>Recent Hardwood Flooring Projects | San Diego</title>
 <link href="/favicon-192.ico" rel="icon" sizes="192x192" type="image/x-icon">
 <link href="/favicon-512.ico" rel="icon" sizes="512x512" type="image/x-icon">
 <link href="/LOGO-2025.png" rel="apple-touch-icon" sizes="180x180">
-<meta name="theme-color" content="#4b2e06">
-<link href="/LOGO-2025.png" rel="logo" type="image/png">
-<link href="/assets/legacy-css/mc_global.195798.css" id="globalCSS" media="screen" rel="stylesheet" type="text/css">
-<link href="/assets/legacy-css/theme.css" id="themeCSS" media="screen" rel="stylesheet" type="text/css">"""
+<meta name="theme-color" content="#f8f4ec">
+<link href="/LOGO-2025.png" rel="logo" type="image/png">"""
 
 # Milestone 2.4: obsolete Universal Analytics (UA-20793161-1 / _gaq / ga.js) removed
 # site-wide. GA4 is blocked pending the owner's confirmed Measurement ID.
@@ -100,7 +98,7 @@ def module_html(m, idx):
         return f"""
 <div class="card" style="margin-bottom:24px;">
   <h3>{title}</h3>
-  <div class="gallery" style="grid-template-columns:repeat(2,1fr);">
+  <div class="gallery g-modules">
     {fig(a, "Bird Rock")}
     {fig(b, "Rancho Santa Fe")}
   </div>
@@ -108,7 +106,7 @@ def module_html(m, idx):
     return f"""
 <div class="card" style="margin-bottom:24px;">
   <h3>{title}</h3>
-  <div class="gallery" style="grid-template-columns:repeat(2,1fr);">
+  <div class="gallery g-modules">
     {fig(a, "Before")}
     {fig(b, "After")}
   </div>
@@ -119,8 +117,10 @@ def strip_html(s):
     return _re.sub(r"<[^>]+>", "", s or "")
 
 SKIP_INDICES = {7, 9, 10}  # empty/duplicate fragments from the broken source region
-modules_html = "\n".join(
-    module_html(m, i) for i, m in enumerate(modules) if i not in SKIP_INDICES
+# Direction 1: deep-scroll contact access -- neutral band after every 4th project
+# card and at the end of the module list (existing approved wording).
+modules_html = interleave_contact_bands(
+    [h for h in (module_html(m, i) for i, m in enumerate(modules) if i not in SKIP_INDICES) if h]
 )
 
 # Gallery-media schema milestone (2026-07-23): document each real project as
@@ -155,7 +155,7 @@ MAIN = f"""
   <p>Browse recent San Diego hardwood floor refinishing, installation, repair, and restoration projects featuring dust containment sanding, deep cleaning, wire-brushed and oil-finished floors, custom stains, bamboo, and engineered hardwood.</p>
   <div class="cta-row">
     <a class="btn btn-call" href="tel:+18586990072">&#9742; Call 858-699-0072</a>
-    <a class="btn btn-outline" href="sms:+18586990072">Text Floor Photos</a>
+    <a class="btn btn-call" href="sms:+18586990072">Text Floor Photos</a>
   </div>
 </section>
 
@@ -179,7 +179,7 @@ MAIN = f"""
   <div class="cta-row" style="justify-content:center;flex-wrap:wrap;gap:16px;margin-top:20px;">
     <a class="btn btn-outline" href="https://www.sdhardwoods.com/recent_project_photo_gallery_3.html">Next Page: Project Gallery 3 &rarr;</a>
     <a class="btn btn-call" href="tel:+18586990072">Call 858-699-0072</a>
-    <a class="btn btn-outline" href="sms:+18586990072">Text Floor Photos</a>
+    <a class="btn btn-call" href="sms:+18586990072">Text Floor Photos</a>
   </div>
 </section>
 """

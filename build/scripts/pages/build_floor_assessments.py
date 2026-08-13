@@ -36,10 +36,8 @@ HEAD_META = """<title>Hardwood &amp; Bamboo Floor Inspections | San Diego</title
 <link href="/favicon-192.ico" rel="icon" sizes="192x192" type="image/x-icon">
 <link href="/favicon-512.ico" rel="icon" sizes="512x512" type="image/x-icon">
 <link href="/LOGO-2025.png" rel="apple-touch-icon" sizes="180x180">
-<meta name="theme-color" content="#4b2e06">
-<link href="/LOGO-2025.png" rel="logo" type="image/png">
-<link href="/assets/legacy-css/mc_global.195798.css" id="globalCSS" media="screen" rel="stylesheet" type="text/css">
-<link href="/assets/legacy-css/theme.css" id="themeCSS" media="screen" rel="stylesheet" type="text/css">"""
+<meta name="theme-color" content="#f8f4ec">
+<link href="/LOGO-2025.png" rel="logo" type="image/png">"""
 
 # One connected graph: the WebPage and its five visible Service entities, each
 # provided by the business entity the homepage already declares (@id .../#local).
@@ -240,8 +238,8 @@ MAIN = """
   <h1>Professional Hardwood &amp; Bamboo Floor Assessments, Pre-Purchase Inspections &amp; Consultation</h1>
   <p>Our core business is the flooring work itself &mdash; refinishing, restoration, deep cleaning and recoating, repairs, and installation of hardwood and bamboo floors. When a floor or a property decision calls for professional expertise on site, we also offer a clear set of paid assessment and inspection services: an in-home project assessment, pre-purchase floor inspections with optional written documentation, and complex damage, dispute, and insurance analysis. Every one of them begins the same way: with a conversation that is free.</p>
   <div class="cta-row">
+    <a class="btn btn-call" href="tel:+18586990072">&#9742; Call 858-699-0072</a>
     <a class="btn btn-call" href="sms:+18586990072">Text Photos for a Free Assessment</a>
-    <a class="btn btn-outline" href="tel:+18586990072">&#9742; Call 858-699-0072</a>
   </div>
 </section>
 
@@ -256,8 +254,8 @@ MAIN = """
     <p><strong>An initial conversation and review of submitted photographs to identify likely options and determine whether an on-site service may be worthwhile.</strong> Text clear overall and close-up photos for the fastest initial review. You are also welcome and encouraged to call, and photos may be emailed when texting is not practical.</p>
     <p>Initial contact may include a phone conversation; review of photos or a short video you text or email; or review of a public Zillow, Redfin, Realtor.com, or similar listing for a property you are considering. We will discuss likely flooring options, whether San Diego Hardwoods is a suitable fit, and which type of property visit or professional service &mdash; if any &mdash; makes sense for your situation. Many questions are answered completely in this free conversation; a paid visit is never a requirement for getting an initial answer.</p>
     <div class="cta-row" style="justify-content:flex-start;margin-top:6px;">
+      <a class="btn btn-call" href="tel:+18586990072" style="padding:11px 22px;font-size:15.5px;">&#9742; Call to Discuss Your Floor</a>
       <a class="btn btn-call" href="sms:+18586990072" style="padding:11px 22px;font-size:15.5px;">Text Photos for a Free Assessment</a>
-      <a class="btn btn-outline" href="tel:+18586990072" style="padding:11px 22px;font-size:15.5px;">&#9742; Call to Discuss Your Floor</a>
       <a class="btn btn-outline" href="mailto:sandiegohardwoods@gmail.com" style="padding:11px 22px;font-size:15.5px;">Email Photos</a>
     </div>
   </div>
@@ -461,8 +459,8 @@ MAIN = """
   <h2>Ready to Get Started?</h2>
   <p class="lede">Text clear overall and close-up photos of your floors &mdash; or send a listing link for a property you are considering &mdash; and we will take it from there with a Free Phone &amp; Photo Assessment. You are also welcome and encouraged to call, and photos may be emailed when texting is not practical. All of our contact options are on the <a href="https://www.sdhardwoods.com/contact_us.html" style="color:var(--brass-deep);font-weight:700;">Contact San Diego Hardwoods</a> page.</p>
   <div class="cta-row" style="justify-content:center;">
+    <a class="btn btn-call" href="tel:+18586990072">&#9742; Call to Discuss Your Floor</a>
     <a class="btn btn-call" href="sms:+18586990072">Text Photos for a Free Assessment</a>
-    <a class="btn btn-outline" href="tel:+18586990072">&#9742; Call to Discuss Your Floor</a>
     <a class="btn btn-outline" href="mailto:sandiegohardwoods@gmail.com">Email Photos</a>
   </div>
   <p style="text-align:center;margin:26px auto 0;font-size:15.5px;">

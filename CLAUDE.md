@@ -45,8 +45,12 @@ Keep sessions focused and milestone-sized. Do not drift into adjacent cleanup, r
 
 ## Architecture
 
-Project root:
-`C:\FLOORING_SITE\SAN DIEGO HARDWOODS SITE REMAKE JULY 2026`
+Project root: the current repo checkout — the location differs per machine (e.g.
+`C:\FLOORING_SITE\SAN DIEGO HARDWOODS SITE REMAKE JULY 2026` on one machine,
+`C:\Users\oakfl\Desktop\SAN DIEGO HARDWOODS WEBSITE REMAKE JULY 2026` on the Desktop
+machine). Confirm with `git remote -v` (`oakflooring74-hub/sd-hardwoods`) and check the
+checkout is up to date with `origin/redesign` before working — a stale second checkout
+caused confusion at launch (see `docs/2026-07-25-production-launch-report.md`).
 
 Full build:
 `python build/scripts/build_all.py`

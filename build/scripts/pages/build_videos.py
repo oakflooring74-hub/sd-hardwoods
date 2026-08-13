@@ -22,7 +22,7 @@ from pathlib import Path
 
 BUILD = Path(__file__).resolve().parent.parent.parent  # -> build/
 sys.path.insert(0, str(BUILD / "scripts" / "common"))
-from assemble_page import assemble
+from assemble_page import assemble, CONTACT_BAND
 from public_business_rules import replace_area_served, FULL_SAN_DIEGO_AREAS, SOUTH_ORANGE_COUNTY
 from alt_expand import append_sentences
 from pacific_time import to_pacific_iso
@@ -34,10 +34,8 @@ HEAD_META = """<title>Hardwood Floor Refinishing &amp; Dustless Sanding Videos |
 <link href="/favicon-192.ico" rel="icon" sizes="192x192" type="image/x-icon">
 <link href="/favicon-512.ico" rel="icon" sizes="512x512" type="image/x-icon">
 <link href="/LOGO-2025.png" rel="apple-touch-icon" sizes="180x180">
-<meta name="theme-color" content="#4b2e06">
-<link href="/LOGO-2025.png" rel="logo" type="image/png">
-<link href="/assets/legacy-css/mc_global.195798.css" id="globalCSS" media="screen" rel="stylesheet" type="text/css">
-<link href="/assets/legacy-css/theme.css" id="themeCSS" media="screen" rel="stylesheet" type="text/css">"""
+<meta name="theme-color" content="#f8f4ec">
+<link href="/LOGO-2025.png" rel="logo" type="image/png">"""
 
 # Milestone 2.6: the shared GA4 implementation (build/chrome/analytics.html) is
 # injected by assemble() -- leave this empty; never add a per-page loader.
@@ -349,16 +347,13 @@ PAGE_CSS = """<style>
 .vid-tags{display:flex;flex-wrap:wrap;gap:8px;margin:0;}
 .vid-cat{font:700 11px/1.4 var(--font-sans);letter-spacing:1.2px;text-transform:uppercase;color:var(--brass-deep);}
 .vid-flag{font:700 11px/1.4 var(--font-sans);letter-spacing:1.2px;text-transform:uppercase;color:#fff;background:var(--walnut);padding:2px 8px;border-radius:10px;}
-body.darkmode .vid-flag{background:var(--brass);color:#1b1712;}
-.vid-flag--short{background:var(--cta-red);color:#fff;}
-body.darkmode .vid-flag--short{background:var(--cta-red);color:#1b1712;}
+.vid-flag--short{background:var(--ink-soft);color:#fff;}
 .vid-title{font-family:var(--font-serif);font-size:18.5px;line-height:1.35;margin:0;color:var(--ink);}
 .vid-desc{font-size:14.5px;line-height:1.55;color:var(--ink-soft);margin:0;}
 .vid-meta{font-size:13px;color:var(--ink-soft);opacity:.85;margin:0;}
 .vid-actions{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin:auto 0 0;padding-top:6px;}
-.vid-watch{display:inline-flex;align-items:center;gap:7px;min-height:44px;padding:8px 16px;border:none;border-radius:9px;background:var(--cta-red);color:#fff;font:700 14px/1.2 var(--font-sans);cursor:pointer;box-shadow:0 4px 14px rgba(179,38,30,.28);}
-.vid-watch:hover{background:var(--cta-red-dark);}
-body.darkmode .vid-watch{color:#1b1712;}
+.vid-watch{display:inline-flex;align-items:center;gap:7px;min-height:44px;padding:8px 16px;border:none;border-radius:9px;background:var(--ink);color:#fff;font:700 14px/1.2 var(--font-sans);cursor:pointer;box-shadow:0 4px 14px rgba(20,12,3,.22);}
+.vid-watch:hover{background:#17110b;}
 .vid-yt-link{font:700 13.5px/1.3 var(--font-sans);color:var(--brass-deep);text-decoration:underline;min-height:44px;display:inline-flex;align-items:center;}
 .vid-gallery{font:700 14px/1.4 var(--font-sans);color:var(--brass-deep);text-decoration:underline;}
 .vid-filters{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:24px 0 4px;}
@@ -366,8 +361,6 @@ body.darkmode .vid-watch{color:#1b1712;}
 .vid-filter .vf-n{font-size:12px;font-weight:700;color:var(--brass-deep);}
 .vid-filter.active{background:var(--walnut);border-color:var(--walnut);color:#fff;}
 .vid-filter.active .vf-n{color:#eadfc7;}
-body.darkmode .vid-filter.active{background:var(--brass);border-color:var(--brass);color:#1b1712;}
-body.darkmode .vid-filter.active .vf-n{color:#4b2e06;}
 .vid-count{text-align:center;font-size:14px;color:var(--ink-soft);margin:14px 0 0;}
 #sdhVideoModal{position:fixed;inset:0;z-index:1000010;background:rgba(10,8,5,.94);display:none;align-items:center;justify-content:center;padding:22px;}
 #sdhVideoModal.open{display:flex;}
@@ -476,8 +469,8 @@ MAIN = f"""{PAGE_CSS}
   <h1>Real Hardwood Floor Refinishing, Dustless Sanding &amp; Restoration Videos</h1>
   <p>This page documents <strong>real San Diego Hardwoods projects</strong> &mdash; every public video from our YouTube channel in one place. Watch our equipment at work on actual customer floors: true 100% dust-containment sanding with the <strong>Bona DCS 2.0 sealed system</strong> (dustless hardwood-floor sanding and refinishing), hardwood floor repairs, restoration of vintage and historic floors, custom staining, intensive deep cleaning and recoating, installation, and premium Bona finish work &mdash; the same craftsmanship behind our refinishing, restoration, and installation projects across San Diego County.</p>
   <div class="cta-row">
+    <a class="btn btn-call" href="tel:+18586990072">&#9742; Call 858-699-0072</a>
     <a class="btn btn-call" href="sms:+18586990072">Text Photos for a Free Assessment</a>
-    <a class="btn btn-outline" href="tel:+18586990072">&#9742; Call 858-699-0072</a>
   </div>
 </section>
 
@@ -517,6 +510,8 @@ MAIN = f"""{PAGE_CSS}
   </div>
 </section>
 
+{CONTACT_BAND}
+
 <section class="block">
   <h2>Why Homeowners Throughout San Diego Watch Our Videos Before Hiring a Hardwood Floor Contractor</h2>
   <p class="lede">For more than <strong>35 years</strong>, San Diego Hardwoods has helped homeowners restore <strong>hardwood, engineered hardwood, bamboo, cork, and historic wood floors</strong> throughout San Diego County. These videos feature actual customer projects&mdash;not stock footage or demonstrations&mdash;so you can see our <strong>dust-contained sanding equipment</strong>, hardwood floor repair techniques, professional restoration process, and premium Bona finishing systems being used in real homes. All work is guaranteed, performed by a small crew of skilled and courteous craftsmen, and backed by a CSLB-licensed San Diego flooring contractor.</p>
@@ -524,7 +519,7 @@ MAIN = f"""{PAGE_CSS}
 
   <div class="cta-row" style="justify-content:center;">
     <a class="btn btn-call" href="tel:+18586990072">Call 858-699-0072</a>
-    <a class="btn btn-outline" href="sms:+18586990072">Text Floor Photos</a>
+    <a class="btn btn-call" href="sms:+18586990072">Text Floor Photos</a>
   </div>
 
   <p style="text-align:center;margin:26px auto 0;font-size:15.5px;">

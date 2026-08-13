@@ -1,6 +1,78 @@
-# Start here — project status as of 2026-07-24
+# Start here — project status as of 2026-07-25
 
 Read this file first when picking this project back up — **together with `docs/PROJECT_OPERATING_MANUAL.md` (the permanent governing document, added 2026-07-18) and `docs/PROJECT_DECISIONS.md` (binding decisions + standing blockers)**. This file links to everything else and tells you what's done, what's approved next, and what to ask the owner before doing anything.
+
+## 🚀 PRODUCTION LAUNCH — sdhardwoods.com is LIVE (2026-07-25, evening)
+
+Milestone 3.3's remaining owner dashboard steps (3)–(5) were executed from the Desktop
+machine. `https://www.sdhardwoods.com` and `https://sdhardwoods.com` now serve the production
+Worker `sd-hardwoods` over HTTPS; email (Turbify MX) preserved; cutover downtime was seconds.
+Full evidence and the exact cutover sequence: `docs/2026-07-25-production-launch-report.md`.
+
+- **DNS moved to Cloudflare**: zone replicated first (MX ×2, google-site-verification TXT,
+  `mail`/`ftp` CNAMEs added DNS-only), then nameservers changed at Turbify to
+  `clara`/`karl.ns.cloudflare.com`; zone Active same day.
+- **Custom domains attached to `sd-hardwoods`** via the Workers API (Wrangler OAuth session;
+  the owner deleted the two legacy A/`www` records in-dashboard while a retry loop attached
+  each hostname within seconds — apex 20:29, www 20:31 PT).
+- **Milestone 3.3 step (4) DONE — `verify_url_matrix.py https://www.sdhardwoods.com`:
+  87/88 PASSED**; the single scripted "failure" is the noindex check, documented in the
+  script itself as expected to fail on production — `X-Robots-Tag` is correctly ABSENT on
+  the custom domain. Production is indexable.
+- **Live sitemaps confirmed**: `sitemap.xml` (13 URLs + image entries) and
+  `sitemap-videos.xml` both 200; robots.txt references both; owner submitting in GSC
+  (existing DNS TXT verification survived, so the property still works).
+- **Note — this Desktop checkout was 9 commits behind `origin/redesign`** during the launch
+  session (Milestones 3.0–3.3 were pushed from another machine); reconciled by rebase in this
+  docs commit. Both checkouts now share history.
+
+Open items from launch (details in the launch report):
+
+1. **Cloudflare injects a managed AI-crawler block into live robots.txt** (GPTBot, ClaudeBot,
+   Google-Extended, etc. disallowed; `ai-train=no` content signals). Googlebot/search
+   unaffected; AI-assistant visibility reduced — owner to decide keep vs. remove (zone
+   Overview → "Manage your robots.txt" / AI Crawl Control).
+2. Eventually cancel Turbify **web hosting only** — keep Turbify domain registration and
+   business email (mail still runs through their servers).
+3. Per Milestone 3.1 sequence: the **4–6-week title/meta/H1 freeze starts now**
+   (`PROJECT_DECISIONS.md`); watch GSC weekly.
+
+## Approved next work (owner, 2026-07-25 — "a few tweaks and fixes soon, not today")
+
+- Fix a few spelling errors.
+- A few schema items.
+- Add more photos to the galleries, with alt text and captions — per the standing alt-text
+  policy (preserve existing accurate alt text verbatim; additions owner-approved,
+  evidence-grounded) and the media-fact confirmation policy. Mind the title/meta/H1 freeze.
+
+## Milestone 3.3 — Production cutover: master push + production Worker verified (2026-07-24, fourth session)
+
+Owner-authorized production push executed. Status of the Milestone-3.1 cutover sequence:
+
+- **(1) DONE — `redesign` → `master` pushed** (`c3e8e0c..5540432`, clean fast-forward, no
+  merge commit). Note for this machine: plain `git push` fails non-interactively
+  ("terminal prompts disabled" — Git Credential Manager has no cached github.com
+  credential); the working form is
+  `git -c credential.helper= -c "credential.helper=!gh auth git-credential" push origin redesign:master`.
+  CI run 30139783661 fully green: build-determinism gate passed, `deploy-production`
+  deployed the **`sd-hardwoods`** Worker in 35s, preview job correctly skipped on master.
+- **(2) DONE — production Worker verified**: `verify_url_matrix.py
+  https://sd-hardwoods.sandiegohardwoods.workers.dev` → **88/88 PASSED** (all 13 pages 200
+  direct, all extensionless/trailing-slash duplicates 301, query strings preserved, repo
+  files 404, canonicals/JSON-LD/sitemap/internal links clean, `X-Robots-Tag: noindex`
+  present as EXPECTED on the workers.dev host). Also spot-checked `/sitemap-videos.xml`
+  → 200 `application/xml` (not covered by the verifier).
+- **(3) NEXT — owner dashboard steps** (cannot be done from the repo): attach
+  `www.sdhardwoods.com` to the `sd-hardwoods` Worker (Workers & Pages → sd-hardwoods →
+  Settings → Domains & Routes), then flip DNS away from Turbify.
+- **(4) then** `python build/scripts/verify_url_matrix.py https://www.sdhardwoods.com`
+  (noindex must be ABSENT); **(5) then** GSC: resubmit `sitemap.xml` (+
+  `sitemap-videos.xml`), request indexing on homepage + top pages; **(6)** the 4–6-week
+  title/meta/H1 freeze begins (`PROJECT_DECISIONS.md`).
+
+**Git state:** `master` == `redesign` == `5540432`; production Worker live on its
+workers.dev host (noindex'd); no public traffic until the owner's DNS flip. This
+NEXT_SESSION.md entry was left uncommitted (no commit authorization given this session).
 
 ## Milestone 3.2 — Final pre-launch SEO: owner's verbatim title/meta set + image & video sitemaps (2026-07-24, third session)
 

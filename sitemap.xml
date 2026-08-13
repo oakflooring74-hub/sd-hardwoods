@@ -4,9 +4,6 @@
   <url>
     <loc>https://www.sdhardwoods.com/</loc>
     <image:image>
-      <image:loc>https://www.sdhardwoods.com/assets/branding/web/bona-certified-craftsman.webp</image:loc>
-    </image:image>
-    <image:image>
       <image:loc>https://www.sdhardwoods.com/TRICIA%20WALNUT102.jpg</image:loc>
     </image:image>
     <image:image>
@@ -272,6 +269,9 @@
     </image:image>
     <image:image>
       <image:loc>https://www.sdhardwoods.com/DOUGLAS%20FIR%20REFINISHING2.jpg</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.sdhardwoods.com/assets/branding/web/bona-certified-craftsman.webp</image:loc>
     </image:image>
   </url>
   <url>

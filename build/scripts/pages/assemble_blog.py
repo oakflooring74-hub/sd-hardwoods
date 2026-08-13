@@ -16,13 +16,13 @@ def read(path):
         return f.read()
 
 site_css = read(CHROME + r"\site_css.html")
-darkmode_boot = read(CHROME + r"\darkmode_boot_scripts.html")
 # Milestone 2.6: the one shared GA4 implementation, injected on every page.
 analytics_html = read(CHROME + r"\analytics.html")
 top_html = read(CHROME + r"\top.html")
 footer_html = read(CHROME + r"\footer.html")
-scrollhint_html = read(CHROME + r"\scrollhint_and_toggle.html")
 lightbox_html = read(CHROME + r"\lightbox.html")
+# Direction 1 (2026-08-13): dark-mode boot scripts and the explore-bar partial are
+# retired site-wide -- light-only design, no scroll-hint bar.
 
 import sys as _sys_early
 _sys_early.path.insert(0, str(BUILD / "scripts" / "common"))
@@ -198,7 +198,6 @@ jsonld_block = jsonld_block + "\n" + build_breadcrumb_jsonld(canonical)
 
 # ---- vcard swap / scroll topic ----
 body_top = top_html.replace("__VCARD_DESC__", vcard_desc)
-scrollhint = scrollhint_html.replace("__SCROLL_TOPIC__", "Our Hardwood Flooring Case Studies")
 
 # ---- reusable Deep Cleaning CTA card (appears twice in the raw source; rendered via the
 # existing .card .cta-card component already used on the homepage) ----
@@ -229,7 +228,7 @@ main_html = f'''<main>
   <p>We refinish, restore, and repair solid and engineered hardwood and bamboo flooring throughout San Diego County &mdash; a Bona Certified Craftsman company.</p>
   <div class="cta-row">
     <a class="btn btn-call" href="tel:+18586990072">&#9742; Call 858-699-0072</a>
-    <a class="btn btn-outline" href="sms:+18586990072">Text Floor Photos</a>
+    <a class="btn btn-call" href="sms:+18586990072">Text Floor Photos</a>
   </div>
 </section>
 
@@ -260,7 +259,7 @@ main_html = f'''<main>
   </div>
   <div class="cta-row" style="justify-content:center;margin-top:34px;">
     <a class="btn btn-call" href="tel:+18586990072">&#9742; Call 858-699-0072 to Discuss Your Hardwood Flooring Project</a>
-    <a class="btn btn-outline" href="sms:+18586990072">Text Floor Photos</a>
+    <a class="btn btn-call" href="sms:+18586990072">Text Floor Photos</a>
   </div>
 </section>
 
@@ -310,7 +309,7 @@ main_html = f'''<main>
   <p class="lede">Whether you need hardwood floor refinishing, complete installation, repairs, restoration, dustless sanding, or professional deep cleaning, San Diego Hardwoods is ready to help. Call or text photos of your floors for a fast professional evaluation and honest recommendations backed by more than 35 years of experience.</p>
   <div class="cta-row" style="justify-content:center;">
     <a class="btn btn-call" href="tel:+18586990072">Call 858-699-0072</a>
-    <a class="btn btn-outline" href="sms:+18586990072">Text Floor Photos</a>
+    <a class="btn btn-call" href="sms:+18586990072">Text Floor Photos</a>
   </div>
 </section>
 
@@ -337,13 +336,13 @@ main_html = f'''<main>
 
 head_extra = f'''<meta name="description" content="{meta_desc}">
 	<link href="{canonical}" rel="canonical">
-	<link href="/assets/legacy-css/mc_global.195798.css" id="globalCSS" media="screen" rel="stylesheet" type="text/css">
-	<link href="/assets/legacy-css/theme.css" id="themeCSS" media="screen" rel="stylesheet" type="text/css">
+	
+	
 	<title>{title}</title>
 	<link href="/favicon.ico" rel="icon" type="image/x-icon">
 	<link href="/favicon-192.ico" rel="icon" sizes="192x192" type="image/x-icon">
 	<link href="/favicon-512.ico" rel="icon" sizes="512x512" type="image/x-icon">
-	<link href="/LOGO-2025.png" rel="apple-touch-icon" sizes="180x180"><meta name="theme-color" content="#4b2e06"><meta name="msapplication-TileColor" content="#4b2e06"><meta name="msapplication-TileImage" content="/LOGO-2025.png">
+	<link href="/LOGO-2025.png" rel="apple-touch-icon" sizes="180x180"><meta name="theme-color" content="#f8f4ec"><meta name="msapplication-TileColor" content="#4b2e06"><meta name="msapplication-TileImage" content="/LOGO-2025.png">
 	<link href="/LOGO-2025.png" rel="logo" type="image/png">
 {jsonld_block}
 {analytics_html}
@@ -355,13 +354,11 @@ full_html = f'''<!DOCTYPE html><html lang="en">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 {head_extra}
 {site_css}
-{darkmode_boot}
 </head>
 <body class="lo_layout2wt" dir="ltr" spellcheck="false">
 {body_top}
 {main_html}
 {footer_html}
-{scrollhint}
 {lightbox_html}
 </body>
 </html>
