@@ -2,6 +2,17 @@
 
 Read this file first when picking this project back up — **together with `docs/PROJECT_OPERATING_MANUAL.md` (the permanent governing document, added 2026-07-18) and `docs/PROJECT_DECISIONS.md` (binding decisions + standing blockers)**. This file links to everything else and tells you what's done, what's approved next, and what to ask the owner before doing anything.
 
+## 📄 NEW WORKFLOW — Individual Project Showcase Pages (SEO Footprint Expansion)
+
+**For adding individual project pages with their own SEO-heavy URLs:** Read `docs/INDIVIDUAL_PROJECT_PAGES_WORKFLOW.md` first. This workflow covers:
+- Creating standalone HTML pages for specific projects (e.g., `walnut-floor-refinishing-la-jolla.html`)
+- Proper JSON-LD schema, meta tags, and canonical URLs for each new page
+- Wide-angle portrait image handling with responsive grid layouts (4-wide desktop → 3-wide tablet → 1–2 wide mobile)
+- Connection strategy via blog page internal links + sitemap inclusion (not orphaned pages)
+- **Critical constraint:** Existing 13-page site ranking signals remain untouched — we're adding NEW content, not modifying EXISTING content
+
+---
+
 ## 🚀 PRODUCTION LAUNCH — sdhardwoods.com is LIVE (2026-07-25, evening)
 
 Milestone 3.3's remaining owner dashboard steps (3)–(5) were executed from the Desktop
