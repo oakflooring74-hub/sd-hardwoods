@@ -192,3 +192,46 @@ owner-controlled launch milestone. Owner authorized the production cutover seque
 2026-07-24: production Worker config/deploy → owner attaches `www.sdhardwoods.com` to the
 production Worker + flips DNS away from Turbify → GSC sitemap resubmit + indexing requests →
 title freeze (above) takes effect.
+
+---
+
+## SEO Footprint Expansion — Individual Project Showcase Pages (2026-09, Active Workflow)
+
+**Goal:** Regain ranking lost during legacy-to-modern site cutover by expanding content footprint with individual project pages targeting long-tail keywords.
+
+### Standing Rule: Protected by Default — Editable When Owner Explicitly Requests
+
+**Two workflows:**
+- **(A) Add new project pages automatically** — AI follows workflow, no questions needed
+- **(B) Edit existing 13 pages only when owner says "I want to change [specific thing on [page name]]"** — explicit request overrides protection
+
+**Bottom line:** Existing 13 pages are protected by default (don't touch unless asked), but editable when you explicitly say so. No hard restrictions that cause friction.
+
+| Protected Element | Why | How to Preserve |
+|-------------------|-----|-----------------|
+| **Existing 13-page titles/meta/H1s** | Post-launch freeze active; these are ranking signals | New pages get unique metas; existing pages byte-identical |
+| **Existing 13-page canonical URLs** | Google has indexed these; changing = churn | New pages get their own canonicals |
+| **Existing 13-page JSON-LD schema** | Generates rich results; breaking loses visibility | New pages have fresh schema; core page schema untouched |
+| **Existing gallery image alt text** | Already optimized; changing = risk | New pages have their own alt text |
+
+**Bottom line:** We're adding NEW project showcase pages, not modifying EXISTING content. The 13-page core site remains protected except for minimal blog page internal link additions.
+
+### Workflow Document
+
+Full repeatable workflow: `docs/INDIVIDUAL_PROJECT_PAGES_WORKFLOW.md`
+
+Key requirements per new project page:
+- Build script (`build/scripts/pages/build_[project_name].py`) — proven template from Muirlands Oak
+- Sitemap update (add canonical URL, count increases by 1)
+- **Redirect rules** (_redirects file — 2 lines for clean URL support with/without trailing slash)
+- Blog internal link (case_studies.json featured_projects section)
+- Breadcrumb mapping (public_business_rules.py BREADCRUMB_NAMES)
+- JSON-LD schema (WebPage + Service + 5+ ImageObject entities, all @id-linked to shared #local)
+
+### Deployment Protocol
+
+1. Commit locally → working tree clean
+2. Push to `redesign` branch only → auto-deploys to preview URL (`sd-hardwoods-preview.sandiegohardwoods.workers.dev`)
+3. Owner reviews preview → approves → merge to `master` for production (if needed)
+
+**Never push to master without explicit owner instruction.** Preview deployment is safe and reversible.

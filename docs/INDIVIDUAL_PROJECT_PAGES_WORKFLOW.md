@@ -102,15 +102,22 @@ This Python script generates the page HTML using the existing build system. It r
 **Script must include:**
 - SEO-heavy title + meta description (author constants, not extracted)
 - Canonical URL tag pointing to own page
-- JSON-LD schema markup (generate based on project content):
+- **JSON-LD schema markup for Google rich results:**
   - `WebPage` entity with name/description
-  - `Service` entity for the flooring work performed
-  - `ImageObject` entities for before/after photos
-  - Connect to shared `#local` LocalBusiness via `@id`
+  - `Service` entity for the flooring work performed  
+  - **5+ `ImageObject` entities** for key before/after/process photos (Google requires multiple images for rich results)
+  - Connect to shared `#local` LocalBusiness via `@id` only (no duplicate business declarations)
+  - All entities linked together with `@id` references
 - Keyword-rich paragraphs in natural language (project location, wood species, services, timeline, challenges)
-- Before/after image grid using existing CSS classes: `.hero`, `.block`, `.before-after-grid`
+- Before/after image grid using existing CSS classes: `.hero`, `.block`, `.gallery`
 
-**Template pattern:** Copy the structure from an existing build script (e.g., `build_homepage.py`) and adapt for single-project content.
+**Template pattern:** Copy the structure from `build_muirlands_oak_refinishing_la_jolla.py` — this is now the proven template for all future project pages.
+
+**Schema requirements for Google rich results:**
+- At least 5 ImageObject entities with real contentUrl, url, and name fields
+- WebPage entity connected to Service via `mainEntity`
+- All `@id`s unique and properly linked
+- No duplicate LocalBusiness declarations (reuse shared `#local` via `@id`)
 
 ### File 2: Edit `build/scripts/common/build_sitemap.py`
 Add the new canonical URL to the `CANONICAL_URLS` set:
@@ -199,6 +206,27 @@ Add to `build/chrome/top.html` navigation — but this requires updating all 13+
 
 ---
 
+## CRITICAL: Redirect Rules for Every New Page
+
+**Every new project page MUST have redirect rules added to `_redirects` file.** This ensures clean URLs work without `.html`:
+
+```
+/[project-name] /[project-name].html 301
+/[project-name]/ /[project-name].html 301
+```
+
+**Example (Muirlands Oak):**
+```
+/muirlands-oak-refinishing-la-jolla /muirlands-oak-refinishing-la-jolla.html 301
+/muirlands-oak-refinishing-la-jolla/ /muirlands-oak-refinishing-la-jolla.html 301
+```
+
+**Why this matters:** Without these rules, visitors typing the clean URL (without `.html`) might get a 404 error. The redirect automatically sends them to the correct `.html` version.
+
+**When to add:** Before committing — add both lines to `_redirects` file at the end of the list.
+
+---
+
 ## Files That Change (Only These)
 
 | File | Purpose | When to Edit |
@@ -208,6 +236,7 @@ Add to `build/chrome/top.html` navigation — but this requires updating all 13+
 | `build/data/blog/case_studies.json` | Blog JSON with featured projects links | Add internal link to new page here |
 | `build/scripts/common/build_sitemap.py` | Sitemap URL list | Add canonical URL for each new page |
 | `build/scripts/build_all.py` | Master build config list | Add project name + title per new page |
+| `_redirects` | Clean URL redirect rules | **ADD 2 LINES PER NEW PAGE** (with and without trailing slash) |
 
 **Important:** Never edit generated `.html` files directly — always use the build script to regenerate.
 
@@ -222,16 +251,17 @@ Run through this checklist after completing a new project page. All items must b
 | 1 | Images copied to repo root | `ls` in repo folder shows all image files |
 | 2 | Image dimensions recorded | You wrote down width×height from Python/Pillow output |
 | 3 | Build script created | File exists at `build/scripts/pages/build_[project_name].py` |
-| 4 | Sitemap URL added | Search for new URL in `build_sitemap.py` CANONICAL_URLS set |
+| 4 | Sitemap URL added | Search for new URL in `build_sitemap.py` CANONICAL_URLS set (count should increase by 1) |
 | 5 | CONFIGS entry added | Search for project name in `build_all.py` CONFIGS list |
 | 6 | Page regenerated | Generated `.html` file exists at repo root with correct filename |
-| 7 | Localhost test successful | Open `http://localhost:PORT/[page].html`; images load; layout matches site style |
-| 8 | Grid responsive behavior verified | Resize browser window; confirm 4-wide desktop → 3-wide tablet → 1–2 wide mobile |
-| 9 | Changes committed to Git | `git status` shows "nothing to commit, working tree clean" |
-| 10 | Pushed to `redesign` branch | `git push origin redesign` completed without errors |
-| 11 | GitHub Actions passed | Actions tab shows ✅ green checkmark for latest commit |
-| 12 | Cloudflare preview updated | Visit preview URL; see new page with correct content + layout (wait ~60 seconds after Actions succeeds) |
-| 13 | Internal link added to blog | Search `case_studies.json` for new page URL in featured_projects section |
+| 7 | Redirect rules added | Check `_redirects` file — 2 new lines for clean URL support (with/without trailing slash) |
+| 8 | Localhost test successful | Open `http://localhost:PORT/[page].html`; images load; layout matches site style |
+| 9 | Grid responsive behavior verified | Resize browser window; confirm 4-wide desktop → 3-wide tablet → 1–2 wide mobile |
+| 10 | Changes committed to Git | `git status` shows "nothing to commit, working tree clean" |
+| 11 | Pushed to `redesign` branch | `git push origin redesign` completed without errors |
+| 12 | GitHub Actions passed | Actions tab shows ✅ green checkmark for latest commit |
+| 13 | Cloudflare preview updated | Visit preview URL; see new page with correct content + layout (wait ~60 seconds after Actions succeeds) |
+| 14 | Internal link added to blog | Search `case_studies.json` for new page URL in featured_projects section |
 
 **If all 13 checks pass:** Task complete. The individual project showcase page has been successfully created, deployed to production, and is indexed by Google via sitemap for SEO footprint expansion.
 
@@ -284,6 +314,19 @@ Run through this checklist after completing a new project page. All items must b
 6. **No screenshots unless explicitly asked** — judge directly in browser
 7. **Deploy to preview first** — get owner approval before production merge
 8. **Document any new patterns discovered** during the session (update this doc if needed)
+
+---
+
+## Quick Start Phrase for Future Sessions
+
+When starting a new project page deployment session, use this phrase to give the AI immediate context:
+
+> **"Add [project name] individual showcase page from folder [folder path]. All images ready with SEO filenames. Follow established workflow: build script → sitemap (14+ URLs) → redirect rules → blog link (#XX) → commit → push to redesign for preview deployment."**
+
+**Example:**
+> *"Add Muirlands Oak individual showcase page from folder MUIRLANDS OAK FLOOR REFINISHING LA JOLLA SAN DIEGO WATERMARKED. All 28 images ready with SEO filenames. Follow established workflow: build script → sitemap (14 URLs) → redirect rules → blog link (#13) → commit → push to redesign for preview deployment."*
+
+This phrase tells the AI exactly what to do without re-reading all documentation.
 
 ---
 

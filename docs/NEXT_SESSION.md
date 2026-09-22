@@ -56,6 +56,30 @@ Open items from launch (details in the launch report):
   policy (preserve existing accurate alt text verbatim; additions owner-approved,
   evidence-grounded) and the media-fact confirmation policy. Mind the title/meta/H1 freeze.
 
+---
+
+## SEO Footprint Expansion — Individual Project Showcase Pages (Active Workflow)
+
+**Status:** Muirlands Oak page committed and ready for deployment  
+**Workflow document:** `docs/INDIVIDUAL_PROJECT_PAGES_WORKFLOW.md` (read this first for new projects)
+
+### Next Deployment: Muirlands Oak Page
+
+- **Commit:** `e156113` on `redesign` branch
+- **Ready to push:** All files committed, working tree clean
+- **Deployment target:** Preview URL only (`sd-hardwoods-preview.sandiegohardwoods.workers.dev`)
+- **Quick start phrase:** *"Muirlands oak page: committed (e156113), all 28 images, redirect rules added, sitemap 14 URLs, blog link #13. Ready to push to redesign branch for Cloudflare preview deployment."*
+
+### Future Projects (Many More Planned)
+
+Owner has many folders with watermarked photos ready for individual showcase pages:
+- Each folder → one SEO-rich project page
+- Blog page as entry point (internal links via `case_studies.json`)
+- Automatic redirect rules, sitemap updates, schema markup
+- **Goal:** Regain ranking lost during legacy-to-modern site cutover by expanding content footprint
+
+**Workflow is documented and repeatable.** Future sessions can deploy new pages without re-learning everything.
+
 ## Milestone 3.3 — Production cutover: master push + production Worker verified (2026-07-24, fourth session)
 
 Owner-authorized production push executed. Status of the Milestone-3.1 cutover sequence:
