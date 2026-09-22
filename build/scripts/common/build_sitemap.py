@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 """Generates the repo-root sitemap.xml and robots.txt (Milestone 2.4).
 
-sitemap.xml lists exactly the 13 approved canonical page URLs -- the 12 legacy
-pages plus the new floor-assessments-inspections.html page, all at their
+sitemap.xml lists exactly the 14 approved canonical page URLs -- the 12 legacy
+pages, the floor-assessments-inspections.html page, and the new
+muirlands-oak-refinishing-la-jolla.html individual project showcase page, all at their
 established .html filenames (2026-07-23: assessment page's canonical
 changed from extensionless to .html to match the legacy pages' format).
 No lastmod is emitted: the repo has no
@@ -71,7 +72,7 @@ def page_images(page_file):
     assert len(urls) <= 1000, f"{page_file}: exceeds 1000 images per sitemap URL"
     return urls
 
-# The approved canonical URL map (Milestone 2.4). One entry per page, exactly 13.
+# The approved canonical URL map (Milestone 2.4). One entry per page, exactly 14.
 CANONICAL_URLS = [
     "https://www.sdhardwoods.com/",
     "https://www.sdhardwoods.com/deep-cleaning-hardwood-floors-san-diego.html",
@@ -86,6 +87,7 @@ CANONICAL_URLS = [
     "https://www.sdhardwoods.com/blog.html",
     "https://www.sdhardwoods.com/contact_us.html",
     "https://www.sdhardwoods.com/floor-assessments-inspections.html",
+    "https://www.sdhardwoods.com/muirlands-oak-refinishing-la-jolla.html",
 ]
 
 ROBOTS_TXT = """User-agent: *
@@ -97,7 +99,7 @@ Sitemap: https://www.sdhardwoods.com/sitemap-videos.xml
 
 
 def main():
-    assert len(CANONICAL_URLS) == 13, "canonical map must contain exactly 13 URLs"
+    assert len(CANONICAL_URLS) == 14, "canonical map must contain exactly 14 URLs"
     assert len(set(CANONICAL_URLS)) == 13, "canonical map contains a duplicate URL"
     for u in CANONICAL_URLS:
         assert u.startswith("https://www.sdhardwoods.com/"), f"non-canonical origin: {u}"

@@ -1,5 +1,5 @@
 """
-Regenerate all 13 site pages from raw-source/ + data/ + chrome/.
+Regenerate all 14 site pages from raw-source/ + data/ + chrome/.
 
 Usage:
     python build_all.py
@@ -45,6 +45,7 @@ STEPS = [
         PAGES / "build_blog.py",
         PAGES / "assemble_blog.py",
     ]),
+    ("muirlands-oak-refinishing-la-jolla", [PAGES / "build_muirlands_oak_refinishing_la_jolla.py"]),
     ("sitemap.xml + robots.txt", [COMMON / "build_sitemap.py"]),
 ]
 
@@ -68,7 +69,7 @@ def main():
             print(f"  - {label} ({script})")
         sys.exit(1)
     else:
-        print("All 13 pages + sitemap.xml + robots.txt regenerated successfully.")
+        print("All 14 pages + sitemap.xml + robots.txt regenerated successfully.")
         print("Run `git diff` at the repo root to review what changed before committing.")
 
 

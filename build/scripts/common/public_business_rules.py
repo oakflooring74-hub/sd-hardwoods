@@ -510,6 +510,7 @@ BREADCRUMB_NAMES = {
     "https://www.sdhardwoods.com/blog.html": "Blog",
     "https://www.sdhardwoods.com/contact_us.html": "Contact",
     "https://www.sdhardwoods.com/floor-assessments-inspections.html": "Floor Assessments & Inspections",
+    "https://www.sdhardwoods.com/muirlands-oak-refinishing-la-jolla.html": "Muirlands Oak Refinishing La Jolla",
 }
 
 _CANONICAL_LINK_RE = re.compile(
