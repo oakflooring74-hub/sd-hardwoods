@@ -92,7 +92,7 @@ Generated successfully via the build script. Contains all schema markup, SEO met
 | # | Task | Status | Notes |
 |---|------|--------|-------|
 | 7 | Localhost visual QA on port 8084 | ⏳ Pending | HTTP server had connectivity issues; page is generated and ready for review |
-| 13 | Internal link added to blog (case_studies.json) | ⏳ Pending | Add `featured_projects` entry pointing to new URL in `build/data/blog/case_studies.json` |
+| 13 | Internal link added to blog (case_studies.json) | ✅ Done — #13 featured project card in `assemble_blog.py` (commits `278dc97`, `262dc3b`) |
 | Commit + push to `redesign` branch | ⏳ Pending | Awaiting visual verification and explicit go-ahead; no production deployment yet |
 
 ---
@@ -113,7 +113,7 @@ Generated successfully via the build script. Contains all schema markup, SEO met
 | 10 | Pushed to `redesign` branch | ⏳ Pending — not yet pushed |
 | 11 | GitHub Actions passed | ⏳ Pending — depends on push |
 | 12 | Cloudflare preview updated | ⏳ Pending — depends on push + Actions |
-| 13 | Internal link added to blog | ⏳ Pending — case_studies.json not yet edited |
+| 13 | Internal link added to blog | ✅ Done — #13 featured project card in `assemble_blog.py` (commits `278dc97`, `262dc3b`) |
 
 ---
 
@@ -121,24 +121,25 @@ Generated successfully via the build script. Contains all schema markup, SEO met
 
 | File | Change Type | Purpose |
 |------|-------------|---------|
-| `build/scripts/pages/build_muirlands_oak_refinishing_la_jolla.py` | New file | Page generation script (modeled on build_floor_assessments.py) |
+| `build/scripts/pages/build_muirlands_oak_refinishing_la_jolla.py` | New file | Page generation script (modeled on build_floor_assessments.py) — enhanced with SEO crawl findings wording |
 | `build/scripts/common/build_sitemap.py` | Modified | Added canonical URL, updated count 13→14 |
 | `build/scripts/build_all.py` | Modified | Added STEPS entry for new page, updated docstrings |
 | `build/scripts/common/public_business_rules.py` | Modified | Added breadcrumb name mapping for new URL |
-| `muirlands-oak-refinishing-la-jolla.html` | New file (generated) | The actual showcase page HTML at repo root |
+| `muirlands-oak-refinishing-la-jolla.html` | New file (generated) | The actual showcase page HTML at repo root (~80K chars) |
 | 28 image files | New files | SEO-named copies of Muirlands folder images in repo root |
+| `build/scripts/pages/assemble_blog.py` | Modified | Added #13 featured-project card linking to new page (commits `278dc97`, `262dc3b`) |
 
 ---
 
 ## Next Session Action Items
 
-1. **Fix localhost HTTP server** — diagnose port 8084 connectivity issue, start server, open `http://localhost:8084/muirlands-oak-refinishing-la-jolla.html` for visual QA
-2. **Verify responsive grid behavior** — resize browser window; confirm 4-wide desktop → 3-wide tablet → 1–2 wide mobile per §5 specs
-3. **Add internal link to blog** — edit `build/data/blog/case_studies.json` to add a `featured_projects` entry pointing to `/muirlands-oak-refinishing-la-jolla.html` with an SEO-rich excerpt
-4. **Commit + push to `redesign`** — only after visual verification confirms accuracy and human verification passes; no production deployment until explicit go-ahead
+1. **Visual QA on localhost** — start HTTP server, open the page in browser, verify responsive grid (4-wide desktop → 3-wide tablet → 1–2 wide mobile) and image loading
+2. **Commit + push to `redesign`** — deploy preview for owner review; no production deployment until explicit go-ahead
+
+*(Items 3 "Add internal link to blog" already completed via commits `278dc97` / `262dc3b`.)*
 
 ---
 
 ## Handoff Phrase for Next Session
 
-> **"Muirlands oak project page build script created, sitemap/build_all.py/breadcrumb map updated, 28 images copied with SEO filenames, HTML generated at repo root. Localhost QA pending server fix. Blog internal link + commit/push to redesign still needed."**
+> **"Muirlands oak project page fully built: build script created, sitemap/build_all.py/breadcrumb map updated, 28 images copied with SEO filenames, HTML generated at repo root, enhanced SEO wording baked in, blog #13 featured-project link added. Localhost visual QA + push to redesign for preview deployment still needed."**

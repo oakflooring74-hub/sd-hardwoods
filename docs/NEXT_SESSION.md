@@ -6,37 +6,34 @@
 
 ## What Just Happened (This Session)
 
-**Session: SEO Crawl Analysis + Documentation Setup**
+**Session: Muirlands Oak Showcase Page — Complete + Blog Link Added**
 - **Crawled all 13 live pages** with Playwright — extracted titles, metas, headings, service signals
 - **Found 7 missing simple search terms** that you lost ranking on (wood floor refinisher, hardwood floor finishing, etc.)
 - **Updated `INDIVIDUAL_PROJECT_PAGES_WORKFLOW.md`** with SEO keyword requirements for new pages
 - Created `AGENTS.md` — single entry point for all future sessions
 - All documentation committed locally (`582fdff`)
 
+**Follow-up commits (already done):**
+- **`e156113`**: Muirlands Oak showcase page created — build script, 28 images copied with SEO filenames, sitemap updated (14 URLs), redirect rules added, breadcrumb mapping added. Working tree clean.
+- **`278dc97`**: Enhanced SEO wording baked into the build script + blog internal link (#13 featured project) added to `assemble_blog.py`. Sitemap regenerated.
+- **`262dc3b`**: Refined blog showcase link — "individual project pages hub + in-card link"; dropped hardcoded project count from blog page.
+
+**Bottom line:** The Muirlands Oak page is fully built with enhanced SEO copy and connected to the blog via a #13 featured-project card. All committed on `redesign`, working tree clean. Ready to push for preview deployment — but NOT pushed yet (awaiting your go-ahead).
+
 ---
 
 ## What's Ready for Next Session
 
-### Muirlands Oak Page Deployment (With Enhanced SEO)
-
-**Commit:** `e156113` on `redesign` branch  
-**Status:** All files committed, working tree clean  
-**SEO enhancement needed:** Add missing keyword terms to description before push
-
-**Enhanced wording to add (from crawl findings):**
-```
-This La Jolla Muirlands project shows San Diego Hardwoods at work as a professional wood floor refinisher serving San Diego County. We specialize in hardwood floor finishing — from sanding hardwood floors to applying durable polyurethane finishes that last for decades. As a flooring contractor favorite among La Jolla homeowners, we handle everything from refinish wood floor projects to complete hardwood restoration.
-```
-
-**Action needed:** 
-1. Edit build script with enhanced wording above (or your own dictation)
-2. Regenerate page
-3. Commit locally
-4. Push to `redesign` → auto-deploys to preview URL
+### Muirlands Oak Page Deployment
+- **Commit:** `262dc3b` (latest) on `redesign` branch  
+- **Status:** All files committed, working tree clean  
+- **SEO wording:** Already enhanced with crawl findings baked into the build script — no further editing needed  
+- **Blog link (#13 featured project):** Already added to `assemble_blog.py` — confirmed present and linked  
+- **Ready to push** to `redesign` → auto-deploys to preview URL
 
 **Preview URL:** `https://sd-hardwoods-preview.sandiegohardwoods.workers.dev/muirlands-oak-refinishing-la-jolla.html`
 
-**Quick Start Phrase:** *"Resume Muirlands deployment with enhanced SEO wording"* or *"Push to redesign for preview"*
+**Quick Start Phrase:** *"Push Muirlands Oak page to redesign for preview deployment"*
 
 ---
 
