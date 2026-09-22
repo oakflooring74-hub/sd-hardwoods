@@ -70,6 +70,41 @@ for rec in records:
         rec["prose"] = [cs3_prose] if cs3_prose else []
         break
 
+# Individual project showcase pages (SEO footprint expansion) are linked into the blog
+# from here, as extra case-study records appended to the raw-source ones. This is the
+# durable home for those links: case_studies.json is regenerated from raw-source on every
+# build (build_blog.py), so a record added there disappears on the next rebuild -- and an
+# entry hand-edited into blog.html fails CI's regeneration-diff gate. Appending here means
+# each showcase page keeps its internal link AND its BlogPosting schema entry permanently.
+# One entry per future showcase page: same shape as a raw-source record (id, title, prose,
+# images with href/src/alt/class, captions). Alt text is recomposed by render_figure below,
+# so `alt` here is only the image-specific prefix.
+PROJECT_SHOWCASE_CARDS = [
+    {
+        "id": "module_itemRecordGuid.muirlands_oak_2026_09",
+        "title": "# 13 Muirlands Oak Floor Refinishing La Jolla \u2014 Vintage Red Oak Restoration with Termite Damage Repair",
+        "prose": [
+            "This La Jolla Muirlands project showcases San Diego Hardwoods' expertise in vintage red oak floor refinishing, including dust-contained sanding with planetary and rotary sanders, gap filling, termite damage board replacement, and new office flooring installation. The floor was finished with Bona Traffic HD polyurethane for long-lasting durability. As a licensed, 5-star rated wood floor installer in San Diego, we provide hardwood floor refinishing, restoration, and installation services across La Jolla, San Diego County, and coastal neighborhoods. Homeowners searching for 'red oak floor refinishing La Jolla' or 'best flooring contractor San Diego' rely on our Bona-certified craftsmanship."
+        ],
+        "images": [
+            {
+                "href": "/red-oak-floor-refinishing-la-jolla-before-sanding-1.jpg",
+                "src": "/red-oak-floor-refinishing-la-jolla-before-sanding-1.jpg",
+                "alt": "Muirlands La Jolla red oak floor refinishing before sanding \u2014 vintage hardwood restoration project by licensed San Diego flooring contractor",
+                "class": "",
+            },
+            {
+                "href": "/bona-traffic-hd-hardwood-floor-finishing-la-jolla-after.jpg",
+                "src": "/bona-traffic-hd-hardwood-floor-finishing-la-jolla-after.jpg",
+                "alt": "La Jolla red oak floor finished with Bona Traffic HD polyurethane \u2014 Muirlands oak refinishing after sanding and termite damage repair by San Diego Hardwoods",
+                "class": "",
+            },
+        ],
+        "captions": [],
+    },
+]
+records.extend(PROJECT_SHOWCASE_CARDS)
+
 # Alt-text recomposition (Milestone 2.13): two case-#8 photos' legacy alt is pure
 # ALL-CAPS keyword spam with zero image-specific content (a raw-source extraction
 # artifact); each one's own visible figcaption already had the real fact (sanding
