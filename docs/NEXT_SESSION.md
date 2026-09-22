@@ -1,6 +1,34 @@
-# Start here — project status as of 2026-07-25
+# NEXT SESSION — Current State as of 2026-09
 
-Read this file first when picking this project back up — **together with `docs/PROJECT_OPERATING_MANUAL.md` (the permanent governing document, added 2026-07-18) and `docs/PROJECT_DECISIONS.md` (binding decisions + standing blockers)**. This file links to everything else and tells you what's done, what's approved next, and what to ask the owner before doing anything.
+**Read this first in every session.** Then read `docs/AGENTS.md` for project entry point and workflow rules.
+
+---
+
+## What Just Happened (This Session)
+
+**Session: Documentation Setup & Workflow Implementation**
+- Created `AGENTS.md` — single entry point for all future sessions
+- Updated `INDIVIDUAL_PROJECT_PAGES_WORKFLOW.md` with redirect rules, schema requirements, quick start phrases
+- Updated `PROJECT_DECISIONS.md` with two-workflow rule (protected by default, editable on explicit request)
+- All documentation committed locally (`ec0481e`)
+
+---
+
+## What's Ready for Next Session
+
+**Muirlands Oak Page Deployment:**
+- **Commit:** `e156113` on `redesign` branch
+- **Status:** All files committed, working tree clean
+- **Action needed:** Push to `redesign` → auto-deploys to preview URL
+- **Preview URL:** `https://sd-hardwoods-preview.sandiegohardwoods.workers.dev/muirlands-oak-refinishing-la-jolla.html`
+
+**Quick Start Phrase:** *"Resume Muirlands deployment"* or *"Push to redesign for preview"*
+
+---
+
+## Full Project History (Below)
+
+The rest of this document contains the complete milestone history from July 2026 through September 2026. Older milestones stay here as reference but don't clutter the current state at the top.
 
 ## 📄 NEW WORKFLOW — Individual Project Showcase Pages (SEO Footprint Expansion)
 
