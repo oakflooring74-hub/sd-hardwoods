@@ -91,6 +91,11 @@ Write natural sentences that include your main keyword once (no stuffing):
 
 ## Build Script Creation (One-Time Per Project)
 
+### §3a. Owner-Dictated Project Content Workflow
+1. **Owner provides verbal/written dictation** describing the project: location, wood species, room(s), damage/issues observed, services performed (specific products/processes used), and final outcome.
+2. **Vision-capable session inspects ALL photos in the assigned folder** — however many exist (3–25+). Compares each frame against owner dictation to verify accuracy and selects only those that clearly show: confirmed wood species, documented damage/repair stages, and consistent lighting/color outcomes with described results. Suggests removing duplicates, blurry frames, or images contradicting dictation.
+3. **All selected photos display in portrait orientation** for page consistency — landscape-ratio images (if any) are cropped to portrait via CSS grid handling per §5 specs; never displayed sideways.
+
 ### File 1: Create `build/scripts/pages/build_[project_name].py`
 This Python script generates the page HTML using the existing build system. It reuses shared CSS classes to match exact site style/layout.
 
