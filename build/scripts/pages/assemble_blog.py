@@ -77,12 +77,21 @@ for rec in records:
 # entry hand-edited into blog.html fails CI's regeneration-diff gate. Appending here means
 # each showcase page keeps its internal link AND its BlogPosting schema entry permanently.
 # One entry per future showcase page: same shape as a raw-source record (id, title, prose,
-# images with href/src/alt/class, captions). Alt text is recomposed by render_figure below,
-# so `alt` here is only the image-specific prefix.
+# images with href/src/alt/class, captions) plus three showcase-only keys --
+#   page_url     the new page's canonical URL (absolute, site convention) -> rendered as a
+#                "full project page" link at the end of this card AND as one line in the
+#                Individual Project Pages hub section above the case studies;
+#   page_label   keyword-rich anchor text for both links (unique per page -- this is the
+#                signal that ties each new URL to a described San Diego service, so vary it);
+#   hub_blurb    one-sentence description shown only in the hub list.
+# Alt text is recomposed by render_figure below, so `alt` here is only the image-specific prefix.
 PROJECT_SHOWCASE_CARDS = [
     {
         "id": "module_itemRecordGuid.muirlands_oak_2026_09",
         "title": "# 13 Muirlands Oak Floor Refinishing La Jolla \u2014 Vintage Red Oak Restoration with Termite Damage Repair",
+        "page_url": "https://www.sdhardwoods.com/muirlands-oak-refinishing-la-jolla.html",
+        "page_label": "Red Oak Floor Refinishing and Hardwood Floor Finishing in La Jolla, San Diego",
+        "hub_blurb": "Vintage red oak floors in an ocean-view Muirlands home: dust-free sanding to raw wood, gap filling, termite-damaged boards replaced and new oak installed, then stained and finished in Bona Traffic HD polyurethane.",
         "prose": [
             "This La Jolla Muirlands project showcases San Diego Hardwoods' expertise in vintage red oak floor refinishing, including dust-contained sanding with planetary and rotary sanders, gap filling, termite damage board replacement, and new office flooring installation. The floor was finished with Bona Traffic HD polyurethane for long-lasting durability. As a licensed, 5-star rated wood floor installer in San Diego, we provide hardwood floor refinishing, restoration, and installation services across La Jolla, San Diego County, and coastal neighborhoods. Homeowners searching for 'red oak floor refinishing La Jolla' or 'best flooring contractor San Diego' rely on our Bona-certified craftsmanship."
         ],
@@ -171,10 +180,33 @@ for rec in records:
             parts.append(render_figure(img, caption_map.get(i), rec["title"], prose_joined))
             img_total += 1
         parts.append('</div>')
+    if rec.get("page_url"):
+        # Best-of-both internal linking: the hub section below is the primary crawl path to
+        # each new showcase URL; this in-card link reinforces it with the same anchor text.
+        parts.append(
+            f'<p style="margin-top:14px;"><a href="{rec["page_url"]}" '
+            f'style="color:var(--brass-deep);font-weight:700;text-decoration:underline;">'
+            f'Full project page: {rec["page_label"]} &raquo;</a></p>'
+        )
     parts.append('</div>')
     case_study_cards.append("\n".join(parts))
 
 case_studies_html = "\n".join(case_study_cards)
+
+# The hub list of individual project pages, built from the same PROJECT_SHOWCASE_CARDS so a
+# new showcase page can never be linked in one place and forgotten in the other. One line per
+# page; anchor text is each page's own keyword-rich label (unique per page by design).
+_showcase_links = "\n".join(
+    f'    <li><a href="{rec["page_url"]}" style="color:var(--brass-deep);font-weight:700;text-decoration:underline;">{rec["page_label"]}</a> &mdash; {rec["hub_blurb"]}</li>'
+    for rec in PROJECT_SHOWCASE_CARDS if rec.get("page_url")
+)
+showcase_hub_html = f'''<section class="block">
+  <h2>Individual Project Pages &mdash; Hardwood Floor Finishing and Refinishing Across San Diego</h2>
+  <p class="lede">Every project below has its own page documenting what the floor looked like, the sanding hardwood floors and repair work we performed, and the finish system that went on top &mdash; neighborhood, wood species and products spelled out. These are the same San Diego floors shown in the case studies further down this blog, written up one job at a time.</p>
+  <ul style="max-width:900px;margin:0 auto;font-size:16px;line-height:1.8;text-align:left;">
+{_showcase_links}
+  </ul>
+</section>'''
 
 # Schema milestone (2026-07-19): original page had no JSON-LD block at all
 # (confirmed) -- this adds a Blog + BlogPosting graph built from the page's
@@ -348,6 +380,8 @@ main_html = f'''<main>
   </div>
 </section>
 
+{showcase_hub_html}
+
 <section class="block">
   {deep_cleaning_cta}
 </section>
@@ -355,7 +389,7 @@ main_html = f'''<main>
 <section class="block">
   <div class="gallery-intro">
     <h2>Hardwood Flooring Case Studies &amp; Project Stories</h2>
-    <p class="lede">Twelve real San Diego hardwood flooring projects &mdash; refinishing, restoration, repairs, and installation &mdash; told in the words of the crew who did the work.</p>
+    <p class="lede">Real San Diego hardwood flooring projects &mdash; refinishing, restoration, repairs, and installation &mdash; told in the words of the crew who did the work.</p>
   </div>
   <div class="info-grid" style="grid-template-columns:repeat(auto-fit,minmax(min(480px,100%),1fr));">
 {case_studies_html}
