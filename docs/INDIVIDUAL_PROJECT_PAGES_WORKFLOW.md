@@ -89,6 +89,24 @@ Write natural sentences that include your main keyword once (no stuffing):
 
 ---
 
+## SEO Keyword Requirements — Restore Lost Ranking (2026-09 Crawl Findings)
+
+**Live site crawl analysis revealed:** You lost ranking on simple, high-intent search terms that people actually type. New project pages MUST include these missing terms naturally to restore ranking:
+
+| Missing Term | Why It Matters | How to Include in New Pages |
+|--------------|----------------|------------------------------|
+| "wood floor refinisher" | High-intent short search | "As a professional wood floor refinisher serving [neighborhood]..." |
+| "hardwood floor finishing" | Core service term | "We specialize in hardwood floor finishing — from sanding to final coat..." |
+| "floor finishing service" | Service query | "This [location] project demonstrates our floor finishing service quality..." |
+| "sanding hardwood floors" | Process-specific search | "Our dust-contained sanding hardwood floors process ensures clean workspace..." |
+| "refinish wood floor" | Short, common search | "When you need to refinish wood floor in [area], this project shows the results..." |
+| "[neighborhood] hardwood floor finishing" | Local + core service | "[Neighborhood] homeowners choose us for hardwood floor finishing because..." |
+| "refinish wood floor [city]" | High-intent local | "To refinish wood floor San Diego, call San Diego Hardwoods — this La Jolla project proves the quality..." |
+
+**Strategy:** Each new project page should naturally weave 3-5 of these terms into owner dictation-based paragraphs. Don't stuff — make them flow naturally within real project descriptions.
+
+---
+
 ## Build Script Creation (One-Time Per Project)
 
 ### §3a. Owner-Dictated Project Content Workflow
@@ -108,7 +126,7 @@ This Python script generates the page HTML using the existing build system. It r
   - **5+ `ImageObject` entities** for key before/after/process photos (Google requires multiple images for rich results)
   - Connect to shared `#local` LocalBusiness via `@id` only (no duplicate business declarations)
   - All entities linked together with `@id` references
-- Keyword-rich paragraphs in natural language (project location, wood species, services, timeline, challenges)
+- **Keyword-rich paragraphs in natural language:** Combine owner dictation + SEO keyword requirements above — weave missing terms naturally into project descriptions
 - Before/after image grid using existing CSS classes: `.hero`, `.block`, `.gallery`
 
 **Template pattern:** Copy the structure from `build_muirlands_oak_refinishing_la_jolla.py` — this is now the proven template for all future project pages.
