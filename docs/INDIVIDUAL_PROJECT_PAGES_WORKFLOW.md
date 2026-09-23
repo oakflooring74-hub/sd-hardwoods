@@ -29,6 +29,9 @@ These elements on the existing 13-page site are protected. Do NOT modify them:
 
 **Bottom line:** We're adding NEW content, not modifying EXISTING content. The 13-page core site remains byte-identical except for the blog page's internal link additions.
 
+### What Google Sees & Why More Pages Help
+Each new project page gives Google a unique URL with real, detailed content: natural-language paragraphs describing a specific job (location + wood species + services), distinct photos each with descriptive filenames and alt text, schema markup identifying it as flooring work in San Diego, plus an internal link from the blog for crawl discovery. This is not AI slop — it's human-written, location-specific detail that answers real search queries. Every folder turned into a page = one more indexed URL targeting its own long-tail keywords (e.g., "red oak floor refinishing La Jolla"). More quality pages = larger footprint = better ranking potential for the casual searches you lost during the legacy-to-modern cutover.
+
 ---
 
 ## Technical Architecture
