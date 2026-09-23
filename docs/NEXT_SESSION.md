@@ -6,12 +6,12 @@
 
 ## What Just Happened (This Session)
 
-**Session: Muirlands Oak Showcase Page — Visual Verification + Local Commit**
-- Started local HTTP server on port 8084 and opened the Muirlands page in browser for visual verification per user request
-- Committed all unsaved work locally (`docs/NEXT_SESSION.md` update) — working tree now clean
-- **Git state:** On `redesign`, ahead of `origin/redesign` by 2 commits (unpushed). User instructed not to go online, so no push performed.
+**Session: Muirlands Oak Page — Production Deployment Complete**
+- Pushed all 3 local commits from `redesign` → `origin/redesign`, then fast-forward merged to `master` and pushed to production
+- **Live URL:** `https://www.sdhardwoods.com/muirlands-oak-refinishing-la-jolla.html` — deployed via GitHub Actions, indexing requested in Google Search Console
+- Working tree clean. Both branches (`redesign` + `master`) are at the same commit (`0b089f0`).
 
-**Muirlands Oak page status:** Fully built with enhanced SEO wording baked into the build script (`build_muirlands_oak_refinishing_la_jolla.py`). All files committed locally. Ready for owner approval before pushing to `redesign` for preview deployment.
+**Muirlands Oak page status:** Fully built with enhanced SEO wording baked into the build script (`build_muirlands_oak_refinishing_la_jolla.py`), deployed to production, and submitted for Google indexing.
 
 ---
 
