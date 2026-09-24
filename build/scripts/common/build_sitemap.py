@@ -72,7 +72,7 @@ def page_images(page_file):
     assert len(urls) <= 1000, f"{page_file}: exceeds 1000 images per sitemap URL"
     return urls
 
-# The approved canonical URL map (Milestone 2.4). One entry per page, exactly 14.
+# The approved canonical URL map (Milestone 2.4). One entry per page, now 15 with new project pages.
 CANONICAL_URLS = [
     "https://www.sdhardwoods.com/",
     "https://www.sdhardwoods.com/deep-cleaning-hardwood-floors-san-diego.html",
@@ -88,6 +88,7 @@ CANONICAL_URLS = [
     "https://www.sdhardwoods.com/contact_us.html",
     "https://www.sdhardwoods.com/floor-assessments-inspections.html",
     "https://www.sdhardwoods.com/muirlands-oak-refinishing-la-jolla.html",
+    "https://www.sdhardwoods.com/maple-floor-refinishing-kensington.html",
 ]
 
 ROBOTS_TXT = """User-agent: *
@@ -99,7 +100,7 @@ Sitemap: https://www.sdhardwoods.com/sitemap-videos.xml
 
 
 def main():
-    assert len(CANONICAL_URLS) == 14, "canonical map must contain exactly 14 URLs"
+    assert len(CANONICAL_URLS) == 15, "canonical map must contain exactly 15 URLs"
     assert len(set(CANONICAL_URLS)) == 14, "canonical map contains a duplicate URL"
     for u in CANONICAL_URLS:
         assert u.startswith("https://www.sdhardwoods.com/"), f"non-canonical origin: {u}"

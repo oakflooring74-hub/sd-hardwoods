@@ -46,6 +46,7 @@ STEPS = [
         PAGES / "assemble_blog.py",
     ]),
     ("muirlands-oak-refinishing-la-jolla", [PAGES / "build_muirlands_oak_refinishing_la_jolla.py"]),
+    ("maple-floor-refinishing-kensington", [PAGES / "build_maple_floor_refinishing_kensington.py"]),
     ("sitemap.xml + robots.txt", [COMMON / "build_sitemap.py"]),
 ]
 
