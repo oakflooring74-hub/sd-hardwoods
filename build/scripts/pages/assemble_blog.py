@@ -111,6 +111,31 @@ PROJECT_SHOWCASE_CARDS = [
         ],
         "captions": [],
     },
+    {
+        "id": "module_itemRecordGuid.maple_kensington_2026_09",
+        "title": "# 14 Maple Floor Refinishing Kensington \u2014 Century-Old Hardwood Restoration with Termite Damage Repair",
+        "page_url": "https://www.sdhardwoods.com/maple-floor-refinishing-kensington.html",
+        "page_label": "Maple Floor Refinishing Kensington San Diego — Historical Wood Floor Restoration",
+        "hub_blurb": "Century-old maple floor severely yellowed from decades of UV exposure and old oil finish: sanded to raw wood, termite-damaged boards replaced, sealed with Bona low-VOC sealer and finished in satin sheen polyurethane.",
+        "prose": [
+            "This historical building in Kensington San Diego had a traditional maple hardwood floor severely yellowed from decades of excessive ultraviolet light and old oil polyurethane. San Diego Hardwoods sanded the solid maple floor down to raw wood with modern planetary equipment, replaced termite-damaged boards with new maple, sealed it with Bona low-VOC water-based sealer for subtle amber tone blending with the historical patina, then applied multiple coats of modern water-based polyurethane in a satin sheen. The project also included restoration of random-width solid red oak floors in the adjacent kitchen: sanded to raw wood, hand-scraped grooves, decorative plugs replaced, clear sealer applied to lighten tones, and finished with Bona Traffic HD. As a licensed floor sanding company that understands historical homes, we serve San Diego County from the border with Mexico up to Oceanside and into south Orange County."
+        ],
+        "images": [
+            {
+                "href": "/maple-floor-before-kensington.png",
+                "src": "/maple-floor-before-kensington.png",
+                "alt": "Maple floor refinishing Kensington San Diego before restoration \u2014 century-old hardwood severely yellowed from decades of UV exposure and old oil finish by licensed San Diego flooring contractor",
+                "class": "",
+            },
+            {
+                "href": "/maple-floor-before-after-kensington.png",
+                "src": "/maple-floor-before-after-kensington.png",
+                "alt": "Maple floor refinishing Kensington after restoration \u2014 100-year-old maple reclaimed from severe yellowing to natural beauty by San Diego Hardwoods",
+                "class": "",
+            },
+        ],
+        "captions": [],
+    },
 ]
 records.extend(PROJECT_SHOWCASE_CARDS)
 

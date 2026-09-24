@@ -1,6 +1,6 @@
-NEW <img> count: 49
+NEW <img> count: 51
 RAW <img> count: 49
-img_total tracked in script: 45
+img_total tracked in script: 47
 ld+json occurrences in NEW: 2
 ld+json occurrences in RAW: 0
 triple-backtick occurrences in NEW: 0

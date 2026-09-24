@@ -511,6 +511,7 @@ BREADCRUMB_NAMES = {
     "https://www.sdhardwoods.com/contact_us.html": "Contact",
     "https://www.sdhardwoods.com/floor-assessments-inspections.html": "Floor Assessments & Inspections",
     "https://www.sdhardwoods.com/muirlands-oak-refinishing-la-jolla.html": "Muirlands Oak Refinishing La Jolla",
+    "https://www.sdhardwoods.com/maple-floor-refinishing-kensington.html": "Maple Floor Refinishing Kensington",
 }
 
 _CANONICAL_LINK_RE = re.compile(
