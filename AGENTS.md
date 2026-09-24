@@ -51,6 +51,12 @@ Owner has many folders with watermarked photos → each becomes one SEO-rich ind
 | `redesign` | Preview only (`sd-hardwoods-preview.sandiegohardwoods.workers.dev`) | Safe — owner reviews before production |
 | `master` | Production live site (`www.sdhardwoods.com`) | **Never push without explicit owner instruction** |
 
+### CRITICAL BRANCH RULE (Effective Immediately)
+
+- **All commits are LOCAL ONLY to the `redesign` branch by default**
+- **NEVER commit or push to `master` unless the owner explicitly says "commit/push to master"**
+- Default workflow: work on `redesign`, generate locally, commit locally → STOP and wait for owner instruction before any push
+
 ---
 
 ## Quick Start Phrases for New Sessions
