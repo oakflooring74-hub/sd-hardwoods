@@ -44,18 +44,30 @@ Owner has many folders with watermarked photos → each becomes one SEO-rich ind
 
 ---
 
-## Deployment Protocol
+## Deployment Protocol — Individual Project Pages Workflow
+
+**Repeatable cycle for each new project page:**
+
+1. **Development on `redesign` branch:** Work locally, generate HTML, commit to `redesign` (local only)
+2. **Owner review/approval:** When satisfied with the page, say "push [page name] to production" or "live push"
+3. **Merge to master:** That specific page gets merged/pushed to `master` → deploys live to sdhardwoods.com
+4. **Return to `redesign`:** Next project page starts fresh on `redesign` branch
+
+This cycle repeats many times as you build out your SEO footprint. Each completed page:
+- Gets its own indexed URL with keyword-rich content
+- Links from the blog page's featured_projects section (stacking up over time)
+- Expands Google's discovery of San Diego Hardwoods' individual project work
 
 | Branch | Where It Deploys | When to Use |
 |--------|------------------|-------------|
-| `redesign` | Preview only (`sd-hardwoods-preview.sandiegohardwoods.workers.dev`) | Safe — owner reviews before production |
-| `master` | Production live site (`www.sdhardwoods.com`) | **Never push without explicit owner instruction** |
+| `redesign` | Preview only (`sd-hardwoods-preview.sandiegohardwoods.workers.dev`) | Development, testing, local commits for new pages |
+| `master` | Production live site (`www.sdhardwoods.com`) | **Only when owner explicitly says "push to production" or "live push"** |
 
 ### CRITICAL BRANCH RULE (Effective Immediately)
 
-- **All commits are LOCAL ONLY to the `redesign` branch by default**
-- **NEVER commit or push to `master` unless the owner explicitly says "commit/push to master"**
-- Default workflow: work on `redesign`, generate locally, commit locally → STOP and wait for owner instruction before any push
+- **All development commits default to `redesign` branch only** — never touch master during page creation
+- **NEVER push to `master` unless the owner explicitly says "push to production," "go live," or "merge to master"**
+- When a page is approved for production: merge that commit to `master`, then immediately return to `redesign` for next page
 
 ---
 

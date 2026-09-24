@@ -165,7 +165,32 @@ Add the new canonical URL to the `CANONICAL_URLS` set:
 
 ---
 
-## Deployment Workflow (Preview → Production)
+## Deployment Workflow (Preview → Production) — Repeatable Cycle
+
+**Each project page follows this cycle:**
+
+1. **Development on `redesign` branch:** Work locally, generate HTML, commit to `redesign` (local only)
+2. **Owner review/approval:** When satisfied, say "push [page name] to production" or "live push"
+3. **Merge to master:** That specific page gets merged/pushed to `master` → deploys live to sdhardwoods.com
+4. **Return to `redesign`:** Next project page starts fresh on `redesign` branch
+
+This cycle repeats many times as you build out your SEO footprint. Each completed page:
+- Gets its own indexed URL with keyword-rich content
+- Links from the blog page's featured_projects section (stacking up over time)
+- Expands Google's discovery of San Diego Hardwoods' individual project work
+
+| Branch | Where It Deploys | When to Use |
+|--------|------------------|-------------|
+| `redesign` | Preview only (`sd-hardwoods-preview.sandiegohardwoods.workers.dev`) | Development, testing, local commits for new pages |
+| `master` | Production live site (`www.sdhardwoods.com`) | **Only when owner explicitly says "push to production," "go live," or "live push"** |
+
+### CRITICAL BRANCH RULE (Effective Immediately)
+
+- **All development commits default to `redesign` branch only** — never touch master during page creation
+- **NEVER push to `master` unless the owner explicitly says "push to production," "go live," or "merge to master"**
+- When a page is approved for production: merge that commit to `master`, then immediately return to `redesign` for next page
+
+---
 
 ### Phase 1: Local Development & Testing
 | Step | Command / Action | Purpose |
