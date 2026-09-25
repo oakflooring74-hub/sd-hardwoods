@@ -101,7 +101,7 @@ Sitemap: https://www.sdhardwoods.com/sitemap-videos.xml
 
 def main():
     assert len(CANONICAL_URLS) == 15, "canonical map must contain exactly 15 URLs"
-    assert len(set(CANONICAL_URLS)) == 14, "canonical map contains a duplicate URL"
+    assert len(set(CANONICAL_URLS)) == 15, "canonical map contains a duplicate URL"
     for u in CANONICAL_URLS:
         assert u.startswith("https://www.sdhardwoods.com/"), f"non-canonical origin: {u}"
 
