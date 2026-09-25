@@ -149,6 +149,8 @@ Add the new canonical URL to the `CANONICAL_URLS` set:
 "https://www.sdhardwoods.com/[seo-heavy-url].html",  # ADD THIS LINE
 ```
 
+**⚠️ CRITICAL — UPDATE BOTH COUNT ASSERTIONS:** `main()` in this file has TWO asserts that hardcode the total URL count (one on `len(CANONICAL_URLS)`, one on `len(set(CANONICAL_URLS))`). Bump **both** to the new total. Forgetting either one fails the entire CI build/deploy — and the second one fails with a misleading "duplicate URL" message (this exact miss broke the Maple page deploy on 2026-09-25). Always finish with a local `python build/scripts/build_all.py` pass before pushing.
+
 ### File 3: Add to `build/scripts/build_all.py` CONFIGS list
 ```python
 ("[project_name]", "[Page Title]"),  # ADD THIS LINE
@@ -314,7 +316,7 @@ Run through this checklist after completing a new project page. All items must b
 | 1 | Images copied to repo root | `ls` in repo folder shows all image files |
 | 2 | Image dimensions recorded | You wrote down width×height from Python/Pillow output |
 | 3 | Build script created | File exists at `build/scripts/pages/build_[project_name].py` |
-| 4 | Sitemap URL added | Search for new URL in `build_sitemap.py` CANONICAL_URLS set (count should increase by 1) |
+| 4 | Sitemap URL added | Search for new URL in `build_sitemap.py` CANONICAL_URLS set (count should increase by 1) — and BOTH count asserts in `main()` updated to the new total |
 | 5 | CONFIGS entry added | Search for project name in `build_all.py` CONFIGS list |
 | 6 | Page regenerated | Generated `.html` file exists at repo root with correct filename |
 | 7 | Redirect rules added | Check `_redirects` file — 2 new lines for clean URL support (with/without trailing slash) |

@@ -4,40 +4,21 @@
 
 ---
 
-## What Just Happened (This Session)
+## Current State (2026-09-25)
 
-**Session: Muirlands Oak Page — Production Deployment Complete**
-- Pushed all 3 local commits from `redesign` → `origin/redesign`, then fast-forward merged to `master` and pushed to production
-- **Live URL:** `https://www.sdhardwoods.com/muirlands-oak-refinishing-la-jolla.html` — deployed via GitHub Actions, indexing requested in Google Search Console
-- Working tree clean. Both branches (`redesign` + `master`) are at the same commit (`0b089f0`).
+**Both showcase pages are LIVE on production (www.sdhardwoods.com) and submitted to Google Search Console:**
+1. **Muirlands Oak Refinishing La Jolla** — `muirlands-oak-refinishing-la-jolla.html`
+2. **Maple Floor Refinishing Kensington** — `maple-floor-refinishing-kensington.html` (owner-approved after staging test + Rich Results check; indexing requested in GSC)
 
-**Muirlands Oak page status:** Fully built with enhanced SEO wording baked into the build script (`build_muirlands_oak_refinishing_la_jolla.py`), deployed to production, and submitted for Google indexing.
+Git: `redesign` == `master` == pushed; working tree clean. (Earlier this session a stray accidental commit on local `master` was found — never pushed, harmless — and local master was reset to match GitHub.)
 
----
+### ⚠️ CANONICAL URL COUNT — REMEMBER THIS EVERY TIME A PAGE IS ADDED
+Every new project page **increases the total canonical URL count by 1**. In `build/scripts/common/build_sitemap.py` there are **TWO assertions** at the top of `main()` that both hardcode the count — when the Maple page was added, only one was updated (14→15), and CI's build failed on the other with a misleading "duplicate URL" error. **When you add a page: update BOTH asserts to the new total.** After adding any page, always run `python build/scripts/build_all.py` locally and confirm it passes before pushing — CI will fail the whole deploy otherwise.
 
-## What's Ready for Next Session
-
-### Muirlands Oak Page Deployment
-- **Commit:** `1c1f01b` (latest) on `redesign` branch  
-- **Status:** All files committed, working tree clean  
-- **SEO wording:** Enhanced with crawl findings baked into the build script — no further editing needed  
-- **Blog link (#13 featured project):** Already added to `assemble_blog.py` — confirmed present and linked  
-- **Ready to push** to `redesign` → auto-deploys to preview URL
-
-**Preview URL:** `https://sd-hardwoods-preview.sandiegohardwoods.workers.dev/muirlands-oak-refinishing-la-jolla.html`
-
-**Quick Start Phrase:** *"Resume Muirlands deployment with enhanced SEO wording"* or *"Push to redesign for preview"*
+### Next Session = Fresh Folder → Fresh Page
+Start with the owner's **new photo folder + fresh dictation**, then run Workflow A (`docs/INDIVIDUAL_PROJECT_PAGES_WORKFLOW.md`) end to end: images, build script with auto-enhanced conversational SEO wording + CTAs (the "SEO monster" default), sitemap URL **+ count in both asserts**, `_redirects`, blog featured-project link via `PROJECT_SHOWCASE_CARDS` in `assemble_blog.py`, breadcrumb map → commit on `redesign` → owner review on preview → push to production only when the owner says so.
 
 ---
-
-## What Just Happened (This Session)
-
-**Session: Muirlands Oak Page Enhancement + Workflow Documentation**
-- **Enhanced the Muirlands page** (`build_muirlands_oak_refinishing_la_jolla.py`) with natural-language SEO phrases woven into existing paragraphs — e.g., "vintage floor refinishing in La Jolla" plus a CTA ("free phone and photo assessment"). Reads naturally, not stuffed.
-- **Documented the enhancement pattern** as §3a step 4 in `INDIVIDUAL_PROJECT_PAGES_WORKFLOW.md`: owner dictation provides baseline facts → agent automatically enhances with conversational SEO phrases + CTAs → every future project page becomes an "SEO monster" by default without being asked each time.
-- **Committed locally (`1c1f01b`) and pushed to `redesign`** — working tree clean. Page is live on preview URL above.
-
-**Bottom line:** The Muirlands Oak showcase page now has enhanced SEO wording baked in, the workflow doc tells future sessions exactly how to do this automatically, and everything is committed + pushed to redesign for preview deployment.
 
 ---
 
